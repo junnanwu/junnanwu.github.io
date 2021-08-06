@@ -61,7 +61,7 @@ sudo ./mysqlbinlog --no-defaults --database=data_web --base64-output=decode-rows
 
 **步骤4：精确定位**
 
-确定了具体时间17:35:08，就可以缩小范围进一步搜索
+确定了具体时间`17:35:08`，就可以缩小范围进一步搜索
 
 命令：
 
