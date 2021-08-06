@@ -1,22 +1,18 @@
-- **JavaEE**
+- JavaEE
     - CAS
       - [CAS流程](JavaEE/CAS/CAS流程.md)
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
     - Spring
-      - AOP
-        - [AOP](JavaEE/Spring/AOP/AOP.md)
-      - SpringBoot
-        - [SpringBoot](JavaEE/Spring/SpringBoot/SpringBoot.md)
-      - SpringCloud
-        - [SpringCloud](JavaEE/Spring/SpringCloud/SpringCloud.md)
       - Spring源码解析
         - Feign源码
           - [feign源码](JavaEE/Spring/Spring源码解析/Feign源码/feign源码.md)
       - 定时任务
         - [定时任务](JavaEE/Spring/定时任务/定时任务.md)
-- **JavaSE**
+- JavaSE
     - jdk8新特性
       - [jdk8](JavaSE/jdk8新特性/jdk8.md)
+    - 泛型
+      - [泛型](JavaSE/泛型/泛型.md)
     - 多线程
       - [多线程](JavaSE/多线程/多线程.md)
     - 单元测试
@@ -32,6 +28,7 @@
     - [Docker](Linux/Docker.md)
     - [Linux](Linux/Linux.md)
     - [远程部署项目](Linux/远程部署项目.md)
+- [README](README.md)
 - Tool
     - Git
       - [git](Tool/Git/git.md)
@@ -43,6 +40,7 @@
       - [maven](Tool/Maven/maven.md)
     - Nginx
       - [nginx](Tool/Nginx/nginx.md)
+- [_sidebar](_sidebar.md)
 - 前端
     - [JavaScript](前端/JavaScript.md)
     - [node](前端/node.md)
@@ -59,6 +57,8 @@
     - Mysql
       - [JDBC](数据库/Mysql/JDBC.md)
       - [Mysql](数据库/Mysql/Mysql.md)
+      - [Mysql实战](数据库/Mysql/Mysql实战.md)
+      - [Mysql日志](数据库/Mysql/Mysql日志.md)
 - 计算机基础
     - 编码
       - [字符编码](计算机基础/编码/字符编码.md)
