@@ -598,12 +598,6 @@ SELECT *FROM stu,teacher;
 SELECT *FROM stu,teacher WHERE stu.tea_id=teacher.tid;
 ```
 
-注意：
-
-当select后面选择了值，但是这个值在后面的stu,teacher里面都有，例如id，那么就会报错，因为不知道选择哪个id进行展示，这时候可以选择加上表格名字，例如stu.id，teacher.id
-
-如果查询类表使用*from表示查询表的所有列，就不会报列明不明确的错误
-
 ### 内连接
 
 **显式内连接：**

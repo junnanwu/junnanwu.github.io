@@ -179,6 +179,8 @@ rm -rf
 
 ### mv
 
+移动：
+
 - 将root文件夹下的所有文件都移动到当前文件夹
 
   ```
@@ -186,6 +188,8 @@ rm -rf
   ```
 
   注意：用户使用该指令复制目录时，必须使用参数 **-r** 或者 **-R** 。
+
+重命名：
 
 - 将文件 aaa 改名为 bbb
 
@@ -335,7 +339,7 @@ tree -d
 
 
 
-## 查找文件
+## 操作文件
 
 ### find
 
@@ -348,6 +352,19 @@ find /-name yum.conf
 find ./test -maxdepth 2 -name "*.php"
 ```
 
+例如：
+
+```
+[wujn@zlfzb mysql]$ sudo find / -name nginx
+[sudo] wujn 的密码：
+/usr/local/nginx
+/usr/local/nginx/sbin/nginx
+/data/sre/setup/nginx-1.14.2/objs/nginx
+/data/nginx
+/data/nginx/sbin/nginx
+/data/filebeat/module/nginx
+```
+
 [Linux中find命令的用法汇总](https://www.jb51.net/article/108198.htm)
 
 ### locate
@@ -356,7 +373,13 @@ find ./test -maxdepth 2 -name "*.php"
 
 ```
 
+### which
 
+which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
+
+```
+which bash
+```
 
 ### 解压
 
@@ -535,6 +558,12 @@ seq -f 'dir%03g' 1 10 | xargs mkdir
 判断字符串是否包含
 
 - 
+
+### tee
+
+tee显示输出结果并且保存到文件中
+
+
 
 ## 网络
 
@@ -743,6 +772,41 @@ scp local_file remote_ip:remote_folder
   ```
   systemctl disable firewalld
   ```
+
+## 命令相关
+
+### eval
+
+在bash中，反引号和$()都是用来做命令替换的，命令替换就是重组命令，先完成引号里面的命令，然后将其结果替换出来，再重组成新的命令行。
+
+也就是说，在执行一条命令的时候，会先将其中的反引号或者$()中的语句当成命令执行一遍，再将结果加到原命令中重新执行。
+
+例如：
+
+```
+➜  /usr echo ls
+ls
+➜  /usr echo `ls`
+X11 X11R6 bin lib libexec local sbin share standalone
+```
+
+eval命令适用于那些一次扫描无法实现其功能的变量。该命令对变量进行两次扫描
+
+例如：
+
+```
+➜  test ls
+file
+➜  test cat file
+hello world
+➜  test myfile="cat file"
+➜  test echo $myfile
+cat file
+➜  test eval $myfile
+hello world
+```
+
+[reference](https://blog.51cto.com/u_10706198/1788573)
 
 ## 监控
 
@@ -975,7 +1039,7 @@ kill -9 [线程号1] [线程号2]
 
   - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
 
-## 用户
+## 用户权限
 
 ### 用户信息
 
@@ -1308,6 +1372,8 @@ useradd、passwd、userdel、usermod、groupadd、groupdel、chown、chgrp
 
 sudo命令用来以其他身份来执行命令，预设的身份为root。在/etc/sudoers中设置了可执行sudo指令的用户。若其未经授权的用户企图使用sudo，则会发出警告的邮件给管理员。用户使用sudo时，必须先输入密码，之后有5分钟的有效期限，超过期限则必须重新输入密码。 
 
+
+
 赋予普通用户root权限：
 
 修改 /etc/sudoers 文件，找到下面一行
@@ -1585,32 +1651,60 @@ shell脚本本身的名字: Test.sh
 传给shell的第二个参数:  2  
 ```
 
-### `$()`
+### shell中的括号
+
+括号一般在命令替换的时候使用
+
+#### `()`
 
 和``一样，用来做命令替换用
 
-### `${}`
+#### `(())`
+
+- 双小括号在shell中的作用是进行基本的加减乘除，还有大于、小于、等于、或非与等运算
+- $的作用是获取`(())`的结果
+- 在`(())`中使用变量可以不用加`$`直接使用即可
+
+#### `[]`
+
+方括号定义来了测试条件，第一个方括号后和第二个方括号前都要加一个空格，否则会报错
+
+用于条件的测试，可以用test命令来代替
+
+方括号主要用于四类判断：
+
+- 数值比较
+- 字符串比较
+
+- 文件比较
+
+  | 比较            | 描述                                     |
+  | --------------- | ---------------------------------------- |
+  | -d file         | 检查file是否存在并是一个目录             |
+  | -e file         | 检查file是否存在                         |
+  | -f file         | 检查file是否存在并是一个文件             |
+  | -r file         | 检查file是否存在并可读                   |
+  | -s file         | 检查file是否存在并非空                   |
+  | -w file         | 检查file是否存在并可写                   |
+  | -x file         | 检查file是否存在并可执行                 |
+  | -O file         | 检查file是否存在并属当前用户所有         |
+  | -G file         | 检查file是否存在并且默认组与当前用户相同 |
+  | file1 -nt file2 | 检查file1是否比file2新                   |
+  | file1 -ot file2 | 检查file1是否比file2旧                   |
+
+- 符合条件比较
+
+#### `[[]]`
+
+提供了字符串比较的高级特性，可以定义一些正则表达式来匹配字符串
+
+#### `{}`
 
 - 
 
 - 获取子字符串
 
   比如str=”123″ 我要取23,正向取就是 echo ${str:1:2} 意思是从第一位往后开始不包括第一位，取两位。
-
-### `$(())`
-
-- 双小括号在shell中的作用是进行基本的加减乘除，还有大于、小于、等于、或非与等运算
-
-- $的作用是获取`(())`的结果
-- 在`(())`中使用变量可以不用加`$`直接使用即可
-
-### `[]`
-
-
-
-### `[[]]`
-
-
 
 ##  vim
 
@@ -1643,14 +1737,16 @@ Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错�
 
     `ctlr-u`  u就是up
 
-![img](img/vi-vim-cheat-sheet-sch.gif)
-
 - **i** 切换到输入模式，以输入字符
 - 按下 ESC 按钮回到命令模式
 - 在命令模式下按下:（英文冒号）就进入了底线命令模式
 - 输入 **:wq** 即可保存离开
 
+- 放弃所有修改
 
+  `:e!`
+
+  
 
 IP地址
 

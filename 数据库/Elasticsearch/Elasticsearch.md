@@ -25,7 +25,7 @@ lucene怎么读？
 
 简单的说，倒序索引的**倒序**，指的是这个索引是从关键词中查找对应的文档源的，而不是从文档源中检索对应的关键词。
 
-##  ElasticSearch相关概念
+##  相关概念
 
 ```
 索引库（indexes）---------------------------------Databases 数据库
@@ -381,11 +381,11 @@ ik_max_word 分词模式运行得到结果：
   }
   ```
 
-## Elasticsearch操作
+## APIs
 
 Elasticsearch提供了Rest风格的API，即http请求接口，而且也提供了各种语言的客户端API
 
-### index APIs
+### Index APIs
 
 #### 查看所有索引库
 
@@ -608,7 +608,7 @@ index的默认值就是true，也就是说你不进行任何配置，所有字�
 
 [removal-of-types](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/removal-of-types.html)
 
-ES为什么移除了type?
+##### **ES为什么移除了type?**
 
 最开始，ES将index与SQL中的database做类比，那么type就类比做table。
 
@@ -702,288 +702,147 @@ GET /<target>/_mapping
 - 同样的，target可以使用逗号分隔
 - 也可以使用通配符`*` ` _all`
 
-### 文档操作
+### Document APIs
 
 文档，即索引库中某个类型下的数据，会根据规则创建索引，将来用来搜索。可以类比做数据库中的每一行数据
 
 #### 新增文档
 
-(官方文档是使用的put进行的新增操作)
 
-通过POST请求，可以向一个已经存在的索引库中添加文档数据。
 
-```
-POST /索引库名/类型名
-{
-    "key":"value"
-}
-```
+#### 新增文档
 
-```
-POST /my/goods/
-{
-    "title":"小米手机",
-    "images":"http://image.leyou.com/12479122.jpg",
-    "price":2699.00
-}
-```
 
-可以看到结果显示为：`created`，应该是创建成功了。
-
-另外，需要注意的是，在响应结果中有个`_id`字段，这个就是这条文档数据的`唯一标示`，以后的增删改查都依赖这个id作为唯一标示。
-
-可以看到id的值为：`2a3UTW0BTp_XthqB6lMH`,这里我们新增时没有指定id，所以是ES帮我们随机生成的id。
-
-#### 新增文档并自定义id
-
-如果我们想要自己新增的时候指定id，可以这么做：
-
-```
-POST /索引库名/类型/id值
-{
-    ...
-}
-```
-
-示例：
-
-```json
-POST /my/goods/2
-{
-    "title":"大米手机",
-    "images":"http://image.leyou.com/12479122.jpg",
-    "price":2899.00
-}
-```
 
 #### 查看文档
 
-根据rest风格，新增是post，查询应该是get，不过查询一般都需要条件，这里我们把刚刚生成数据的id带上。
 
-```
-GET /my/goods/2a3UTW0BTp_XthqB6lMH
-```
-
-查看结果：
-
-```json
-{
-  "_index": "my",
-  "_type": "goods",
-  "_id": "2a3UTW0BTp_XthqB6lMH",
-  "_version": 1,
-  "found": true,
-  "_source": {
-    "title": "小米手机",
-    "images": "http://image.leyou.com/12479122.jpg",
-    "price": 2699
-  }
-}
-```
-
-- `_source`：源文档信息，所有的数据都在里面。
-- `_id`：这条文档的唯一标示
 
 #### 修改数据
 
-如果想更新已存在的文档，只需再次 `PUT`
 
-比如，我们把使用id为3，不存在，则应该是新增：
-
-```json
-PUT /my/goods/3
-{
-    "title":"超米手机",
-    "images":"http://image.leyou.com/12479122.jpg",
-    "price":3899.00
-}
-```
-
-结果：
-
-```json
-{
-  "_index": "my",
-  "_type": "goods",
-  "_id": "3",
-  "_version": 1,
-  "result": "created",
-  "_shards": {
-    "total": 2,
-    "successful": 1,
-    "failed": 0
-  },
-  "_seq_no": 0,
-  "_primary_term": 1
-}
-```
-
-可以看到是`created`，是新增。
-
-我们再次执行刚才的请求，不过把数据改一下：
-
-```json
-PUT /my/goods/3
-{
-    "title":"超大米手机",
-    "images":"http://image.leyou.com/12479122.jpg",
-    "price":3299.00
-}
-```
-
-查看结果：
-
-```json
-{
-  "_index": "my",
-  "_type": "goods",
-  "_id": "3",
-  "_version": 2,
-  "result": "updated",
-  "_shards": {
-    "total": 2,
-    "successful": 1,
-    "failed": 0
-  },
-  "_seq_no": 1,
-  "_primary_term": 1
-}
-```
-
-可以看到结果是：`updated`，显然是更新数据
 
 #### 删除数据
 
-1）根据id进行删除：
 
-> 语法
-
-```
-DELETE /索引库名/类型名/id值
-```
-
-实例：
-
-```
-DELETE my/goods/3
-```
-
-结果：
-
-```
-{
-  "_index": "my",
-  "_type": "goods",
-  "_id": "3",
-  "_version": 3,
-  "result": "deleted",
-  "_shards": {
-    "total": 2,
-    "successful": 1,
-    "failed": 0
-  },
-  "_seq_no": 2,
-  "_primary_term": 1
-}
-```
-
-可以看到结果是：`deleted`，显然是删除数据
-
-2）根据查询条件进行删除
-
-> 语法
-
-```
-POST  /索引库名/_delete_by_query
-{
-  "query": { 
-    "match": {
-      "字段名": "搜索关键字"
-    }
-  }
-}
-```
-
-示例：
-
-```
-POST my/_delete_by_query
-{
-	"query": {
-		"match": {
-			"title": "小米"
-		}
-	}
-}
-```
-
-结果：
-
-```
-{
-  "took": 269,
-  "timed_out": false,
-  "total": 1,
-  "deleted": 1,
-  "batches": 1,
-  "version_conflicts": 0,
-  "noops": 0,
-  "retries": {
-    "bulk": 0,
-    "search": 0
-  },
-  "throttled_millis": 0,
-  "requests_per_second": -1,
-  "throttled_until_millis": 0,
-  "failures": []
-}
-```
 
 #### 删除所有数据
 
-```
-POST  索引库名/_delete_by_query
-{
-  "query": { 
-    "match_all": {}
-  }
-}
-```
 
-示例：
 
-```
-POST my/_delete_by_query
-{
-  "query": {
-    "match_all": {}
-  }
-}
-```
+#### 批量操作/bulk
 
-结果：
+当我们需要批量操作的时候，那么频繁的接口请求是非常浪费时间的。我们可以通过Bulk API来操作。
+
+**请求格式**
+
+- `POST /_bulk`
+
+- `POST /<target>/_bulk`
+
+  当使用了`<target>`参数的时候，那么批量操作中的每一个操作都默认使用该索引库，不需要再指定`_index`参数
+
+该请求要求请求体的格式必须为NDJSON（New-line Delimited JSON）
+
+形如下：
 
 ```
-{
-  "took": 11,
-  "timed_out": false,
-  "total": 1,
-  "deleted": 1,
-  "batches": 1,
-  "version_conflicts": 0,
-  "noops": 0,
-  "retries": {
-    "bulk": 0,
-    "search": 0
-  },
-  "throttled_millis": 0,
-  "requests_per_second": -1,
-  "throttled_until_millis": 0,
-  "failures": []
-}
+action_and_meta_data\n
+optional_source\n
+action_and_meta_data\n
+optional_source\n
+....
+action_and_meta_data\n
+optional_source\n
 ```
 
-### 基本查询
+**注意：**
+
+- **最后一行也要加换行符，这里很容易忽略！！！**
+- 注意该请求头中的Content-Type应该使用 `application/json` or `application/x-ndjson`
+
+##### NDJSON扩展
+
+NDJson是一个比较新的标准，即每行就是一个传统的json对象。每个对象中要去掉原本用于格式化的换行符，每个对象之间用换行符来分隔。
+
+**请求体**
+
+可选的操作
+
+- create
+
+  创建新文档
+
+- delete
+
+  删除指定的文档
+
+- index
+
+  如果文档不存在，则新增，如果存在则修改
+
+- update
+
+  修改一个文档，不存在的话就返回错误
+
+```
+POST _bulk
+{ "index" : { "_index" : "test", "_id" : "1" } }
+{ "field1" : "value1" }
+{ "delete" : { "_index" : "test", "_id" : "2" } }
+{ "create" : { "_index" : "test", "_id" : "3" } }
+{ "field1" : "value3" }
+{ "update" : {"_id" : "1", "_index" : "test"} }
+{ "doc" : {"field2" : "value2"} }
+```
+
+进行批操作的时候，一个操作失败了，是不会影响其他文档操作的，返回的响应中将会说明它的错误原因。
+
+
+
+### Search APIs
+
+**Request**
+
+- `POST/GET /<target>/_search`
+- `POST/GET /_search`
+
+`<target>`参数，如果多个索引库，那么可以使用逗号分隔，或者使用通配符`*`
+
+**Request Parameters**
+
+- `from`
+
+  默认为0，文档的起始位置，通过from和size不能查询超过10000的文档
+
+- `size`
+
+  默认为10
+
+- `sort`
+
+- `scroll`
+
+- `version`
+
+  如果为true的话，返回文档的version，默认为false
+
+**Request body**
+
+- 
+- `_source`
+  - `exclude`
+  - `includes`
+
+**Response body**
+
+
+
+
+
+
+
+
 
 导入数据，这里是采用批处理的API，大家直接复制到kibana运行即可，**注意千万别使用kibana的格式化**
 
@@ -1077,7 +936,7 @@ POST /索引库名/_search
 - 查询类型：例如：`match_all`， `match`，`term` ， `range` 等等
 - 查询条件：查询条件会根据类型的不同，写法也有差异
 
-#### 查询索引库总记录数
+#### 查询索引库总记录数/count
 
 ```
 GET /cust_tag/_count
@@ -1085,7 +944,7 @@ GET /cust_tag/_count
 
 
 
-#### 查询所有(match_all)
+#### 查询所有/match_all
 
 ```
 POST /my/_search
@@ -1166,7 +1025,7 @@ POST /my/_search
     - _score：文档得分
     - _source：文档的源数据
 
-#### 匹配查询(match)
+#### 匹配查询/match
 
 现在，索引库中有2部手机，1台电视;
 
@@ -1275,7 +1134,7 @@ POST /my/_search
 
 本例中，只有同时包含`小米`和`电视`的词条才会被搜索到。
 
-#### 多字段查询(multi_match)
+#### 多字段查询/multi_match
 
 `multi_match`与`match`类似，不同的是它可以在多个字段中查询
 
@@ -1362,7 +1221,7 @@ POST /my/_search
 
 本例中，我们会假设在title字段和subtitle字段中查询`小米`这个词
 
-#### 词条匹配(term)
+#### 词条匹配/term
 
 `term` 查询被用于精确值匹配，这些精确值可能是数字、时间、布尔或者那些**未分词**的字符串
 
@@ -1422,7 +1281,7 @@ POST /my/_search
 }
 ```
 
-#### 多词条精确匹配(terms)
+#### 多词条精确匹配/terms
 
 `terms` 查询和 term 查询一样，但它允许你指定多值进行匹配。如果这个字段包含了指定值中的任何一个值，那么这个文档满足条件，类似于mysql的in：
 
@@ -1447,7 +1306,7 @@ POST /my/_search
     "total": 5,
     "successful": 5,
     "skipped": 0,
-    "failed": 0
+    "failed": 0ss
   },
   "hits": {
     "total": 2,
@@ -1481,7 +1340,7 @@ POST /my/_search
 }
 ```
 
-#### 范围查询(range)
+#### 范围查询/range
 
 `range` 查询找出那些落在指定区间内的数字或者时间
 
@@ -1528,6 +1387,96 @@ POST /my/_search
 
 format不加也行，如果写的时间格式正确
 
+#### 布尔查询/bool
+
+- `must`
+
+  查询的子语句必须出现在子语句中，即多个子语句的关系是`且`
+
+- `should`
+
+  当有多个子语句的时候，默认只要满足一个就可以返回，即多个子语句的关系**类似**`或`
+
+  `minimum_should_match`参数定义了至少满足几个子句
+
+  **注意：**
+
+  关于不指定`minimum_should_match`的情况，查询分为2个情况：
+
+  - 当bool处于query的上下文中时，如果must或者filter匹配了doc，那么should即使一条也不匹配也可以召回doc
+  - 当bool处于父bool的filter的上下文中，或者bool处在query上下文且没有`must`/`filter`子句的时候，should至少匹配1个才能召回doc
+
+  reference：[关于ES的minimum_should_match](https://yuerblog.cc/2018/09/07/elasticsearch-minimum_should_match/)
+
+- `must_not`
+
+- `filter`
+
+  效果相当于`must`
+
+```
+POST _search
+{
+  "query": {
+    "bool" : {
+      "must" : {
+        "term" : { "user.id" : "kimchy" }
+      },
+      "filter": {
+        "term" : { "tags" : "production" }
+      },
+      "must_not" : {
+        "range" : {
+          "age" : { "gte" : 10, "lte" : 20 }
+        }
+      },
+      "should" : [
+        { "term" : { "tags" : "env1" } },
+        { "term" : { "tags" : "deployed" } }
+      ],
+      "minimum_should_match" : 1,
+      "boost" : 1.0
+    }
+  }
+}
+```
+
+##### query和filter的区别
+
+`query`
+
+更多关注的是这个查询子句和该文档的匹配程度如何？
+
+例如：是否包含、相关得分度多少，并且得分越高，排名越靠前
+
+典型的应用场景就是**全文检索**
+
+`filter`
+
+更多关注是否匹配。
+
+典型的应用场景：
+
+- 时间范围是否在xxxx-xxxx之间
+- 某个`keyword`字段是否是某个值
+
+**`filter`查询要更快**，原因如下：
+
+- 不需要计算得分
+- 经常使用的过滤器将被ElasticSearch自动缓存，以提高性能，而`query`的查询结果不可缓存
+
+ebay在Elasticsearch使用经验中总结到：
+
+> Use filter context instead of query context if possible.
+
+即：如果可能，请使用filter过滤器上下文而不是query查询上下文。
+
+**总结就是，当使用全文检索以及任何使用评分相关性的场景使用query检索，其他场景都使用filter过滤。**
+
+reference：[吃透 | Elasticsearch filter和query的不同](https://blog.csdn.net/laoyang360/article/details/80468757)
+
+
+
 #### ids查询
 
 ```
@@ -1552,57 +1501,6 @@ format不加也行，如果写的时间格式正确
         "2301"
       ]
     }
-  }
-}
-```
-
-### 高级查询
-
-#### 布尔组合(bool)
-
-`bool`把各种其它查询通过`must`（与）、`must_not`（非）、`should`（或）的方式进行组合
-
-```
-GET /my/_search
-{
-    "query":{
-        "bool":{
-          "must":     { "match": { "title": "小米" }},
-          "must_not": { "match": { "title":  "电视" }},
-          "should":   { "match": { "title": "手机" }}
-        }
-    }
-}
-```
-
-结果：
-
-```
-{
-  "took": 134,
-  "timed_out": false,
-  "_shards": {
-    "total": 5,
-    "successful": 5,
-    "skipped": 0,
-    "failed": 0
-  },
-  "hits": {
-    "total": 1,
-    "max_score": 1.0884295,
-    "hits": [
-      {
-        "_index": "my",
-        "_type": "goods",
-        "_id": "3q3hTW0BTp_XthqB2lMR",
-        "_score": 1.0884295,
-        "_source": {
-          "title": "小米手机",
-          "images": "http://image.leyou.com/12479122.jpg",
-          "price": 2699
-        }
-      }
-    ]
   }
 }
 ```
@@ -1695,7 +1593,7 @@ GET /_search
 
 https://www.cnblogs.com/softidea/archive/2016/10/20/5981751.html
 
-#### 通配符查询wildcard
+#### 通配符查询/wildcard
 
 使用通配符进行查询
 
@@ -1714,285 +1612,9 @@ GET /_search
 }
 ```
 
-### 结果字段过滤
+#### 折叠/collapse
 
-默认情况下，elasticsearch在搜索的结果中，会把文档中保存在`_source`的所有字段都返回。
-
-如果我们只想获取其中的部分字段，我们可以添加`_source`的过滤
-
-- 直接指定字段
-
-  ```
-  POST /my/_search
-  {
-    "_source": ["title","price"],
-    "query": {
-      "term": {
-        "price": 2699
-      }
-    }
-  }
-  ```
-
-- includes：来指定想要显示的字段
-
-  ```
-  POST /my/_search
-  {
-    "_source": {
-      "includes":["title","price"]
-    },
-    "query": {
-      "term": {
-        "price": 2699
-      }
-    }
-  }
-  ```
-
-- excludes：来指定不想要显示的字段
-
-  ```
-  POST /my/_search
-  {
-    "_source": {
-       "excludes": ["images"]
-    },
-    "query": {
-      "term": {
-        "price": 2699
-      }
-    }
-  }
-  ```
-
-### 分页
-
-elasticsearch中实现分页的语法非常简单：
-
-```
-POST /my/_search
-{
-  "query": {
-    "match_all": {}
-  },
-  "size": 2,
-  "from": 0
-}
-```
-
-size:每页显示多少条 
-
-from:当前页起始索引,  int start = (pageNum - 1) * size;
-
-### 滚动查询
-
-### 排序
-
-#### 单字段排序
-
-`sort` 可以让我们按照不同的字段进行排序，并且通过`order`指定排序的方式
-
-```
-POST /my/_search
-{
-  "query": {
-    "match_all": {}
-  },
-  "sort": [
-    {"price": {"order": "desc"}}
-  ]
-}
-```
-
-#### 多字段排序
-
-假定我们想要结合使用 price和 _score（得分） 进行查询，并且匹配的结果首先按照价格排序，然后按照相关性得分排序：
-
-```
-POST /my/_search
-{
-    "query":{
-        "match_all":{}
-    },
-    "sort": [
-      { "price": { "order": "desc" }},
-      { "_score": { "order": "desc" }}
-    ]
-}
-```
-
-### 高亮
-
-elasticsearch中实现高亮的语法比较简单：
-
-```
-POST /my/_search
-{
-  "query": {
-    "match": {
-      "title": "电视"
-    }
-  },
-  "highlight": {
-    "pre_tags": "<font color='pink'>",
-    "post_tags": "</font>",
-    "fields": {
-      "title": {}
-    }
-  }
-}
-```
-
-在使用match查询的同时，加上一个highlight属性：
-
-- pre_tags：前置标签
-- post_tags：后置标签
-- fields：需要高亮的字段
-  - title：这里声明title字段需要高亮，后面可以为这个字段设置特有配置，也可以空
-
-结果：
-
-```
-{
-  "took": 12,
-  "timed_out": false,
-  "_shards": {
-    "total": 5,
-    "successful": 5,
-    "skipped": 0,
-    "failed": 0
-  },
-  "hits": {
-    "total": 1,
-    "max_score": 0.90204775,
-    "hits": [
-      {
-        "_index": "my",
-        "_type": "goods",
-        "_id": "363hTW0BTp_XthqB2lMR",
-        "_score": 0.90204775,
-        "_source": {
-          "title": "小米电视4A",
-          "images": "http://image.leyou.com/12479122.jpg",
-          "price": 4288
-        },
-        "highlight": {
-          "title": [
-            "小米<font color='pink'>电视</font>4A"
-          ]
-        }
-      }
-    ]
-  }
-}
-```
-
-### 聚合
-
-掌握Aggregations需要理解两个概念：
-
-- 桶(Buckets)：符合条件的文档的集合，相当于SQL中的group by。比如，在users表中，按“地区”聚合，一个人将被分到北京桶或上海桶或其他桶里；按“性别”聚合，一个人将被分到男桶或女桶
-- 指标(Metrics)：基于Buckets的基础上进行统计分析，相当于SQL中的count,avg,sum等。比如，按“地区”聚合，计算每个地区的人数，平均年龄等
-
- 对照一条SQL来加深我们的理解：
-
-```
-SELECT COUNT(color) FROM table GROUP BY color
-```
-
-GROUP BY相当于做分桶的工作，COUNT是统计指标。
-
-- 单值聚合
-
-  指标聚合，相当于SQL的聚合函数
-
-  返回expires_in之和，其中size=0 表示不需要返回聚合外的其他数据。
-
-  ```
-  {
-    "size": 0,
-    "aggs": {
-      "return_expires_in": {
-        "sum": {
-          "field": "expires_in"
-        }
-      }
-    }
-  }
-  ```
-
-  ```
-  {
-    "took" : 3,
-    "timed_out" : false,
-    "_shards" : {
-      "total" : 5,
-      "successful" : 5,
-      "failed" : 0
-    },
-    "hits" : {
-      "total" : 2,
-      "max_score" : 0.0,
-      "hits" : [ ]
-    },
-    "aggregations" : {
-      "return_expires_in" : {
-        "value" : 5184000.0
-      }
-    }
-  }
-  ```
-
-  返回最小值
-
-  ```
-  {
-    "size": 0,
-    "aggs": {
-      "return_min_expires_in": {
-        "min": {
-          "field": "expires_in"
-        }
-      }
-    }
-  }
-  ```
-
-  最大值：max
-
-  平均值：avg
-
-- 多值聚合
-
-- Terms聚合
-
-  桶聚合
-
-  记录有多少F，多少M
-
-  ```
-  {
-    "size": 0,
-    "aggs": {
-      "genders": {
-        "terms": {
-          "field": "gender"
-        }
-      }
-    }
-  }
-  ```
-
-fielddata和keyword的聚合比较
-
-为某个 text 类型的字段开启fielddata字段后, 聚合分析操作会对这个字段的所有分词分别进行聚合, 获得的结果大多数情况下并不符合我们的需求.
-
-使用keyword内置字段, 不会对相关的分词进行聚合, 结果可能更有用
-
-[ES的常用查询与聚合](https://www.cnblogs.com/hirampeng/p/10035858.html)
-
-### 去重
+collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，此需求是2010年7月提的issue，是讨论最多的帖子之一，6年后终于得到了支持。
 
 #### 适用场景
 
@@ -2011,10 +1633,6 @@ fielddata和keyword的聚合比较
   网上可能存在大量复制粘贴，营销号搬运的内容，我们需要对其进行折叠处理。
 
   首先需要定义重复文章，这就需要算法同学根据一定规则对相关内容进行判定，增加一个重复id字段，那么我们在展示的时候，就可以根据这个id对搜索到的内容进行折叠，同一重复id的内容，只展示一份即可，避免出现全是重复搬运、营销内容。
-
-#### collapse
-
-collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，此需求是2010年7月提的issue，是讨论最多的帖子之一，6年后终于得到了支持。
 
 请求示例1:
 
@@ -2038,200 +1656,6 @@ collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，�
             }
         }
     ]
-}
-```
-
-响应示例1:
-
-```json
-{
-    "took": 3,
-    "timed_out": false,
-    "_shards": {
-        "total": 1,
-        "successful": 1,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000,
-            "relation": "gte"
-        },
-        "max_score": null,
-        "hits": [
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000352636922650091520",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京公瑾税务师事务所有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京公瑾税务师事务所有限公司"
-                    ]
-                },
-                "sort": [
-                    15139
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "679cbe765344483fa762880e54951b5f",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京公瑾财务咨询有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京公瑾财务咨询有限公司"
-                    ]
-                },
-                "sort": [
-                    13322
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "6B2A3B3792B84E269AFC345827B33E3B",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京纽斯特秘书财会服务有限公司Disabled"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京纽斯特秘书财会服务有限公司Disabled"
-                    ]
-                },
-                "sort": [
-                    13284
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "89FE864C8CB145A88860109B35B1C89F",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京新智咨询有限公司Disabled"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京新智咨询有限公司Disabled"
-                    ]
-                },
-                "sort": [
-                    10386
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000362835093414289408",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京三圣缘财税服务有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京三圣缘财税服务有限公司"
-                    ]
-                },
-                "sort": [
-                    10342
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000355627537302347776",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京昌盛泰和会计服务有限责任公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京昌盛泰和会计服务有限责任公司"
-                    ]
-                },
-                "sort": [
-                    10304
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000395873736600928256",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京秋实小宝会计服务有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京秋实小宝会计服务有限公司"
-                    ]
-                },
-                "sort": [
-                    10144
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "F6B9CDC7096343578D0330FE17D83E86",
-                "_score": null,
-                "_source": {
-                    "agency_name": "德鼎晟（北京）财务咨询有限责任公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "德鼎晟（北京）财务咨询有限责任公司"
-                    ]
-                },
-                "sort": [
-                    9775
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "CCFE5C0A0DD04ABE95E77651E3D9A073",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京梦之源企业管理有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京梦之源企业管理有限公司"
-                    ]
-                },
-                "sort": [
-                    9703
-                ]
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "D0FD2F3792CF40AA9AE7D5A25C79D014",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京久运环科咨询有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京久运环科咨询有限公司"
-                    ]
-                },
-                "sort": [
-                    9606
-                ]
-            }
-        ]
-    }
 }
 ```
 
@@ -2272,219 +1696,365 @@ collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，�
 }
 ```
 
-响应示例2：
+### 聚合/Aggregations
 
-```json
+掌握Aggregations需要理解两个概念：
+
+- 桶(Buckets)：符合条件的文档的集合，相当于SQL中的`group by`
+- 指标(Metrics)：基于Buckets的基础上进行统计分析，相当于SQL中的`count`,`avg`,`sum`等
+
+注意：
+
+- **如果只想返回聚合的内容，可以将size设置为0**
+- **子聚合(sub-aggregations)**嵌套子聚合并没有深度的限制
+- `aggs`与`aggregations`是等效的
+
+#### Buckets aggregations
+
+##### Terms
+
+**request**
+
+```console
+GET /_search
 {
-    "took": 6,
-    "timed_out": false,
-    "_shards": {
-        "total": 1,
-        "successful": 1,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000, //搜索结果的total是所有的命中记录数，即未经聚合，仅query中的条件查出的总数
-            "relation": "gte"
-        },
-        "max_score": null,
-        "hits": [
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000352636922650091520",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京公瑾税务师事务所有限公司",
-                    "established_duration_time": 15139,
-                    "name": "王明安"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京公瑾税务师事务所有限公司"
-                    ]
-                },
-                "sort": [
-                    15139
-                ],
-                "inner_hits": {
-                    "top2": {
-                        "hits": {
-                            "total": {
-                                "value": 2311,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000352636922650091520",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾税务师事务所有限公司",
-                                        "established_duration_time": 15139,
-                                        "name": "王明安"
-                                    },
-                                    "sort": [
-                                        15139
-                                    ]
-                                },
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000343584933160886272",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾税务师事务所有限公司",
-                                        "established_duration_time": 11597,
-                                        "name": "李建辉"
-                                    },
-                                    "sort": [
-                                        11597
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "679cbe765344483fa762880e54951b5f",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京公瑾财务咨询有限公司",
-                    "established_duration_time": 13322,
-                    "name": "北京龙华牧业有限公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京公瑾财务咨询有限公司"
-                    ]
-                },
-                "sort": [
-                    13322
-                ],
-                "inner_hits": {
-                    "top2": {
-                        "hits": {
-                            "total": {
-                                "value": 10000,
-                                "relation": "gte"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "679cbe765344483fa762880e54951b5f",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾财务咨询有限公司",
-                                        "established_duration_time": 13322,
-                                        "name": "北京龙华牧业有限公司"
-                                    },
-                                    "sort": [
-                                        13322
-                                    ]
-                                },
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000327246594270707712",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾财务咨询有限公司",
-                                        "established_duration_time": 12587,
-                                        "name": "深圳安科高技术股份有限公司"
-                                    },
-                                    "sort": [
-                                        12587
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "6B2A3B3792B84E269AFC345827B33E3B",
-                "_score": null,
-                "_source": {
-                    "agency_name": "北京纽斯特秘书财会服务有限公司Disabled",
-                    "established_duration_time": 13284,
-                    "name": "北京市顺义南法信建筑工程公司"
-                },
-                "fields": {
-                    "agency_name.raw": [
-                        "北京纽斯特秘书财会服务有限公司Disabled"
-                    ]
-                },
-                "sort": [
-                    13284
-                ],
-                "inner_hits": {
-                    "top2": {
-                        "hits": {
-                            "total": {
-                                "value": 98,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "6B2A3B3792B84E269AFC345827B33E3B",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京纽斯特秘书财会服务有限公司Disabled",
-                                        "established_duration_time": 13284,
-                                        "name": "北京市顺义南法信建筑工程公司"
-                                    },
-                                    "sort": [
-                                        13284
-                                    ]
-                                },
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "99E7F995237B4EE588EF7F182E14E204",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京纽斯特秘书财会服务有限公司Disabled",
-                                        "established_duration_time": 9031,
-                                        "name": "北京市瀚特艺术有限公司"
-                                    },
-                                    "sort": [
-                                        9031
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        ]
+  "aggs": {
+    "genres": {
+      "terms": { "field": "genre" }
     }
+  }
 }
 ```
 
-[Elasticsearch 5.x 字段折叠的使用](https://elasticsearch.cn/article/132)
+注意：
 
-[Field Collapsing官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-request-collapse.html#search-request-collapse)
+默认情况下，是不能对text类型的字段进行聚合的，除非在text字段上打开`fielddata`，聚合分析操作会对这个字段的所有分词分别进行聚合, 获得的结果大多数情况下并不符合我们的需求，而且会消耗大量内存。 
 
-#### aggs
+**response**
 
-请求示例1:
+```
+{
+  ...
+  "aggregations": {
+    "genres": {
+      "doc_count_error_upper_bound": 0,   
+      "sum_other_doc_count": 0,           
+      "buckets": [                        
+        {
+          "key": "electronic",
+          "doc_count": 6
+        },
+        {
+          "key": "rock",
+          "doc_count": 3
+        },
+        {
+          "key": "jazz",
+          "doc_count": 2
+        }
+      ]
+    }
+  }
+}
+```
+
+- `sum_other_doc_count`
+
+  当存在很多不重复的terms的时候，Elasticsearch只会返回下面order指定顺序下排名在前的terms，这种情况下，这个数据就代表剩下不在响应体里的部分的大小。
+
+- `size`
+
+  返回聚合后桶的数量，当聚合后的桶过多时，可以使用size限制返回桶的数量。
+
+  没有`from`属性，即terms聚合不支持分页，详情见下文Aggregations分页。
+
+  `size`需要传一个整数，ElasticSearch中int型最大值都限制为2147483647即2^31-1
+
+- `shard_size`
+
+  > When defined, it will determine how many terms the coordinating node will request from each shard. 
+
+  即`shard_size`参数定义了每个分片读取的terms的个数，来提高聚合size的精确性，原理详情见下文Aggregations分页。
+
+  `shard_size`的默认大小为`(size * 1.5 + 10)`
+
+- `order`
+
+  默认的顺序是`doc_count`倒序
+
+  - 按照key的字母升降顺序进行排序
+
+    ```
+    GET /_search
+    {
+      "aggs": {
+        "genres": {
+          "terms": {
+            "field": "genre",
+            "order": { "_key": "asc" }
+          }
+        }
+      }
+    }
+    ```
+
+##### Composite
+
+多桶聚合，它类似Mysql中的`group by 多字段`。
+
+`sources`参数指定了多桶聚合使用哪些字段，可选项有：
+
+- Terms
+
+- Histogram
+
+  数值直方图，可以使连续数据聚合，即设置固定大小的间隔
+
+- Date histogram
+
+  日期直方图，即选择一个日期区间进行分桶
+
+- GeoTile grid
+
+  地理块，略
+
+```
+GET /_search
+{
+  "size": 0,
+  "aggs": {
+    "my_buckets": {
+      "composite": {
+        "sources": [
+          { "date": { "date_histogram": { "field": "timestamp", "calendar_interval": "1d" } } },
+          { "product": { "terms": { "field": "product" } } }
+        ]
+      }
+    }
+  }
+}
+```
+
+**分页**
+
+使用after参数，来实现分页
+
+```
+GET /_search
+{
+  "size": 0,
+  "aggs": {
+    "my_buckets": {
+      "composite": {
+        "size": 2,
+        "sources": [
+          { "date": { "date_histogram": { "field": "timestamp", "calendar_interval": "1d", "order": "desc" } } },
+          { "product": { "terms": { "field": "product", "order": "asc" } } }
+        ],
+        "after": { "date": 1494288000000, "product": "mad max" } 
+      }
+    }
+  }
+}
+```
+
+**子聚合**
+
+复合聚合也支持子聚合
+
+```
+GET /_search
+{
+  "size": 0,
+  "aggs": {
+    "my_buckets": {
+      "composite": {
+        "sources": [
+          { "date": { "date_histogram": { "field": "timestamp", "calendar_interval": "1d", "order": "desc" } } },
+          { "product": { "terms": { "field": "product" } } }
+        ]
+      },
+      "aggregations": {
+        "the_avg": {
+          "avg": { "field": "price" }
+        }
+      }
+    }
+  }
+}
+```
+
+**Java实现**
+
+```java
+//elasticsearch-rest-high-level-client/6.5.4
+SearchRequest searchRequest = new SearchRequest("composite_test"); 
+searchRequest.types("_doc");
+SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder(); 
+searchSourceBuilder.size(0);
+
+List<CompositeValuesSourceBuilder<?>> sources = new ArrayList<>();
+
+DateHistogramValuesSourceBuilder sendtime = new DateHistogramValuesSourceBuilder("sendtime")
+  .field("sendtime")
+  .dateHistogramInterval(DateHistogramInterval.days(1))
+  .format("yyyy-MM-dd").order(SortOrder.DESC).missingBucket(false);
+sources.add(sendtime);
+TermsValuesSourceBuilder userid = new TermsValuesSourceBuilder("userid").field("userid").missingBucket(true);
+sources.add(userid);
+TermsValuesSourceBuilder dttype = new TermsValuesSourceBuilder("area").field("area").missingBucket(true);
+sources.add(dttype);
+CompositeAggregationBuilder  composite =new CompositeAggregationBuilder("my_buckets", sources);
+composite.size(1000);
+
+searchSourceBuilder.aggregation(composite);
+searchRequest.source(searchSourceBuilder); 
+SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+```
+
+##### Filter
+
+过滤桶
+
+适用场景：
+
+我们在聚合之后，还想再次筛选某些条件，可以通过filter过滤桶。
+
+举例来说，假设我们在创建一个汽车交易的搜索界面，我们想通过用户的搜索内容来展示对应的结果，并展示这些搜索结果的平均价格，同时我们还想看看在这个搜索条件下，最近一个月的交易平均价格。
+
+那么根据上述请求我们可以写出如下请求：
+
+```
+GET /cars/transactions/_search?search_type=count
+{
+   "query":{
+      "match": {
+         "make": "ford"
+      }
+   },
+   "aggs":{
+      "recent_sales": {
+         "filter": { 
+            "range": {
+               "sold": {
+                  "from": "now-1M"
+               }
+            }
+         },
+         "aggs": {
+            "average_price":{
+               "avg": {
+                  "field": "price" 
+               }
+            }
+         }
+      }
+   }
+}
+```
+
+#### Metrics aggregations
+
+##### Cardinality
+
+统计聚合后的总数，类似sql中 `count(distinct)`，先去重再求和，这个比较常用。
+
+**request**
+
+```
+POST /sales/_search?size=0
+{
+  "aggs": {
+    "type_count": {
+      "cardinality": {
+        "field": "type"
+      }
+    }
+  }
+}
+```
+
+Response:
+
+```console-result
+{
+  ...
+  "aggregations": {
+    "type_count": {
+      "value": 3
+    }
+  }
+}
+```
+
+注意：
+
+此统计是个近似值
+
+##### Top hits
+
+聚合后，每一个聚合Bucket里面仅返回指定顺序的from-size条数据，与collapse作用相似。
+
+一般此聚合器都用作子聚合，不然针对没有分桶的数据取出from-size个，没有意义。
+
+- from
+- size
+- sort
+
+请求样例：
+
+```
+POST /sales/_search?size=0
+{
+// 外层聚合，根据type类型进行聚合，根据日期返回前三个
+  "aggs": {
+    "top_tags": {
+      "terms": {
+        "field": "type",
+        "size": 3
+      },
+      //内层聚合，每个type中，返回该type中的一个
+      "aggs": {
+        "top_sales_hits": {
+          "top_hits": {
+            "sort": [
+              {
+                "date": {
+                  "order": "desc"
+                }
+              }
+            ],
+            "_source": {
+              "includes": [ "date", "price" ]
+            },
+            "size": 1
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+
+
+还有以下Metric指标可以选：
+
+- Avg
+- Min
+- Max
+- Sum
+
+
+
+#### Aggregations实战
+
+##### 实现机构名称回显下拉框
+
+请求示例: 通过aggs/terms来实现
 
 ```json
+POST /cust_tag/_search
 {
     "size": 0, //折叠后显示的个数
     "from": 0,
@@ -2505,450 +2075,12 @@ collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，�
 }
 ```
 
-响应示例1:
+##### 获取包含【北京公瑾】的文档的个数
+
+请求示例: 通过cardinality获取
 
 ```json
-{
-    "took": 2,
-    "timed_out": false,
-    "_shards": {
-        "total": 1,
-        "successful": 1,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000,
-            "relation": "gte"
-        },
-        "max_score": null,
-        "hits": []
-    },
-    "aggregations": {
-        "group_by_agency_name": {
-            "doc_count_error_upper_bound": 0,
-            "sum_other_doc_count": 2151,
-            "buckets": [
-                {
-                    "key": "北京公瑾财务咨询有限公司",
-                    "doc_count": 29528
-                },
-                {
-                    "key": "北京公瑾税务师事务所有限公司",
-                    "doc_count": 2311
-                },
-                {
-                    "key": "北京小丽会计事务所（普通合伙）",
-                    "doc_count": 494
-                },
-                {
-                    "key": "北京梦之源企业管理有限公司",
-                    "doc_count": 485
-                },
-                {
-                    "key": "北京慧创鑫晟企业管理有限公司",
-                    "doc_count": 459
-                },
-                {
-                    "key": "北京华缘桓鑫会计服务有限公司Disabled",
-                    "doc_count": 391
-                },
-                {
-                    "key": "京诚社税务师事务所（北京）有限公司",
-                    "doc_count": 355
-                },
-                {
-                    "key": "北京百练知财会计服务有限公司天津分公司",
-                    "doc_count": 300
-                },
-                {
-                    "key": "北京展祥投资控股股份有限公司",
-                    "doc_count": 282
-                },
-                {
-                    "key": "北京中友明昊企业管理咨询有限公司",
-                    "doc_count": 244
-                }
-            ]
-        }
-    }
-}
-```
-
-请求示例2：
-
-```json
-{
-    "size": 10, //折叠后显示的个数
-    "from": 0,
-    "_source": ["agency_name","name","established_duration_time"],
-    "query":{
-        "match_phrase":{
-            "agency_name":"北京"
-        }
-    },
-    "aggs":{
-        "group_by_agency_name":{
-            "terms":{
-                "field":"agency_name.raw",
-                "size":5
-            },
-            "aggs":{
-                "items": {
-                    "top_hits": {
-                        "_source": ["agency_name","name", "established_duration_time"],
-                        "sort": [{
-                            "established_duration_time": {
-                                "order" : "desc"
-                            }
-                        }],
-                        "size":1
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-响应示例：
-
-```json
-{
-    "took": 13,
-    "timed_out": false,
-    "_shards": {
-        "total": 1,
-        "successful": 1,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000,
-            "relation": "gte"
-        },
-        "max_score": 4.294753,
-        "hits": [
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000290776773543403520",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "奥克商贸有限公司孙大圣"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000327725347790938112",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "云南起码教育科技有限公司"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000327991706521190400",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "上海润贤酒店设备有限公司"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000282426247703658496",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "张宝111"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000298340529147109376",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "奥克商贸有限公司朱俊昂"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000370455241444851712",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "奥克商贸有限公司-陈海滨"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000370710711027965952",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "奥克商贸有限公司-陈海滨1"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000383804496851034112",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "周星星集团"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000384161031376683008",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "永旺不锈钢有限公司贾君萍"
-                }
-            },
-            {
-                "_index": "cust_tag",
-                "_type": "_doc",
-                "_id": "h0000000000000318647066719846400",
-                "_score": 4.294753,
-                "_source": {
-                    "agency_name": "【北京】产品推广演示",
-                    "name": "天津不锈钢公司"
-                }
-            }
-        ]
-    },
-    "aggregations": {
-        "group_by_agency_name": {
-            "doc_count_error_upper_bound": 0,
-            "sum_other_doc_count": 3723,
-            "buckets": [
-                {
-                    "key": "北京公瑾财务咨询有限公司",
-                    "doc_count": 29528,
-                    "items": {
-                        "hits": {
-                            "total": {
-                                "value": 29528,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "679cbe765344483fa762880e54951b5f",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾财务咨询有限公司",
-                                        "established_duration_time": 13322,
-                                        "name": "北京龙华牧业有限公司"
-                                    },
-                                    "sort": [
-                                        13322
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "key": "北京公瑾税务师事务所有限公司",
-                    "doc_count": 2311,
-                    "items": {
-                        "hits": {
-                            "total": {
-                                "value": 2311,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000352636922650091520",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京公瑾税务师事务所有限公司",
-                                        "established_duration_time": 15139,
-                                        "name": "王明安"
-                                    },
-                                    "sort": [
-                                        15139
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "key": "北京小丽会计事务所（普通合伙）",
-                    "doc_count": 494,
-                    "items": {
-                        "hits": {
-                            "total": {
-                                "value": 494,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000385338774583828480",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京小丽会计事务所（普通合伙）",
-                                        "established_duration_time": 8487,
-                                        "name": "北京欣荣建材有限责任公司"
-                                    },
-                                    "sort": [
-                                        8487
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "key": "北京梦之源企业管理有限公司",
-                    "doc_count": 485,
-                    "items": {
-                        "hits": {
-                            "total": {
-                                "value": 485,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "CCFE5C0A0DD04ABE95E77651E3D9A073",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京梦之源企业管理有限公司",
-                                        "established_duration_time": 9703,
-                                        "name": "北京磐石园艺有限公司"
-                                    },
-                                    "sort": [
-                                        9703
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "key": "北京慧创鑫晟企业管理有限公司",
-                    "doc_count": 459,
-                    "items": {
-                        "hits": {
-                            "total": {
-                                "value": 459,
-                                "relation": "eq"
-                            },
-                            "max_score": null,
-                            "hits": [
-                                {
-                                    "_index": "cust_tag",
-                                    "_type": "_doc",
-                                    "_id": "h0000000000000318283632800415744",
-                                    "_score": null,
-                                    "_source": {
-                                        "agency_name": "北京慧创鑫晟企业管理有限公司",
-                                        "established_duration_time": 5529,
-                                        "name": "北京锦紫川科技有限公司"
-                                    },
-                                    "sort": [
-                                        5529
-                                    ]
-                                }
-                            ]
-                        }
-                    }
-                }
-            ]
-        }
-    }
-}
-```
-
-#### cardinality
-
-统计去重后的个数(不看具体内容)
-
-cardinality 即去重计算，类似sql中 `count(distinct)`，先去重再求和，计算指定field值的种类数。
-
-统计所有人中生日(yy-MM)有几种
-
-请求示例1：
-
-```json
-POST /eu_active_info/_search
-{
-    "size":0,
-    "query":{
-        "match_all":{}
-    },
-    "aggs":{
-        "eu_birthday_date_aggs":{
-            "cardinality" : {
-                "field" :"eu_birthday_date"
-            }
-        }   
-    }
-}
-```
-
-响应示例1：
-
-结果：即366个月日都有匹配上的
-
-```json
-{
-    "took": 19,
-    "timed_out": false,
-    "_shards": {
-        "total": 2,
-        "successful": 2,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000,
-            "relation": "gte"
-        },
-        "max_score": null,
-        "hits": []
-    },
-    "aggregations": {
-        "eu_birthday_date_aggs": {
-            "value": 366
-        }
-    }
-}
-```
-
-请求示例2：
-
-```json
+POST /cust_tag/_search
 {
     "query":{
     "match_phrase":{
@@ -2966,77 +2098,30 @@ POST /eu_active_info/_search
 }
 ```
 
-响应示例2：
+### Aggregations分页
 
-```json
-{
-    "took": 4,
-    "timed_out": false,
-    "_shards": {
-        "total": 1,
-        "successful": 1,
-        "skipped": 0,
-        "failed": 0
-    },
-    "hits": {
-        "total": {
-            "value": 10000,
-            "relation": "gte"
-        },
-        "max_score": null,
-        "hits": []
-    },
-    "aggregations": {
-        "group_by_agency_name": {
-            "value": 3
-        }
-    }
-}
-```
+首先理解ElasticSearch的聚合过程：
 
+> By default, the node coordinating the search process will request each shard to provide its own top `size` term buckets and once all shards respond, it will reduce the results to the final list that will then be returned to the client. 
 
+ElasticSearch的聚合过程是先每个分片提供对应size的桶，然后不同分片提供的桶聚合到一起，再进行排序，取对应size的桶作为总结果。
 
+举例来说：
 
+假设我想根据Product字段进行聚合，并根据数据量取前5个，Product的取值有ProductA, ProductB, ProductC...等，那么流程如下（此例子未考虑shard_size参数）：
 
-### 搭建集群
+1. 每个分片都会根据这个字段的数据量进行分类
 
-#### 清空elasticsearch中的数据
+   假设分类结果如下：
 
-首先把已经启动的elasticsearch关闭，然后通过命令把之前写入的数据都删除。
+   ![分片处理结果](Elasticsearchassets/8600bdd7943aa7cf1cf30b4964fa5dc8.png)
 
-```
-rm -rf /elasticsearch/data
-```
+2. 每个分片取前5个
 
-#### 修改配置文件
+   ![这里写图片描述](Elasticsearchassets/085ebb8ab57fc85644669cf4ac6a7287.png)
 
-#### 遇到的问题
+3. 根据各分片前五，聚合得出总数量前5
 
-- failed to obtain node locks, tried [[/elasticsearch-5.4.0/data/elasticsearch]] with lock id [0]; maybe these locations are not writable or multiple nodes were started without increasing [node.max_local_storage_nodes] (was [1])
+   ![这里写图片描述](Elasticsearchassets/8731f59512099271c7424ea54ed2e089-20210717223514766.png)
 
-  解决：
-
-   /usr/local/elasticsearch-6.2.0/config/elasticsearch.yml  配置文件最后添加  node.max_local_storage_nodes: 2
-
-- 访问跨域问题
-
-  在elasticsearch的安装目录下找到config文件夹，找到elasticsearch.yml文件，打开编辑它，加上如下这两行配置
-
-  ```
-  http.cors.enabled: true
-  http.cors.allow-origin: "*"
-  ```
-
-  [Reference1](https://blog.csdn.net/fst438060684/article/details/80936201)
-
-  [Reference2](https://blog.csdn.net/jingzuangod/article/details/99673361)  
-
-- data文件夹没有删空
-
-  ```
-  [node-2] failed to send join request to master [{node-1}{WbcP0pC_T32jWpYvu5is1A}{2_LCVHx1QEaBZYZ7XQEkMg}{10.10.11.200}{10.10.11.200:9300}], reason [RemoteTransportException[[node-1][10.10.11.200:9300][internal:discovery/zen/join]]; nested: IllegalArgumentException[can't add node {node-2}{WbcP0pC_T32jWpYvu5is1A}{p-HCgFLvSFaTynjKSeqXyA}{10.10.11.200}{10.10.11.200:9301}, found existing node {node-1}{WbcP0pC_T32jWpYvu5is1A}{2_LCVHx1QEaBZYZ7XQEkMg}{10.10.11.200}{10.10.11.200:9300} with the same id but is a different node instance]; ]
-  ```
-
-  删除es集群data数据库文件夹下所有文件即可
-
-  [Reference](https://blog.csdn.net/diyiday/article/details/83926488)
+仅以产品C的排名作为举例，产品C（50个）的数据来自分片A（6个）和分片C（44个)之和。所以，排名第三。实际产品C在分片B中还存在4个，只不过这四个按照排名处于第10位，取前5的时候，显然取不到。所以，导致聚合结果不准确。

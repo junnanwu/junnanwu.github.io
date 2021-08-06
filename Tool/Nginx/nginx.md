@@ -471,5 +471,36 @@ server {
 
 ## 生产
 
-#### nginx限制IP
+### nginx限制IP
+
+- 设置IP白名单
+
+  ```nginx
+  location /dap {
+              allow 223.70.137.137;
+              allow 223.70.137.130;
+              allow 49.7.65.2;
+              allow 49.7.65.3;
+              allow 49.7.65.4;
+              allow 49.7.65.14;
+              allow 49.7.65.254;
+              deny all;
+              root    /data;
+              try_files $uri $uri/ /dap/index.html;
+              add_header Cache-Control max-age=0;
+          }
+  ```
+
+- nginx更改默认403页面
+
+  ```nginx
+  server{
+  	listen	443;
+  	server_name	hxduat.kungeek.com;
+  	error_page  403  /403.html;
+  	...
+  	}
+  ```
+
+
 

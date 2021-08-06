@@ -19,7 +19,7 @@ print_dir(){
 		space_of_number=$((depth*2+2))
 		space=$(seq -s ' ' $space_of_number | sed 's/[0-9]//g')
 	fi
-	#如果是目录且不是img/image/assets
+	#如果是目录 且 不是img/image/assets/_开头的
         if [[ -d $1"/"$file && $file != *img* && $file != *asset* && $file != *.md && $file != _* ]]
 	then
 		result="$result$space- $file\n"

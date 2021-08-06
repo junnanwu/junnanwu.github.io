@@ -1,4 +1,4 @@
-### Elasticsearch安装和配置
+## Elasticsearch安装和配置
 
 #### 新建并切换用户
 
@@ -167,4 +167,47 @@ i18n.locale: "zh-CN"
     ```
 
 - 使用elasticsearch-head关闭服务
+
+## 搭建集群
+
+#### 清空elasticsearch中的数据
+
+首先把已经启动的elasticsearch关闭，然后通过命令把之前写入的数据都删除。
+
+```
+rm -rf /elasticsearch/data
+```
+
+#### 修改配置文件
+
+#### 遇到的问题
+
+- failed to obtain node locks, tried [[/elasticsearch-5.4.0/data/elasticsearch]] with lock id [0]; maybe these locations are not writable or multiple nodes were started without increasing [node.max_local_storage_nodes] (was [1])
+
+  解决：
+
+   /usr/local/elasticsearch-6.2.0/config/elasticsearch.yml  配置文件最后添加  node.max_local_storage_nodes: 2
+
+- 访问跨域问题
+
+  在elasticsearch的安装目录下找到config文件夹，找到elasticsearch.yml文件，打开编辑它，加上如下这两行配置
+
+  ```
+  http.cors.enabled: true
+  http.cors.allow-origin: "*"
+  ```
+
+  [Reference1](https://blog.csdn.net/fst438060684/article/details/80936201)
+
+  [Reference2](https://blog.csdn.net/jingzuangod/article/details/99673361)  
+
+- data文件夹没有删空
+
+  ```
+  [node-2] failed to send join request to master [{node-1}{WbcP0pC_T32jWpYvu5is1A}{2_LCVHx1QEaBZYZ7XQEkMg}{10.10.11.200}{10.10.11.200:9300}], reason [RemoteTransportException[[node-1][10.10.11.200:9300][internal:discovery/zen/join]]; nested: IllegalArgumentException[can't add node {node-2}{WbcP0pC_T32jWpYvu5is1A}{p-HCgFLvSFaTynjKSeqXyA}{10.10.11.200}{10.10.11.200:9301}, found existing node {node-1}{WbcP0pC_T32jWpYvu5is1A}{2_LCVHx1QEaBZYZ7XQEkMg}{10.10.11.200}{10.10.11.200:9300} with the same id but is a different node instance]; ]
+  ```
+
+  删除es集群data数据库文件夹下所有文件即可
+
+  [Reference](https://blog.csdn.net/diyiday/article/details/83926488)
 
