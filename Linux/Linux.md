@@ -1581,7 +1581,7 @@ send "$password\r"
 interact
 ```
 
-指定多条命令可以
+指定多条命令可以：
 
 ```
 send "df -Th\r"
