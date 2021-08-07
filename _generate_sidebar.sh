@@ -22,10 +22,10 @@ print_dir(){
 	#如果是目录 且 不是img/image/assets/_开头的
         if [[ -d $1"/"$file && $file != *img* && $file != *asset* && $file != *.md && $file != _* ]]
 	then
-		result="$result$space- $file\n"
+		result="$result$space- **$file**\n"
 		print_dir $1"/"$file
 	#如果是md文件，且不以_开头
-	elif [[ $file == *.md && $file != _* ]]
+	elif [[ $file == *.md && $file != _* && $file != README* ]]
 	then
 		final_path=${relative_path:1}
 		result="$result$space- [${file%.*}]($final_path)\n"
