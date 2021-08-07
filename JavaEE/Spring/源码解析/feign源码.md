@@ -2,7 +2,7 @@
 
 - 下面即是Feign客户端
 
-  ![image-20201218120415442](img/image-20201218120415442.png)
+  ![image-20210807215604829](feign%E6%BA%90%E7%A0%81assets/image-20210807215604829.png)
 
   Feign在启动的时候，会ConsumerService接口创建一个代理类，并且注册到IOC容器，`getUserById()`这个抽象方法用于完成上面的`"/user/getUserById/{id}"`http请求
 
@@ -30,23 +30,25 @@
 
     > Synchronous:同步的
 
-  ![image-20201218122059531](file:///Users/wujunnan/Java/java_notes/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/Feign%E6%BA%90%E7%A0%81/img/image-20201218122059531.png?lastModify=1608266050)总之，重点就在最后一行，这个invoke每个方法都会被传入，找到对应的MethodHandler
+  ![image-20201218122059531](feign%E6%BA%90%E7%A0%81assets/image-20201218122059531.png)
+
+  总之，重点就在最后一行，这个invoke每个方法都会被传入，找到对应的MethodHandler
 
 - MethodHandler为Feign定义的一个内部接口，里面有一个`invoke()`方法，主要职责是完成实际远程URL请求，然后返回解码后的远程URL的响应结果。
 
-  ![image-20201218123415870](img/image-20201218123415870.png)
+  ![image-20201218123415870](feign%E6%BA%90%E7%A0%81assets/image-20201218123415870.png)
 
   SynchronousMethodHandler是MethodHandler的一个实现类
 
-  ![image-20201218124531125](img/image-20201218124531125.png)
+  ![image-20201218124531125](feign%E6%BA%90%E7%A0%81assets/image-20201218124531125.png)
 
 - SynchronousMethodHandler的invoke(…)方法，调用了自己的executeAndDecode(…) 请求执行和结果解码方法。
 
-  ![image-20201218132204044](img/image-20201218132204044.png)
+  ![image-20201218132204044](feign%E6%BA%90%E7%A0%81assets/image-20201218132204044.png)
 
   这个Client为LoadBalancerFeignClient，这是内部使用了负载均衡的实现类，Client还有默认的实现类，Client.Default，使用了LoadBalancerFeignClient发起请求之后，得到了response，通过decoder的decode方法，将response转换为对象。
 
-  ![image-20201218134352169](img/image-20201218134352169.png)
+  ![image-20201218134352169](feign%E6%BA%90%E7%A0%81assets/image-20201218134352169.png)
 
   这个metadata是我们定义的方法，这里获取到这个方法的返回值类型，然后进行转换
 

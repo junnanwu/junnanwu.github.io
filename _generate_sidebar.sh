@@ -24,7 +24,8 @@ print_dir(){
 	then
 		result="$result$space- $file\n"
 		print_dir $1"/"$file
-	elif [[ $file == *.md ]]
+	#如果是md文件，且不以_开头
+	elif [[ $file == *.md && $file != _* ]]
 	then
 		final_path=${relative_path:1}
 		result="$result$space- [${file%.*}]($final_path)\n"
