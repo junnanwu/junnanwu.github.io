@@ -363,7 +363,7 @@ docker commit 容器ID|容器名 镜像名:镜像版本
 
 ### 为什么Docker的centOS镜像那么小?
 
-![使用docker pull 下载的镜像为什么只有几百兆？](Dockerassets/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=.png)
+![使用docker pull 下载的镜像为什么只有几百兆？](Docker_assets/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=.png)
 
 Linux操作系统分别由两部分组成
 
@@ -383,7 +383,7 @@ Linux操作系统分别由两部分组成
 
 通过docker build以上Dockerfile的时候，会在Ubuntu:14.04镜像基础上，添加三层独立的镜像，依次对应于三条不同的命令。镜像示意图如下：
 
-![镜像](Dockerassets/20150809123859183.png)
+![镜像](Docker_assets/20150809123859183.png)
 
 不得不说，在层级化管理的Docker镜像中，有不少层大小都为0。那些镜像层大小`不为0`的情况，归根结底的原因是：构建Docker镜像时，对当前的文件系统造成了修改更新。而修改更新的情况主要有两种：
 

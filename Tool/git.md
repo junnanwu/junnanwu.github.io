@@ -1,8 +1,8 @@
-# 深入理解Git
+# git
 
-## Git综述
+## git综述
 
-## Git文件目录
+## git文件目录
 
 ```
 .
@@ -41,7 +41,7 @@
         └── tags      //轻量级的tag
 ```
 
-## Git中存储的五种对象
+## git中存储的五种对象
 
 - `Blobs`， 是Git中最基础的数据类型，一个`blob`对象就是一堆字节，通常是一个文件的二进制表示
 - `tree`，有点类似于目录，其内容由对其它`tree`及`blobs`的指向构成；
@@ -218,15 +218,13 @@ wujunnan@wujunnandeMacBook-Pro test01 % git ls-files -s
 
 #### git commit
 
-
-
 对应到文件层面，`git commit`做了如下几件事情：
 
 1. 新增`tree`对象，有多少个修改过的文件夹，就会添加多少个`tree`对象；
 2. 新增`commit`对象，其中的的`tree`指向最顶端的tree，此外还包含一些其它的元信息，`commit`对象中的内容，上文已经见到过， `tree`对象中会包含一级目录下的子`tree`对象及`blob`对象，由此可构建当前commit的文档快照；
 3. 同时当前分支(head指向的分支)指向最新的commit对象
 
-![commit后:git文件夹里发生了什么](gitassets/commit后:git文件夹里发生了什么.png)
+![commit后_git文件夹里发生了什么](git_assets/commit%E5%90%8E_git%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88.png)
 
 #### git rm
 
@@ -465,9 +463,9 @@ Git 中分支合并有两种算法，快速向前合并和三路合并
 
 此种情况下，**主分支没有改动**，因此在基于主分支生成的分支上做的更改，一定不会和主分支上的代码冲突，可以直接合并，在底层相当于修改`.refs/heads/` 下主分支的内容为最新的 commit 对象。
 
-![gitassets](gitassets/v2-0a0431c992211561f14ee66f1cf0ea89_b.webp)
+![git_assets](git_assets/v2-0a0431c992211561f14ee66f1cf0ea89_b.webp)
 
-![gitassets](gitassets/v2-0a0431c992211561f14ee66f1cf0ea89_b.webp)
+![git_assets](git_assets/v2-0a0431c992211561f14ee66f1cf0ea89_b.webp)
 
 
 
@@ -488,7 +486,7 @@ Merge branch 'feature'
 
 和普通的 commit 对象的区别在于其有两个`parent`，分别指向被合并的两个`commit`
 
-![gitassets](gitassets/v2-d5be0dfa20f8a7c57f99f2b48b521bda_b.webp)
+![git_assets](git_assets/v2-d5be0dfa20f8a7c57f99f2b48b521bda_b.webp)
 
 不过三路合并往往没有那么顺利，往往会有冲突，此时需要我们解决完冲突后，再合并，三路合并的详细过程如下（为了叙述便利，假设合并发生在 master 分支与 feature 分支之间）：
 
@@ -502,7 +500,7 @@ Merge branch 'feature'
 8. `git add` 以更新 index 被提交, `git commit`基于此 index 生成新的`commit`;
 9. 将主分支`.git/refs/heads/master`中的内容指向第8步中新生成的 `commit`，至此三路合并完成;
 
-![gitassets](gitassets/v2-2a8ce9f5e3f32b399cca693f38418e65_b-20201020214611307.webp)
+![git_assets](git_assets/v2-2a8ce9f5e3f32b399cca693f38418e65_b-20201020214611307.webp)
 
 ```
 wujunnan@MacbookPro test % git log 
@@ -546,11 +544,11 @@ git merge是用于从指定的commit(s)合并到当前分支的操作
 这里的指定commit(s)是指从这些历史commit节点开始，一直到当前分开的时候
 ```
 
-![image-20201113193528823](gitassets/image-20201113193528823.png)
+![image-20201113193528823](git_assets/image-20201113193528823.png)
 
 那么`git merge topic`命令将会把在master分支上二者共同的节点（E节点）之后分离的节点（即topic分支的A B C节点）重现在master分支上，直到topic分支当前的commit节点（C节点），并位于master分支的顶部。并且沿着master分支和topic分支创建一个记录合并结果的新节点，该节点带有用户描述合并变化的信息。
 
-![image-20201113193636531](gitassets/image-20201113193636531.png)
+![image-20201113193636531](git_assets/image-20201113193636531.png)
 
 
 
@@ -566,7 +564,7 @@ git merge是用于从指定的commit(s)合并到当前分支的操作
 
 **变基**
 
-![gitassets](gitassets/v2-6b8427b4baf6cdfb08b852ab1cdb4941_b.webp)
+![git_assets](git_assets/v2-6b8427b4baf6cdfb08b852ab1cdb4941_b.webp)
 
 ```
 我们刚看到可通过执行 git merge 将一个分支的修改应用到另一个分支。另一种可将一个分支的修改融入到另一个分支的方式是执行 git rebase。
@@ -588,7 +586,7 @@ git rebase 会将当前分支的提交复制到指定的分支之上。
 
 `git cherry-pick`做的事情是将一个或者多个commit应用到当前commit的顶部，复制commit，会保留对应的二进制文件，但是会修改`parent`信息。
 
-![gitassets](gitassets/v2-486f540aaf172d27349c217f87e9fba8_b.webp)
+![git_assets](git_assets/v2-486f540aaf172d27349c217f87e9fba8_b.webp)
 
 ```
 当一个特定分支包含我们的活动分支需要的某个提交时，我们对那个提交执行 cherry-pick！对一个提交执行 cherry-pick 时，我们会在活动分支上创建一个新的提交，其中包含由拣选出来的提交所引入的修改。
@@ -614,7 +612,7 @@ git revert 命令本质上就是一个逆向的 git cherry-pick 操作。 它将
 完美！提交 9e78i 还原了由提交 ec5be 引入的修改。在撤销特定的提交时，git revert 非常有用，同时也不会修改分支的历史。
 ```
 
-![gitassets](gitassets/v2-381df5ae9b3d97906e9235f3723f84a8_b.webp)
+![git_assets](git_assets/v2-381df5ae9b3d97906e9235f3723f84a8_b.webp)
 
 #### git reset
 
@@ -633,7 +631,7 @@ git revert 命令本质上就是一个逆向的 git cherry-pick 操作。 它将
 
 - 无论你是怎么使用的`git reset`，上述过程都会发生，不同用法的区别在于会如何修改工作区及缓存区的内容，如果你用的是 `git reset --soft`，将仅仅执行上述过程；
 
-  ![gitassets](gitassets/v2-ada73b43d7146e071f9557372d733d66_b.webp)
+  ![git_assets](git_assets/v2-ada73b43d7146e071f9557372d733d66_b.webp)
 
 - `git reset`本质上是撤销了上一次的 `git commit` 命令。
 
@@ -644,7 +642,7 @@ git revert 命令本质上就是一个逆向的 git cherry-pick 操作。 它将
 
 > `—hard` 可以算是 `reset` 命令唯一的危险用法，使用它会真的销毁数据。
 
-![gitassets](gitassets/v2-3456eebeb80dca402dbf5b55e88c4291_b.webp)
+![git_assets](git_assets/v2-3456eebeb80dca402dbf5b55e88c4291_b.webp)
 
 如果你给 `git reset` 指定了一个路径，`git reset` 将会跳过第 1 步，将它的作用范围限定为指定的文件或文件夹。 此时分支指向不会移动，不过索引和工作目录的内容则可以完成局部的更改，会只针对这些内容执行上述的第 2、3 步。
 
@@ -868,7 +866,7 @@ $ git clone git://github.com/schacon/ticgit.git
 3. 如果我们执行 `git fetch origin feature-branch`,Git并不会为我们创建一个对应远程分支的本地分支，但是会更新本地对应的远程分支的指向；
 4. 如果我们再执行`git checkout feature-branch`, git 会基于记录在`.git/FETCH_HEA`中的内容新建本地分支，并在`.git/config`中添加如下内容，用以保证本地分支与远程分支`future-branch`的一致
 
-![gitassets](gitassets/v2-686ae54f78ea69b6c00cc8b159cf7369_b.webp)
+![git_assets](git_assets/v2-686ae54f78ea69b6c00cc8b159cf7369_b.webp)
 
 
 
@@ -984,7 +982,7 @@ $ git clone git://github.com/schacon/ticgit.git
 
 `git pull` 在大多数情况下它的含义是一个 `git fetch` 紧接着一个 `git merge` 命令。
 
-![gitassets](gitassets/v2-1298832b975cf9cf0ad6c399ec5da32d_b.webp)
+![git_assets](git_assets/v2-1298832b975cf9cf0ad6c399ec5da32d_b.webp)
 
 ```
 尽管 git fetch 可用于获取某个分支的远程信息，但我们也可以执行 git pull。git pull 实际上是两个命令合成了一个：git fetch 和 git merge。当我们从来源拉取修改时，我们首先是像 git fetch 那样取回所有数据，然后最新的修改会自动合并到本地分支中。
@@ -1156,7 +1154,7 @@ Changes to be committed:
         modified:   READEME.md
 ```
 
-![Git 下文件生命周期图。](gitassets/lifecycle.png)
+![Git 下文件生命周期图。](git_assets/lifecycle.png)
 
 #### git restore
 
@@ -1218,7 +1216,7 @@ $ git clean -nfd
 
   所以在clone老师的代码库的时候，可以只fetch，我们就可以通过仅fetch的方式，就可以更新远程分支的代码，而不会更新工作区
 
-  ![image-20201113180225260](gitassets/image-20201113180225260.png)
+  ![image-20201113180225260](git_assets/image-20201113180225260.png)
 
   但是，当我们clone老师的笔记的时候
 
@@ -1261,7 +1259,7 @@ $ git clean -nfd
 
   origin/master是远程分支remote/origin/master的本地副本.注意origin/master是本地的,不是远端的
 
-  ![gitassets](gitassets/20201013223057584.png)
+  ![git_assets](git_assets/20201013223057584.png)
 
   git fetch origin//从origin地址下载remote/origin/branch的代码到本地origin/branch
 

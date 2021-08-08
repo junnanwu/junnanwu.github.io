@@ -90,7 +90,7 @@ lucene怎么读？
 
 如图，我们以3分片，每个分片备份一份为例：
 
-![1559298999584](Elasticsearchassets/1559298999584.png)
+![1559298999584](Elasticsearch_assets/1559298999584.png)
 
 在这个集群中，如果出现单节点故障，并不会导致数据缺失，所以保证了集群的高可用，同时也减少了节点中数据存储量。并且因为是多个节点存储数据，因此用户请求也会分发到不同服务器，并发能力也得到了一定的提升。
 
@@ -1624,7 +1624,7 @@ collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，�
 
   如图所示：
 
-  ![image-20210630164615830](Elasticsearchassets/image-20210630164615830.png)
+  ![image-20210630164615830](Elasticsearch_assets/image-20210630164615830.png)
 
   那么在该案例中，就需要对合作机构名称字段进行去重处理
 
@@ -2114,14 +2114,14 @@ ElasticSearch的聚合过程是先每个分片提供对应size的桶，然后不
 
    假设分类结果如下：
 
-   ![分片处理结果](Elasticsearchassets/8600bdd7943aa7cf1cf30b4964fa5dc8.png)
+   ![分片处理结果](Elasticsearch_assets/8600bdd7943aa7cf1cf30b4964fa5dc8.png)
 
 2. 每个分片取前5个
 
-   ![这里写图片描述](Elasticsearchassets/085ebb8ab57fc85644669cf4ac6a7287.png)
+   ![这里写图片描述](Elasticsearch_assets/085ebb8ab57fc85644669cf4ac6a7287.png)
 
 3. 根据各分片前五，聚合得出总数量前5
 
-   ![这里写图片描述](Elasticsearchassets/8731f59512099271c7424ea54ed2e089-20210717223514766.png)
+   ![这里写图片描述](Elasticsearch_assets/8731f59512099271c7424ea54ed2e089-20210717223514766.png)
 
 仅以产品C的排名作为举例，产品C（50个）的数据来自分片A（6个）和分片C（44个)之和。所以，排名第三。实际产品C在分片B中还存在4个，只不过这四个按照排名处于第10位，取前5的时候，显然取不到。所以，导致聚合结果不准确。

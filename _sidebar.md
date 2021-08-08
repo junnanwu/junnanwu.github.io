@@ -1,13 +1,13 @@
 - **JavaEE**
     - **CAS**
-      - [CAS流程](JavaEE/CAS/CAS流程.md)
+      - [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
     - **Spring**
       - **源码解析**
-        - [feign源码](JavaEE/Spring/源码解析/feign源码.md)
+        - [feign源码解析](JavaEE/Spring/源码解析/feign源码解析.md)
       - [定时任务](JavaEE/Spring/定时任务.md)
 - **JavaSE**
-    - [jdk8新特性](JavaSE/jdk8新特性.md)
+    - [Java8新特性](JavaSE/Java8新特性.md)
     - [泛型](JavaSE/泛型.md)
     - [多线程](JavaSE/多线程.md)
     - [单元测试](JavaSE/单元测试.md)
@@ -27,7 +27,6 @@
     - [nginx](Tool/nginx.md)
 - **前端**
     - [JavaScript](前端/JavaScript.md)
-    - [node](前端/node.md)
     - [前端](前端/前端.md)
     - [前端实战](前端/前端实战.md)
 - **算法**

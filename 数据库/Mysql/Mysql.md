@@ -1,9 +1,5 @@
 # Mysql
 
-SQL怎么读：
-
-根据前身/本义sequel，读['sikw(ə)l]比较合适（类似于see qual）
-
 ## 登陆和退出mysql
 
 ```
@@ -216,7 +212,7 @@ INSERT INTO student(name,age) VALUES ('高圆圆',27),('梁缘',23);
 | DOUBLE(size,d)  | 带有浮动小数点的大数字。在括号中规定最大位数。在 d 参数中规定小数点右侧的最大位数。 |
 | DECIMAL(size,d) | 作为字符串存储的 DOUBLE 类型，允许固定的小数点。             |
 
-\* 这些整数类型拥有额外的选项 UNSIGNED。通常，整数可以是负数或正数。如果添加 UNSIGNED 属性，那么范围将从 0 开始，而不是某个负数。
+这些整数类型拥有额外的选项 UNSIGNED。通常，整数可以是负数或正数。如果添加 UNSIGNED 属性，那么范围将从 0 开始，而不是某个负数。
 
 **Date 类型：**
 
@@ -228,7 +224,7 @@ INSERT INTO student(name,age) VALUES ('高圆圆',27),('梁缘',23);
 | TIME()      | 时间。格式：HH:MM:SS 注释：支持的范围是从 '-838:59:59' 到 '838:59:59' |
 | YEAR()      | 2 位或 4 位格式的年。注释：4 位格式所允许的值：1901 到 2155。2 位格式所允许的值：70 到 69，表示从 1970 到 2069。 |
 
-\* 即便 DATETIME 和 TIMESTAMP 返回相同的格式，它们的工作方式很不同。在 INSERT 或 UPDATE 查询中，TIMESTAMP 自动把自身设置为当前的日期和时间。TIMESTAMP 也接受不同的格式，比如 YYYYMMDDHHMMSS、YYMMDDHHMMSS、YYYYMMDD 或 YYMMDD。
+即便 DATETIME 和 TIMESTAMP 返回相同的格式，它们的工作方式很不同。在 INSERT 或 UPDATE 查询中，TIMESTAMP 自动把自身设置为当前的日期和时间。TIMESTAMP 也接受不同的格式，比如 YYYYMMDDHHMMSS、YYMMDDHHMMSS、YYYYMMDD 或 YYMMDD。
 
 ### 蠕虫复制
 
@@ -276,8 +272,6 @@ delete和truncate的区别：
 
 `show variables like '%char%';`
 
-![image-20200831110736809](img/image-20200831110736809.png)
-
 注意：Latin1是ISO-8859-1的别名
 
 Windows系统默认的是数据库字符集的编码是utf-8
@@ -294,8 +288,6 @@ Windows系统默认的是数据库字符集的编码是utf-8
 可以在在创建的时候改变这个值，
 
 `create database 数据库名 character set 字符集`
-
-![image-20200831150341126](img/image-20200831150341126.png)
 
 将服务器端的编码也改为utf-8，就可以插入中文
 
@@ -798,8 +790,6 @@ SELECT *FROM dept d INNER JOIN (SELECT dept_id,COUNT(*) total FROM emp GROUP BY 
 
 ## 用户授权
 
-![image-20201217083939980](%E6%95%B0%E6%8D%AE%E5%BA%93assets/image-20201217083939980.png)
-
 | Privilege                 | Grant Table Column           | Context                               |
 | :------------------------ | :--------------------------- | :------------------------------------ |
 | `ALL PRIVILEGES`          | Synonym for "all privileges" | Server administration                 |
@@ -1005,7 +995,7 @@ innodb_default_row_format: dynamic
 
 ### Dynamic——innodb默认的行格式
 
-![img](Mysqlassets/20210603182014243.png)
+![20210603182014243](Mysql_assets/20210603182014243.png)
 
 #### 变长字段长度列表
 
@@ -1083,8 +1073,6 @@ JDBC需要连接驱动，驱动是两个设备要进行通信，满足一定通�
   里面有方法`DriverManager.registerDriver(new Driver());`
 
   但是在Driver源码中
-
-  ![image-20200904133910231](img/image-20200904133910231.png)
 
   里面已经执行过`DriverManager.registerDriver(new Driver())`，导致驱动被注册了两次，而且强烈依靠JAR包，所以上述语句可以替换成`Class.forName("com.mysql.jdbc.Driver");`
 
@@ -1308,8 +1296,6 @@ public class JDBCUtils2 {
 
 ## 连接池
 
-
-
 Java为数据库连接池提供了公共的接口：**javax.sql.DataSource**，各个厂商需要让自己的连接池实现这个接口。这样应用程序可以方便的切换不同厂商的连接池
 
 常见的连接池：C3P0、DRUID
@@ -1481,10 +1467,6 @@ public class DruidUtils {
 ```
 
 关于`getResourceAsStream()`
-
-下面是项目资源的位置
-
-<img src="img/image-20200909153028970.png" alt="image-20200909153028970" style="zoom:50%;" />
 
 ```java
 //默认则是从ClassPath根下获取，path不能以’/'开头，最终是由ClassLoader获取资源。 
@@ -1975,18 +1957,6 @@ public class C3P0Utils2 {
 
 例如我们想在BaseServlet中，写一个返回成功信息的一个方法，这个方法在最后的调用中，需要respond将这些信息返回，但是，那个方法里面又没有response对象，首先我们可以采用参数传递的方法，但是我们最外层提供的方法里面就会有一个不变的参数response，非常影响体验，那么我们可以使用ThreadLocal来避免参数传递
 
-
-
-
-
-
-
-
-
-
-
-
-
 ## 数据库的四种隔离级别
 
 **Read uncommitted**（脏读）
@@ -1999,8 +1969,6 @@ public class C3P0Utils2 {
 
 那怎么解决脏读呢？Read committed！读提交，能解决脏读问题。
 
-![image-20200912201843014](img/image-20200912201843014.png)
-
 **Read committed**
 
 读提交，顾名思义，就是一个事务要等另一个事务提交后才能读取数据。
@@ -2010,8 +1978,6 @@ public class C3P0Utils2 {
 分析：这就是读提交，若有事务对数据进行更新（UPDATE）操作时，读操作事务要等待这个更新操作事务提交后才能读取数据，可以解决脏读问题。但在这个事例中，出现了一个事务范围内两个相同的查询却返回了不同数据，这就是不可重复读。
 
 那怎么解决可能的不可重复读问题？Repeatable read ！
-
-![image-20200912205832297](img/image-20200912205832297.png)
 
 **Repeatable read**
 
@@ -2023,8 +1989,6 @@ public class C3P0Utils2 {
 
 按照可重复读的定义，一个事务启动的时候，能够看到所有已经提交的事务结果。但是之后，这个事务执行期间，其他事务的更新对它不可见。
 
-![image-20200912212338488](img/image-20200912212338488.png)
-
 而且在A
 
 **什么时候会出现幻读？**
@@ -2035,15 +1999,11 @@ public class C3P0Utils2 {
 
 那怎么解决幻读问题？Serializable！
 
-![11](img/image-20200912213204315.png)
-
 **Serializable 序列化**
 
 Serializable 是最高的事务隔离级别，在该级别下，事务串行化顺序执行，可以避免脏读、不可重复读与幻读。但是这种事务隔离级别效率低下，比较耗数据库性能，一般不使用。
 
 值得一提的是：大多数数据库默认的事务隔离级别是Read committed，比如Sql Server , Oracle。Mysql的默认隔离级别是Repeatable read
-
-![image-20200912213726997](img/image-20200912213726997.png)
 
 **查询数据库的隔离级别**
 

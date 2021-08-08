@@ -199,7 +199,7 @@ conf  html  logs  sbin
 
 启动nginx后，nginx默认监听的是80端口，我们直接访问服务器就能直接看到下图
 
-![image-20201215193216178](nginxassets/image-20201215193216178.png)
+![image-20201215193216178](nginx_assets/image-20201215193216178.png)
 
 
 
