@@ -1,4 +1,4 @@
-# sRabbitMQ
+# RabbitMQ
 
 ## MQ
 
@@ -206,7 +206,7 @@ spring:
 
 建立好的模块模板如下：
 
-<RabbitMQ_assets src="RabbitMQ_assets/image-20201202133416389.png" alt="image-20201202133416389" style="zoom:50%;" />
+<img src="RabbitMQ_assets/image-20201202133416389.png" alt="image-20201202133416389" style="zoom:50%;" />
 
 user是用于发送的pojo类
 
