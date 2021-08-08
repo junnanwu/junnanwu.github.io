@@ -2,17 +2,21 @@
     - **CAS**
       - [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
+    - [Guava](JavaEE/Guava.md)
     - **Spring**
       - **源码解析**
         - [feign源码解析](JavaEE/Spring/源码解析/feign源码解析.md)
       - [定时任务](JavaEE/Spring/定时任务.md)
+    - [深入理解Java虚拟机](JavaEE/深入理解Java虚拟机.md)
 - **JavaSE**
     - [Java8新特性](JavaSE/Java8新特性.md)
     - [泛型](JavaSE/泛型.md)
     - [多线程](JavaSE/多线程.md)
     - [单元测试](JavaSE/单元测试.md)
+    - [代码优化方案](JavaSE/代码优化方案.md)
     - [深拷贝与浅拷贝](JavaSE/深拷贝与浅拷贝.md)
 - **JavaWeb**
+    - [JavaWeb核心](JavaWeb/JavaWeb核心.md)
     - [Restful](JavaWeb/Restful.md)
     - [跨域](JavaWeb/跨域.md)
 - **Linux**
@@ -21,6 +25,8 @@
     - [远程部署项目](Linux/远程部署项目.md)
 - **Tool**
     - [Jenkins](Tool/Jenkins.md)
+    - [Mac](Tool/Mac.md)
+    - [RabbitMQ](Tool/RabbitMQ.md)
     - [git](Tool/git.md)
     - [gradle](Tool/gradle.md)
     - [maven](Tool/maven.md)
