@@ -1,4 +1,4 @@
-# wujunnan's wiki
+# wujunnan's summary
 
-这是一个线上wiki，用于记录日常的技术学习，欢迎阅读，指正。
+个人技术总结，欢迎阅读，指正。
 
