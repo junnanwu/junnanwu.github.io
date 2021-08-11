@@ -2098,6 +2098,16 @@ POST /cust_tag/_search
 }
 ```
 
+
+
+
+
+
+
+
+
+
+
 ### Aggregations分页
 
 首先理解ElasticSearch的聚合过程：
