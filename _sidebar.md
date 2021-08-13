@@ -26,12 +26,14 @@
     - [远程部署项目](Linux/远程部署项目.md)
 - **Tool**
     - [Jenkins](Tool/Jenkins.md)
-    - [Mac](Tool/Mac.md)
     - [RabbitMQ](Tool/RabbitMQ.md)
     - [git](Tool/git.md)
     - [gradle](Tool/gradle.md)
     - [maven](Tool/maven.md)
     - [nginx](Tool/nginx.md)
+- **个人**
+    - [Mac](个人/Mac.md)
+    - [关于本站](个人/关于本站.md)
 - **前端**
     - [JavaScript](前端/JavaScript.md)
     - [前端](前端/前端.md)
