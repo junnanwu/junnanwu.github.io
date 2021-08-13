@@ -857,6 +857,12 @@ ss -antp | grep java | column -t
 
 lsof(list open files)是一个列出当前系统打开文件的工具。
 
+查看9999对应的端口
+
+```
+lsof -i :9999
+```
+
 [Reference](https://www.cnblogs.com/sparkbj/p/7161669.html)
 
 ### free
