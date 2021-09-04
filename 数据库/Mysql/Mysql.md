@@ -79,61 +79,67 @@ delete和truncate的区别：
 
 ## 用户授权
 
-| Privilege                 | Grant Table Column           | Context                               |
-| :------------------------ | :--------------------------- | :------------------------------------ |
-| `ALL PRIVILEGES`          | Synonym for "all privileges" | Server administration                 |
-| `ALTER`                   | `Alter_priv`                 | Tables                                |
-| `ALTER ROUTINE`           | `Alter_routine_priv`         | Stored routines                       |
-| `CREATE`                  | `Create_priv`                | Databases, tables, or indexes         |
-| `CREATE ROUTINE`          | `Create_routine_priv`        | Stored routines                       |
-| `CREATE TABLESPACE`       | `Create_tablespace_priv`     | Server administration                 |
-| `CREATE TEMPORARY TABLES` | `Create_tmp_table_priv`      | Tables                                |
-| `CREATE USER`             | `Create_user_priv`           | Server administration                 |
-| `CREATE VIEW`             | `Create_view_priv`           | Views                                 |
-| `DELETE`                  | `Delete_priv`                | Tables                                |
-| `DROP`                    | `Drop_priv`                  | Databases, tables, or views           |
-| `EVENT`                   | `Event_priv`                 | Databases                             |
-| `EXECUTE`                 | `Execute_priv`               | Stored routines                       |
-| `FILE`                    | `File_priv`                  | File access on server host            |
-| `GRANT OPTION`            | `Grant_priv`                 | Databases, tables, or stored routines |
-| `INDEX`                   | `Index_priv`                 | Tables                                |
-| `INSERT`                  | `Insert_priv`                | Tables or columns                     |
-| `LOCK TABLES`             | `Lock_tables_priv`           | Databases                             |
-| `PROCESS`                 | `Process_priv`               | Server administration                 |
-| `PROXY`                   | See `proxies_priv` table     | Server administration                 |
-| `REFERENCES`              | `References_priv`            | Databases or tables                   |
-| `RELOAD`                  | `Reload_priv`                | Server administration                 |
-| `REPLICATION CLIENT`      | `Repl_client_priv`           | Server administration                 |
-| `REPLICATION SLAVE`       | `Repl_slave_priv`            | Server administration                 |
-| `SELECT`                  | `Select_priv`                | Tables or columns                     |
-| `SHOW DATABASES`          | `Show_db_priv`               | Server administration                 |
-| `SHOW VIEW`               | `Show_view_priv`             | Views                                 |
-| `SHUTDOWN`                | `Shutdown_priv`              | Server administration                 |
-| `SUPER`                   | `Super_priv`                 | Server administration                 |
-| `TRIGGER`                 | `Trigger_priv`               | Tables                                |
-| `UPDATE`                  | `Update_priv`                | Tables or columns                     |
-| `USAGE`                   | Synonym for "no privileges"  | Server administration                 |
+用户
 
-[Reference](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html)
+- 切换数据库
 
-用户权限管理主要有以下作用：
+  ```
+  use mysql
+  ```
 
-1. 可以限制用户访问哪些库、哪些表
-2. 可以限制用户对哪些表执行SELECT、CREATE、DELETE、DELETE、ALTER等操作
-3. 可以限制用户登录的IP或域名
-4. 可以限制用户自己的权限是否可以授权给别的用户
+- 创建用户
 
-```
-mysql> grant all privileges on *.* to 'yangxin'@'%' identified by 'yangxin123456' with grant option;
-```
+  ```
+  CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+  ```
 
-- `all privileges`：表示将所有权限授予给用户。也可指定具体的权限，如：SELECT、CREATE、DROP等。
-- `on`：表示这些权限对哪些数据库和表生效，格式：数据库名.表名，这里写“*”表示所有数据库，所有表。如果我要指定将权限应用到test库的user表中，可以这么写：test.user
-- `to`：将权限授予哪个用户。格式：”用户名”@”登录IP或域名”。%表示没有限制，在任何主机都可以登录。比如：”yangxin”@”192.168.0.%”，表示yangxin这个用户只能在192.168.0IP段登录
-- `identified by`：指定用户的登录密码
-- `with grant option`：表示允许用户将自己的权限授权给其它用户
+  ```
+  create user 'data_web'@'%' identified by 'OWIwMTY5Njg1NWI';
+  ```
 
-[mysql grant 用户权限总结](https://blog.csdn.net/anzhen0429/article/details/78296814)
+- 删除用户
+
+  ```
+  DROP USER 'username'@'host';
+  ```
+
+权限
+
+- 查看用户权限
+
+  ```
+  show grants for jinp;
+  ```
+
+- 给用户赋予权限
+
+  ```
+  GRANT privileges ON databasename.tablename TO 'username'@'host';
+  ```
+
+  ```
+  grant select,insert,update,delete on data_web.* to 'data_web'@'%';
+  ```
+
+- 查看数据库角色
+
+  ```
+  select user from mysql.userl;
+  ```
+
+- 想要使某个用户拥有分配权限的权限
+
+  ```
+  GRANT privileges ON databasename.tablename TO 'username'@'host' WITH GRANT OPTION;
+  ```
+
+- 刷新权限
+
+  ```
+  flush privileges;
+  ```
+
+  
 
 ## 事务
 
@@ -1016,161 +1022,6 @@ public class AccountDao {
     }
 }
 ```
-
-## ThreadLocal
-
-#### ThreadLocal的应用一:数据库Connection
-
-ThreadLocal提供了线程的局部变量，每个线程都可以通过`set()`和`get()`来对这个局部变量进行操作，但不会和其他线程的局部变量进行冲突，**实现了线程的数据隔离**
-
-**最典型的是管理数据库的Connection：**当时在学JDBC的时候，为了方便操作写了一个简单数据库连接池，需要数据库连接池的理由也很简单，频繁创建和关闭Connection是一件非常耗费资源的操作，因此需要创建数据库连接池。
-
-那么，数据库连接池的连接怎么管理呢？我们交由ThreadLocal来进行管理。为什么交给它来管理呢？ThreadLocal能够实现**当前线程的操作都是用同一个Connection，保证了事务**
-
-
-
-java.lang.ThreadLocal 该类提供了线程局部(thread-local) 变量，用于在当前线程中共享数据。ThreadLocal工具类底层就是相当于一个Map，key存放的当前线程，value存放需要共享的数据。
-
-常用方法：
-
-```java
-//获取ThreadLocal的值
-public T get()
-//设置ThreadLocal的值
-public void set(T value)
-//删除ThreadLocal的值
-public void romove()
-//初始化Thread的值
-protected T initialValue()
-```
-
-`set(T value)`
-
-```java
-public void set(T value) {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null)
-      map.set(this, value);
-    else
-      createMap(t, value);
-}
-```
-
-Thread为每个线程维护了ThreadLocalMap这么一个Map，而ThreadLocalMap的key是LocalThread对象本身，value则是要存储的对象
-
-ThreadLocalMap是ThreadLocal的内部类，用Entry来进行存储
-
-调用ThreadLocal的set()方法时，实际上就是往ThreadLocalMap设置值，key是ThreadLocal对象，值是传递进来的对象
-
-调用ThreadLocal的get()方法时，实际上就是往ThreadLocalMap获取值，key是ThreadLocal对象
-
-**ThreadLocal本身并不存储值，它只是作为一个key来让线程从ThreadLocalMap获取value**
-
-`get()`
-
-```java
-public T get() {
-  	//1.获取当前线程
-    Thread t = Thread.currentThread();
-  	//2.根据当前线程获取ThreadLocalMap-map
-    ThreadLocalMap map = getMap(t);
-  	//3. 如果map不为空
-    if (map != null) {
-      //4. 则在map中以ThreadLocal为key在map中获取对应的value
-      ThreadLocalMap.Entry e = map.getEntry(this);
-      //5. 如果value不为空，则返回value
-      if (e != null) {
-        @SuppressWarnings("unchecked")
-        T result = (T)e.value;
-        return result;
-      }
-    }
-    //6. 否则，Map为空或者e为空，通过initialValue函数获取初始值value，然后用ThreadLocal的引用和value作为firstKey和firstValue创建一个新的Map
-    return setInitialValue();
-}
-```
-
-```java
-private T setInitialValue() {
-  //通过initialValue函数获取初始值value
-  T value = initialValue();
-  Thread t = Thread.currentThread();
-  ThreadLocalMap map = getMap(t);
-  if (map != null)
-    map.set(this, value);
-  else
-    createMap(t, value);
-  return value;
-}
-```
-
-ThreadLocal设计的目的就是为了能够在当前线程中有属于自己的变量，并不是为了解决并发或者共享变量的问题
-
-**结合案例使用：**
-
-```java
-package cn.itcast.utils;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collection;
-
-public class C3P0Utils2 {
-    //获取资源
-    public static DataSource dataSource = new ComboPooledDataSource();
-    //将Connection与当前线程绑定
-    private static ThreadLocal<Connection> local = new ThreadLocal<>();
-    
-    //获取连接的函数
-    public static Connection getConnection(){
-        //如果Connecetion为空的话
-        Connection connection = local.get();
-        try {
-            if(connection==null){
-                //获取Connection对象
-                connection = dataSource.getConnection();
-                //把Connection放进ThreadLocal里面
-                local.set(connection);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection; 
-    }
-  
-		//关闭数据库连接
-    public static void closeConnection() {
-        //从线程中拿到Connection对象
-        Connection connection = local.get();
-
-        try {
-            if (connection != null) {
-                //恢复连接为自动提交
-                connection.setAutoCommit(true);
-
-                //这里不是真的把连接关了,只是将该连接归还给连接池
-                connection.close();
-
-                //既然连接已经归还给连接池了,ThreadLocal保存的Connction对象也已经没用了
-                local.remove();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-#### ThreadLocal的应用二：避免一些参数传递
-
-其实上面的例子中也是避免了connection的参数传递，只用一个closeConnection()的空参就可以将connection进行关闭（归还），但是后来我们也没怎么使用这个了，
-
-例如我们想在BaseServlet中，写一个返回成功信息的一个方法，这个方法在最后的调用中，需要respond将这些信息返回，但是，那个方法里面又没有response对象，首先我们可以采用参数传递的方法，但是我们最外层提供的方法里面就会有一个不变的参数response，非常影响体验，那么我们可以使用ThreadLocal来避免参数传递
 
 ## 数据库的四种隔离级别
 

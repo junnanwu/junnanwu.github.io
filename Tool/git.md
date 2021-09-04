@@ -763,6 +763,22 @@ $ git clone git://github.com/schacon/ticgit.git
 
 默认情况下会把clone的源仓库取名`origin`，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
 
+通过ssh协议链接
+
+- 在本地生成密钥对
+
+  ```
+  ssh-keygen -t rsa -C "wujunnan@kungeek.com"
+  ```
+
+- 在对应的服务端添加公钥
+
+  
+
+
+
+
+
 ### git remote
 
 `git remote` 为我们提供了管理远程仓库的途径。

@@ -1713,6 +1713,8 @@ collapse是Elasticsearch5.3中新增的特性，专门为上述场景定制，�
 
 ##### Terms
 
+单桶聚合，即按照某一个字段进行聚合，类似mysql中`group by termA`
+
 **request**
 
 ```console
@@ -1798,9 +1800,47 @@ GET /_search
     }
     ```
 
+##### Multi-terms
+
+多桶聚合，即按照多个关键字进行聚合，类似mysql中`group by termA, termB`
+
+但是，多桶聚合会比较慢，并消耗大量的内存，所以，更推荐新增一个复合字段，然后使用`terms`聚合
+
+>The multi_term aggregations are the most useful when you need to sort by a number of document or a metric aggregation on a composite key and get top N results. If sorting is not required and all values are expected to be retrieved using nested terms aggregation or `composite aggregations` will be a faster and more memory efficient solution.
+
+```console
+GET /products/_search
+{
+  "aggs": {
+    "genres_and_products": {
+      "multi_terms": {
+        "terms": [{
+          "field": "genre" 
+        }, {
+          "field": "product"
+        }]
+      }
+    }
+  }
+}
+```
+
 ##### Composite
 
-多桶聚合，它类似Mysql中的`group by 多字段`。
+多桶聚合，它类似Mysql中的`group by 多字段`，其有两大核心功能
+
+- 额外支持四种类型的聚合
+
+  Multi-terms只能对多个term类型进行聚合，而Composite则打破了这个限制，使得连续型和日期类型也可以聚合，可以实现如下需求：
+
+  根据品牌和价格区间进行聚合，例入分为：
+
+  - 品牌A，0-100元
+  - 品牌A，100-200元
+  - 品牌B，0-100元
+  - 品牌B，100-200元
+
+- 聚合后分页
 
 `sources`参数指定了多桶聚合使用哪些字段，可选项有：
 
@@ -1808,11 +1848,11 @@ GET /_search
 
 - Histogram
 
-  数值直方图，可以使连续数据聚合，即设置固定大小的间隔
+  数值直方图，可以使连续数据聚合，即设置固定大小的间隔，进行区间聚合
 
 - Date histogram
 
-  日期直方图，即选择一个日期区间进行分桶
+  日期直方图，即选择一个日期区间进行分桶，进行日期区间聚合
 
 - GeoTile grid
 
@@ -1838,6 +1878,8 @@ GET /_search
 **分页**
 
 使用after参数，来实现分页
+
+但是这种方式，只支持向后翻页，不支持随机翻页
 
 ```
 GET /_search

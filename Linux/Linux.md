@@ -1,18 +1,72 @@
 # Linux
 
+本文是我从零开始的学习Linux的记录，目的是方便查阅记忆。
+
+大部分非原创，来自网络和《Linux命令行与shell脚本编程大全》。
+
+## RPM
+
+RPM (redhat package manager) 是Red Hat Linux推出的包管理器，能轻松的实现软件的安装，软件包管理器内部有一个数据库，其中记载着程序的基本信息，校验信息，程序路径信息等。
+
+但是rpm的缺点就是无法解决软件直接复杂的依赖关系。
+
+包命名
+
+- 源程序的命名规范：`name-version.tar.{gz|bz2|xz}`
+
+  例：`bash-4.3.1.tar.xz`
+
+- RPM包的命名规范：`name-version-release.os.arch.rpm`
+
+  例：`bash-4.3.2-5.el6.x86_64.rpm`
+
+常用选项
+
+- `-i` 表示安装
+- `-q`  查询指定包名
+- `-h` 以`#`号显示安装进度
+
+常用命令
+
+- 列出当前系统所有已安装的包
+
+  ```
+  rpm -qa
+  ```
+
+  配合grep
+
+  ```
+  rpm -qa | grep clickhouse
+  ```
+
+- 查询包安装生成的文件清单
+
+  ```
+  rpm -ql 包名
+  ```
+
+  注意，可以通过上面的grep命令获取包名完整名字，也可以通过tab键进行左匹配
+
+- 查询某文件是哪个RPM包生成的
+
+  ```
+  rpm -qf
+  ```
+
 ## yum
 
-yum(Yellow dog Updater, Modified)，是一个前端软件包管理器。
+yum(Yellow dog Updater, Modified)，是一个在Fedora和RedHat以及SUSE中的Shell前端软件包管理器。
+
+yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务器下载、FTP服务器下载、本地软件池的等方式获得软件包，可以从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系。
 
 我们通常使用 `yum install` 命令来在线安装 **linux系统的软件**， 这种方式基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次安装所有依赖的软件包。
 
 用yum安装，实质上是用RPM安装，所以RPM查询信息的指令都可用。
 
-- yum -y install与yum install有什么不同？
+- `-y`
 
-  如果使用`yum install xxxx`，会找到安装包之后，询问你`Is this OK[y/d/N]`，需要你手动进行选择。但是如果加上参数`-y`，就会自动选择`y`，不需要你再手动选择。
-
-### yum配置阿里云仓库
+  当询问`[y/d/N]`，自动选择`y`
 
 - 查看可用的epel源
 
@@ -32,18 +86,6 @@ yum(Yellow dog Updater, Modified)，是一个前端软件包管理器。
   wget -O /etc/yum.repos.d/epel-7.repo  http://mirrors.aliyun.com/repo/epel-7.repo
   ```
 
-- 清除系统所有的yum缓存
-
-  ```
-  yum clean all
-  ```
-
-- 生成yum缓存
-
-  ```
-  yum makecache
-  ```
-
 - 查看所有的yum源
 
   ```
@@ -56,27 +98,7 @@ yum(Yellow dog Updater, Modified)，是一个前端软件包管理器。
   yum repolist enabled
   ```
 
-### 中止yum安装
-
-- 中断线程
-
-  ```
-  ctrl+z 
-  ```
-
-- 查找当前yum相关进程
-
-  ```
-  ps -ef | grep yum
-  ```
-
-- 杀死线程（选择第一行的第一个）
-
-  ```
-  kill -9 进程号(pid)
-  ```
-
-### 查看yum安装的软件位置
+**yum安装的软件位置**
 
 - 一般来说，RPM默认安装路径如下
 
@@ -88,96 +110,189 @@ yum(Yellow dog Updater, Modified)，是一个前端软件包管理器。
   | /usr/share/doc | 一些基本的软件使用手册与帮助文档          |
   | /usr/share/man | 一些man page文件                          |
 
-- 以MySQL为例
 
-  查看MySQL安装包
+## man
+
+man(Manual) 命令用来访问存储在Linux系统上的手册页面。在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
+
+查看cp命令详解
+
+```
+man cp
+```
+
+## 文件目录列表
+
+### cd
+
+- 回到上次打开的目录
 
   ```
-  [root@VM-0-7-centos ~]# rpm -qa | grep -i mysql
-  mysql-community-common-5.6.50-2.el6.x86_64
-  mysql-community-client-5.6.50-2.el6.x86_64
-  mysql-community-server-5.6.50-2.el6.x86_64
-  mysql-community-release-el6-5.noarch
-  mysql-community-libs-5.6.50-2.el6.x86_64
+  cd -
   ```
-
-- 查看具体路径
+  
+- 回到用户目录
 
   ```
-  [root@VM-0-7-centos ~]# rpm -ql mysql-community-client-5.6.50-2.el6.x86_64
-  /usr/bin/msql2mysql
-  /usr/bin/mysql
-  /usr/bin/mysql_config_editor
-  /usr/bin/mysql_find_rows
-  /usr/bin/mysql_waitpid
-  /usr/bin/mysqlaccess
-  /usr/bin/mysqlaccess.conf
-  /usr/bin/mysqladmin
-  /usr/bin/mysqlbinlog
-  /usr/bin/mysqlcheck
-  /usr/bin/mysqldump
-  /usr/bin/mysqlimport
-  /usr/bin/mysqlshow
-  /usr/bin/mysqlslap
-  /usr/share/doc/mysql-community-client-5.6.50
-  /usr/share/doc/mysql-community-client-5.6.50/LICENSE
-  /usr/share/doc/mysql-community-client-5.6.50/README
-  /usr/share/man/man1/msql2mysql.1.gz
-  /usr/share/man/man1/mysql.1.gz
-  /usr/share/man/man1/mysql_config_editor.1.gz
-  /usr/share/man/man1/mysql_find_rows.1.gz
-  /usr/share/man/man1/mysql_waitpid.1.gz
-  /usr/share/man/man1/mysqlaccess.1.gz
-  /usr/share/man/man1/mysqladmin.1.gz
-  /usr/share/man/man1/mysqlbinlog.1.gz
-  /usr/share/man/man1/mysqlcheck.1.gz
-  /usr/share/man/man1/mysqldump.1.gz
-  /usr/share/man/man1/mysqlimport.1.gz
-  /usr/share/man/man1/mysqlshow.1.gz
-  /usr/share/man/man1/mysqlslap.1.gz
+  cd
   ```
 
-[Reference](https://www.cnblogs.com/kerrycode/p/6924153.html)
+### pwd
 
-### rpm
+pwd（print work directory） 显示当前目录
 
-```
-rpm（英文全拼：redhat package manager） 原本是 Red Hat Linux 发行版专门用来管理 Linux 各项套件的程序
-```
+### mkdir
 
-常用参数
+- `-p` 
 
-```
--i, --install                     install package(s)
--v, --verbose                     provide more detailed output
--h, --hash                        print hash marks as package installs (good with -v)
--e, --erase                       erase (uninstall) package
--U, --upgrade=<packagefile>+      upgrade package(s)
-－-replacepkge                    无论软件包是否已被安装，都强行安装软件包
---test                            安装测试，并不实际安装
---nodeps                          忽略软件包的依赖关系强行安装
---force                           忽略软件包及文件的冲突
-Query options (with -q or --query):
--a, --all                         query/verify all packages
--p, --package                     query/verify a package file
--l, --list                        list files in package
--d, --docfiles                    list all documentation files
--f, --file                        query/verify package(s) owning file
-```
+  `--parents` 创建多个目录和子目录
+
+- `-v`
+
+  `--verbose` 每次创建新目录都显示信息
 
 
 
-## 文件目录
+### ls
 
-### rm
+`ls -a` 显示包括隐藏文件
 
-删除文件夹
+- `-a` 显示所有文件及目录 (`.` 开头的隐藏文件也会列出)
+- `-l`  以列表方式显示
+- `-h`  件大小单位显示，默认是字节
+
+文件太多想查看想看的文件
 
 ```
-rm -rf
+ls -l |grep data
 ```
+
+注意：
+
+关于`ls -l`的排序方式
+
+- 无视字母之外的顺序（也就是说，就当数字和字母之外的字符，如中文、符号不存在）
+
+- 数字优先于字母，同位数字之间从小到大
+
+  ```
+  a1 > a1b > a2 > aa >aA
+  ```
+
+关于`ls -l`中的total是什么
+
+```
+int total = （physical_blocks_in_use) * physical_block_size / ls_block_size
+```
+
+关于`ls -l`每一列
+
+```
+-rw-r--r--  1 root root 20110 2月   5 2021 config.xml
+```
+
+- 文件类型，目录`d`、文件`-`
+- 文件的权限
+- 文件的硬链接总数
+- 文件属主
+- 文件属组
+- 文件大小
+- 文件上次修改时间
+- 文件名
+
+### echo
+
+使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
+
+```
+echo "Raspberry" > test.txt
+```
+
+使用>>指令向文件追加内容，原内容将保存
+
+```
+echo "Intel Galileo" >> test.txt  
+```
+
+### tree
+
+用于生成目录的树形层级结构
+
+便利层级
+
+```
+tree -L 2
+```
+
+只显示文件夹
+
+```
+tree -d
+```
+
+
+
+
+
+## 操作文件
+
+### touch
+
+创建文件
+
+### cp
+
+cp(copy file)
+
+用于复制文件或目录
+
+参数：
+
+- `-i` 覆盖前询问（建议加此参数）
+- `-R` 递归的复制整个目录
+
+注意：
+
+在目标目录名尾部加上`/`，这表明destination是目录而不是文件，如果没有加`/`，而destination目录又不存在，那么反而会创建一个名为destination的文件，而且不会有任何提示。
+
+```
+cp -i test_one Documents/
+```
+
+### ln
+
+根据Linux文件系统：
+
+- 每个文件都独自占用一个 inode，文件内容由 inode 的记录来指向
+- 文件名记录在文件所在目录的 block 中
+- 如果想要读取文件内容，就必须借助目录中记录的文件名找到该文件的 inode，才能成功找到文件内容所在的 block 块
+
+ln 命令用于给文件创建链接，分为下面两种：
+
+- 软链接
+
+  类似于 Windows 系统中给文件创建快捷方式，即产生一个特殊的文件，该文件用来指向另一个文件，此链接方式同样适用于目录。
+
+- 硬链接
+
+  硬链接指的就是给一个文件的 inode 分配多个文件名，通过任何一个文件名，都可以找到此文件的 inode，从而读取该文件的数据信息。
+
+  两个文件进行硬链接，会共享inode编号，并且这两个文件的链接计数（`ls -l`的第三项）都显示2。
+
+选项
+
+- `-s` 建立软链接文件。如果不加此选项，则建立硬链接文件；
+- `-f` 强制。如果目标文件已经存在，则删除目标文件后再建立链接文件；
+
+**注意**：
+
+1. 软链接文件的源文件必须写成绝对路径，而不能写成相对路径（硬链接没有这样的要求）
 
 ### mv
+
+参数：
+
+- `-i` 同cp命令，覆盖前询问
 
 移动：
 
@@ -217,129 +332,208 @@ rm -rf
   mv  /home/ffxhd/a.txt   /home/ffxhd/test/c.txt
   ```
 
-### ls
+### rm
 
-`ls -a` 显示包括隐藏文件
+参数：
 
-- -a 显示所有文件及目录 (**.** 开头的隐藏文件也会列出)
-- -l  以列表方式显示
-- -h  件大小单位显示，默认是字节
+- `-i` 删除前确认
+- `-f` 多个文件不需要提醒，强制删除
+- `-r` 同`-R` 递归删除目录
+
+一口气删除终极大法（危）
+
+```
+rm -rf
+```
 
 注意：
 
-关于`ls -l`的排序方式
+1. bash shell中没有回收站或垃圾箱，文件一旦删除，就无法再找回。因此，在使用rm命令时，特别是通配符删除的时候，要养成总是加入`-i`参数的好习惯。
 
-- 无视字母之外的顺序（也就是说，就当数字和字母之外的字符，如中文、符号不存在）
+### 解压/压缩
 
-- 数字优先于字母，同位数字之间从小到大
+- tar
+
+  Unix和Linux上最广泛使用的归档工具，tar命令最开始是用来将文件写到磁带设备上归档的，然而它也能把输出写到文件里，这种用法在Linux上已经普遍用来归档数据了，这是Linux中分发开源程序源码文件所采用的普遍方法。
+
+  参数：
+
+  - `-c` 
+
+    `-create` 创建一个新的tar归档文件
+
+  - `-v` 处理时显示文件
+
+  - `-f` file 输出结果到文件
+
+  - `-z` 将输出重定向给gzip命令来压缩内容
+
+  打包（这个不叫压缩）
 
   ```
-  a1 > a1b > a2 > aa >aA
+  tar -cvf FileName.tar DirName
   ```
 
-关于`ls -l`中的total是什么
+  解包
 
-```
-int total = （physical_blocks_in_use) * physical_block_size / ls_block_size
-```
+  ```
+  tar -xvf FileName.tar
+  ```
 
+  打包多个文件
 
+  ```
+  tar -czvf bak.tar.gz users/ config.xml jobs/ plugins/
+  ```
 
+  解压tar.gz/tgz
 
+  这些是gzip压缩过的tar文件
 
-### cp
+  ```
+  tar -zxvf filename.tgz
+  ```
 
-```
-cp(copy file)
-```
+  压缩
 
-用于复制文件或目录
+  ```
+  tar -zcvf FileName.tar.gz DirName
+  ```
 
-使用指令 **cp** 将当前目录 **test/** 下的所有文件复制到新目录 **newtest** 下，输入如下命令
+- gz
 
-```
-cp –r test/ newtest
-```
+  GNU压缩工具，用Lempel-Ziv编码
 
-### pwd
+  压缩
 
-```
-pwd（print work directory） 命令用于显示工作目录
-```
+  ```
+  gzip FileName
+  ```
 
-### sed
+  解压
 
-替换文本中的`/r`
+  ```
+  gunzip FileName.gz 
+  gzip -d FileName.gz 
+  ```
 
-```
-sed -i 's/\r$//' build.sh
-```
+- zip
 
-### grep
+  Windows上PKZIP工具的Unix实现
 
-查找文件里符合条件的字符串
+  压缩：
 
-```
-grep （global search regular expression(RE) and print out the line）全面搜索正则表达式并把行打印出来
-```
+  ```
+  zip FileName.zip DirName 
+  ```
 
-搜索`/usr/src/linux/Documentation`目录下搜索带字符串`magic`的文件：
+  批量将文件解压到对应的目录
 
-```
-$ grep magic /usr/src/linux/Documentation/*
-sysrq.txt:* How do I enable the magic SysRQ key?
-sysrq.txt:* How do I use the magic SysRQ key?
-```
+  ```
+  unzip -d /app tomcat-all.zip
+  ```
 
-```
--a 或 --text : 不要忽略二进制的数据。
-```
+解压错怎么办
+
+列出该压缩文件中的文件列表，根据文件列表来删除文件
+
+- unzip
+
+  ```
+  zipinfo -1 ./ShareWAF.zip(误解压文件) | xargs rm -rf
+  ```
+
+- tar
+
+  ```
+  tar -tf 误解压文件 | xargs rm -rf
+  ```
+
+## 查看文件
 
 ### cat
 
-cat命令的用途是连接文件或标准输入并打印。这个命令常用来显示文件内容，或者将几个文件连接起来显示，或者从标准输入读取内容并显示，它常与重定向符号配合使用
+concatenate (连接) 显示文件内容
 
-cat主要有三大功能：
+参数：
 
-- 一次显示整个文件:cat filename
-- 从键盘创建一个文件:cat > filename 只能创建新文件,不能编辑已有文件
-- 将几个文件合并为一个文件:cat file1 file2 > file
+- `-n` 加上行号
 
-[cat命令](https://www.cnblogs.com/peida/archive/2012/10/30/2746968.html)
+其他：
 
-### echo
+- 从键盘创建一个文件
 
-使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
+  ```
+  cat > filename
+  ```
 
-```
-echo "Raspberry" > test.txt
-```
+- 将几个文件合并为一个文件
 
-使用>>指令向文件追加内容，原内容将保存
+  ```
+  cat file1 file2 > file
+  ```
 
-```
-echo "Intel Galileo" >> test.txt  
-```
+### more
 
-### tree
+cat命令的缺陷就是，一旦运行，无法控制，more命令会显示文本文件的内容，但会在显示每页数据之后停下来。
 
-用于生成目录的树形层级结构
+### less
 
-便利层级
+less is more，more命令的升级版
 
-```
-tree -L 2
-```
+less命令支持上下翻页键
 
-只显示文件夹
+### tail
 
-```
-tree -d
-```
+默认显示文件的后10行
 
+参数：
 
+- `-n` 显示的行数
+- `-f` 实时监控
 
-## 操作文件
+### head
+
+查看文件的前几行，默认也是10行
+
+- `-n` 显示的行数
+
+### sort
+
+对数据进行排序，按照规则对文本文件中的数据行进行排序
+
+- `-n` 按数字排序
+
+- `-M` 按月排序
+
+  当日志文件按照月份在前的时候，可以使用该参数
+
+### grep
+
+grep （global search regular expression(RE) and print out the line）
+
+查找输入或者指定文件中符合匹配的字符的行。
+
+参数：
+
+- `-v` 反向搜索，输出不匹配的行
+- `-n` 显示匹配行的行号
+- `-c` 一共多少行匹配
+- `-e` 指定多个匹配
+
+常用：
+
+- 搜索`/usr/src/linux/Documentation`目录下搜索带字符串`magic`的行：
+
+  ```
+  grep magic /usr/src/linux/Documentation/*
+  ```
+
+- 输出含有字符t或f的所有行
+
+  ```
+  grep -e t -e f file1
+  ```
 
 ### find
 
@@ -377,193 +571,280 @@ find ./test -maxdepth 2 -name "*.php"
 
 which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
 
-```
-which bash
-```
-
-### 解压
-
-- tar
-
-  ```
-  解包：tar xvf FileName.tar 
-  打包：tar cvf FileName.tar DirName //这个不叫压缩
-  ```
-
-- gz
-
-  ```
-  解压1：gunzip FileName.gz 
-  解压2：gzip -d FileName.gz 
-  压缩：gzip FileName
-  ```
-
-- tar.gz 和 tgz 
-
-  ```
-  解压：tar zxvf FileName.tar.gz 
-  解压到指定文件夹：tar -zxvf FileName.tar.gz -C aaa 这个目录必须存在
-  
-  压缩：tar zcvf FileName.tar.gz DirName 
-  ```
-
-- zip
-
-  ```
-  解压：unzip FileName.zip 
-  压缩：zip FileName.zip DirName 
-  ```
-
-  ```
-  unzip -d /app tomcat-all.zip 批量将文件解压到对应的目录需要用到-d参数
-  ```
-
-解压错怎么办
-
-- unzip误解压使用以下命令补救
-
-  ```
-  zipinfo -1 ./ShareWAF.zip(误解压文件) | xargs rm -rf
-  ```
-
-- tar误解则压使用以下命令补救
-
-  ```
-  tar -tf 误解压文件 | xargs rm -rf
-  ```
-
-  tar -tf 是列出该压缩文件中的文件列表，xargs rm -rf 则是根据前面的文件列表来删除文件
-
-## 文本处理
-
-### awk
-
-AWK 是一种处理文本文件的语言
-
-### seq
-
-(squeue)
+外部命令，也就是存在于bash shell之外的程序，可以通过which命令查找
 
 ```
-seq [选项]... 首数 增量 尾数
+which java
+
+/data/jdk1.8.0_151/bin/java
 ```
 
-例：
+件中
 
-```
-➜  ~ seq 5
-1
-2
-3
-4
-5
-```
+##  vim
 
-从1连续输出到5
+Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用
 
-```
-➜  ~ seq 1 5
-1
-2
-3
-4
-5
-```
+- 快速查找
 
-从1开始，步数为2，最大到10
+  在命令模式下，输入`/+要搜索的词`
 
-```
-➜ ~ seq 1 2 10
-1
-3
-5
-7
-9
-```
+  然后使用`n`键选取下一个
+
+- vim如何删除一行或者多行内容
+
+  - 删除单行
+
+    `dd`
+
+  - 删除所有
+
+    `:1,$d`
+
+  - 删除以#开头的注释内容 
+
+    `:g/^#/d`
+
+  - 删除所有空行
+
+    `:g/^$/d`
+
+- 翻页
+
+  - 整页翻页：
+
+    `ctrl-f`  f就是forword
+
+    `ctrl-b`  b就是backward
+
+  - 翻半页：
+
+    `ctrl-d`  d就是down
+
+    `ctlr-u`  u就是up
+
+- 放弃所有修改
+
+  `:e!`
+
+- 开启行号
+
+  ` :set nu`
+
+- 允许粘贴
+
+  `:set paste`
+
+## 监测
+
+### ps
 
 参数：
 
-- `-f`
+- `-e` 显示系统内的所有进程信息
+- `-f` 使用完整的（full）格式显示进程信息
+
+操作：
+
+- 批量杀死name线程
 
   ```
-  ➜  ~ seq -f 'str%3g' 9 11
-  str  9
-  str 10
-  str 11
+  ps -ef|grep name|awk '{print $2}'|xargs kill -9
   ```
 
-  ```
-  ➜  ~ seq -f "str%03g" 9 11
-  str009
-  str010
-  str011
-  ```
-
-  - `%`后面指定数字的位数，`%3g`表示位宽三位，`%03g`表示位宽为3位，且位宽不足三的时候，用0补齐
-  - `%`前面可以指定字符串，不能和`-w`一起使用
-
-- `-w`
-
-  输出等宽
-
-  ```
-  ➜  ~ seq -w -f"str%03g" 9 11
-  str009
-  str010
-  str011
-  ```
-
-- `-s`
-
-  指定分隔符，默认是回车
-
-  ```
-  ➜  ~ seq -s + 1 10
-  1+2+3+4+5+6+7+8+9+10+%
-  ```
-
-应用：
-
-一次性创建5个名为dir001，dir002 ... dir010这10个目录的时候，就可以使用如下命令：
+列表说明
 
 ```
-mkdir $(seq -f 'dir%03g' 1 10)
+ps -ef| grep test
+jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 ```
 
-或者
+- UID：启动该进程的用户
+- PID：进程的进程ID
+- PPID：父进程的进程号
+- C：进程生命周期中的CPU利用率
+- STIME：进程启动时的系统时间
+- TTY：进程启动时的终端设备
+- TIME：运行进程需要的累积CPU时间
+- CMD：启动的程序名称
+
+### jps
+
+**jps**(Java Virtual Machine Process Status Tool)
+
+是java提供的一个显示当前所有java进程pid的命令
+
+### top
+
+ps不足之处就是只能显示某个特定时间点的信息，如果想观察那些频繁换进换出的内存的进程趋势，可以使用top，实时显示。
+
+默认情况下，top命令在启动时会按照%CPU值对进程排序。
+
+在top命令运行时键入可改变top的行为。键入f允 许你选择对输出进行排序的字段，键入d允许你修改轮询间隔。键入q可以退出top。
+
+例如：
 
 ```
-seq -f 'dir%03g' 1 10 | xargs mkdir
+ PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ 9524 clickho+  20   0   30.4g 438964 214568 S   1.3  1.4   1677:19 clickhouse-serv
+16585 jinp      20   0   11.7g   2.9g  12020 S   0.7  9.5  22:34.80 java
+18046 jinp      20   0   11.6g   3.1g  11900 S   0.7 10.1  18:35.71 java
 ```
 
-### sed
+- PR：进程的优先级
+- NI：进程的谦让度值
+- VIRT：进程占用的虚拟内存总量
+- RES：进程占用的物理内存总量
+- SHR：进程和其他进程共享的内存总量
+- S：进程的状态
+  - D：代表可中断的休眠状态
+  - R：代表在运行状态
+  - S：代表休眠状态
+  - T：代表跟踪状态或停止状态
+  - Z：代表僵化状态
+- %CPU：进程使用的CPU时间比例
+- %MEM：进程使用的内存占可用内存的比例
+- TIME+：自进程启动到目前为止的CPU时间总量
+- COMMAND：进程所对应的命令行名称，也就是启动的程序名
 
-利用脚本来处理文件
+### kill
 
-**动作说明**：
+停止一个线程
 
-- a：新增
-- c：取代
-- d：删除
-- i：插入
-- p：打印
-- s：取代，后面可以搭配正则表达式
+信号：
 
-### 计算字符串长度
+- 1：挂起
+- 2：中断
+- 3：结束运行
+- 9：无条件终止
 
-- `${#var}`
+### df
 
+df (disk free) 用来检查Linux文件系统的占用情况
 
+- `-h` 方便阅读方式显示（以较易阅读的格式显示）
 
-判断字符串是否包含
+```
+➜  ~ df -h
+Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+/dev/disk1s1s1  466Gi   14Gi  386Gi     4%  559993 4881892887    0%   /
+devfs           191Ki  191Ki    0Bi   100%     661          0  100%   /dev
+/dev/disk1s4    466Gi  6.0Gi  386Gi     2%       6 4882452874    0%   /System/Volumes/VM
+/dev/disk1s2    466Gi  348Mi  386Gi     1%    1248 4882451632    0%   /System/Volumes/Preboot
+/dev/disk1s7    466Gi  3.3Mi  386Gi     1%      19 4882452861    0%   /System/Volumes/Update
+/dev/disk1s8    466Gi   58Gi  386Gi    14%  692901 4881759979    0%   /System/Volumes/Data
+map auto_home     0Bi    0Bi    0Bi   100%       0          0  100%   /System/Volumes/Data/home
+```
 
-- 
+- Filesystem：代表该文件系统是在哪个partition ，所以列出设备名称
+- Mounted on：就是磁盘挂载的目录所在
 
-### tee
+### du
 
-tee显示输出结果并且保存到文件中
+通过df命令很容易发现哪个磁盘的存储空间快没了。
 
+下一步，du命令可以显示某个特定目录(默认情况下是当前目录)的 磁盘使用情况。
 
+- `-c` 显示所有已列出文件总的大小
+- `-h` 按用户易读的格式输出大小
+- `-s`  显示每个输出参数的总计
+
+常用：
+
+- 查看当前文件夹多大
+
+  ```
+  du -hs
+  ```
+
+### free
+
+free 命令显示系统内存的使用情况
+
+- `-h` 　以易读的方式显示内存使用情况
+
+### netstat
+
+它跟 netstat 差不多，但有着比 netstat 更强大的统计功能
+
+```
+netstat -anp|grep 8005
+```
+
+```
+-a (all) 显示所有选项，默认不显示LISTEN相关。
+-t (tcp) 仅显示tcp相关选项。
+-u (udp) 仅显示udp相关选项。
+-n 拒绝显示别名，能显示数字的全部转化成数字。
+-l 仅列出有在 Listen (监听) 的服务状态。
+
+-p 显示建立相关链接的程序名
+-r 显示路由信息，路由表
+-e 显示扩展信息，例如uid等
+-s 按各个协议进行统计
+-c 每隔一个固定时间，执行该netstat命令。
+```
+
+查看端口占用
+
+```
+netstat -tunlp |grep 9200
+```
+
+### ss
+
+ss 是 Socket Statistics
+
+```
+ss -antp | grep java | column -t
+```
+
+```
+-h, --help 帮助
+-V, --version 显示版本号
+-t, --tcp 显示 TCP 协议的 sockets
+-u, --udp 显示 UDP 协议的 sockets
+-x, --unix 显示 unix domain sockets，与 -f 选项相同
+-n, --numeric 不解析服务的名称，如 "22" 端口不会显示成 "ssh"
+-l, --listening 只显示处于监听状态的端口
+-p, --processes 显示监听端口的进程(Ubuntu 上需要 sudo)
+-a, --all 对 TCP 协议来说，既包含监听的端口，也包含建立的连接
+-r, --resolve 把 IP 解释为域名，把端口号解释为协议名称
+```
+
+### lsof
+
+lsof(list open files) 是一个列出当前系统打开文件的工具。
+
+常用：
+
+- 查看9999对应的端口
+
+  ```
+  lsof -i :9999
+  ```
+
+### 查看Linux的配置
+
+#### 核心数
+
+- 查看物理CPU数
+
+  `cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l`
+
+- 查看每个物理CPU中core的个数(即核数)
+
+  `cat /proc/cpuinfo| grep "cpu cores"| uniq`
+
+总核数 = 物理CPU个数 X 每颗物理CPU的核数
+
+#### 查看CPU信息
+
+`cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c`
+
+#### 查看操作系统版本
+
+`cat /etc/centos-release`
 
 ## 网络
 
@@ -668,6 +949,31 @@ nc -v ip port
     wujunnan@wujunnandeMacBook-Pro ~ % ssh -i /Users/wujunnan/develop/important/wujunnan.pem root@wujunnan.net
     Last login: Fri Nov 20 23:52:28 2020 from 120.244.160.103
     ```
+  
+- 使用SSH生成私钥公钥
+
+  ```
+  ssh-keygen -t rsa -C "wujunnan@kungeek.com"
+  ```
+
+  - `-t` 指定密钥密钥类型
+  - 注意，一般接下来的两个都回车处理即可，即使用默认名字（`id_rsa`），默认位置（`./ssh`），不使用密钥密码
+
+- 将生成的公钥上传到服务器上
+
+  - `~/.ssh/authorized_keys`
+
+  - 使用ssh-copy-id工具
+
+    ```
+    ssh-copy-id username@remote-server
+    ```
+
+- 私钥默认放在`.ssh`下才会生效
+
+- 注意：github没有我的私钥，他是怎么解密我加密过的数据呢
+
+  你用私钥加密的东西，GitHub用公钥可以解开，能解开说明你有对应的私钥，就是上传公钥那个人
 
 ### 文件传输
 
@@ -681,31 +987,39 @@ scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令
 scp local_file remote_ip:remote_folder 
 ```
 
-默认使用22端口
+**多文件传输**
 
-**上传到哪里**
+- 多个文件用空格分割
 
-本地安装的软件和其他文件一般放在这里
+  ```
+  scp execute.sh jenkins.war jinp@172.27.0.8:
+  ```
+
+- 从本地文件复制整个文件夹到远程主机上（文件夹假如是diff）
+  先进入本地目录下，然后运行如下命令：
+
+  ```
+  scp -v -r diff root@192.168.1.104:/usr/local/nginx/html/webs
+  
+  scp -r /Users/wujunnan/develop/WWW/zookeeper-3.4.6 root@wujunnan.net:/usr/local/zookeeper
+  ```
+
+- 使用压缩来加快传输
+  在文件传输的过程中，我们可以使用压缩文件来加快文件传输，我们可以使用 C选项来启用压缩功能，该文件在传输过程中被压缩，
+  在目的主机上被解压缩。
+
+  ```
+  scp -vrC diff root@192.168.1.104:/usr/local/nginx/html/webs
+  ```
+
+**从远程主机复制到本机**
+
+从远程主机复制文件到本地主机(下载)的命令如下：（假如远程文件是about.zip）
+先进入本地目录下，然后运行如下命令：
 
 ```
-/usr/local
+scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 ```
-
-**实际使用**
-
-- 上传Tomcat压缩包(不写目的目录会默认放在root下)
-
-  ```
-  wujunnan@wujunnandeMacBook-Pro ~ % scp /Users/wujunnan/软件/Tomcat/apache-tomcat-8.5.60.tar.gz root@wujunnan.net:/usr/local/tomcat
-  ```
-
-- 上传zookeeper**文件夹**
-
-  ```
-  wujunnan@wujunnandeMacBook-Pro ~ % scp -r /Users/wujunnan/develop/WWW/zookeeper-3.4.6 root@wujunnan.net:/usr/local/zookeeper
-  ```
-
-  `-r`为递归上传文件夹
 
 ### 防火墙
 
@@ -773,7 +1087,166 @@ scp local_file remote_ip:remote_folder
   systemctl disable firewalld
   ```
 
-## 命令相关
+```
+service iptables status
+```
+
+## Shell
+
+### 外部命令
+
+外部命令，有时候也被称为文件系统命令，是存在于bash shell之外的程序。它们并不是shell 程序的一部分。外部命令程序通常位于`/bin`、`/usr/bin`、`/sbin`或`/usr/sbin`中
+
+例如ps就是一个外部命令，可以通过which命令来查找它
+
+当外部命令执行时，会创建出一个子进程。这种操作被称为衍生(forking)。外部命令ps很 方便显示出它的父进程以及自己所对应的衍生子进程。
+
+```
+ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+jinp      9423 11751  0 00:14 pts/0    00:00:00 ps -f
+jinp     11751 11750  0 9月04 pts/0    00:00:00 -bash
+```
+
+可以看到，`ps -ef`的父进程为`-bash`
+
+### 内建命令
+
+内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和shell编译成了一体，作为shell工具的组成部分存在。
+
+cd和exit命令都内建于bash shell。可以利用type命令来了解某个命令是否是内建的。
+
+内建命令的执行速度要更快，效率也更高。
+
+### sh
+
+- `-x` 实现脚本的逐条语句跟踪，能打印出每一行命令以及当前的状态
+- ` -e`  Exit immediately if a command exits with a non-zero status
+
+运行shell的两种方法
+
+1. 作为可执行程序，
+
+   要想运行一个`.sh`文件，要输入`./test.sh`而不是`test.sh`，运行其他二进制的程序也一样，直接写`test.sh`系统会进入PATH里面寻找有没有叫`test.sh`的，而只有 `/bin, /sbin, /usr/bin，/usr/sbin `等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 `test.sh` 是会找不到命令的，要用` ./test.sh` 告诉系统说，就在当前目录找，`.`代表当前目录
+
+2. 作为解释器参数
+
+### Shell中的$0的含义
+
+简单来说 **$0** 就是你写的shell脚本本身的名字，**$1** 是你给你写的shell脚本传的第一个参数，**$2** 是你给你写的shell脚本传的第二个参数
+
+例如：
+
+创建一个脚本：
+
+```shell
+#!/bin/sh
+echo "shell脚本本身的名字: $0"
+echo "传给shell的第一个参数: $1"
+echo "传给shell的第二个参数: $2"
+```
+
+在Test.sh所在的目录下输入 `bash Test.sh 1 2`
+
+运行结果为：
+
+```
+shell脚本本身的名字: Test.sh
+传给shell的第一个参数: 1
+传给shell的第二个参数:  2  
+```
+
+### shell中的括号
+
+括号一般在命令替换的时候使用
+
+**`()`**
+
+和``一样，用来做命令替换用
+
+**`(())`**
+
+- 双小括号在shell中的作用是进行基本的加减乘除，还有大于、小于、等于、或非与等运算
+- $的作用是获取`(())`的结果
+- 在`(())`中使用变量可以不用加`$`直接使用即可
+
+**`[]`**
+
+方括号定义来了测试条件，第一个方括号后和第二个方括号前都要加一个空格，否则会报错
+
+用于条件的测试，可以用test命令来代替
+
+方括号主要用于四类判断：
+
+- 数值比较
+
+- 字符串比较
+
+- 文件比较
+
+  | 比较            | 描述                                     |
+  | --------------- | ---------------------------------------- |
+  | -d file         | 检查file是否存在并是一个目录             |
+  | -e file         | 检查file是否存在                         |
+  | -f file         | 检查file是否存在并是一个文件             |
+  | -r file         | 检查file是否存在并可读                   |
+  | -s file         | 检查file是否存在并非空                   |
+  | -w file         | 检查file是否存在并可写                   |
+  | -x file         | 检查file是否存在并可执行                 |
+  | -O file         | 检查file是否存在并属当前用户所有         |
+  | -G file         | 检查file是否存在并且默认组与当前用户相同 |
+  | file1 -nt file2 | 检查file1是否比file2新                   |
+  | file1 -ot file2 | 检查file1是否比file2旧                   |
+
+- 符合条件比较
+
+**`[[]]`**
+
+提供了字符串比较的高级特性，可以定义一些正则表达式来匹配字符串
+
+**`{}`**
+
+- 获取子字符串
+
+  比如str=”123″ 我要取23,正向取就是 echo ${str:1:2} 意思是从第一位往后开始不包括第一位，取两位。
+
+### nohup
+
+不挂断的运行命令（no hang up）
+
+三种运行方式的区别：
+
+- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
+
+  正常的运行方式，回车之后输出执行日志，若执行ontrol+c或者关闭终端，进程将终止
+
+- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
+
+  回车之后，将日志文件输出到nohup.out文件中，若执行control+c或者关闭终端，进程将终止
+
+- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar &`
+
+  回车之后，会输出进程号，以及提示日志输出在nohup.out文件中，若执行control+c或者关闭终端，进程仍在运行
+
+- `nohup command > myout.file 2>&1 &`
+
+  在上面的例子中，输出被重定向到myout.file文件中。
+
+- `nohup ./filebeat  -e -c filebeat.yml -d "publish" >/dev/null  2>&1 &`
+
+  - 操作系统中有三个常用的流：
+
+    0：标准输入流 stdin
+
+    1：标准输出流 stdout
+
+    2：标准错误流 stderr
+
+  - 2>&1的意思 
+
+    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
+
+  - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
 
 ### eval
 
@@ -808,242 +1281,283 @@ hello world
 
 [reference](https://blog.51cto.com/u_10706198/1788573)
 
-## 监控
 
-### netstat
 
-它跟 netstat 差不多，但有着比 netstat 更强大的统计功能
+## 环境变量
 
-```
-netstat -anp|grep 8005
-```
+在 Linux 系统中，环境变量是用来定义系统运行环境的一些参数，比如每个用户不同的家目录（HOME）、邮件存放位置（MAIL）等，这也是存储持久数据的一种简便方法。
 
-```
--a (all) 显示所有选项，默认不显示LISTEN相关。
--t (tcp) 仅显示tcp相关选项。
--u (udp) 仅显示udp相关选项。
--n 拒绝显示别名，能显示数字的全部转化成数字。
--l 仅列出有在 Listen (监听) 的服务状态。
+环境变量分为两类：
 
--p 显示建立相关链接的程序名
--r 显示路由信息，路由表
--e 显示扩展信息，例如uid等
--s 按各个协议进行统计
--c 每隔一个固定时间，执行该netstat命令。
-```
+- 全局变量
+- 局部变量
 
-### ss
+全局环境变量对于shell会话和所有生成的子shell都是可见的。局部变量则只对创建它们的shell可见。
 
-ss 是 Socket Statistics
+### set
+
+显示所有环境变量
+
+同下面env的区别就是它会按照字母顺序对结果进行排序
+
+### env
+
+命令用于显示系统中已存在的环境变量
+
+要显示个别环境变量的值，可以使用printenv命令
 
 ```
-ss -antp | grep java | column -t
+printenv HOME
 ```
 
-```
--h, --help 帮助
--V, --version 显示版本号
--t, --tcp 显示 TCP 协议的 sockets
--u, --udp 显示 UDP 协议的 sockets
--x, --unix 显示 unix domain sockets，与 -f 选项相同
--n, --numeric 不解析服务的名称，如 "22" 端口不会显示成 "ssh"
--l, --listening 只显示处于监听状态的端口
--p, --processes 显示监听端口的进程(Ubuntu 上需要 sudo)
--a, --all 对 TCP 协议来说，既包含监听的端口，也包含建立的连接
--r, --resolve 把 IP 解释为域名，把端口号解释为协议名称
-```
-
-### lsof
-
-lsof(list open files)是一个列出当前系统打开文件的工具。
-
-查看9999对应的端口
+或者
 
 ```
-lsof -i :9999
+echo $HOME
 ```
 
-[Reference](https://www.cnblogs.com/sparkbj/p/7161669.html)
+### 设置用户定义变量
 
-### free
-
-```
-free [-bkmotV][-s <间隔秒数>]
-```
-
-free 命令显示系统内存的使用情况，包括物理内存、交换内存(swap)和内核缓冲区内存。
-
-- -b 　以Byte为单位显示内存使用情况。
-- -k 　以KB为单位显示内存使用情况。
-- -m 　以MB为单位显示内存使用情况。
-- -h 　以合适的单位显示内存使用情况，最大为三位数，自动计算对应的单位值。单位有：
-
-[Reference1](https://www.cnblogs.com/ultranms/p/9254160.html)
-
-[Reference2](https://www.runoob.com/linux/linux-comm-free.html)
-
-### df
-
-linux中的df(disk free)命令的功能是用来检查Linux服务器的文件系统的占用情况
-
-- -h 方便阅读方式显示（以人们较易阅读的 GBytes, MBytes, KBytes 等格式自行显示）
+一旦启动了bash shell(或者执行一个shell脚本)，就能创建在这个shell进程内可见的局部变量了。可以通过等号给环境变量赋值，值可以是数值或字符串。
 
 ```
-➜  ~ df -h
-Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
-/dev/disk1s1s1  466Gi   14Gi  386Gi     4%  559993 4881892887    0%   /
-devfs           191Ki  191Ki    0Bi   100%     661          0  100%   /dev
-/dev/disk1s4    466Gi  6.0Gi  386Gi     2%       6 4882452874    0%   /System/Volumes/VM
-/dev/disk1s2    466Gi  348Mi  386Gi     1%    1248 4882451632    0%   /System/Volumes/Preboot
-/dev/disk1s7    466Gi  3.3Mi  386Gi     1%      19 4882452861    0%   /System/Volumes/Update
-/dev/disk1s8    466Gi   58Gi  386Gi    14%  692901 4881759979    0%   /System/Volumes/Data
-map auto_home     0Bi    0Bi    0Bi   100%       0          0  100%   /System/Volumes/Data/home
+my_variable=Hello
+echo $my_variable 
+
+Hello
 ```
 
-- Filesystem：代表该文件系统是在哪个partition ，所以列出设备名称
-- Mounted on：就是磁盘挂载的目录所在
+如果要给变量赋一个含有空格的字符串值，必须用单引号来界定字符串的首和尾。
 
-### 查看Linux的配置
+没有单引号的话，bash shell会以为下一个词是另一个要执行的命令。注意，你定义的局部环境变量用的小写字母，而到目前为止你所看到的系统环境变量都是大写字母，这是标准惯例。
 
-#### 内存
+记住，变量名、等号和值之间没有空格，这一点非常重要。如果在赋值表达式中加上了空格，bash shell就会把值当成一个单独的命令。
 
-- `cat /proc/meminfo`
-- `free -m`
+### 设置全局环境变量
 
-#### 核心数
+在设定全局环境变量的进程所创建的子进程中，该变量都是可见的。创建全局环境变量的方法是先创建一个局部环境变量，然后再把它导出到全局环境中。
 
-- 查看物理CPU数
+这个过程通过export命令来完成，变量名前面不需要加`$`
 
-  `cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l`
+### export
 
-- 查看每个物理CPU中core的个数(即核数)
-
-  `cat /proc/cpuinfo| grep "cpu cores"| uniq`
-
-总核数 = 物理CPU个数 X 每颗物理CPU的核数
-
-#### 查看CPU信息
-
-`cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c`
-
-#### 查看操作系统版本
-
-`cat /etc/centos-release`
-
-## 进程
-
-### ps
-
-- 查看ppid为30726的进程相关信息
-
-  ```
-  ps -ef|grep 30726
-  ```
-
-- 查看在运行的Tomcat
-
-  ```
-  ps -ef |grep tomcat
-  ```
-
-  注意，最后一行进程将会是grep自己，如下命令可以将grep进程剔除
-
-  ```
-  ps -aux|grep chat.js| grep -v grep
-  ```
-
-- 相关参数
-
-  ```
-  -e：显示系统内的所有进程信息。与-A选项功能相同
-  -f：使用完整的（full）格式显示进程信息。还会打印命令参数，当与-L一起使用时，将添加NLWP（线程数）和LWP（线程ID）列
-  -F：在-f选项基础上显示额外的完整格式的进程信息。包含SZ、RSS和PSR这三个字段
-  -a：显示所有程序
-  -u：以用户为主的格式来显示
-  -x：显示所以程序，不以终端机来区分
-  ```
-
-- 批量杀死Tomcat
-
-  - 查看Tomcat服务
-
-    ```
-    ps -aux|grep tomcat
-    ```
-
-  - 筛选出第二项pid
-
-    ```
-    ps -aux|grep tomcat|awk '{print $2}'
-    ```
-
-  - 批量杀死这些线程
-
-    ```
-    ps -aux|grep name|awk '{print $2}'|xargs kill -9
-    ```
-
-### kill
-
-停止一个线程
+作用就是设置或显示环境变量
 
 ```
-kill -9 [线程号]
+export [-fnp][变量名称]=[变量设置值]
 ```
 
- 停止多个线程
+设置全局环境变量
 
 ```
-kill -9 [线程号1] [线程号2]
+my_variable="I am Global now"
+export my_variable
 ```
 
+但是这种改变仅在子shell中有效，并不会反应到父shell中，子shell甚至无法使用export命令改变父shell中全局环境变量的值。
 
+**删除环境变量**
 
-### jps
+```
+unset my_variable
+```
 
-**jps**(Java Virtual Machine Process Status Tool)
+注意：
 
-是java提供的一个显示当前所有java进程pid的命令，适合在linux/unix平台上简单察看当前java进程的一些简单情况。
+**如果要用到变量，使用`$`;如果要操作变量，不使用`$`**。
 
-## 运行
+### 设置**PATH**环境变量
 
-### nohup
+当你在shell命令行界面中输入一个外部命令时，shell必须搜索系统来找到对应的程序。PATH环境变量定义了用于进行命令和程序查找的目录。PATH中的目录使用冒号分隔。
 
-不挂断的运行命令（no hang up）
+添加新PATH环境变量
 
-三种运行方式的区别：
+```
+PATH=$PATH:/home/christine/Scripts
+```
 
-- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
+将本目录也添加进PATH环境变零
 
-  正常的运行方式，回车之后输出执行日志，若执行ontrol+c或者关闭终端，进程将终止
+```
+PATH=$PATH:.
+```
 
-- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
+### 定位系统环境变量
 
-  回车之后，将日志文件输出到nohup.out文件中，若执行control+c或者关闭终端，进程将终止
+怎样让环境变量的作用持久化?
 
-- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar &`
+**登录shell**
 
-  回车之后，会输出进程号，以及提示日志输出在nohup.out文件中，若执行control+c或者关闭终端，进程仍在运行
+在你登入Linux系统启动一个bash shell时，默认情况下bash会在几个文件中查找命令。这些文件叫作启动文件或环境文件。
 
-- `nohup command > myout.file 2>&1 &`
+当你登录Linux系统时，bash shell会作为登录shell启动。登录shell会从5个不同的启动文件里 读取命令:
 
-  在上面的例子中，输出被重定向到myout.file文件中。
+- `/etc/profile`
+- `$HOME/.bash_profile`
+- `$HOME/.bashrc`
+- `$HOME/.bash_login`
+- `$HOME/.profile`
 
--  `nohup ./filebeat  -e -c filebeat.yml -d "publish" >/dev/null  2>&1 &`
+`/etc/profile`文件是bash shell默认的的主启动文件。只要你登录了Linux系统，bash就会执行
 
-  - 操作系统中有三个常用的流：
+`/etc/profile`启动文件中的命令。
 
-    0：标准输入流 stdin
+剩下的位于用户的HOME目录下，所以每个用户都可以编辑这些文件并添加自己的环境变量，这些环境变量会在每次启动bash shell会话时生效。
 
-    1：标准输出流 stdout
+shell会按照按照下列顺序，运行第一个被找到的文件，余下的则被忽略:
 
-    2：标准错误流 stderr
+```
+$HOME/.bash_profile
+$HOME/.bash_login
+$HOME/.profile
+```
 
-  - 2>&1的意思 
+注意，这个列表中并没有`$HOME/.bashrc`文件。这是因为该文件通常通过其他文件运行的
 
-    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
+`.bash_profile`启动文件会先去检查HOME目录中是不是还有一个叫`.bashrc`的启动文件。如果有 的话，会先执行启动文件里面的命令。
 
-  - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
+**交互式shell进程**
+
+如果你的bash shell不是登录系统时启动的(比如是在命令行提示符下敲入bash时启动)，那 么你启动的shell叫作交互式shell。
+
+如果bash是作为交互式shell启动的，它就不会访问`/etc/profile`文件，只会检查用户HOME目录中的`.bashrc`文件。
+
+`.bashrc`文件有两个作用:一是查看`/etc`目录下通用的`bashrc`文件，二是为用户提供一个定制自 己的命令别名。
+
+**环境变量持久化**
+
+对全局环境变量来说(Linux系统中所有用户都需要使用的变量)，可能更倾向于将新的或修改过的变量设置放在`/etc/profile`文件中，但这可不是什么好主意。如果你升级了所用的发行版， 这个文件也会跟着更新，那你所有定制过的变量设置可就都没有了。 
+
+最好是在`/etc/profile.d`目录中创建一个以`.sh`结尾的文件。把所有新的或修改过的全局环境变量设置放在这个文件中。
+
+alias命令设置就是不能持久的。你可以把自己的alias设置放在`$HOME/.bashrc`启动文件中，使其效果永久化。
+
+### source
+
+source命令也称为"点命令"，也就是一个点符号（`.`）,是bash的内部命令，修改环境变量后，需要source使其生效。
+
+功能：使Shell读入指定的Shell程序文件并依次执行文件中的所有语句
+
+```
+source filename 
+或 
+. filename
+```
+
+`source filename` 与 `sh filename` 及`./filename`执行脚本的区别在那里呢？
+
+`sh filename` sh是外部命令，**会重新建立一个子shell**，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell，除非使用export。
+
+```
+type sh
+
+sh 是 /usr/bin/sh
+```
+
+## 其他
+
+### history
+
+显示最近输入的命令
+
+### alias
+
+为命令起别名
+
+参数：
+
+- `-p`
+
+  查看可用的别名
+
+创建命令别名
+
+```
+alias li='ls -li'
+```
+
+### except
+
+sexcept是一个自动化交互的软件。
+
+该脚本能够正常执行的分前提是安装了except
+
+```
+yum install -y expect
+```
+
+expect常用命令总结:
+
+```
+spawn               交互程序开始, 后面跟命令或者指定程序, 启动新的进程
+expect              获取匹配信息匹配成功则执行expect后面的程序动作
+send                用于发送指定的字符串
+interact            退出自动话，进行人工交互
+exp_continue        在expect中多次匹配就需要用到
+send_user           用来打印输出 相当于shell中的echo
+exit                退出expect脚本
+eof                 expect执行结束 退出
+set                 定义变量
+puts                输出变量
+set timeout         设置超时时间
+```
+
+示例：
+
+ssh登录远程主机执行命令
+
+```
+#!/usr/tcl/bin/expect
+
+#设置超时时间，默认为10秒
+set timeout 30
+#设置变量
+set host "101.200.241.109"
+set username "root"
+set password "123456"
+spawn ssh $username@$host
+#判断上次的输出结果中是否包含指定字符串，如果有则立即返回，否则就等待一段时间后返回，即前面的30秒
+expect "*password*" 
+#执行交互动作
+send "$password\r"
+#执行完成后保持交互状态，将控制权交给控制台
+interact
+```
+
+指定多条命令可以：
+
+```
+send "df -Th\r"
+send "exit\r"
+```
+
+**模式动作**
+
+即上述例子中的`expect "*password*" {send "$password\r"}`
+
+简单的说就是匹配到一个模式，就执行对应的动作
+
+### 管道符
+
+管道“|”可将命令的结果输出给另一个命令作为输入之用
+
+### reboot
+
+```
+reboot  用于用来重新启动计算机
+```
+
+### bc
+
+进行一些简单的计算
+
+#### IP地址
+
+查看公网ip
+
+```
+curl ifconfig.me
+```
 
 ## 用户权限
 
@@ -1054,8 +1568,8 @@ Linux系统中用户信息存放在`/etc/passwd`文件中
 文件的一行代表一个单独的用户。该文件将用户的信息分为 3 个部分。
 
 -  第一部分是 root 账户，这代表管理员账户，对系统的每个方面都有完全的权力。
-- 第二部分是系统定义的群组和账户，这些群组和账号是正确安装和更新系统软件所必需的。
-- 第三部分在最后，代表一个使用系统的真实用户。
+-  第二部分是系统定义的群组和账户，这些群组和账号是正确安装和更新系统软件所必需的。
+-  第三部分在最后，代表一个使用系统的真实用户。
 
 在创建用户的时候同时修改了下面几个文件
 
@@ -1378,8 +1892,6 @@ useradd、passwd、userdel、usermod、groupadd、groupdel、chown、chgrp
 
 sudo命令用来以其他身份来执行命令，预设的身份为root。在/etc/sudoers中设置了可执行sudo指令的用户。若其未经授权的用户企图使用sudo，则会发出警告的邮件给管理员。用户使用sudo时，必须先输入密码，之后有5分钟的有效期限，超过期限则必须重新输入密码。 
 
-
-
 赋予普通用户root权限：
 
 修改 /etc/sudoers 文件，找到下面一行
@@ -1435,6 +1947,14 @@ Defaults后面如果有冒号，是对后面用户的默认，如果没有，则
 Defaults  env_reset
 ```
 
+sudo的时候，由于有`env_reset`，所以使环境变量重置了，但是有一个`secure_path`，里面规定了可以使用的环境变量其中包括`/usr/bin`
+
+这样我们就可以使用软链接将我们所需要的命令链接到这个文件夹下面
+
+```
+sudo ln -s /usr/local/jdk1.8/bin/javac /usr/bin
+```
+
 [Reference1](https://blog.csdn.net/q290994/article/details/77448626)
 
 [Reference2](https://www.cnblogs.com/wazy/p/8352369.html)
@@ -1480,6 +2000,18 @@ chmod ug+w,o-w file1.txt file2.txt
 chmod -R a+r *
 ```
 
+### chown
+
+修改文件拥有者
+
+把 /var/run/httpd.pid 的所有者设置 root：
+
+```
+chown root /var/run/httpd.pid
+//递归修改owner
+sudo chown -R jinp:jinp elasticsearch/
+```
+
 ### umask
 
 ```
@@ -1509,389 +2041,141 @@ drwxr-xr-x   2 wujunnan  staff    64B  3 27 23:26 111
 
 在UNIX/Linux操作系统中，文件的创建者默认为文件属主，其默认权限为可读可写。
 
-## 环境变量
+## 脚本编写
 
-在 Linux 系统中，环境变量是用来定义系统运行环境的一些参数，比如每个用户不同的家目录（HOME）、邮件存放位置（MAIL）等，值得一提的是，Linux 系统中环境变量的名称一般都是大写的，这是一种约定俗成的规范。
+### awk
 
-Linux export 命令
+AWK 是一种处理文本文件的语言
 
-Linux export 命令用于设置或显示环境变量
+### seq
 
-```
-export [-fnp][变量名称]=[变量设置值]
-```
-
-列出当前的环境变量
+(squeue)
 
 ```
-export -p
+seq [选项]... 首数 增量 尾数
 ```
 
-env命令用于显示系统中已存在的环境变量
+例：
 
 ```
-env
+➜  ~ seq 5
+1
+2
+3
+4
+5
 ```
 
-[Reference](http://c.biancheng.net/view/5970.html)
-
-
-
-## 其他
-
-### except
-
-sexcept是一个自动化交互的软件。
-
-该脚本能够正常执行的分前提是安装了except
+从1连续输出到5
 
 ```
-yum install -y expect
+➜  ~ seq 1 5
+1
+2
+3
+4
+5
 ```
 
-expect常用命令总结:
+从1开始，步数为2，最大到10
 
 ```
-spawn               交互程序开始, 后面跟命令或者指定程序, 启动新的进程
-expect              获取匹配信息匹配成功则执行expect后面的程序动作
-send                用于发送指定的字符串
-interact            退出自动话，进行人工交互
-exp_continue        在expect中多次匹配就需要用到
-send_user           用来打印输出 相当于shell中的echo
-exit                退出expect脚本
-eof                 expect执行结束 退出
-set                 定义变量
-puts                输出变量
-set timeout         设置超时时间
+➜ ~ seq 1 2 10
+1
+3
+5
+7
+9
 ```
 
-示例：
+参数：
 
-ssh登录远程主机执行命令
+- `-f`
 
-```
-#!/usr/tcl/bin/expect
+  ```
+  ➜  ~ seq -f 'str%3g' 9 11
+  str  9
+  str 10
+  str 11
+  ```
 
-#设置超时时间，默认为10秒
-set timeout 30
-#设置变量
-set host "101.200.241.109"
-set username "root"
-set password "123456"
-spawn ssh $username@$host
-#判断上次的输出结果中是否包含指定字符串，如果有则立即返回，否则就等待一段时间后返回，即前面的30秒
-expect "*password*" 
-#执行交互动作
-send "$password\r"
-#执行完成后保持交互状态，将控制权交给控制台
-interact
-```
+  ```
+  ➜  ~ seq -f "str%03g" 9 11
+  str009
+  str010
+  str011
+  ```
 
-指定多条命令可以：
+  - `%`后面指定数字的位数，`%3g`表示位宽三位，`%03g`表示位宽为3位，且位宽不足三的时候，用0补齐
+  - `%`前面可以指定字符串，不能和`-w`一起使用
 
-```
-send "df -Th\r"
-send "exit\r"
-```
+- `-w`
 
+  输出等宽
 
+  ```
+  ➜  ~ seq -w -f"str%03g" 9 11
+  str009
+  str010
+  str011
+  ```
 
-**模式动作**
+- `-s`
 
-即上述例子中的`expect "*password*" {send "$password\r"}`
+  指定分隔符，默认是回车
 
-简单的说就是匹配到一个模式，就执行对应的动作
+  ```
+  ➜  ~ seq -s + 1 10
+  1+2+3+4+5+6+7+8+9+10+%
+  ```
 
+应用：
 
-
-### 管道符
-
-管道“|”可将命令的结果输出给另一个命令作为输入之用
-
-
-
-
-
-### reboot
+一次性创建5个名为dir001，dir002 ... dir010这10个目录的时候，就可以使用如下命令：
 
 ```
-reboot  用于用来重新启动计算机
+mkdir $(seq -f 'dir%03g' 1 10)
 ```
 
-### bc
-
-在Mac终端进行一些简单的计算，可以使用bc命令
-
-## shell
-
-运行shell的两种方法
-
-1. 作为可执行程序，
-
-   要想运行一个`.sh`文件，要输入`./test.sh`而不是`test.sh`，运行其他二进制的程序也一样，直接写`test.sh`系统会进入PATH里面寻找有没有叫`test.sh`的，而只有 `/bin, /sbin, /usr/bin，/usr/sbin `等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 `test.sh` 是会找不到命令的，要用` ./test.sh` 告诉系统说，就在当前目录找，`.`代表当前目录
-
-2. 作为解释器参数
-
-### Shell中的$0的含义
-
-简单来说 **$0** 就是你写的shell脚本本身的名字，**$1** 是你给你写的shell脚本传的第一个参数，**$2** 是你给你写的shell脚本传的第二个参数
-
-例如：
-
-创建一个脚本：
-
-```shell
-#!/bin/sh
-echo "shell脚本本身的名字: $0"
-echo "传给shell的第一个参数: $1"
-echo "传给shell的第二个参数: $2"
-```
-
-在Test.sh所在的目录下输入 `bash Test.sh 1 2`
-
-运行结果为：
+或者
 
 ```
-shell脚本本身的名字: Test.sh
-传给shell的第一个参数: 1
-传给shell的第二个参数:  2  
+seq -f 'dir%03g' 1 10 | xargs mkdir
 ```
 
-### shell中的括号
+### sed
 
-括号一般在命令替换的时候使用
+利用脚本来处理文件
 
-#### `()`
+参数
 
-和``一样，用来做命令替换用
+- `-a `新增
+- `-c` 取代
+- `-d` 删除
+- `-i` 插入
+- `-p ` 打印
+- `s` 取代，后面可以搭配正则表达式
 
-#### `(())`
+常用：
 
-- 双小括号在shell中的作用是进行基本的加减乘除，还有大于、小于、等于、或非与等运算
-- $的作用是获取`(())`的结果
-- 在`(())`中使用变量可以不用加`$`直接使用即可
+- 替换文本中的`/r`
 
-#### `[]`
+  ```
+  sed -i 's/\r$//' build.sh
+  ```
 
-方括号定义来了测试条件，第一个方括号后和第二个方括号前都要加一个空格，否则会报错
 
-用于条件的测试，可以用test命令来代替
 
-方括号主要用于四类判断：
+### 计算字符串长度
 
-- 数值比较
-- 字符串比较
+- `${#var}`
 
-- 文件比较
 
-  | 比较            | 描述                                     |
-  | --------------- | ---------------------------------------- |
-  | -d file         | 检查file是否存在并是一个目录             |
-  | -e file         | 检查file是否存在                         |
-  | -f file         | 检查file是否存在并是一个文件             |
-  | -r file         | 检查file是否存在并可读                   |
-  | -s file         | 检查file是否存在并非空                   |
-  | -w file         | 检查file是否存在并可写                   |
-  | -x file         | 检查file是否存在并可执行                 |
-  | -O file         | 检查file是否存在并属当前用户所有         |
-  | -G file         | 检查file是否存在并且默认组与当前用户相同 |
-  | file1 -nt file2 | 检查file1是否比file2新                   |
-  | file1 -ot file2 | 检查file1是否比file2旧                   |
 
-- 符合条件比较
-
-#### `[[]]`
-
-提供了字符串比较的高级特性，可以定义一些正则表达式来匹配字符串
-
-#### `{}`
+判断字符串是否包含
 
 - 
 
-- 获取子字符串
+### tee
 
-  比如str=”123″ 我要取23,正向取就是 echo ${str:1:2} 意思是从第一位往后开始不包括第一位，取两位。
-
-##  vim
-
-![image-20210711221111175](Linux_assets/image-20210711221111175.png)
-
-Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用
-
-- 快速查找
-
-  在命令模式下，输入`/+要搜索的词`
-
-  然后使用`n`键选取下一个
-  
-- vim如何删除一行或者多行内容
-
-  - 删除单行：按ESC退出编辑模式，然后按两次d即可
-  - 删除所有：退出编辑模式 `:1,$d`
-  - 删除以#开头的注释内容 `:g/^#/d`
-  - 删除所有空行 `:g/^$/d`
-  
-- 翻页
-
-  - 整页翻页：
-
-    `ctrl-f`  f就是forword
-
-    `ctrl-b`  b就是backward
-
-  - 翻半页：
-
-    `ctrl-d`  d就是down
-
-    `ctlr-u`  u就是up
-
-- **i** 切换到输入模式，以输入字符
-- 按下 ESC 按钮回到命令模式
-- 在命令模式下按下:（英文冒号）就进入了底线命令模式
-- 输入 **:wq** 即可保存离开
-
-- 放弃所有修改
-
-  `:e!`
-
-  
-
-IP地址
-
-查看公网ip
-
-- 通过终端
-
-  ```
-  curl ifconfig.me
-  ```
-
-- 通过网页
-
-  [查看IP地址](https://www.ip138.com/)
-
-## 软件安装
-
-### RabbitMQ
-
-[linux中RabbitMQ安装教程](https://www.cnblogs.com/jimlau/p/12029985.html)
-
-rabbitMQ的安装位置
-
-- rabbitMQ的日志位置
-
-  ```
-  /var/log/rabbitmq/rabbit@VM-0-7-centos.log
-  ```
-
-- rabbitMQ后台启动
-
-  ```
-  ./rabbitmq-server -detached
-  ```
-
-
-## Linux磁盘与文件管理系统
-
-Linux的**EXT2**文件系统(inode)
-
-操作系统的文件数据除了文件实际内容外， 通常含有非常多的属性，例如 Linux 操作系统的文件权限(rwx)与文件属性(拥有者、群组、时间参数等)。文件系统通常会将这两部份的数据分别存放在不同 的区块，权限与属性放置到inode中，至于实际数据则放置到data block区块中。 另外，还有一个超级区块 (superblock) 会记录整个文件系统的整体信息，包括inode与block的总量、使用量、剩余量等。
-
-如果我的文件系统高达数百GB时， 那么将所有的 inode 与 block 通通放置在一起将是很不智的决定，因为 inode 与 block 的数量太庞大，不容易管理
-
-#### Block
-
-| **Block** 大小     | 1KB  | 2KB   | 4KB  |
-| ------------------ | ---- | ----- | ---- |
-| 最大单一文件限制   | 16GB | 256GB | 2TB  |
-| 最大文件系统总容量 | 2TB  | 8TB   | 16TB |
-
-Block的大小，大的话会造成浪费，小的话，大型文件会占用更多的block，inode也要记录更多的block，会导致文件系统读写性能下降。
-
-基本限制如下:
-
-- 原则上，block 的大小与数量在格式化完就不能够再改变了(除非重新格式化); 
-- 每个 block 内最多只能够放置一个文件的数据;
-- 承上，如果文件大于 block 的大小，则一个文件会占用多个 block 数量; 
-- 承上，若文件小于 block ，则该 block 的剩余容量就不能够再被使用了(磁盘空间会浪费)。
-
-基本上，inode 记录的文件数据至少有下面这些:
-
-- 该文件的存取模式(read/write/excute); 
-- 该文件的拥有者与群组(owner/group); 
-- 该文件的容量; 该文件创建或状态改变的时间(ctime); 
-- 最近一次的读取时间(atime); 
-- 最近修改的时间(mtime); 
-- 定义文件特性的旗标(flag)，如 SetUID...; 
-- 该文件真正内容的指向 (pointer);
-
-#### inode
-
-inode要记录的数据非常多，但偏偏又只有128Bytes而已，而inode记录一个block号码要花掉4Byte，假设我一个文件有400MB且每个block为4K时，那么至少也要十万笔block号码的记录，为此我们的系统很聪明的将inode记录block号码的区域定 义为12个直接，一个间接, 一个双间接与一个三间接记录区。这样以来，当文件系统将block格式化为1K大小时，能够容纳的最大文件为16GB。
-
-#### Superblock
-
-他记录的信息主要有:
-
-- block 与 inode 的总量;
-- 未使用与已使用的inode/block数量;
-- block与inode的大小 (block 为1, 2, 4K，inode为128Bytes或256Bytes); 
-- filesystem 的挂载时间、最近一次写入数据的时间、最近一次检验磁盘 (fsck) 的时间等文件系统的相关信息;
-- 一个valid bit数值，若此文件系统已被挂载，则valid bit为 0 ，若未被挂载，则valid bit为1。
-
-一般来说，superblock的大小为1024Bytes。
-
-#### 与目录树的关系
-
-当我们在 Linux下的文件系统创建一个目录时，文件系统会分配一个 inode与至少一块block给该目录。其中，inode记录该目录的相关权限与属性，并可记录分配到的那块 block号码; 而block则是记录在这个目录下的文件名与该文件名占用的inode号码数据。
-
-当我们在Linux下的ext2创建一个一般文件时，ext2会分配一个inode与相对于该文件大小的block 数量给该文件。例如:假设我的一个block为4 KBytes ，而我要创建一个100KBytes的文件，那么linux将分配一个inode与25个block来储存该文件! 
-
-文件名的记录是在目录的block当中。 因此在第五章文件与目录的权限说明中， 我们才会提到“新增/删除/更名文件名与目录的 w 权限有关”的特色! 那么因为文件名是记录在目录的block当中， 因此，当我们要读取某个文件时，就务必会经过目录的inode与block，然后才能够找到那个待读取文件的 inode号码，最终才会读到正确的文件的block内的数据。
-
-#### Linux文件系统的运行
-
-如果你常常编辑一个好大的文件， 在编辑的过程中又频繁的要系统来写入到磁盘中，由于磁盘写入的速度要比内存慢很多， 因此你会常常耗在等待磁盘的写入/读取上。
-
-为了解决这个效率的问题，因此我们的 Linux 使用的方式是通过一个称为异步处理 (asynchronously) 的方式。
-
-能够将常用的文件放置到内存当中，这不就会增加系统性能吗? 没错!是有这样的想法!因此我们Linux 系统上面文件系统与内存有非常大的关系:
-
-- 系统会将常用的文件数据放置到内存的缓冲区，以加速文件系统的读/写;
-- 承上，因此 Linux 的实体内存最后都会被用光!这是正常的情况!可加速系统性能;
-- 你可以手动使用 sync 来强迫内存中设置为 Dirty 的文件回写到磁盘中; 
-- 若正常关机时，关机指令会主动调用 sync 来将内存的数据回写入磁盘内; 
-- 但若不正常关机(如跳电、死机或其他不明原因)，由于数据尚未回写到磁盘内， 因此重新开机后可能会花很多时间在进行磁盘检验，甚至可能导致文件系统的损毁(非磁盘损毁)。
-
-#### 挂载(mount)
-
-挂载就是利用一个目录当进入点，将磁盘分区的数据放在该目录下，也就是说，进入该目录就读取该分区的意思。
-
-例如，partition 1是挂载到根目录，至于partition 2则是挂载 到/home这个目录。 这也就是说，当我的数据放置在/home内的各次目录时，数据是放置到 partition 2的，如果不是放在/home下面的目录， 那么数据就会被放置到partition 1了。
-
-每个filesystem都有独立的 inode/block/superblock等信息，这个文件系统要能够链接到目录树才能被我们使用。 将文件系统与目录树结合的动作我们称为“挂载”。
-
-例如在，Windows下，插入一个U盘，电脑上显示F盘，这个设备与磁盘分区的关系，就是挂载。
-
-其实判断某个文件在那个partition下面是很简单的，通过反向追踪即可。以上图来说， 当我想要知道/home/vbird/test这个文件在哪个partition时，由test --> vbird --> home --> /，看那 个“进入点”先被查到那就是使用的进入点了。 所以test使用的是/home这个进入点而不是/。
-
-重点是: 挂载点一定是目录，该目录为进入该文件系统的入口。 因此并不是你有任何文件系统都能使用，必须要“挂载”到目录树的某个目录后，才能够使用该文件系统的。
-
-从 CentOS 7.x 开始， 文件系统已经由默认的 Ext4 变成了xfs这一个较适合大容量磁盘与巨型文件性能较佳的文件系统了。
-
-
-
-#### 链接
-
-在 Linux下面的链接文件有两种，一种是类似Windows的捷径功能的文件，可以让你快速的链接到目标文件(或目录); 另一种则是通过文件系统的inode链接来产生新文件名，而不是产生新文件!这种称为实体链接 (hard link)。 
-
-`ll`中的第三列数据其实就是，有多少个文件名链接到这个inode号码的意思
-
-一般来说，使用hard link设置链接文件时，磁盘的空间与inode的数目都不会改变!
-
- hard link 是有 限制的:
-
-- 不能跨 Filesystem; 
-- 不能 link 目录。
-
-相对于hard link ， Symbolic link 可就好理解多了，基本上，Symbolic link 就是在创建一个独立的文件，而这个文件会让数据的读取指向他 link 的那个文件的文件名!
+tee显示输出结果并且保存到文

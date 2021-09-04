@@ -10,6 +10,7 @@
     - [深入理解Java虚拟机](JavaEE/深入理解Java虚拟机.md)
 - **JavaSE**
     - [Java8新特性](JavaSE/Java8新特性.md)
+    - [Threadlocal](JavaSE/Threadlocal.md)
     - [泛型](JavaSE/泛型.md)
     - [多线程](JavaSE/多线程.md)
     - [单元测试](JavaSE/单元测试.md)
@@ -41,14 +42,16 @@
 - **算法**
     - [加密算法](算法/加密算法.md)
 - **数据库**
+    - **ClickHouse**
+      - [ClickHouse](数据库/ClickHouse/ClickHouse.md)
     - **Elasticsearch**
       - [Elasticsearch](数据库/Elasticsearch/Elasticsearch.md)
       - [Elasticsearch原理](数据库/Elasticsearch/Elasticsearch原理.md)
       - [Elasticsearch的安装和配置](数据库/Elasticsearch/Elasticsearch的安装和配置.md)
       - [Elasticsearch在生产中的应用](数据库/Elasticsearch/Elasticsearch在生产中的应用.md)
     - **Mysql**
-      - [JDBC](数据库/Mysql/JDBC.md)
       - [Mysql](数据库/Mysql/Mysql.md)
+      - [MysqlInJava](数据库/Mysql/MysqlInJava.md)
       - [Mysql实战](数据库/Mysql/Mysql实战.md)
       - [Mysql日志](数据库/Mysql/Mysql日志.md)
 - **计算机基础**

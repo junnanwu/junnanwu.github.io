@@ -1,36 +1,10 @@
-## Elasticsearch安装和配置
+# Elasticsearch安装和配置
 
-#### 新建并切换用户
+## Elasticsearch
 
-```
-useradd elastic
-passwd elastic
-su - elastic
-```
+注意：本文基于**elasticsearch-7.5.2**单机版的生产实践
 
-#### 上传安装包并解压
-
-```
-tar xvf elasticsearch-6.8.0.tar.gz
-mv elasticsearch-6.8.0/ elasticsearch
-```
-
-#### 目录结构
-
-```
-[elastic@VM-0-7-centos elasticsearch]$ ls
-bin     lib          logs     NOTICE.txt  README.textile
-config  LICENSE.txt  modules  plugins
-```
-
-- bin，二进制脚本，包含启动命令等 config 配置文件目录
-- lib，依赖包目录
-- logs，日志文件目录
-- modules，模块库
-- plugins，插件目录，这里存放一些常用的插件比如IK分词器插件
-- data 数据储存目录(暂时没有，需要在配置文件中指定存放位置，启动es时会自动根据指定位置创建)
-
-#### 修改配置
+**修改配置**
 
 - jvm.options
 
@@ -45,74 +19,35 @@ config  LICENSE.txt  modules  plugins
   -Xmx1g
   ```
 
-  内存占用太多了，我们调小一些，大家虚拟机内存设置为2G：
-
-  **最小设置128m，如果虚机内存允许的话设置为512m**
-
-  ```
-  -Xms256m 
-  -Xmx256m
-  ```
-
 - elasticsearch.yml
 
-  ```
-  cluster.name: xuecheng   #配置elasticsearch的集群名称，默认是elasticsearch。建议修改成一个有意义的名称。
-  node.name: xc_node_1  #节点名，通常一台物理服务器就是一个节点，es会默认随机指定一个名字，建议指定一个有意义的名称，方便管理
-  network.host: 0.0.0.0  #绑定ip地址
-  http.port: 9200  #暴露的http端口
-  transport.tcp.port: 9300  #内部端口
-  node.master: true  #主节点
-  node.data: true  #数据节点
-  discovery.zen.ping.unicast.hosts: ["0.0.0.0:9300", "0.0.0.0:9301", "0.0.0.0:9302"]  #设置集群中master节点的初始列表
-  discovery.zen.minimum_master_nodes: 1  #主结点数量的最少值 ,此值的公式为：(master_eligible_nodes / 2) + 1 ，比如：有3个符合要求的主结点，那么这里要设置为2。
-  bootstrap.memory_lock: false  #内存的锁定只给es用
-  node.max_local_storage_nodes: 1 #单机允许的最大存储结点数，通常单机启动一个结点建议设置为1，开发环境如果单机启动多个节点可设置大于1
-  path.data: D:\ElasticSearch\elasticsearch‐6.2.1\data  #索引目录
-  path.logs: D:\ElasticSearch\elasticsearch‐6.2.1\logs    #日志
-  http.cors.enabled: true #  跨域设置
-  http.cors.allow‐origin: /.*/
-  ```
+  - 默认配置（即空配置）可以运行，但是只允许本机/kibana访问
 
-- 提示系统堆内存不足，需要扩大
+  - 想开启密码，允许外部所有IP访问，采用下面的配置：
 
-  ```
-  [3]: max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]
-  ```
+    ```
+    #注意，必须加这个配置
+    cluster.initial_master_nodes: ["node-1"]
+    # 默认所有host都可以访问
+    network.host: 0.0.0.0
+    #开启密码
+    xpack.security.enabled: true
+    xpack.security.transport.ssl.enabled: true
+    ```
+  
+- 注意启动不起来要查看`elasticsearch.log`日志
 
-  elasticsearch用户拥有的最大虚拟内存太小，至少需要262144；
-
-  先赋予当前用户sudo权限
-
-  继续修改配置文件：
-
-  ```
-  sudo vim /etc/sysctl.conf 
-  ```
-
-  添加下面内容：
-
-  ```
-  vm.max_map_count=262144
-  ```
-
-  然后执行命令：
-
-  ```
-  sudo sysctl -p
-  ```
-
-#### 运行
+**运行**
 
 - 启动
 
-  ```
+  ```shell
   ./elasticsearch
   ```
 
 - 后台启动
 
-  ```
+  ```shell
   ./elasticsearch -d
   ```
 
@@ -120,53 +55,88 @@ config  LICENSE.txt  modules  plugins
 
   - 9300：集群节点间通讯接口，接收tcp协议
   - 9200：客户端访问接口，接收Http协议
+  
+- 关闭
 
-### 图形化界面
+  ```shell
+  ps -ef| grep Elasticsearch
+  ```
 
-Kibana是一个基于Node.js的Elasticsearch索引库数据统计工具，可以利用Elasticsearch的聚合功能，生成各种图表，如柱形图，线状图，饼图等。
+- 设置账号密码
 
-而且还提供了操作Elasticsearch索引数据的控制台，并且提供了一定的API提示，非常有利于我们学习Elasticsearch的语法。
+  - 在elasticsearch.yml文件里增加配置
 
-[下载](https://www.elastic.co/cn/products/kibana )
+    ```
+    xpack.security.enabled: true
+    xpack.security.transport.ssl.enabled: true
+    ```
 
-配置
+  - 初始化密码需要在es启动的情况下进行设置，按照提示输入各个内置用户的密码。
 
-修改kibana.yml文件
+    ```
+    ./bin/elasticsearch -d
+    ./bin/elasticsearch-setup-passwords interactive
+    ```
 
-```
-#修改server.host地址：
-server.host: "0.0.0.0"
-#界面中文显示，在最后一行修改
-i18n.locale: "zh-CN"
-```
+  - 修改Kibana配置
 
-访问http://192.168.129.134:5601即可
+    ```
+    elasticsearch.username: “kibana”
+    elasticsearch.password: “上一步生成的密码”
+    ```
 
-### 集成ik分词器
+## Kibana
 
-- [下载](https://github.com/medcl/elasticsearch-analysis-ik)
+- 配置
+
+  修改kibana.yml文件
+
+  ```
+  #server.host为访问Kibana的地址和端口
+  server.host: "0.0.0.0"
+  #界面中文显示，在最后一行修改
+  i18n.locale: "zh-CN":
+  ```
+
+- 访问
+
+  `http://xxx.xx.xx.xx:5601`
+
+- 如何后台启动kibana
+
+  ```
+  nohup ./kibana &
+  ```
+
+- **如何查看kibana进程**
+
+  ```
+  ps -ef | grep node
+  ```
+
+  注意：`ps -ef | grep kibana`找不到相关进程
+
+## ik分词器
+
 - 在elasticsearch的plugins目录下新建 `analysis-ik` 目录
-- 将elasticsearch-analysis-ik-6.8.0.zip解压在`analysis-ik`目录下，然后删除压缩包
+- [下载地址](https://github.com/medcl/elasticsearch-analysis-ik)下载对应版本的zip包解压即可
+- 这里注意，不要下载`tar.gz`包，那个是源代码，需要使用maven编译一下
 
-## 使用ES
+## 如何使用postman连接Elasticsearch
 
-如何关闭ES
+方法一：
 
-- 查看已经启动的ES线程并杀死
+直接在postman中认证
 
-  - ```
-    grep --color=auto elasticserch
-    ```
+这种方式也会在请求头中生成一个`Authorization`的请求头
 
-  - ```
-    jps
-    ```
+![image-20210903235806473](Elasticsearch%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE_assets/image-20210903235806473.png)
 
-  - ```
-    kill -9
-    ```
+方法二：
 
-- 使用elasticsearch-head关闭服务
+1. 先使用chrome插件elasticsearch-head连接Elasticsearch
+2. 登陆以后，查看该插件发送的请求，会发现一个`Authorization`的请求头
+3. 将这个请求头复制到postman中即可
 
 ## 搭建集群
 
@@ -178,28 +148,7 @@ i18n.locale: "zh-CN"
 rm -rf /elasticsearch/data
 ```
 
-#### 修改配置文件
-
 #### 遇到的问题
-
-- failed to obtain node locks, tried [[/elasticsearch-5.4.0/data/elasticsearch]] with lock id [0]; maybe these locations are not writable or multiple nodes were started without increasing [node.max_local_storage_nodes] (was [1])
-
-  解决：
-
-   /usr/local/elasticsearch-6.2.0/config/elasticsearch.yml  配置文件最后添加  node.max_local_storage_nodes: 2
-
-- 访问跨域问题
-
-  在elasticsearch的安装目录下找到config文件夹，找到elasticsearch.yml文件，打开编辑它，加上如下这两行配置
-
-  ```
-  http.cors.enabled: true
-  http.cors.allow-origin: "*"
-  ```
-
-  [Reference1](https://blog.csdn.net/fst438060684/article/details/80936201)
-
-  [Reference2](https://blog.csdn.net/jingzuangod/article/details/99673361)  
 
 - data文件夹没有删空
 
@@ -210,4 +159,6 @@ rm -rf /elasticsearch/data
   删除es集群data数据库文件夹下所有文件即可
 
   [Reference](https://blog.csdn.net/diyiday/article/details/83926488)
+
+
 
