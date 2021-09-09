@@ -21,17 +21,14 @@
     - [JavaWeb核心](JavaWeb/JavaWeb核心.md)
     - [Restful](JavaWeb/Restful.md)
     - [跨域](JavaWeb/跨域.md)
-- **Linux**
-    - [Docker](Linux/Docker.md)
-    - [Linux](Linux/Linux.md)
-    - [远程部署项目](Linux/远程部署项目.md)
 - **Tool**
-    - [Jenkins](Tool/Jenkins.md)
+    - **Git**
+      - [Git原理](Tool/Git/Git原理.md)
+      - [Git实践](Tool/Git/Git实践.md)
+    - [Gradle](Tool/Gradle.md)
+    - [Maven](Tool/Maven.md)
+    - [Nginx](Tool/Nginx.md)
     - [RabbitMQ](Tool/RabbitMQ.md)
-    - [git](Tool/git.md)
-    - [gradle](Tool/gradle.md)
-    - [maven](Tool/maven.md)
-    - [nginx](Tool/nginx.md)
 - **个人**
     - [Mac](个人/Mac.md)
     - [关于本站](个人/关于本站.md)
@@ -41,8 +38,16 @@
     - [前端实战](前端/前端实战.md)
 - **算法**
     - [加密算法](算法/加密算法.md)
+- **运维**
+    - [Docker](运维/Docker.md)
+    - [ELK](运维/ELK.md)
+    - [Jenkins](运维/Jenkins.md)
+    - [Linux](运维/Linux.md)
+    - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
+    - [远程部署项目](运维/远程部署项目.md)
 - **数据库**
     - **ClickHouse**
+      - [ClickHosue生产bug记录](数据库/ClickHouse/ClickHosue生产bug记录.md)
       - [ClickHouse](数据库/ClickHouse/ClickHouse.md)
     - **Elasticsearch**
       - [Elasticsearch](数据库/Elasticsearch/Elasticsearch.md)
@@ -54,7 +59,11 @@
       - [MysqlInJava](数据库/Mysql/MysqlInJava.md)
       - [Mysql实战](数据库/Mysql/Mysql实战.md)
       - [Mysql日志](数据库/Mysql/Mysql日志.md)
+- **开源项目**
+    - [Davinci](开源项目/Davinci.md)
 - **计算机基础**
     - [字符编码](计算机基础/字符编码.md)
+    - [正则表达式](计算机基础/正则表达式.md)
     - [计算机网络](计算机基础/计算机网络.md)
+    - [彻底理解转义字符](计算机基础/彻底理解转义字符.md)
 

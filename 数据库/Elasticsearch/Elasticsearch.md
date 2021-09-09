@@ -381,6 +381,19 @@ ik_max_word 分词模式运行得到结果：
   }
   ```
 
+### 数据类型
+
+[ES数据类型](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/mapping-types.html)
+
+| 数据类型 | 备注 |
+| -------- | ---- |
+| keyword  |      |
+| text     |      |
+| boolean  |      |
+| long     |      |
+| double   |      |
+| date     |      |
+
 ## APIs
 
 Elasticsearch提供了Rest风格的API，即http请求接口，而且也提供了各种语言的客户端API

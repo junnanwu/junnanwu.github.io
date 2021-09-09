@@ -1,8 +1,8 @@
 # Linux
 
-本文是我从零开始的学习Linux的记录，目的是方便查阅记忆。
+本文是本人从零开始的学习Linux的记录，目的是方便查阅记忆。
 
-大部分非原创，来自网络和《Linux命令行与shell脚本编程大全》。
+本文内容，一部分来自生产实践，一部分来自网络和《Linux命令行与shell脚本编程大全》，学习Linux基础，推荐这本书，结构清晰，语言精简，实用性强。
 
 ## RPM
 
@@ -20,13 +20,13 @@ RPM (redhat package manager) 是Red Hat Linux推出的包管理器，能轻松�
 
   例：`bash-4.3.2-5.el6.x86_64.rpm`
 
-常用选项
+参数：
 
 - `-i` 表示安装
 - `-q`  查询指定包名
 - `-h` 以`#`号显示安装进度
 
-常用命令
+举例：
 
 - 列出当前系统所有已安装的包
 
@@ -56,7 +56,7 @@ RPM (redhat package manager) 是Red Hat Linux推出的包管理器，能轻松�
 
 ## yum
 
-yum(Yellow dog Updater, Modified)，是一个在Fedora和RedHat以及SUSE中的Shell前端软件包管理器。
+yum (Yellow dog Updater, Modified) ，是一个在Fedora和RedHat以及SUSE中的Shell前端软件包管理器。
 
 yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务器下载、FTP服务器下载、本地软件池的等方式获得软件包，可以从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系。
 
@@ -64,9 +64,13 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
 用yum安装，实质上是用RPM安装，所以RPM查询信息的指令都可用。
 
+参数：
+
 - `-y`
 
   当询问`[y/d/N]`，自动选择`y`
+
+举例：
 
 - 查看可用的epel源
 
@@ -113,17 +117,21 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
 ## man
 
-man(Manual) 命令用来访问存储在Linux系统上的手册页面。在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
+man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
 
-查看cp命令详解
+举例：
 
-```
-man cp
-```
+- 查看cp命令详解
+
+  ```
+  man cp
+  ```
 
 ## 文件目录列表
 
 ### cd
+
+举例：
 
 - 回到上次打开的目录
 
@@ -139,9 +147,11 @@ man cp
 
 ### pwd
 
-pwd（print work directory） 显示当前目录
+pwd (print work directory) 显示当前目录。
 
 ### mkdir
+
+参数：
 
 - `-p` 
 
@@ -151,100 +161,98 @@ pwd（print work directory） 显示当前目录
 
   `--verbose` 每次创建新目录都显示信息
 
-
-
 ### ls
 
-`ls -a` 显示包括隐藏文件
+参数：
 
 - `-a` 显示所有文件及目录 (`.` 开头的隐藏文件也会列出)
 - `-l`  以列表方式显示
 - `-h`  件大小单位显示，默认是字节
 
-文件太多想查看想看的文件
+举例：
 
-```
-ls -l |grep data
-```
+- 文件太多想查看想看的文件
+
+  ```
+  ls -l |grep data
+  ```
 
 注意：
 
-关于`ls -l`的排序方式
+1. 关于`ls -l`的排序方式
 
-- 无视字母之外的顺序（也就是说，就当数字和字母之外的字符，如中文、符号不存在）
+   - 无视字母之外的顺序（也就是说，就当数字和字母之外的字符，如中文、符号不存在）
 
-- 数字优先于字母，同位数字之间从小到大
+   - 数字优先于字母，同位数字之间从小到大
 
-  ```
-  a1 > a1b > a2 > aa >aA
-  ```
+     ```
+     a1 > a1b > a2 > aa >aA
+     ```
 
-关于`ls -l`中的total是什么
+2. 关于`ls -l`中的total是什么？
 
-```
-int total = （physical_blocks_in_use) * physical_block_size / ls_block_size
-```
+   ```
+   int total = （physical_blocks_in_use) * physical_block_size / ls_block_size
+   ```
 
-关于`ls -l`每一列
+3. 关于`ls -l`每一列
 
-```
--rw-r--r--  1 root root 20110 2月   5 2021 config.xml
-```
+   ```
+   -rw-r--r--  1 root root 20110 2月   5 2021 config.xml
+   ```
 
-- 文件类型，目录`d`、文件`-`
-- 文件的权限
-- 文件的硬链接总数
-- 文件属主
-- 文件属组
-- 文件大小
-- 文件上次修改时间
-- 文件名
+   - 文件类型，目录`d`、文件`-`
+   - 文件的权限
+   - 文件的硬链接总数
+   - 文件属主
+   - 文件属组
+   - 文件大小
+   - 文件上次修改时间
+   - 文件名
 
 ### echo
 
-使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
+举例：
 
-```
-echo "Raspberry" > test.txt
-```
+- 使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
 
-使用>>指令向文件追加内容，原内容将保存
+  ```
+  echo "Raspberry" > test.txt
+  ```
 
-```
-echo "Intel Galileo" >> test.txt  
-```
+- 使用>>指令向文件追加内容，原内容将保存
+
+  ```
+  echo "Intel Galileo" >> test.txt  
+  ```
 
 ### tree
 
-用于生成目录的树形层级结构
+用于生成目录的树形层级结构。
 
-便利层级
+举例：
 
-```
-tree -L 2
-```
+- 便利层级
 
-只显示文件夹
+  ```
+  tree -L 2
+  ```
 
-```
-tree -d
-```
+- 只显示文件夹
 
-
-
-
+  ```
+  tree -d
+  ```
 
 ## 操作文件
 
 ### touch
 
-创建文件
+创建文件。
 
 ### cp
 
-cp(copy file)
-
-用于复制文件或目录
+cp (copy file) ，用于复制文件或目录。
 
 参数：
 
@@ -253,11 +261,11 @@ cp(copy file)
 
 注意：
 
-在目标目录名尾部加上`/`，这表明destination是目录而不是文件，如果没有加`/`，而destination目录又不存在，那么反而会创建一个名为destination的文件，而且不会有任何提示。
+1. 在目标目录名尾部加上`/`，这表明destination是目录而不是文件，如果没有加`/`，而destination目录又不存在，那么反而会创建一个名为destination的文件，而且不会有任何提示。
 
-```
-cp -i test_one Documents/
-```
+   ```
+   cp -i test_one Documents/
+   ```
 
 ### ln
 
@@ -279,7 +287,7 @@ ln 命令用于给文件创建链接，分为下面两种：
 
   两个文件进行硬链接，会共享inode编号，并且这两个文件的链接计数（`ls -l`的第三项）都显示2。
 
-选项
+参数：
 
 - `-s` 建立软链接文件。如果不加此选项，则建立硬链接文件；
 - `-f` 强制。如果目标文件已经存在，则删除目标文件后再建立链接文件；
@@ -287,12 +295,15 @@ ln 命令用于给文件创建链接，分为下面两种：
 **注意**：
 
 1. 软链接文件的源文件必须写成绝对路径，而不能写成相对路径（硬链接没有这样的要求）
+2. 删除软链接的时候，后面不能加`/`，不然删除的就是原目录了
 
 ### mv
 
 参数：
 
 - `-i` 同cp命令，覆盖前询问
+
+举例：
 
 移动：
 
@@ -358,6 +369,8 @@ rm -rf
 
   参数：
 
+  - `-x` 解压
+
   - `-c` 
 
     `-create` 创建一个新的tar归档文件
@@ -386,7 +399,7 @@ rm -rf
   tar -czvf bak.tar.gz users/ config.xml jobs/ plugins/
   ```
 
-  解压tar.gz/tgz
+  解压`tar.gz`/`tgz`
 
   这些是gzip压缩过的tar文件
 
@@ -433,7 +446,7 @@ rm -rf
   unzip -d /app tomcat-all.zip
   ```
 
-解压错怎么办
+解压错怎么办？
 
 列出该压缩文件中的文件列表，根据文件列表来删除文件
 
@@ -453,13 +466,13 @@ rm -rf
 
 ### cat
 
-concatenate (连接) 显示文件内容
+cat (concatenate，连接) ，显示文件内容。
 
 参数：
 
 - `-n` 加上行号
 
-其他：
+举例：
 
 - 从键盘创建一个文件
 
@@ -479,13 +492,11 @@ cat命令的缺陷就是，一旦运行，无法控制，more命令会显示文�
 
 ### less
 
-less is more，more命令的升级版
-
-less命令支持上下翻页键
+less (less is more) ，more命令的升级版，less命令支持上下翻页键。
 
 ### tail
 
-默认显示文件的后10行
+默认显示文件的后10行。
 
 参数：
 
@@ -494,13 +505,57 @@ less命令支持上下翻页键
 
 ### head
 
-查看文件的前几行，默认也是10行
+查看文件的前几行，默认也是10行。
 
 - `-n` 显示的行数
 
+### od
+
+od (octal, decimal, hex, ASCII dump) ，用于输出文件内容，并将其内容以八进制字码呈现出来。用于检查文件中不能直接显示显示在终端的字符（换行符等）。
+
+```
+od [-A 地址进制] [-t 显示格式] 文件名
+```
+
+参数：
+
+- `-A` 地址基数，od命令的输出最左侧的1列为偏移量。默认的偏移量使用8进制，可以使用`-A`进行修改
+  - `o` 八进制（默认）
+  - `d` 十进制
+  - `x` 十六进制
+  - `n` 不打印位移值
+- `-t` 指定数据显示的格式
+  - `c` ASCII字符或反斜杠序列
+  - `d` 有符号十进制数
+
+举例：
+
+test.txt内容如下（末尾有个换行符）：
+
+```
+1\n2
+
+```
+
+- 以ASCII码的形式显示文件test.txt中的内容
+
+  ```
+  od -tc test.txt
+  0000000    1   \   n   2  \n
+  0000005
+  ```
+
+- 使用ASCII码进行输出
+
+  ```
+  od -td1 test.txt
+  0000000    49  92 110  50  10
+  0000005
+  ```
+
 ### sort
 
-对数据进行排序，按照规则对文本文件中的数据行进行排序
+对数据进行排序，按照规则对文本文件中的数据行进行排序。
 
 - `-n` 按数字排序
 
@@ -510,9 +565,7 @@ less命令支持上下翻页键
 
 ### grep
 
-grep （global search regular expression(RE) and print out the line）
-
-查找输入或者指定文件中符合匹配的字符的行。
+grep (global search regular expression(RE) and print out the line) ，查找输入或者指定文件中符合匹配的字符的行。
 
 参数：
 
@@ -537,29 +590,19 @@ grep （global search regular expression(RE) and print out the line）
 
 ### find
 
-```
-find  [指定查找目录]  [查找规则]  [查找完后执行的action]
-#在目录下査找文件名是yum.conf的文件
-find /-name yum.conf
--iname: 按照文件名搜索，不区分文件名大小；
-指定递归深度
-find ./test -maxdepth 2 -name "*.php"
-```
+举例：
 
-例如：
+- 在目录下査找文件名是`yum.conf`的文件（按照文件名搜索，不区分文件名大小）
 
-```
-[wujn@zlfzb mysql]$ sudo find / -name nginx
-[sudo] wujn 的密码：
-/usr/local/nginx
-/usr/local/nginx/sbin/nginx
-/data/sre/setup/nginx-1.14.2/objs/nginx
-/data/nginx
-/data/nginx/sbin/nginx
-/data/filebeat/module/nginx
-```
+  ```
+  find /-name yum.conf
+  ```
 
-[Linux中find命令的用法汇总](https://www.jb51.net/article/108198.htm)
+- 指定递归深度
+
+  ```
+  find ./test -maxdepth 2 -name "*.php"
+  ```
 
 ### locate
 
@@ -567,23 +610,9 @@ find ./test -maxdepth 2 -name "*.php"
 
 ```
 
-### which
+##  Vim
 
-which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
-
-外部命令，也就是存在于bash shell之外的程序，可以通过which命令查找
-
-```
-which java
-
-/data/jdk1.8.0_151/bin/java
-```
-
-件中
-
-##  vim
-
-Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用
+Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。
 
 - 快速查找
 
@@ -639,12 +668,14 @@ Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错�
 
 ### ps
 
+ps (process status) 查看进程。
+
 参数：
 
 - `-e` 显示系统内的所有进程信息
 - `-f` 使用完整的（full）格式显示进程信息
 
-操作：
+举例：
 
 - 批量杀死name线程
 
@@ -652,7 +683,7 @@ Vim是从 vi 发展出来的一个文本编辑器。代码补完、编译及错�
   ps -ef|grep name|awk '{print $2}'|xargs kill -9
   ```
 
-列表说明
+列表说明：
 
 ```
 ps -ef| grep test
@@ -670,9 +701,7 @@ jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 
 ### jps
 
-**jps**(Java Virtual Machine Process Status Tool)
-
-是java提供的一个显示当前所有java进程pid的命令
+**jps** (Java Virtual Machine Process Status Tool) 是java提供的一个显示当前所有java进程pid的命令。
 
 ### top
 
@@ -709,7 +738,7 @@ ps不足之处就是只能显示某个特定时间点的信息，如果想观察
 
 ### kill
 
-停止一个线程
+停止一个线程。
 
 信号：
 
@@ -720,7 +749,7 @@ ps不足之处就是只能显示某个特定时间点的信息，如果想观察
 
 ### df
 
-df (disk free) 用来检查Linux文件系统的占用情况
+df (disk free) ，用来检查Linux文件系统的占用情况。
 
 - `-h` 方便阅读方式显示（以较易阅读的格式显示）
 
@@ -741,15 +770,13 @@ map auto_home     0Bi    0Bi    0Bi   100%       0          0  100%   /System/Vo
 
 ### du
 
-通过df命令很容易发现哪个磁盘的存储空间快没了。
-
-下一步，du命令可以显示某个特定目录(默认情况下是当前目录)的 磁盘使用情况。
+du (disk usage) ，通过df命令很容易发现哪个磁盘的存储空间快没了，下一步，du命令可以显示某个特定目录（默认情况下是当前目录）的磁盘使用情况。
 
 - `-c` 显示所有已列出文件总的大小
 - `-h` 按用户易读的格式输出大小
 - `-s`  显示每个输出参数的总计
 
-常用：
+举例：
 
 - 查看当前文件夹多大
 
@@ -759,7 +786,7 @@ map auto_home     0Bi    0Bi    0Bi   100%       0          0  100%   /System/Vo
 
 ### free
 
-free 命令显示系统内存的使用情况
+free 命令显示系统内存的使用情况。
 
 - `-h` 　以易读的方式显示内存使用情况
 
@@ -793,7 +820,7 @@ netstat -tunlp |grep 9200
 
 ### ss
 
-ss 是 Socket Statistics
+ss (Socket Statistics)
 
 ```
 ss -antp | grep java | column -t
@@ -814,9 +841,9 @@ ss -antp | grep java | column -t
 
 ### lsof
 
-lsof(list open files) 是一个列出当前系统打开文件的工具。
+lsof (list open files) ，一个列出当前系统打开文件的工具。
 
-常用：
+举例：
 
 - 查看9999对应的端口
 
@@ -830,21 +857,29 @@ lsof(list open files) 是一个列出当前系统打开文件的工具。
 
 - 查看物理CPU数
 
-  `cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l`
+  ```
+  cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+  ```
 
 - 查看每个物理CPU中core的个数(即核数)
 
-  `cat /proc/cpuinfo| grep "cpu cores"| uniq`
+  ```
+  cat /proc/cpuinfo| grep "cpu cores"| uniq
+  ```
 
-总核数 = 物理CPU个数 X 每颗物理CPU的核数
+  总核数 = 物理CPU个数 X 每颗物理CPU的核数
 
 #### 查看CPU信息
 
-`cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c`
+```
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+```
 
 #### 查看操作系统版本
 
-`cat /etc/centos-release`
+```
+cat /etc/centos-release
+```
 
 ## 网络
 
@@ -872,112 +907,76 @@ nmap ip -p port
 nc -v ip port
 ```
 
-### 远程连接
+### ssh
 
-#### ssh
+SSH  (Secure Shell)，专为远程登录会话和其他网络服务提供安全性的协议，如果一个用户从本地计算机，使用SSH协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露，目前已经成为Linux系统的标准配置。
 
-- **SSH是什么？**
+```
+ssh <username>@<hostname or IP address>
+```
 
-  SSH 为 (Secure Shell)，专为远程登录会话和其他网络服务提供安全性的协议，如果一个用户从本地计算机，使用SSH协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露，目前已经成为Linux系统的标准配置。
+参数：
 
-- **使用SSH账号密码连接远程主机**
+- `-p` ssh默认端口为22，指定端口
 
-  - 登录命令
+举例：
 
-    ```
-    ssh <username>@<hostname or IP address>
-    ```
-
-    user为默认的用户名，host为上面腾讯云提供给你的公网IP，SSH的默认端口是22，所以上述命令的默认连接端口为22，可以使用如下命令修改端口
-
-    ```
-    $ ssh -p 2222 user@host
-    ```
-
-    如图命令表示，ssh直接连接远程主机的2222端口
-
-    - 问题：密码输错三场后，提示如下错误
-
-      ```
-      user@49.232.68.5's password: 
-      user@49.232.68.5: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).
-      ```
-
-      解决：
-
-      去腾讯云控制台改一下密码
-
-  - 登出命令
-
-    - ```
-      logout
-      ```
-
-    - ```
-      exit
-      ```
-
-    - 直接关闭终端
-
-  - 示例
-
-    ```
-    wujunnan@wujunnandeMacBook-Pro ~ %  ssh root@wujunnan.net
-    root@wujunnan.net's password: 
-    Last login: Tue Nov 24 22:16:27 2020 from 120.244.160.103
-    ```
-
-- **使用SSH密钥登录远程主机**
-
-  - 先去控制台获取密钥
-
-  - 执行以下命令，赋予私钥文件仅本人可读权限
-
-    ```
-    chmod 400 <下载的与云服务器关联的私钥的绝对路径>
-    ```
-
-  - 执行以下命令，进行远程登录（第一次会让输入密码）
-
-    ```
-    ssh -i <下载的与云服务器关联的私钥的绝对路径> <username>@<hostname or IP address>
-    ```
-
-  - 示例
-
-    ```
-    wujunnan@wujunnandeMacBook-Pro ~ % ssh -i /Users/wujunnan/develop/important/wujunnan.pem root@wujunnan.net
-    Last login: Fri Nov 20 23:52:28 2020 from 120.244.160.103
-    ```
-  
-- 使用SSH生成私钥公钥
+- 使用2222端口登陆
 
   ```
-  ssh-keygen -t rsa -C "wujunnan@kungeek.com"
+  ssh -p 2222 user@host
   ```
 
-  - `-t` 指定密钥密钥类型
-  - 注意，一般接下来的两个都回车处理即可，即使用默认名字（`id_rsa`），默认位置（`./ssh`），不使用密钥密码
+### 配置ssh免密登陆
 
-- 将生成的公钥上传到服务器上
+### ssh-keygen
 
-  - `~/.ssh/authorized_keys`
+ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA和DSA两种认证密钥。
 
-  - 使用ssh-copy-id工具
+参数：
 
-    ```
-    ssh-copy-id username@remote-server
-    ```
+- `-b` 指定密钥长度
+- `-t` 指定要创建的密钥类型
+- `-C` 添加注释
+- `-f` 指定用来保存密钥的文件名
 
-- 私钥默认放在`.ssh`下才会生效
+配置步骤：
 
-- 注意：github没有我的私钥，他是怎么解密我加密过的数据呢
+1. 生成RSA类型私钥公钥
 
-  你用私钥加密的东西，GitHub用公钥可以解开，能解开说明你有对应的私钥，就是上传公钥那个人
+   ```
+   ssh-keygen -t rsa -C "wujunnan@kungeek.com"
+   ```
 
-### 文件传输
+   注意，一般接下来的两个都回车处理即可，即使用默认名字（`id_rsa`），默认位置（`./ssh`），不使用密钥密码，会默认生成`id_rsa`和`id_rsa.pub`
 
-#### scp
+2. 将生成的公钥上传到目标服务器上
+
+   - 方法一：将上步骤生成的`id_rsa.pub`复制到目标服务器的`~/.ssh/authorized_keys`
+
+   - 方法二：使用ssh-copy-id工具
+
+     ```
+     ssh-copy-id username@remote-server
+     ```
+
+     举例：
+
+     ```
+     ssh-copy-id -i id_rsa.pub jinp@172.27.0.8
+     ```
+
+注意：
+
+1. 私钥默认放在`.ssh`下才会生效
+
+2. 如果是想通过ssh免密git操作，将上述的步骤二换成将公钥保存到相关git远程仓库即可
+
+3. github没有我的私钥，他是怎么解密我加密过的数据呢
+
+   你用私钥加密的东西，GitHub用公钥可以解开，能解开说明你有对应的私钥，就是上传公钥那个人
+
+### scp
 
 scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令
 
@@ -1020,6 +1019,16 @@ scp local_file remote_ip:remote_folder
 ```
 scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 ```
+
+注意：
+
+1. zsh中scp命令的通配符`*`不能，`scp ip:/home/tommy/* .`命令在bash下可以执行，但是zsh下却不能识别通配符
+
+   shell不会按照远程地址上的文件去扩展参数，当你使用`ip:/home/tommy/`，因为本地当前目录中，不存在`ip:/home/tommy/*`，所以匹配失败。默认情况下，bash在匹配失败时就使用原来的内容，zsh则报告一个错误。在zsh中执行`setopt nonomatch` 则告诉它不要报告`no matches`的错误，而是当匹配失败时直接使用原来的内容。
+
+   实际上，不管是 bash 还是 zsh，不管设置了什么选项，只要把`ip:/home/tommy/*`加上引号，就可解决问题。
+
+   [reference](https://forum.ubuntu.org.cn/viewtopic.php?t=284253)
 
 ### 防火墙
 
@@ -1109,6 +1118,22 @@ jinp     11751 11750  0 9月04 pts/0    00:00:00 -bash
 ```
 
 可以看到，`ps -ef`的父进程为`-bash`
+
+### which
+
+which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
+
+外部命令，也就是存在于bash shell之外的程序，可以通过which命令查找
+
+举例：
+
+- 查找java命令的位置
+
+  ```
+  which java
+  
+  /data/jdk1.8.0_151/bin/java
+  ```
 
 ### 内建命令
 
@@ -1281,8 +1306,6 @@ hello world
 
 [reference](https://blog.51cto.com/u_10706198/1788573)
 
-
-
 ## 环境变量
 
 在 Linux 系统中，环境变量是用来定义系统运行环境的一些参数，比如每个用户不同的家目录（HOME）、邮件存放位置（MAIL）等，这也是存储持久数据的一种简便方法。
@@ -1434,9 +1457,9 @@ alias命令设置就是不能持久的。你可以把自己的alias设置放在`
 
 ### source
 
-source命令也称为"点命令"，也就是一个点符号（`.`）,是bash的内部命令，修改环境变量后，需要source使其生效。
+source命令也称为"点命令"，也就是一个点符号`.`，是bash的内部命令，修改环境变量后，需要source使其生效。
 
-功能：使Shell读入指定的Shell程序文件并依次执行文件中的所有语句
+功能：使Shell读入指定的Shell程序文件并依次执行文件中的所有语句。
 
 ```
 source filename 
@@ -1551,12 +1574,12 @@ reboot  用于用来重新启动计算机
 
 进行一些简单的计算
 
-#### IP地址
+### IP地址
 
 查看公网ip
 
 ```
-curl ifconfig.me
+curl cip.cc
 ```
 
 ## 用户权限
@@ -1585,7 +1608,8 @@ Linux系统中用户信息存放在`/etc/passwd`文件中
 文件将每个用户的详细信息写为一行，其中包含七个字段，每个字段之间用冒号 : 分隔：
 
 ```
-[root@VM-0-7-centos etc]# cat passwd
+cat passwd
+
 root:x:0:0:root:/root:/bin/bash
 bin:x:1:1:bin:/bin:/sbin/nologin
 daemon:x:2:2:daemon:/sbin:/sbin/nologin
@@ -1818,7 +1842,7 @@ useradd、passwd、userdel、usermod、groupadd、groupdel、chown、chgrp
 - s：指定用户登入后所使用的shell。默认值为/bin/bash。
 - u：指定用户ID号。该值在系统中必须是唯一的。0~499默认是保留给系统用户账号使用的，所以该值必须大于499。
 
-实战：
+举例：
 
 - 添加用户
 

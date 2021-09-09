@@ -1,8 +1,6 @@
 # Mac
 
-## Mac操作
-
-### 文件相关
+## Mac快捷键
 
 - 创建文件的快捷方式/替身
 
@@ -12,85 +10,7 @@
 
   `Command+Shift+. `
 
-## idea快捷键
-
-- 插入快捷键
-
-  `alt+inster==command+n`
-
-- 整段加注释
-
-  `shift+control+/`
-
-- 重写方法
-
-  `ctrl+O`
-
-- 添加类
-
-  `option+enter`
-
-- 各视图区域的切换
-
-  `cmd + 视图区域对应的数字`
-
-- 显示方法的参数信息
-
-   `Command+P`
-
-- 打开项目结构对话框
-
-   `Command+;` 
-
-- 基本的代码补全
-
-   `Ctrl+Space` 
-
-- 自动生成变量名
-
-   `Command+Option+v`
-   
-- 大小写切换
-
-   `Command+Shift+u`
-   
-- 看每一行的编辑者是谁
-
-   `右键+annotate`
-
-- 查看某个类在哪个地方被使用
-
-   `Alt+F7`
-
-## 终端快捷键
-
-- 删除光标之前到行首的字符
-
-  `Ctrl + u` 
-
-- 删除光标到行尾的字符
-
-  `Ctrl + k`
-
-- 光标移动到行首(Ahead of line)，相当于通常的Home键
-
-  `Ctrl + a`
-
-- 光标移动到行尾(End of line)
-
-  `Ctrl + e`
-
-- 取消(cancel)当前行输入的命令，相当于Ctrl + Break
-
-  `Ctrl + c `
-
-- 清屏，相当于执行clear命令
-
-  `Ctrl + l `
-
-## Mac系统
-
-### 环境变量
+## Mac环境变量
 
 Mac系统的环境变量，加载顺序为： 
 
@@ -179,6 +99,82 @@ echo命令的意思是在显示器上显示一段文字,起到提示的作用。
 
   执行完之后需要重启终端
 
+## Idea
+
+- 插入快捷键
+
+  `alt+inster==command+n`
+
+- 整段加注释
+
+  `shift+control+/`
+
+- 重写方法
+
+  `ctrl+O`
+
+- 添加类
+
+  `option+enter`
+
+- 各视图区域的切换
+
+  `cmd + 视图区域对应的数字`
+
+- 显示方法的参数信息
+
+   `Command+P`
+
+- 打开项目结构对话框
+
+   `Command+;` 
+
+- 基本的代码补全
+
+   `Ctrl+Space` 
+
+- 自动生成变量名
+
+   `Command+Option+v`
+   
+- 大小写切换
+
+   `Command+Shift+u`
+   
+- 看每一行的编辑者是谁
+
+   `右键+annotate`
+
+- 查看某个类在哪个地方被使用
+
+   `Alt+F7`
+
+## 终端
+
+- 删除光标之前到行首的字符
+
+  `Ctrl + u` 
+
+- 删除光标到行尾的字符
+
+  `Ctrl + k`
+
+- 光标移动到行首(Ahead of line)，相当于通常的Home键
+
+  `Ctrl + a`
+
+- 光标移动到行尾(End of line)
+
+  `Ctrl + e`
+
+- 取消(cancel)当前行输入的命令，相当于Ctrl + Break
+
+  `Ctrl + c `
+
+- 清屏，相当于执行clear命令
+
+  `Ctrl + l `
+
 ## Hombrew
 
 Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载、更新、查看、搜索等很多实用的功能。简单的一条指令，就可以实现包管理，而不用你关心各种依赖和文件路径的情况，十分方便快捷。
@@ -250,4 +246,42 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
     nginx
   ```
 
-- 
+
+## item2
+
+- `command + t` 新建窗口
+
+- `command + t` 新建窗口
+- `command + d` 垂直分屏，
+- `command + shift + d` 水平分屏
+- `command + ]` 和 `command + [`在最近使用的分屏直接切换
+
+## Oh My Zsh
+
+配置命令高亮
+
+- 安装
+
+  ```
+  brew install zsh-syntax-highlighting
+  ```
+
+- 配置
+
+  在` ~/.zshrc`中添加下面配置
+
+  ```
+  source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ```
+
+
+## Sublime
+
+- 进入列编辑模式
+
+  `command + shift + L`
+
+- 列编辑移动到首位
+
+  `command + 左 右`
+

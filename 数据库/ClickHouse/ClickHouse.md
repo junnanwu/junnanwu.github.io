@@ -24,4 +24,129 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 
 ## 安装使用
 
-可以根据[官方文档](https://clickhouse.tech/docs/zh/getting-started/install/)进行安装
+可以根据[官方文档](https://clickhouse.tech/docs/zh/getting-started/install/)进行安装。
+
+Linux推荐使用`RPM`的方式安装。
+
+配置文件：
+
+- `config.xml`
+
+  这里需要开启允许其他IP连接，默认只允许本机连接。
+
+  ```
+  <listen_host>::</listen_host>
+  ```
+
+- `user.xml`
+
+  这里需要设置用户的密码
+
+启动：
+
+- 启动服务
+
+  ```
+  sudo clickhouse start
+  ```
+
+- 开启客户端
+
+  ```
+  clickhouse-client
+  ```
+  
+  参数：
+  
+  - `--user, -u` – The username. Default value: default
+  - `--password` – The password. Default value: empty string
+
+## 基本语句
+
+- 导出语句
+
+  ```
+  INTO OUTFILE filename [FORMAT format]
+  ```
+
+  在select语句后面加上该子语句会将select的结果输出到指定位置的文件，filename是一个字符串
+
+  注意：filename参数中不能识别`~`，应该使用完整路径
+
+  [ClickHouse支持的Format](https://clickhouse.tech/docs/en/interfaces/formats/)
+
+  - TabSeparated (default)
+  - TabSeparatedWithNames
+  - CSV
+
+- 查看建表语句
+
+  ```
+  SHOW CREATE [TEMPORARY] [TABLE|DICTIONARY] [db.]table [INTO OUTFILE filename] [FORMAT format]
+  ```
+
+  查看建表语句并导出
+
+  ```sql
+  show create table data_web.pg_cust_staff into outfile '/home/jinp/data_web.pg_cust_staff.sql'
+  ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+数据类型：
+
+`Decimal(P, S)`
+
+- `P` precision，有效范围为`[1,76]`，表示总位数
+- `S` scale，有效范围为`[0,P]`，表示小数位
+
+其他Decimal
+
+- P from [ 1 : 9 ] - for Decimal32(S)
+- P from [ 10 : 18 ] - for Decimal64(S)
+- P from [ 19 : 38 ] - for Decimal128(S)
+- P from [ 39 : 76 ] - for Decimal256(S)
+
+小数位
+
+- Decimal32(S) - ( -1 * 10^(9 - S), 1 * 10^(9 - S) )
+- Decimal64(S) - ( -1 * 10^(18 - S), 1 * 10^(18 - S) )
+- Decimal128(S) - ( -1 * 10^(38 - S), 1 * 10^(38 - S) )
+- Decimal256(S) - ( -1 * 10^(76 - S), 1 * 10^(76 - S) )
+
+For example, Decimal32(4) can contain numbers from -99999.9999 to 99999.9999 with 0.0001 step.
+
+
+
+toDecimal(32|64|128|256)
+
+将一个value转换成Decimal，value可以为number或者String，S参数表示小数位数
+
+- `toDecimal32(value, S)`
+- `toDecimal64(value, S)`
+- `toDecimal128(value, S)`
+- `toDecimal256(value, S)`
+
+
+
+
+
+
+
+
+
+
+
