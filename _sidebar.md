@@ -44,6 +44,7 @@
     - [Jenkins](运维/Jenkins.md)
     - [Linux](运维/Linux.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
+    - [Shell脚本](运维/Shell脚本.md)
     - [远程部署项目](运维/远程部署项目.md)
 - **数据库**
     - **ClickHouse**

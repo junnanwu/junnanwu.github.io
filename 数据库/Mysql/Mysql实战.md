@@ -644,7 +644,23 @@ WHERE T1.c1 = T2.c1 AND condition
 
 
 
+## 全局设置
 
+### `global.sql_mode`
+
+报如下异常：
+
+```
+SELECT list is not in GROUP BY clause and contains nonaggregated column .... incompatible with sql_mode=only_full_group_by
+```
+
+即，没在group by中出现的字段或者聚合字段不能出现在select语句中。
+
+执行下面语句：
+
+```
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+```
 
 
 

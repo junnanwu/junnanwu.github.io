@@ -572,6 +572,10 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
   `git checkout -b 本地新建的分支名 origin/线上分支名`
 
+### git log
+
+查看某一个分支的提交
+
 ### git fetch
 
 当远程创建了新的分支，或者新的tag，或者分支有了新的提交，就需要更新到本地的版本库中
@@ -613,24 +617,64 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
 ### git tag
 
-- 查看当前所有标签
+Git中，我们通过tag来标记版本。
 
-  `git tag`
+注意tag与branch的区别：
+
+- tag是对应的某次commit
+- branch是一系列commit
+
+举例：
+
+- 拉取标签
+
+  `git pull`和`git fetch`会自动获取设计分支中的所有标签
+
+- 查看
+
+  - 查看所有标签
+
+    `git tag`
+
+  - 查看部分标签
+
+    `git tag -l 'v2.8*'`
+
+  - 查看标签的散列值
+
+    ` git  show-ref --tags  `
+
+  - 查看某个提交都出现在哪个版本里
+
+    （例如，想查看某次修复的bug都哪些版本包含了）
+
+    `git tag --contains 4aa54ce `
 
 - 打标签
 
-  `git tag v1.0`
+  - 在当前分支的当前版本新建标签
 
-  `git tag -a v1.1.4 -m "tagging version 1.1.4"`
+    `git tag v1.0`
+
+  - 在指定分支的当前版本新建标签
+
+    `git tag v2.9.0.2  origin/release/v2.9.0.2`
+
+  - 新建带有信息的分支
+
+    `git tag -a v1.1.4 -m "tagging version 1.1.4"`
 
 - 将标签推到远程仓库
 
-  `git pull origin V1.4.0`
+  - 将本地v0.1.2标签提交到git服务器
 
-  每次提交代码时，一定要先拉取一下代码，防止其他同事提交过代码：
+    `git push v0.1.2` 
 
-  - `git push origin v0.1.2` 将本地v0.1.2标签提交到git服务器
-  - `git push origin –-tags` 将所有本地标签推送到远程仓库
+  - 将所有本地标签推送到远程仓库
+
+    `git push –-tags` 
+
+  > 注意，如果你创建标签时使用了`-m` 、`-a` 、`-s`或`-u`这些参数，Git会将在版本库中将标签作为一个独立对象来创建。该对象中会包含相关用户以及创建时间等信息。而要是如果没有使用这些选项，Git就只会创建一个所谓的轻量级标签，其中只有用于识别的提交散列。
 
 - 切换到某个标签下
 
