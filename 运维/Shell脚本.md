@@ -241,7 +241,7 @@ if [ $value1 -gt 5 ]
 | `-r file`         | 检查file是否存在并可读                   |
 | `-s file`         | 检查file是否存在并非空                   |
 | `-w file`         | 检查file是否存在并可写                   |
-| ` -x file`        | 检查file是否存在并可执行                 |
+| `-x file`         | 检查file是否存在并可执行                 |
 | `-O file`         | 检查file是否存在并属当前用户所有         |
 | `-G file`         | 检查file是否存在并且默认组与当前用户相同 |
 | `file1 -nt file2` | 检查file1是否比file2新                   |
@@ -249,7 +249,7 @@ if [ $value1 -gt 5 ]
 
 **使用双括号**
 
-```
+```sh
 (( expression ))
 ```
 

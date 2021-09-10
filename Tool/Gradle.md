@@ -1,4 +1,4 @@
-# gradle
+# Gradle
 
 **compile、api、implementation的区别**
 

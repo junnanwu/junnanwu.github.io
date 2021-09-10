@@ -1,4 +1,4 @@
-# maven
+# Maven
 
 加载setting的顺序
 
