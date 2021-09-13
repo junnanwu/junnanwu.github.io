@@ -231,7 +231,7 @@ utf8mb4_general_ci 和utf8mb4_unicode_ci 是我们最常使用的排序规则。
 
 ### CASE...WHEN
 
-- 根据条件有选择的UPDATE
+- 有选择的UPDATE
 
   ```sql
   UPDATE sys_log
@@ -260,6 +260,8 @@ utf8mb4_general_ci 和utf8mb4_unicode_ci 是我们最常使用的排序规则。
   WHEN  LOCATE('eu',tag_name)!=0 THEN 1
   ELSE 0 END;
   ```
+  
+- 有选择的SELECT
 
 ### GROUP...BY
 
@@ -277,7 +279,7 @@ UNION
 SELECT column_name(s) FROM table_name2
 ```
 
-默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。
+**默认地，UNION 操作符选取不同的值。如果允许重复的值，请使用 UNION ALL。**
 
 ### WITH AS
 
@@ -442,13 +444,33 @@ mysql> SELECT CONCAT_WS(',','First name','Second name','Last Name');
 
 ## 函数
 
+### IF
+
+`IF(expr1,expr2,expr3)`
+
+> if expr1 is TRUE (expr1 <> 0 and expr1 <=> NULL), IF() returns expr2. Otherwise, it returns expr3.
+
+关于结果的类型：
+
+`expr2`和`expr3`是什么类型，那么返回值就是什么类型。
+
+举例：
+
+```
+-- 3
+SELECT IF(1>2, 2, 3)
+
+-- 'yes'
+SELECT if (1<2, 'yes', 'no')
+```
+
+
+
 ### NVL
 
 Null Value Logic
 
-```
-NVL(E1, E2)
-```
+`NVL(E1, E2)`
 
 如果E1为NULL，则函数返回E2，否则返回E1本身
 
@@ -456,7 +478,7 @@ NVL(E1, E2)
 
 `OVER(PARTITION BY)`
 
-`over(partition by 列名1 order by 列名2 )`
+`OVER(PARTITION BY 列名1 ORDER BY 列名2 )`
 
 聚合函数对一组值执行计算并返回单一的值，如`sum()`，`count()`等，但是有时候一组数据只返回一个值是不能满足需求的，如我们想知道每个班级的最高分，可以使用聚合函数，但是我们想看每个班级的成绩前几名，就需要开窗函数了。
 
@@ -528,6 +550,36 @@ mm = 1;
 ## 索引
 
 建立的唯一索引A、B，如果有两行都为null、1，那么唯一索引如何处理，是否会有冲突，怎么个失效法
+
+
+
+实战：
+
+原语句：
+
+```sql
+SELECT name, staff_email FROM dim_ftsp_staff_info WHERE staff_email LIKE "wangming%" LIMIT 10;
+```
+
+Explain：
+
+```
+id	select_type	table 	             partitions	type possible_keys	key	key_len	ref	rows	filtered	Extra
+1	  SIMPLE	    dim_ftsp_staff_info		          ALL			                            68390	 11.11	  Using where
+```
+
+用时：0.032000s
+
+给staff_email列创建索引
+
+```
+id	select_type	  table      	     partitions	type	possible_keys	key	key_len	ref	rows	filtered	Extra
+1	  SIMPLE	   dim_ftsp_staff_info	         	 ALL					                        68390	 11.11	 Using where
+```
+
+
+
+
 
 ## 场景与分析
 
@@ -661,10 +713,4 @@ SELECT list is not in GROUP BY clause and contains nonaggregated column .... inc
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
-
-
-
-
-
-
 

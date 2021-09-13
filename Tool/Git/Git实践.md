@@ -1,18 +1,119 @@
 # Git操作
 
-## 远程命令
+## .gitignore
 
-如果我们是中途加入某个项目，往往我们的开发会建立在已有的仓库之上。如果使用`github`或者`gitlab`,像已有仓库提交代码的常见工作流是
+规范：
 
-1. `fork`一份主仓库的代码到自己的远程仓库；
-2. `clone` 自己远程仓库代码到本地；
-3. 添加主仓库为本地仓库的远程仓库，`git remote add ...`，便于之后保持本地仓库与主仓库同步`git pull`；
-4. 在本地分支上完成开发，推送本地分支到个人远程仓库某分支`git push`；
-5. 基于个人远程仓库的分支向主仓库对应分支提交`MR`,待`review`通过合并代码到主仓库；
+- 所有空行或者以 `#` 开头的行都会被 Git 忽略。
 
-![commit后_git文件夹里发生了什么](Git%E5%AE%9E%E8%B7%B5_assets/commit%E5%90%8E_git%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88.png)
+- 可以使用标准的 glob 模式匹配，它会递归地应用在整个工作区中。
 
-### git clone
+  所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。 星号（`*`）匹配零个或多个任意字符；`[abc]` 匹配任何一个列在方括号中的字符 （这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）； 问号（`?`）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符， 表示所有在这两个字符范围内的都可以匹配（比如 `[0-9]` 表示匹配所有 0 到 9 的数字）。 使用两个星号（`**`）表示匹配任意中间目录，比如 `a/**/z` 可以匹配 `a/z` 、 `a/b/z` 或 `a/b/c/z` 等。
+
+- 匹配模式可以以（`/`）开头防止递归。
+
+  `logs/`：忽略当前路径下的logs目录，包含logs下的所有子目录和文件
+
+  `/logs.txt`：忽略根目录下的logs.txt文件
+
+- 匹配模式可以以（`/`）结尾指定目录。
+
+- 要忽略指定模式以外的文件或目录，可以在模式前加上叹号（`!`）取反。
+
+java开发通用版本：
+
+```
+# Compiled class file
+*.class
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Intellij
+*.ipr
+*.iml
+*.iws
+.idea/
+
+# Maven
+target/
+
+# Gradle
+build
+.gradle
+
+# Log file
+*.log
+log/
+
+# out
+**/out/
+
+# Mac
+.DS_Store
+
+# others
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+*.pid
+*.orig
+temp/
+```
+
+## git config
+
+参数：
+
+- `--system`
+
+  修改的是`/etc/gitconfig` 文件，这是系统上的每一个用户的通用配置
+
+- `--global`
+
+  修改的是`~/.gitconfig`，只针对当前用户
+
+- `--local`
+
+  修改的是当前本地仓库的配置文件及`.git/config`，`git config`默认使用的就是这个参数
+
+举例：
+
+- 安装完Git后，需要先设置用户名和密码
+
+  ```
+  $ git config --global user.name "John Doe"
+  $ git config --global user.email johndoe@example.com
+  ```
+
+  如果使用了 `--global` 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 `--global` 选项的命令来配置。
+
+- 检查Git的配置
+
+  ```
+  git config --list
+  ```
+
+- 查看Git中该变量的原始值
+
+  ```
+  git config --show-origin user.name
+  file:/Users/wujunnan/.gitconfig	wujunnan
+  ```
+
+## git init
+
+- 初始化
+
+  `git init`
+
+  Git会为你创建master分支
+
+## git clone
 
 `git clone`的一般用法为`git clone <url>`
 
@@ -53,6 +154,78 @@ $ git clone git://github.com/schacon/ticgit.git
 默认情况下会把clone的源仓库取名`origin`，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
 
 - 如何添加ssh密钥
+
+## git status
+
+- 简介的形式显示
+
+  `git status -s`
+
+  - `??`表示新添加的未跟踪文件
+  - `A`表示新添加的
+  - `M`表示修改的
+
+- 
+
+## git add
+
+## git commit
+
+参数：
+
+- `-a`
+
+  Git 就会自动把所有**已经跟踪过**的文件暂存起来一并提交
+
+## git diff
+
+## git rm
+
+要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。 可以用 `git rm` 命令完成此项工作
+
+如果只是简单地从工作目录中手工删除文件，运行 `git status` 时就会在 “Changes not staged for commit” 部分（也就是 *未暂存清单*）看到
+
+举例：
+
+- 将文件只从暂存区删除
+
+  ```
+  git rm --cached README
+  ```
+
+## git mv
+
+举例：
+
+- 对文件改名字
+
+  `git mv file_from file_to`
+
+  相当于运行了下面三条命令：
+
+  ```
+  $ mv README.md README
+  $ git rm README.md
+  $ git add README
+  ```
+
+  如果直接改文件名则Git不会跟踪
+
+
+
+## 远程命令
+
+如果我们是中途加入某个项目，往往我们的开发会建立在已有的仓库之上。如果使用`github`或者`gitlab`,像已有仓库提交代码的常见工作流是
+
+1. `fork`一份主仓库的代码到自己的远程仓库；
+2. `clone` 自己远程仓库代码到本地；
+3. 添加主仓库为本地仓库的远程仓库，`git remote add ...`，便于之后保持本地仓库与主仓库同步`git pull`；
+4. 在本地分支上完成开发，推送本地分支到个人远程仓库某分支`git push`；
+5. 基于个人远程仓库的分支向主仓库对应分支提交`MR`,待`review`通过合并代码到主仓库；
+
+![commit后_git文件夹里发生了什么](Git%E5%AE%9E%E8%B7%B5_assets/commit%E5%90%8E_git%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88.png)
+
+- 
 
 ### git remote
 
@@ -382,20 +555,6 @@ reference：
 
 [为什么你的 Git 仓库变得如此臃肿]( https://www.jianshu.com/p/7231b509c279)
 
-### .gitignore
-
-- 匹配模式最后跟斜杠(/)说明要忽略的是目录
-
-  `logs/`：忽略当前路径下的logs目录，包含logs下的所有子目录和文件
-
-  `/logs.txt`：忽略根目录下的logs.txt文件
-
-java开发通用版本
-
-```
-#java*.class#package file*.war*.ear*.zip*.tar.gz*.rar#maven ignoretarget/build/#eclipse ignore.settings/.project.classpatch#Intellij idea.idea//idea/*.ipr*.iml*.iws# temp file*.log*.cache*.diff*.patch*.tmp# system ignore.DS_StoreThumbs.db
-```
-
 ### 关于空文件夹
 
 问题：每次cherry-pick老师的初始化项目的时候，总是不显示idea给建出来的Java,resources,test/java等文件夹，这是因为每次提交的时候，这些空文件夹不会被提交
@@ -508,13 +667,7 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
     调用 git stash –keep-index。只会备份那些没有被add的文件
 
-### git init
-
-- 初始化
-
-  `git init`
-
-  Git会为你创建master分支
+- 
 
 ### git branch
 
@@ -575,6 +728,14 @@ Your branch is ahead of 'origin/master' by 14 commits.
 ### git log
 
 查看某一个分支的提交
+
+- 查看日志的图形化版本
+
+  `git log --graph`
+
+- 将日志放置在一行显示
+
+  `git log --oneline`
 
 ### git fetch
 
@@ -706,7 +867,7 @@ Git中，我们通过tag来标记版本。
 
 
 
-### git rm
+### 
 
 
 
