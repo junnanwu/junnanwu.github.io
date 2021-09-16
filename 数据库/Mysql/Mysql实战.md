@@ -726,7 +726,7 @@ SELECT * FROM table WHERE name!='abc';
 
 > The `WHERE` clause, if given, indicates the condition or conditions that rows must satisfy to be selected. *`where_condition`* is an expression that evaluates to true for each row to be selected. The statement selects all rows if there is no `WHERE` clause.
 
-WHERE子句后面时跟的一个`where_condition`的表达式，并且会筛选出值为`true`的行，也就是说，**当该行WHERE的结果为`FALSE`或`NULL`，那么这一行都不会被筛选出来**。
+WHERE子句后面时跟的一个`where_condition`的表达式，并且会筛选出值为`true`的行，也就是说，**当该行WHERE子句的结果为`FALSE`或`NULL`，那么这一行都不会被筛选出来**。
 
 1. 对于`LIKE`运算符：
 
@@ -751,6 +751,8 @@ WHERE子句后面时跟的一个`where_condition`的表达式，并且会筛选�
    -- 结果为NULL
    SELECT 1 != NULL
    ```
+
+其实，在关系型数据库中，大部分的函数或者运算符当输入值为`NULL`的时候，输出都为`NULL`，导致也就不会被WHERE子语句过滤出来。
 
 如果你需要选择上`NULL`，那么你可以写如下语句：
 
