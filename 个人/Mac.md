@@ -185,6 +185,12 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
   brew config
   ```
   
+- 查询可用包
+
+  ```
+  brew search <packageName>
+  ```
+
 - 查看安装的软件列表
 
   ```
@@ -203,58 +209,47 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
   brew ls nginx
   ```
 
-  ```
-  /usr/local/Cellar/nginx/1.19.8/.bottle/etc/ (15 files)
-  /usr/local/Cellar/nginx/1.19.8/bin/nginx
-  /usr/local/Cellar/nginx/1.19.8/homebrew.mxcl.nginx.plist
-  /usr/local/Cellar/nginx/1.19.8/html -> ../../../var/www
-  /usr/local/Cellar/nginx/1.19.8/share/man/man8/nginx.8
-  /usr/local/Cellar/nginx/1.19.8/share/nginx/ (2 files)
-  ```
-
 - 查看已安装的信息
 
   ```
   brew info maven
   ```
 
-  ```
-  ➜ ~ brew info nginx
-  nginx: stable 1.19.8 (bottled), HEAD
-  HTTP(S) server and reverse proxy, and IMAP/POP3 proxy server
-  https://nginx.org/
-  /usr/local/Cellar/nginx/1.19.8 (25 files, 2.2MB) *
-    Poured from bottle on 2021-03-16 at 11:24:53
-  From: https://mirrors.ustc.edu.cn/homebrew-core.git/Formula/nginx.rb
-  License: BSD-2-Clause
-  ==> Dependencies
-  Required: openssl@1.1 ✔, pcre ✔
-  ==> Options
-  --HEAD
-  	Install HEAD version
-  ==> Caveats
-  Docroot is: /usr/local/var/www
-  
-  The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that
-  nginx can run without sudo.
-  
-  nginx will load all files in /usr/local/etc/nginx/servers/.
-  
-  To have launchd start nginx now and restart at login:
-    brew services start nginx
-  Or, if you don't want/need a background service you can just run:
-    nginx
-  ```
+
+### 常用软件
+
+- trash
+
+  当mac使用`rm -rf`这个及其危险的命令删除的时候，有个回收站。
+
+  - 安装
+
+    ```
+    brew install trash
+    ```
+
+  - 替换命令
+
+    在`.zshrc`文件中添加`alias rm=trash`
+
+  - 删除的文件就会出现在Mac的回收站中，即`.Trash`
 
 
 ## item2
 
 - `command + t` 新建窗口
-
 - `command + t` 新建窗口
 - `command + d` 垂直分屏，
 - `command + shift + d` 水平分屏
 - `command + ]` 和 `command + [`在最近使用的分屏直接切换
+
+问题：
+
+- 关于mac下iterm2无权访问某些文件夹，并提示`ls .: Operation not permitted`
+
+  系统偏好设置 -> 安全性与隐私 -> 隐私 -> 文件和文件夹，发现iterm下面的“桌面和文件夹”没有被选中，把这一项打上勾，然后重启iterm2
+
+  
 
 ## Oh My Zsh
 

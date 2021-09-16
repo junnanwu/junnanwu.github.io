@@ -1,5 +1,9 @@
 # Git操作
 
+![Git 下文件生命周期图。](Git%E5%AE%9E%E8%B7%B5_assets/lifecycle.png)
+
+![Git%E5%AE%9E%E8%B7%B5_assets](Git%E5%AE%9E%E8%B7%B5_assets/20201013223057584.png)
+
 ## .gitignore
 
 规范：
@@ -195,21 +199,19 @@ $ git clone git://github.com/schacon/ticgit.git
 
 ## git mv
 
-举例：
+??
 
-- 对文件改名字
+## git log
 
-  `git mv file_from file_to`
+查看某一个分支的提交
 
-  相当于运行了下面三条命令：
+- 查看日志的图形化版本
 
-  ```
-  $ mv README.md README
-  $ git rm README.md
-  $ git add README
-  ```
+  `git log --graph`
 
-  如果直接改文件名则Git不会跟踪
+- 将日志放置在一行显示
+
+  `git log --oneline`
 
 
 
@@ -600,7 +602,7 @@ HEAD reflogs
 $ git statusOn branch masterChanges to be committed:  (use "git restore --staged <file>..." to unstage)        modified:   READEME.md
 ```
 
-![Git 下文件生命周期图。](Git%E5%AE%9E%E8%B7%B5_assets/lifecycle.png)
+
 
 #### git restore
 
@@ -632,7 +634,7 @@ $ git restore -s HEAD~1 READEME.md  // 该命名表示将版本回退到当前�
 
 
 
-![Git%E5%AE%9E%E8%B7%B5_assets](Git%E5%AE%9E%E8%B7%B5_assets/20201013223057584.png)
+
 
 Your branch is ahead of 'origin/master' by 14 commits.
 
@@ -697,6 +699,10 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
   `git branch -d test_branch`
 
+- 删除远程分支
+
+  `git push origin  --delete release/v2.9.0.3 `
+
 - 查看所有本地分支，并包含更多的信息
 
   `git branch -vv`
@@ -725,17 +731,7 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
   `git checkout -b 本地新建的分支名 origin/线上分支名`
 
-### git log
-
-查看某一个分支的提交
-
-- 查看日志的图形化版本
-
-  `git log --graph`
-
-- 将日志放置在一行显示
-
-  `git log --oneline`
+- 
 
 ### git fetch
 
@@ -867,7 +863,24 @@ Git中，我们通过tag来标记版本。
 
 
 
-### 
+问题记录：
+
+`git tag后git push失败`
+
+```
+➜  data-ui git:(feature/HDATA-584) ✗ git merge origin/release/v2.9.1
+Updating dccea066..b8457a13
+Fast-forward
+➜  data-ui git:(feature/HDATA-584) ✗ git tag v2.9.1  
+➜  data-ui git:(feature/HDATA-584) ✗ git push v2.9.1
+fatal: 'v2.9.1' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+➜  data-ui git:(feature/HDATA-584) ✗ git push origin v2.9.1
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+```
 
 
 

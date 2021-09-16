@@ -694,8 +694,6 @@ SET T1.c2 = T2.c2,
 WHERE T1.c1 = T2.c1 AND condition
 ```
 
-
-
 ## 全局设置
 
 ### `global.sql_mode`
@@ -713,4 +711,56 @@ SELECT list is not in GROUP BY clause and contains nonaggregated column .... inc
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
+
+## 其他
+
+### null值与`!= `、`not like`
+
+当执行下面语句的时候，name为`null`的是否被筛选出来？
+
+```sql
+SELECT * FROM table WHERE name!='abc';
+```
+
+答案是：不会。
+
+> The `WHERE` clause, if given, indicates the condition or conditions that rows must satisfy to be selected. *`where_condition`* is an expression that evaluates to true for each row to be selected. The statement selects all rows if there is no `WHERE` clause.
+
+WHERE子句后面时跟的一个`where_condition`的表达式，并且会筛选出值为`true`的行，也就是说，**当该行WHERE的结果为`FALSE`或`NULL`，那么这一行都不会被筛选出来**。
+
+1. 对于`LIKE`运算符：
+
+   `expr LIKE pat`
+
+   > Pattern matching using an SQL pattern. Returns `1` (`TRUE`) or `0` (`FALSE`). If either *`expr`* or *`pat`* is `NULL`, the result is `NULL`.
+
+2. 对于`NOT LIKE`运算符：
+
+   > This is because `NULL NOT LIKE expr` always returns `NULL`, regardless of the value of *`expr`*.
+
+3. 对于`=`、`!=`运算符：
+
+   当输入值 存在`NULL`的时候，结果也为`NULL`。
+
+   例如：
+
+   ```sql
+   -- 结果为NULL
+   SELECT 1 = NULL;
+   
+   -- 结果为NULL
+   SELECT 1 != NULL
+   ```
+
+如果你需要选择上`NULL`，那么你可以写如下语句：
+
+```sql
+SELECT * FROM table WHERE name!='abc' or name IS NULL;
+```
+
+
+
+
+
+
 
