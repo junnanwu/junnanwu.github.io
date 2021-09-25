@@ -1,6 +1,8 @@
 # SQL语句
 
-题目1：
+## 题目1：一个语句多where条件
+
+**题目：**
 
 有两张表，部门表department，部门编号dept_id，部门名称dape_name，员工表employee，员工编号emp_id，员工姓名，部门编号，薪酬emp_wage。
 
@@ -8,9 +10,11 @@
 
 部门编号、部门名称、部门5K以下员工数、部门5K以下薪酬总额、5K-10K员工人数、5K-10K薪酬总计、10K以上员工总数、部门员工人数总数、部门薪酬合计、部门薪酬平均、部门薪酬最大值、部门薪酬最小值。
 
-SQL类型：Mysql
+**SQL类型：**
 
-数据准备：
+Mysql5.7
+
+**数据准备：**
 
 ```SQL
 -- 创建部门
@@ -43,7 +47,7 @@ INSERT INTO `employee` VALUES (7, '小博', 2, 7000);
 INSERT INTO `employee` VALUES (8, '小萧', 2, 18000);
 ```
 
-目标语句：
+**目标语句：**
 
 ```sql
 SELECT t.dept_id 部门编号,t.dept_name 部门名称,
@@ -67,5 +71,71 @@ end `rank`
 FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id) t GROUP BY dept_id;
 ```
 
+## 题目2：行转列
 
+**题目：**
+
+已知表grade：
+
+| name | cource | grade |
+| ---- | ------ | ----- |
+| 张三 | 语文   | 75    |
+| 张三 | 数学   | 80    |
+| 张三 | 英语   | 90    |
+| 李四 | 语文   | 95    |
+| 李四 | 数学   | 55    |
+
+请将上表已下表的形式输出：
+
+| name | 语文 | 数学 | 英语 |
+| ---- | ---- | ---- | ---- |
+| 张三 | 75   | 80   | 90   |
+| 李四 | 95   | 55   | 0    |
+
+**SQL类型：**
+
+Mysql5.7
+
+**数据准备：**
+
+```sql
+-- 新建grade表
+DROP TABLE IF EXISTS grade;
+CREATE TABLE grade (
+  name varchar(255) ,
+  course varchar(255),
+  grade integer
+);
+
+-- 插入测试数据
+BEGIN;
+INSERT INTO grade VALUES ('张三', '语文', 75);
+INSERT INTO grade VALUES ('张三', '数学', 80);
+INSERT INTO grade VALUES ('张三', '英语', 90);
+INSERT INTO grade VALUES ('李四', '语文', 95);
+INSERT INTO grade VALUES ('李四', '数学', 55);
+COMMIT;
+```
+
+**目标语句：**
+
+```sql
+SELECT name, 
+MAX(CASE course WHEN '语文' THEN grade ELSE 0 END) 语文,
+MAX(CASE course WHEN '数学' THEN grade ELSE 0 END) 数学,
+MAX(CASE course WHEN '英语' THEN grade ELSE 0 END) 英语
+FROM grade GROUP BY name;
+```
+
+**备注：**
+
+对应了SQLServer的[PIVOT](https://docs.microsoft.com/en-us/sql/t-sql/queries/from-using-pivot-and-unpivot?view=sql-server-ver15).
+
+```sql
+SELECT * FROM grade PIVOT(MAX(分数) FOR 课程 IN (语文,数学,英语)) a;
+```
+
+还有类似场景：
+
+每一行是一个人周一到周日某一天的收入，转换成每一行是一个人从周一到周日每一天的总收入，只需将上述中的max改为sum即可。
 

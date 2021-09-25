@@ -1,4 +1,4 @@
-# ClickHouse
+## ClickHouse
 
 ## 什么是ClickHouse
 
@@ -55,17 +55,71 @@ Linux推荐使用`RPM`的方式安装。
   ```
   clickhouse-client
   ```
-  
-  参数：
-  
-  - `--user, -u` – The username. Default value: default
-  - `--password` – The password. Default value: empty string
+
+
+**关于客户端**
+
+具体请查看官方文档：
+
+[Command-line Client](https://clickhouse.com/docs/en/interfaces/cli/#command-line-client)
+
+参数：
+
+- `--user, -u` 
+
+  用户名，默认为default
+
+- `--password` 
+
+  密码，默认为空字符串
+
+- `--query -q`
+
+  使用非交互模式，指定查询语句
+
+- `--queries_file, -qf`
+
+  执行对应的sql文件
+
+- `--format, -f`
+
+  使用特定的格式输出结果
+
+- `--multiline -m`
+
+  允许多行查询
+
+- `--multiquery -n`
+
+  允许多个查询使用分号分隔
 
 ## 基本语句
 
+**数据库表结构**
+
+- 查看建表语句
+
+  ```sql
+  SHOW CREATE [TEMPORARY] [TABLE|DICTIONARY] [db.]table [INTO OUTFILE filename] [FORMAT format]
+  ```
+
+  查看建表语句并导出
+
+  ```sql
+show create table data_web.pg_cust_staff into outfile '/home/jinp/data_web.pg_cust_staff.sql'
+  ```
+
+- 创建数据库
+
+  ```sql
+  CREATE DATABASE [IF NOT EXISTS] db_name [ON CLUSTER cluster] [ENGINE = engine(...)]
+  ```
+
+  默认情况下，ClickHouse使用的是原生的数据库引擎Ordinary
+
 - 导出语句
 
-  ```
+  ```sql
   INTO OUTFILE filename [FORMAT format]
   ```
 
@@ -73,40 +127,19 @@ Linux推荐使用`RPM`的方式安装。
 
   注意：filename参数中不能识别`~`，应该使用完整路径
 
-  [ClickHouse支持的Format](https://clickhouse.tech/docs/en/interfaces/formats/)
+  [ClickHouse Formats](https://clickhouse.tech/docs/en/interfaces/formats/)
 
   - TabSeparated (default)
   - TabSeparatedWithNames
   - CSV
 
-- 查看建表语句
-
-  ```
-  SHOW CREATE [TEMPORARY] [TABLE|DICTIONARY] [db.]table [INTO OUTFILE filename] [FORMAT format]
-  ```
-
-  查看建表语句并导出
-
-  ```sql
-  show create table data_web.pg_cust_staff into outfile '/home/jinp/data_web.pg_cust_staff.sql'
-  ```
+**DML**
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-数据类型：
+## 数据类型
 
 `Decimal(P, S)`
 
@@ -129,22 +162,79 @@ Linux推荐使用`RPM`的方式安装。
 
 For example, Decimal32(4) can contain numbers from -99999.9999 to 99999.9999 with 0.0001 step.
 
+## 函数
 
+- `toDecimal(32|64|128|256)`
 
-toDecimal(32|64|128|256)
+  将一个value转换成Decimal，value可以为`number`或者`String`，S参数表示小数位数
 
-将一个value转换成Decimal，value可以为number或者String，S参数表示小数位数
+  - `toDecimal32(value, S)`
+  - `toDecimal64(value, S)`
+  - `toDecimal128(value, S)`
+  - `toDecimal256(value, S)`
 
-- `toDecimal32(value, S)`
-- `toDecimal64(value, S)`
-- `toDecimal128(value, S)`
-- `toDecimal256(value, S)`
+## 数据备份
 
+**导出结构和数据**
 
+由于ClickHouse没有类似mysqldump的备份工具，只能通过`show table`语句来查看表结构，但是当表存在很多的时候，就需要通过脚本来实现了。
 
+原脚本地址：
 
+[clickhousedump](https://gist.github.com/inkrement/ea78bc8dce366866103df83ea8d36247)
 
+对原脚本进行了小改动，如下：
 
+```sh
+#!/bin/bash
+set -eu
+
+PASSWORD="123456"
+
+OUTDIR=.
+
+while read -r db ; do
+  while read -r table ; do
+
+  if [ "$db" == "system" ]; then
+   echo "skip system db"
+   continue 2;
+  fi
+
+  if [[ "$table" == ".inner."* ]]; then
+     echo "skip materialized view $table ($db)"
+     continue;
+  fi
+
+  echo "export table $table from database $db"
+
+    # dump schema
+    clickhouse-client --password=${PASSWORD} -q "SHOW CREATE TABLE ${db}.${table} FORMAT TabSeparatedRaw" > "${OUTDIR}/${db}_${table}_schema.sql"
+
+    # dump
+    # clickhouse-client ${PASSWORD} -q "SELECT * FROM ${db}.${table} FORMAT TabSeparated" | gzip > "${OUTDIR}/${db}_${table}_data.tsv.gz"
+
+  done < <(clickhouse-client --password=${PASSWORD} -q "SHOW TABLES FROM $db")
+done < <(clickhouse-client --password=${PASSWORD} -q "SHOW DATABASES")
+```
+
+说明：
+
+ClickHouse支持导出和导入数据的时候指定Format，默认的为TabSeparated，及将数据按照制表符的格式展示，但是当使用默认格式导出表结构的时候，会将换行符导出为`\`和`n`两个字符，导致执行的时候无法识别，这时候可以选择其他Format，例如TabSeparatedRaw；
+
+**执行表结构语句**
+
+同样的，由于表的数量很多，一个一个的执行建表SQL也很麻烦，可以使用下面脚本：
+
+```sh
+#! /bin/bash
+set -eu
+for file in `ls *sql`
+do
+  echo 开始执行$file
+  clickhouse-client --password 123456 --queries-file '/home/jinp/sql/sql/'$file
+done
+```
 
 
 

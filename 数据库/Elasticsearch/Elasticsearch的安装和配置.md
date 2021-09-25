@@ -116,6 +116,44 @@
 
   注意：`ps -ef | grep kibana`找不到相关进程
 
+### Kibana配置Nginx
+
+需求：通过Nginx实现 `host+kibana`访问kibana
+
+问题：
+
+当Nginx进行了反向代理配置后，并不可行，配置如下：
+
+```nginx
+location /kibana/ {
+  proxy_pass http://172.27.0.8:5601;
+}
+```
+
+原因：
+
+首次访问`host+kibana`，经过代理之后，访问到了kibana，但是之后kibana会重定向到`host+login`，那么这次就不会走Nginx的反向代理了。
+
+解决：
+
+修改kibana的配置如下：
+
+```properties
+# Enables you to specify a path to mount(挂载) Kibana at if you are running behind a proxy.
+# Use the `server.rewriteBasePath` setting to tell Kibana if it should remove the basePath
+# from requests it receives, and to prevent a deprecation warning at startup.
+# This setting cannot end in a slash.
+server.basePath: "/kibana"
+
+# Specifies whether Kibana should rewrite requests that are prefixed with
+# `server.basePath` or require that they are rewritten by your reverse proxy.
+# This setting was effectively always `false` before Kibana 6.3 and will
+# default to `true` starting in Kibana 7.0.
+server.rewriteBasePath: true
+```
+
+也就是说，让kibana返回的访问路径中携带basePath：`kibana`，但是读的时候却不考虑`kibana`，这个正好适合Nginx的反向代理，即将`kibana`开头的请求代理为对应的`ip+端口`
+
 ## ik分词器
 
 - 在elasticsearch的plugins目录下新建 `analysis-ik` 目录
@@ -144,7 +182,7 @@
 
 首先把已经启动的elasticsearch关闭，然后通过命令把之前写入的数据都删除。
 
-```
+```sh
 rm -rf /elasticsearch/data
 ```
 
