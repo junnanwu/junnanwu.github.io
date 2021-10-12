@@ -159,7 +159,7 @@ server {
 
 配置虚拟主机的相关参数，一个http中可以有多个server，一个虚拟服务器由listen和server_name指令组合定义
 
-由于IP地址数量有限，因此存在多个域名对应着同一个IP地址的情况，这时在nginx.conf中就可以按照server_name（对应用户请求中的主机名）并通过server块来定义虚拟主机，每个server块就是一个虚拟主机，它只处理与之对应的主机域名请求，这样，一台服务器上的Nginx就能以不同的方式处理访问不同域名的HTTP请求了。
+由于IP地址数量有限，**因此存在多个域名对应着同一个IP地址的情况**，这时在nginx.conf中就可以按照server_name（对应用户请求中的主机名）并通过server块来定义虚拟主机，每个server块就是一个虚拟主机，它只处理与之对应的主机域名请求，这样，一台服务器上的Nginx就能以不同的方式处理访问不同域名的HTTP请求了。
 
 **listen**
 
@@ -216,7 +216,9 @@ www.example.*
 
 location会尝试根据用户请求中的URI来来匹配location的表达式，如果可以匹配，就选择location块中的配置来处理用户的请求
 
-- `=` 开头表示精确匹配
+- `=` 
+
+  开头表示精确匹配。
 
   ```nginx
   location = /{
@@ -224,11 +226,9 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
   }
   ```
 
-- `~`表示匹配URI是字母大小写敏感的
+- `^~`
 
-- `~*`表示忽略大小写问题
-
-- `^~`表示匹配URI只需要前半部分与URI匹配即可
+  表示匹配URI只需要前半部分与URI匹配即可。
 
   ```nginx
   location ^~ /images/ {
@@ -236,7 +236,11 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
   }
   ```
 
-- 也可以使用正则表达式
+- `~`
+
+  表示匹配URI是字母大小写敏感的，属于正则表达式。
+
+- `~*`表示忽略大小写问题，属于正则表达式
 
   ```nginx
   location ~* \.(gif|jpg|jpeg)$ {
@@ -245,9 +249,17 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
   }
   ```
 
+- `/uri`
+
+  表示前缀匹配，不带修饰符，优先级没有正则表达式高。
+
+- `/`
+
+  通用匹配，默认找不到其他匹配的时候，会进行通用匹配。
+
 - @表示Nginx内部之间的重定向
 
-  命名空间，只能在server级别定义，不直接处理用户请求
+  命名空间，只能在server级别定义，不直接处理用户请求。
 
 **注意：location是有顺序的，当location匹配成功时候，停止匹配，按当前匹配规则处理请求**
 
@@ -413,7 +425,47 @@ proxy_pass URL
 
 此配置项将当前请求反向代理到URL参数指定的服务器上
 
+
+
 例如：
+
+将URI为`/test`的请求代理到127.0.0.1上，端口为81，使用HTTP：
+
+```nginx
+location = /test {
+    proxy_pass http://127.0.0.1:81;
+}
+```
+
+
+
+```nginx
+location /test/v1/ {
+	# 将/test/v1/ 替换为 /abc/
+    # 如/test/v1/xxx?a=1 到达后端后会变为 /abc/xxx?a=1
+    proxy_pass http://127.0.0.1:81/abc/;
+}
+```
+
+```nginx
+location /aaa/ {
+    # 将URL /aaa/ 替换为 /
+    proxy_pass http://127.0.0.1:81/;
+}
+```
+
+```nginx
+location /aaa {
+    # 什么都不会改变，直接传递原始的URL
+    proxy_pass http://127.0.0.1:81;
+}
+```
+
+在nginx中配置proxy_pass代理转发时，如果在proxy_pass后面的url加/，那么就会将匹配部分的URI用/替换，proxy_pass后面的url不加/，那么会将匹配部分的URI也给带上
+
+
+
+
 
 ```nginx
 proxy_pass http://localhost:8000/uri/;
@@ -485,18 +537,6 @@ Cache-Control：no-cache，强制每次请求直接发送给源服务器，而�
 cache-control :
     max-age>0时 直接从游览器缓存中提取;
     max-age<=0 时向server发送http请求确认 ,该资源是否有修改, 有的话 返回200 , 无的话 返回304。
-
-### proxy_pass
-
-```nginx
-location /cas/ {
-    proxy_pass http://localhost:8080;
-}
-```
-
-在nginx中配置proxy_pass代理转发时，如果在proxy_pass后面的url加/，表示绝对根路径；如果没有/，表示相对路径，把匹配的路径部分也给代理走
-
-在本例中，8080后面没有/，也就意味着会将上面的cas也给代理走
 
 ### vhost
 

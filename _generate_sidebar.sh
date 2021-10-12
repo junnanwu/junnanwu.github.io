@@ -3,10 +3,11 @@
 EOF
 
 #! /bin/bash
+set -e
 depth=-1
 result=""
 relative_path=""
-
+echo 开始生成目录...
 print_dir(){
     depth=$((depth + 1))
     for file in `ls $1`
@@ -37,3 +38,4 @@ print_dir(){
 
 print_dir ~/docs
 echo "$result" > _sidebar.md
+echo 生成目录结束...

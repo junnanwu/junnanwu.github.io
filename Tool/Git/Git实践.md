@@ -180,6 +180,10 @@ $ git clone git://github.com/schacon/ticgit.git
 - `-a`
 
   Git 就会自动把所有**已经跟踪过**的文件暂存起来一并提交
+  
+- `--amend`
+
+  
 
 ## git diff
 

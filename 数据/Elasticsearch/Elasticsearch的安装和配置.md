@@ -28,6 +28,7 @@
     ```
     #注意，必须加这个配置
     cluster.initial_master_nodes: ["node-1"]
+    discovery.type: single-node
     # 默认所有host都可以访问
     network.host: 0.0.0.0
     #开启密码
@@ -82,7 +83,7 @@
 
     ```
     elasticsearch.username: “kibana”
-    elasticsearch.password: “上一步生成的密码”
+    elasticsearch.password: “上一步设置的密码”
     ```
 
 ## Kibana
@@ -95,7 +96,7 @@
   #server.host为访问Kibana的地址和端口
   server.host: "0.0.0.0"
   #界面中文显示，在最后一行修改
-  i18n.locale: "zh-CN":
+  i18n.locale: "zh-CN"
   ```
 
 - 访问

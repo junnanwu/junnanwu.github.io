@@ -16,9 +16,27 @@
 
 ## 监控
 
+### Prometheus
+
+- 后台启动
+
+  ```
+  sudo nohup ./prometheus &
+  ```
+
+- 查看
+
+  ```
+  http://49.233.9.128:9090/
+  ```
+
 ### 监控Linux
 
 - 安装node_exporter
+
+  ```
+  node_exporter-1.1.2.linux-amd64.tar.gz
+  ```
 
 - 启动node_exporter
 

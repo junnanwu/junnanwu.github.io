@@ -5722,7 +5722,7 @@ Iterator<E> iterator()  //在此collection的元素上进行迭代的迭代器
 
 ## 增强for循环
 
-增强for循环时jdk1.5之后的新特性, 使用for循环的方式, 对迭代器进行简化, 增强for循环内部就是一个迭代器, 对迭代器进行了封装
+增强for循环时jdk1.5之后的新特性, 使用for循环的方式, 对迭代器进行简化, 增强for循环内部就是一个迭代器, 对迭代器进行了封装。
 
 Collection接口有一个父类叫做Iterable, `public interface Collection<E> extends Iterable<E>`, 实现这个父类对象的接口即为for each的目标
 

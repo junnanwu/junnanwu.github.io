@@ -99,56 +99,6 @@ echo命令的意思是在显示器上显示一段文字,起到提示的作用。
 
   执行完之后需要重启终端
 
-## Idea
-
-- 插入快捷键
-
-  `alt+inster==command+n`
-
-- 整段加注释
-
-  `shift+control+/`
-
-- 重写方法
-
-  `ctrl+O`
-
-- 添加类
-
-  `option+enter`
-
-- 各视图区域的切换
-
-  `cmd + 视图区域对应的数字`
-
-- 显示方法的参数信息
-
-   `Command+P`
-
-- 打开项目结构对话框
-
-   `Command+;` 
-
-- 基本的代码补全
-
-   `Ctrl+Space` 
-
-- 自动生成变量名
-
-   `Command+Option+v`
-   
-- 大小写切换
-
-   `Command+Shift+u`
-   
-- 看每一行的编辑者是谁
-
-   `右键+annotate`
-
-- 查看某个类在哪个地方被使用
-
-   `Alt+F7`
-
 ## 终端
 
 - 删除光标之前到行首的字符

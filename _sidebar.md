@@ -7,6 +7,7 @@
       - **源码解析**
         - [feign源码解析](JavaEE/Spring/源码解析/feign源码解析.md)
       - [定时任务](JavaEE/Spring/定时任务.md)
+    - [addShutdownHook钩子函数](JavaEE/addShutdownHook钩子函数.md)
     - [深入理解Java虚拟机](JavaEE/深入理解Java虚拟机.md)
 - **JavaSE**
     - [Java8新特性](JavaSE/Java8新特性.md)
@@ -25,11 +26,13 @@
     - **Git**
       - [Git原理](Tool/Git/Git原理.md)
       - [Git实践](Tool/Git/Git实践.md)
+      - [commit](Tool/Git/commit.md)
     - [Gradle](Tool/Gradle.md)
     - [Maven](Tool/Maven.md)
     - [Nginx](Tool/Nginx.md)
     - [RabbitMQ](Tool/RabbitMQ.md)
 - **个人**
+    - [IDEA](个人/IDEA.md)
     - [Mac](个人/Mac.md)
     - [Typora](个人/Typora.md)
     - [关于本站](个人/关于本站.md)
@@ -37,6 +40,22 @@
     - [JavaScript](前端/JavaScript.md)
     - [前端](前端/前端.md)
     - [前端实战](前端/前端实战.md)
+- **数据**
+    - **ClickHouse**
+      - [ClickHosue生产bug记录](数据/ClickHouse/ClickHosue生产bug记录.md)
+      - [ClickHouse](数据/ClickHouse/ClickHouse.md)
+    - **Elasticsearch**
+      - [Elasticsearch](数据/Elasticsearch/Elasticsearch.md)
+      - [Elasticsearch原理](数据/Elasticsearch/Elasticsearch原理.md)
+      - [Elasticsearch的安装和配置](数据/Elasticsearch/Elasticsearch的安装和配置.md)
+      - [Elasticsearch在生产中的应用](数据/Elasticsearch/Elasticsearch在生产中的应用.md)
+    - **Kafka**
+    - **Mysql**
+      - [Mysql](数据/Mysql/Mysql.md)
+      - [MysqlInJava](数据/Mysql/MysqlInJava.md)
+      - [Mysql实战](数据/Mysql/Mysql实战.md)
+      - [Mysql日志](数据/Mysql/Mysql日志.md)
+      - [SQL语句](数据/Mysql/SQL语句.md)
 - **算法**
     - [加密算法](算法/加密算法.md)
 - **运维**
@@ -47,25 +66,11 @@
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
     - [Shell脚本](运维/Shell脚本.md)
     - [远程部署项目](运维/远程部署项目.md)
-- **数据库**
-    - **ClickHouse**
-      - [ClickHosue生产bug记录](数据库/ClickHouse/ClickHosue生产bug记录.md)
-      - [ClickHouse](数据库/ClickHouse/ClickHouse.md)
-    - **Elasticsearch**
-      - [Elasticsearch](数据库/Elasticsearch/Elasticsearch.md)
-      - [Elasticsearch原理](数据库/Elasticsearch/Elasticsearch原理.md)
-      - [Elasticsearch的安装和配置](数据库/Elasticsearch/Elasticsearch的安装和配置.md)
-      - [Elasticsearch在生产中的应用](数据库/Elasticsearch/Elasticsearch在生产中的应用.md)
-    - **Mysql**
-      - [Mysql](数据库/Mysql/Mysql.md)
-      - [MysqlInJava](数据库/Mysql/MysqlInJava.md)
-      - [Mysql实战](数据库/Mysql/Mysql实战.md)
-      - [Mysql日志](数据库/Mysql/Mysql日志.md)
-      - [SQL语句](数据库/Mysql/SQL语句.md)
 - **开源项目**
     - [Davinci](开源项目/Davinci.md)
 - **计算机基础**
     - [浮点数](计算机基础/浮点数.md)
+    - [关于时间](计算机基础/关于时间.md)
     - [字符编码](计算机基础/字符编码.md)
     - [数据结构](计算机基础/数据结构.md)
     - [反码与补码](计算机基础/反码与补码.md)
