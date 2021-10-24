@@ -30,51 +30,59 @@ Nginx由少量核心框架代码和许多模块组成，每个模块都有它独
 
 - 运行nginx
 
-  ```
-  ./nginx
+  ```sh
+  $ ./nginx
   ```
 
   运行的时候还可以指定配置文件的位置
 
-  ```
-  ./nginx -c /usr/local/openresty/nginx/conf/nginx.conf
+  ```sh
+  $ ./nginx -c /usr/local/openresty/nginx/conf/nginx.conf
   ```
 
 - 检查配置
 
-  ```
-  ./nginx -t
+  ```sh
+  $ ./nginx -t
   ```
 
 - 重新载入配置
 
-  ```
-  ./nginx -s reload
+  ```sh
+  $ ./nginx -s reload
   ```
 
 - 重启nignx
 
-  ```
-  ./nginx -s reopen 
+  ```sh
+  $ ./nginx -s reopen 
   ```
 
 - 停止nignx
 
+  需要进程完成当前工作后再停止
+
+  ```sh
+  $ ./nginx -s quit
   ```
-  ./nginx -s stop 
+
+  无论进程是否在工作，都直接停止进程
+
+  ```sh
+  $ ./nginx -s stop 
   ```
 
 - 查看进程
 
-  ```
-  ps aux | grep nginx
+  ```sh
+  $ ps aux | grep nginx
   ```
 
 ## nginx.conf
 
 nginx文件结构
 
-```
+```nginx
 ...              #全局块
 
 events {         #events块
@@ -119,7 +127,7 @@ http      #http块
 
 incloude可以放在配置文件的任何地方，以便增强配置文件的可读性，并且使部分配置文件可以重新使用
 
-```
+```nginx
 include /opt/local/etc/nginx/mime.types
 ```
 
@@ -141,7 +149,7 @@ upstream块定义了一个上游服务器的集群，便于反向代理中的`pr
 
 例如：
 
-```
+```nginx
 upstream backend {
 	server backend1.example.com;
 	server backend1.example.com;
@@ -165,7 +173,7 @@ server {
 
 listen参数决定了Nginx如何监听端口，listen的使用非常灵活，如下：
 
-```
+```nginx
 listen 127.0.0。1:8000;
 listen 127.0.0.1; #不加端口时，默认监听80端口
 listen localhost:8080;
@@ -173,7 +181,7 @@ listen localhost:8080;
 
 在地址和端口后，还可以加上其他参数
 
-```
+```nginx
 listen 443 default_servcer ssl;
 listen 127.0.0.1 default_server accept_filter=dataready backlog=1024;
 ```
@@ -192,13 +200,13 @@ server_name指令默认值为`""`，默认配置意味着server部分没有serve
 
 server_name后可以跟多个主机名，如
 
-```
+```nginx
 server_name www.testweb.com、download.testweb.com;
 ```
 
 server_name指令的参数可以接收通配符/正则表达式作为server_name指令的参数
 
-```
+```nginx
 *.example.com
 www.example.*
 ```

@@ -119,13 +119,17 @@ temp/
 
 ## git clone
 
-`git clone`的一般用法为`git clone <url>`
+```
+git clone <版本库的网址>
+```
 
 `<url>`部分支持四种协议：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议
 
 ```
 $ git clone git://github.com/schacon/ticgit.git
 ```
+
+**git clone发生了什么？**
 
 1. 复制远程仓库`objects/`文件夹中的内容到本地仓库； (对应`Receiving objects`);
 
@@ -155,9 +159,134 @@ $ git clone git://github.com/schacon/ticgit.git
         fetch = +refs/heads/*:refs/remotes/origin/*
 ```
 
-默认情况下会把clone的源仓库取名`origin`，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
+**默认情况下会把clone的源仓库取名`origin`**，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
 
-- 如何添加ssh密钥
+- 想用其他的主机名，需要用`git clone`命令的`-o`选项指定。
+
+  ```
+  git clone -o jQuery https://github.com/jquery/jquery.git
+  git remote
+  jQuery
+  ```
+
+
+
+## git remote
+
+`git remote` 为我们提供了管理远程仓库的途径。
+对远程仓库的管理包括，查看，添加，移除，对远程分支的管理等等。
+
+- 查看远程仓库
+
+  ```
+  git remote
+  ```
+
+- 添加 `-v`，可查看对应的链接
+
+  ```
+  git remote -v
+  origin	https://github.com/schacon/ticgit (fetch)
+  origin	https://github.com/schacon/ticgit (push)
+  ```
+
+- 查看该主机的详细信息
+
+  ```
+  git remote show <主机名>
+  ```
+
+- 添加远程主机
+
+  ```
+  git remote add <主机名> <网址>
+  ```
+
+- 删除远程主机
+
+  ```
+  git remote rm <主机名>
+  ```
+
+- 改远程主机的名字
+
+  ```
+  git remote rename <原主机名> <新主机名>`[remote] "github"`:代表远程仓库的名称；
+  ```
+
+## git fetch
+
+- 将某个远程主机的更新，全部取回本地
+
+  ```
+  git fetch <远程主机名>
+  ```
+
+- 默认情况下，`git fetch`取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。
+
+  ```
+  git fetch <远程主机名> <分支名>
+  ```
+
+  比如，取回`origin`主机的`master`分支。
+
+  ```
+  git fetch origin master
+  ```
+
+
+
+## git branch
+
+参数：
+
+- `a`
+
+  所有分支
+
+- 
+
+举例：
+
+- 创建分支
+
+  ```
+  git branch test_branch
+  ```
+
+- 查看分支(默认本地)
+
+  ```
+  git branch
+  ```
+
+- 查看所有分支
+
+  ```
+  git branch -a
+  ```
+
+- 查看远程分支
+
+  ```
+  git branch -r
+  ```
+
+  
+
+- 删除分支
+
+  `git branch -d test_branch`
+
+- 删除远程分支
+
+  `git push origin  --delete release/v2.9.0.3 `
+
+- 查看所有本地分支，并包含更多的信息
+
+  `git branch -vv`
+
+
 
 ## git status
 
@@ -183,27 +312,64 @@ $ git clone git://github.com/schacon/ticgit.git
   
 - `--amend`
 
+  当我们不想要上一次的commit的时候，或者想将当前的commit合并到之前的commit时候，可以使用
+
+  ```
+  git commit --amend
+  ```
+
+  这时候，会出现上次的commit message，我们可以进行修改，之后就会替换之前的commit
+
+注意：
+
+- 会改变你原来的commit id，远程分支比本地的分支新，导致push失败，需要`git push --force-with-lease`
+
+- 此操作相当于回退上个commit，然后重新commit
+
+  ```
+  git reset --soft HEAD^
+  ... do something else to come up with the right tree ...
+  git commit -c ORIG_HEAD
+  ```
+
   
 
 ## git diff
 
+git diff比较的是工作目录中当前文件和暂存区域快照之间的差异， 也就是修改之后还没有暂存起来的变化内容。若要查看已暂存的将要添加到下次提交里的内容，可以用 git diff --cached 命令。
+
+请注意，git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。 所以有时候你一下子暂存了所有更新过的文件后，运行 git diff 后却什么也没有，就是这个原因。
+
 ## git rm
 
-要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。 可以用 `git rm` 命令完成此项工作
+git rm相当于同时删除暂存区和工作区的文件，相当于以下两个命令：
 
-如果只是简单地从工作目录中手工删除文件，运行 `git status` 时就会在 “Changes not staged for commit” 部分（也就是 *未暂存清单*）看到
+```
+rm a.txt
+git add a.txt
+```
 
-举例：
+参数：
 
-- 将文件只从暂存区删除
+- `--cached`
+
+  只从暂存区删除
+
+  如果只把文件只从暂存区删除：
 
   ```
-  git rm --cached README
+  git rm --cached a.txt
   ```
+
+- `-r`
+
+  删除文件夹
+
+
 
 ## git mv
 
-??
+
 
 ## git log
 
@@ -217,7 +383,144 @@ $ git clone git://github.com/schacon/ticgit.git
 
   `git log --oneline`
 
+## git pull
 
+取回远程主机某个分支的更新，再与本地的指定分支合并。
+
+此命令的完整格式为：
+
+```
+$ git pull <远程主机名> <远程分支名>:<本地分支名>
+```
+
+比如，取回`origin`主机的`next`分支，与本地的`master`分支合并
+
+```
+git pull origin next:master
+```
+
+如果远程分支是与当前分支合并，那么冒号后面的可以省略
+
+```
+git pull origin next
+```
+
+上面命令表示，取回`origin/next`分支，再与当前分支合并。实质上，这等同于先做`git fetch`，再做`git merge`。
+
+```
+git fetch origin
+git merge origin/next
+```
+
+如果当前分支与远程分支存在追踪关系，`git pull`就可以省略远程分支名。
+
+```
+git pull origin
+```
+
+上面命令表示，本地的当前分支自动与对应的`origin`主机"追踪分支"（remote-tracking branch）进行合并。
+
+在`git clone`的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的`master`分支自动"追踪"`origin/master`分支。
+
+如果当前分支只有一个追踪分支，连远程主机名都可以省略。
+
+```
+git pull
+```
+
+上面命令表示，当前分支自动与唯一一个追踪分支进行合并。
+
+## git push
+
+完整命令
+
+```
+git push <远程主机名> <本地分支名>:<远程分支名>
+```
+
+如果省略远程分支名，则表示将本地分支推送与之存在"追踪关系"的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。
+
+```
+git push origin master
+```
+
+上面命令表示，将本地的`master`分支推送到`origin`主机的`master`分支。如果后者不存在，则会被新建。
+
+如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。
+
+```
+git push origin :master
+# 等同于
+git push origin --delete master
+```
+
+如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。
+
+```
+git push origin
+```
+
+上面命令表示，将当前分支推送到`origin`主机的对应分支。
+
+如果当前分支只有一个追踪分支，那么主机名都可以省略。
+
+```
+git push
+```
+
+不带任何参数的`git push`，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用`git config`命令。
+
+```
+git config --global push.default matching
+# 或者
+git config --global push.default simple
+```
+
+参数：
+
+- `--all`
+
+  不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机。
+
+  ```
+  git push --all origin
+  ```
+
+  上面命令表示，将所有本地分支都推送到`origin`主机。
+
+- `--force`
+
+  **如果远程主机的版本比本地版本更新**，推送时Git会报错，要求先在本地做`git pull`合并差异，然后再推送到远程主机。这时，如果你一定要推送，可以使用`--force`选项。
+
+  > Usually, "git push" refuses to update a remote ref that is not an ancestor of the local ref used to overwrite it.
+
+  ```
+  git push --force origin 
+  ```
+
+  上面命令使用`--force`选项，结果导致远程主机上更新的版本被覆盖。
+
+  注意：
+
+  在多人使用同一分支的情况下，禁止使用`--force`选项。
+
+- `--tags`
+
+  最后，`git push`不会推送标签（tag），除非使用`--tags`选项。
+
+  ```
+  git push origin --tags
+  ```
+
+- `--force-with-lease`
+
+  更安全的push，使用此参数推送，如果远端有其他人推送了新的提交，那么推送将被拒绝，此参数将确保你不会复写其他人的分支。
+
+  >This option allows you to say that you expect the history you are updating is what you rebased and want to replace. 
+
+  此选项通过检查你本地的远程仓库的引用与远程仓库的相关分支是否一致，例如当其他人push了分支，那么你的远程仓库的引用就过时了，这个时候，该参数是不允许你进行push的，除非你fetch或者pull更新你本地的远程仓库的引用。
+
+[Reference](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
 
 ## 远程命令
 
@@ -233,110 +536,6 @@ $ git clone git://github.com/schacon/ticgit.git
 
 - 
 
-### git remote
-
-`git remote` 为我们提供了管理远程仓库的途径。
-对远程仓库的管理包括，查看，添加，移除，对远程分支的管理等等。
-
-1. 查看远程仓库 `git remote`
-
-   ```
-   $ git remote
-   origin
-   
-   # 添加 -v，可查看对应的链接
-   $ git remote -v
-   origin	https://github.com/schacon/ticgit (fetch)
-   origin	https://github.com/schacon/ticgit (push)
-   ```
-
-2. 添加远程仓库 `git remote add <shortname> <url>`
-
-   ```
-   $ git remote add pb https://github.com/paulboone/ticgit
-   $ git remote -v
-   origin	https://github.com/schacon/ticgit (fetch)
-   origin	https://github.com/schacon/ticgit (push)
-   pb	https://github.com/paulboone/ticgit (fetch)
-   pb	https://github.com/paulboone/ticgit (push)
-   ```
-
-3. 远程仓库重命名 `git remote rename`
-
-   ```
-   $ git remote rename pb paul
-   $ git remote
-   origin
-   paul
-   ```
-
-4. 远程仓库的移除 `git remote rm <name>`
-
-   ```
-   $ git remote rm paul
-   $ git remote
-   origin
-   ```
-
-本地对远程仓库的记录存在于`.git/config`文件中，在`.git/config`中我们可以看到如下格式的内容：
-
-```
-# .git/config
-[remote "github"]
-	url = https://github.com/zhangwang1990/weixincrawler.git
-	fetch = +refs/heads/*:refs/remotes/github/*
-[remote "zhangwang"]
-	url = https://github.com/zhangwang1990/weixincrawler.git
-	fetch = +refs/heads/*:refs/remotes/zhangwang/*
-```
-
-- `[remote] "github"`:代表远程仓库的名称；
-- `url`:代表远程仓库的地址
-- `fetch`:代表远程仓库与本地仓库的对应规则，这里涉及到另外一个 Git 命令，`git fetch`
-
-### git fetch
-
-- 拉取所有远程仓库
-
-  `git fetch --all`
-
-- 删除版本库有，但是远程没有的分支
-
-  `git fetch --prune`
-
-  远程版本库有新增分支，git fetch会同步到本地，但是远程有删除分支，git fetch不会删除本地版本库的远程分支
-
-- `git fetch --tags`包含`git fetch`吗
-
-- `git fetch`
-
-  会拉取当前项目所有分支的commit，如果当前项目有很多人参与，那么就会有很多分支，有时候是没有必要的。
-
-我们继续看看`git fetch`是如何工作的：
-
-```
-# config中的配置[remote "origin"]    url = /home/demo/bare-repo/    fetch = +refs/heads/*:refs/remotes/origin/* #<remote-refs>:<local-refs> 远程的对应本地的存储位置
-```
-
-`fetch`的格式为`fetch = +<src>:<dst>`,其中
-
-- `+`号是可选的，用来告诉 Git 即使在不能采用「快速向前合并」也要（强制）更新引用；
-- `<src>`代表远程仓库中分支的位置；
-- `<dst>` 远程分支对应的本地位置。
-
-我们来看一个`git fetch`的实例，看看此命令是怎么作用于本地仓库的：
-
-`git fetch origin`
-
-1. 会在本地仓库中创建`.git/refs/remotes/origin`文件夹；
-2. 会创建一个名为`.git/FETCH_HEAD`的特殊文件，其中记录着远程分支所指向的`commit` 对象；
-3. 如果我们执行 `git fetch origin feature-branch`,Git并不会为我们创建一个对应远程分支的本地分支，但是会更新本地对应的远程分支的指向；
-4. 如果我们再执行`git checkout feature-branch`, git 会基于记录在`.git/FETCH_HEA`中的内容新建本地分支，并在`.git/config`中添加如下内容，用以保证本地分支与远程分支`future-branch`的一致
-
-![Git%E5%AE%9E%E8%B7%B5_assets](Git%E5%AE%9E%E8%B7%B5_assets/v2-686ae54f78ea69b6c00cc8b159cf7369_b.webp)
-
-
-
 
 
 ### git push
@@ -345,11 +544,11 @@ $ git clone git://github.com/schacon/ticgit.git
 
 `git push origin featureBranch:featureBranch`
 
-此命令会帮我们在远程建立分支`featureBranch`,之所以要这样做的原因也在于上面定义的`fetch`模式。
+此命令会帮我们在远程建立分支`featureBranch`，之所以要这样做的原因也在于上面定义的`fetch`模式。
 
 因为引用规格（的格式）是 `<src>:<dst>`，所以其实会在远程仓库建立分支`featureBranch`,从这里我们也可以看出，分支确实是非常轻量级的。
 
-此外，如果我们执行 `git push origin :topic`：，这里我们把 `<src>`留空，这意味着把远程版本库的 `topic` 分支定义为空值，也就说会删除对应的远程分支。
+此外，如果我们执行 `git push origin :topic`，这里我们把 `<src>`留空，这意味着把远程版本库的 `topic` 分支定义为空值，也就说会删除对应的远程分支。
 
 回到`git push`,我们从资源的角度看看发生了什么?
 
@@ -435,51 +634,6 @@ $ git clone git://github.com/schacon/ticgit.git
 - 推送所有分支
 
   `git push --all origin`
-
-
-
-### git pull
-
-此命令的通用格式为 `git pull <remote> <branch>`
-它做了以下几件事情：
-
-1. `git fetch <remote>`：下载最新的内容
-2. 查询`.git/FETCH_HEAD`找到应该合并到的本地分支；
-3. 如果满足要求，没有冲突，执行`git merge`
-
-`git pull` 在大多数情况下它的含义是一个 `git fetch` 紧接着一个 `git merge` 命令。
-
-![Git%E5%AE%9E%E8%B7%B5_assets](Git%E5%AE%9E%E8%B7%B5_assets/v2-1298832b975cf9cf0ad6c399ec5da32d_b.webp)
-
-```
-尽管 git fetch 可用于获取某个分支的远程信息，但我们也可以执行 git pull。git pull 实际上是两个命令合成了一个：git fetch 和 git merge。当我们从来源拉取修改时，我们首先是像 git fetch 那样取回所有数据，然后最新的修改会自动合并到本地分支中。
-```
-
-```
-对拉取（pulling）这幅图有疑问，为什么在 master 没有新提交的时候，没有进行 fast foward 方式进行合并，而是创建了一个新的commit？
-```
-
-- git pull属性
-
-  当我们执行git pull的时候，实际上是做了git fetch + git merge操作，fetch操作更新本地仓库，之后进行merge的时候，对git来说，如果没有指定当前分支的upstream，它并不会知道我们要合并到哪个分支到当前分支，所以我们需要设置当前分支的upstream
-
-  ```
-  git branch --set-upstream-to=origin/<branch> develop// 或者git push --set-upstream origin develop 
-  ```
-
-  实际上，如果我们没有指定upstream，git在merge时会访问git config中当前分支(develop)merge的默认配置，我们可以通过配置下面的内容指定某个分支的默认merge操作
-
-  ```
-  [branch "develop"]    remote = origin    merge = refs/heads/develop // [1]为什么不是refs/remotes/develop?
-  ```
-
-  或者通过command-line直接设置：
-
-  ```
-  git config branch.develop.merge refs/heads/develop
-  ```
-
-  这样当我们在develop分支git pull时，如果没有指定upstream分支，git将根据我们的config文件去`merge origin/develop`；如果指定了upstream分支，则会忽略config中的merge默认配置。
 
 reference：
 
@@ -675,42 +829,6 @@ Your branch is ahead of 'origin/master' by 14 commits.
 
 - 
 
-### git branch
-
-参数：
-
-- `a`
-
-  所有分支
-
-- 
-
-举例：
-
-- 创建分支
-
-  `git branch test_branch` 
-
-- 查看分支(默认本地)
-
-  `git branch`
-
-- 查看所有分支
-
-  `git branch -a`
-
-- 删除分支
-
-  `git branch -d test_branch`
-
-- 删除远程分支
-
-  `git push origin  --delete release/v2.9.0.3 `
-
-- 查看所有本地分支，并包含更多的信息
-
-  `git branch -vv`
-
 ### git checkout
 
 - 切换分支
@@ -898,6 +1016,16 @@ Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
 
 ## 场景
 
+移除已经push的文件
+
+```
+git rm --cached update_frontend
+
+git commit -am '删除文件' 
+```
+
+
+
 ### 移除暂存区的文件
 
 - IDEA
@@ -959,5 +1087,19 @@ hard  源码也会回退到某个版本,commit和index 都会回退到某个版�
   当前分支所做的修改就会被删除
 
 ### 丢弃本地修改
+
+- 放弃所有文件修改
+
+  ```
+  git checkout .
+  ```
+
+- 放弃指定文件
+
+  ```
+  git checkout -- filename
+  ```
+
+  
 
 ​       

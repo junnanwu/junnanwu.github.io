@@ -153,55 +153,54 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
 - 查看可用的epel源
 
-  ```
-  yum list | grep epel-release
+  ```sh
+  $ yum list | grep epel-release
   ```
 
 - 安装 epel
 
-  ```
-  yum install -y epel-release
+  ```sh
+  $ yum install -y epel-release
   ```
 
 - 配置阿里镜像提供的epel源
 
-  ```
-  wget -O /etc/yum.repos.d/epel-7.repo  http://mirrors.aliyun.com/repo/epel-7.repo
+  ```sh
+  $ wget -O /etc/yum.repos.d/epel-7.repo  http://mirrors.aliyun.com/repo/epel-7.repo
   ```
 
 - 查看所有的yum源
 
-  ```
-  yum repolist all
+  ```sh
+  $ yum repolist all
   ```
 
 - 查看正在使用的仓库
 
-  ```
-  yum repolist
+  ```sh
+  $ yum repolist
   ```
   
 - 查看可用的yum源
 
-  ```
-  yum repolist enabled
+  ```sh
+  $ yum repolist enabled
   ```
   
 - yum卸载软件
 
   删除软件包而保留其配置文件和数据文件
 
-  ```
-  yum remove package_name
+  ```sh
+  $ yum remove package_name
   ```
 
   删除软件和其他所有文件
 
-  ```
-  yum erase package_name
+  ```sh
+  $ yum erase package_name
   ```
 
-  
 
 **yum安装的软件位置**
 
@@ -215,6 +214,28 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
   | /usr/share/doc | 一些基本的软件使用手册与帮助文档          |
   | /usr/share/man | 一些man page文件                          |
 
+## wget
+
+wget是Linux中的一个下载文件的工具，是GNU项目的之一，名字取自"World Wide Web" 和"get"
+
+参数：
+
+- `-O`
+
+  指定下载文件名
+
+- `-b`
+
+  后台下载
+
+举例：
+
+- 下载文件
+
+  ```sh
+  $ wget http://cn.wordpress.org/wordpress-4.9.4-zh_CN.tar.gz
+  ```
+
 ## man
 
 man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
@@ -223,8 +244,8 @@ man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想�
 
 - 查看cp命令详解
 
-  ```
-  man cp
+  ```sh
+  $ man cp
   ```
 
 ## 文件目录列表
@@ -235,14 +256,14 @@ man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想�
 
 - 回到上次打开的目录
 
-  ```
-  cd -
+  ```sh
+  $ cd -
   ```
   
 - 回到用户目录
 
-  ```
-  cd
+  ```sh
+  $ cd
   ```
 
 ### pwd
@@ -273,8 +294,8 @@ pwd (print work directory) 显示当前目录。
 
 - 文件太多想查看想看的文件
 
-  ```
-  ls -l |grep data
+  ```sh
+  $ ls -l |grep data
   ```
 
 注意：
@@ -316,14 +337,14 @@ pwd (print work directory) 显示当前目录。
 
 - 使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
 
-  ```
-  echo "Raspberry" > test.txt
+  ```sh
+  $ echo "Raspberry" > test.txt
   ```
 
 - 使用>>指令向文件追加内容，原内容将保存
 
-  ```
-  echo "Intel Galileo" >> test.txt  
+  ```sh
+  $ echo "Intel Galileo" >> test.txt  
   ```
 
 ### tree
@@ -334,14 +355,14 @@ pwd (print work directory) 显示当前目录。
 
 - 便利层级
 
-  ```
-  tree -L 2
+  ```sh
+  $ tree -L 2
   ```
 
 - 只显示文件夹
 
-  ```
-  tree -d
+  ```sh
+  $ tree -d
   ```
 
 ## 操作文件
@@ -363,8 +384,8 @@ cp (copy file) ，用于复制文件或目录。
 
 1. 在目标目录名尾部加上`/`，这表明destination是目录而不是文件，如果没有加`/`，而destination目录又不存在，那么反而会创建一个名为destination的文件，而且不会有任何提示。
 
-   ```
-   cp -i test_one Documents/
+   ```sh
+   $ cp -i test_one Documents/
    ```
 
 ### ln
@@ -387,15 +408,35 @@ ln 命令用于给文件创建链接，分为下面两种：
 
   两个文件进行硬链接，会共享inode编号，并且这两个文件的链接计数（`ls -l`的第三项）都显示2。
 
+命令格式：
+
+```sh
+ln -s [OPTIONS] FILE LINK
+```
+
+如果LINK参数没有写，那么就会在本文件夹内创建一个同名的软连接。
+
 参数：
 
-- `-s` 建立软链接文件。如果不加此选项，则建立硬链接文件；
+- `-s` 
+
+  建立软链接（symbolic link）文件。如果不加此选项，则建立硬链接文件；
+
 - `-f` 强制。如果目标文件已经存在，则删除目标文件后再建立链接文件；
+
+举例：
+
+- 删除软连接
+
+  ```sh
+  # 注意结尾不能加/
+  $ rm redis
+  ```
 
 **注意**：
 
 1. 软链接文件的源文件必须写成绝对路径，而不能写成相对路径（硬链接没有这样的要求）
-2. 删除软链接的时候，后面不能加`/`，不然删除的就是原目录了
+2. **删除软链接的时候，后面不能加`/`，不然删除的就是原目录了**
 
 ### mv
 
@@ -416,7 +457,7 @@ ln 命令用于给文件创建链接，分为下面两种：
 - 将root文件夹下的所有文件都移动到当前文件夹
 
   ```bash
-  mv /root/* .
+  $ mv /root/* .
   ```
 
   注意：用户使用该指令复制目录时，必须使用参数 **-r** 或者 **-R** 。
@@ -424,15 +465,15 @@ ln 命令用于给文件创建链接，分为下面两种：
 - 移动多个文件，将a，b移动到c中
 
   - ```bash
-    mv a b c_dir
+    $ mv a b c_dir
     ```
 
   - ```bash
-    mv a b -t c_dir
+    $ mv a b -t c_dir
     ```
 
   - ```bash
-    mv -t c_dir a b
+    $ mv -t c_dir a b
     ```
 
     `-t`后面必须紧接着要移动的目录
@@ -441,28 +482,28 @@ ln 命令用于给文件创建链接，分为下面两种：
 
 - 将文件 aaa 改名为 bbb
 
-  ```
-  mv aaa bbb
+  ```sh
+  $ mv aaa bbb
   ```
 
   目标目录与原目录一致，则指定了新文件名，效果仅仅是重命名。
 
-  ```
-  mv  /home/ffxhd/a.txt   /home/ffxhd/b.txt    
+  ```sh
+  $ mv /home/ffxhd/a.txt /home/ffxhd/b.txt    
   ```
 
 - 目标目录与原目录不一致，没有指定新文件名，效果就是仅仅移动。
 
-  ```
-  mv  /home/ffxhd/a.txt   /home/ffxhd/test/ 
+  ```sh
+  $ mv  /home/ffxhd/a.txt /home/ffxhd/test/ 
   或者
-  mv  /home/ffxhd/a.txt   /home/ffxhd/test 
+  $ mv  /home/ffxhd/a.txt /home/ffxhd/test 
   ```
 
 - 目标目录与原目录一致, 指定了新文件名，效果就是：移动 + 重命名。
 
-  ```
-  mv  /home/ffxhd/a.txt   /home/ffxhd/test/c.txt
+  ```sh
+  $ mv  /home/ffxhd/a.txt /home/ffxhd/test/c.txt
   ```
 
 ### rm
@@ -475,8 +516,8 @@ ln 命令用于给文件创建链接，分为下面两种：
 
 一口气删除终极大法（危）
 
-```
-rm -rf
+```sh
+$ rm -rf
 ```
 
 注意：
@@ -505,34 +546,34 @@ rm -rf
 
   打包（这个不叫压缩）
 
-  ```
-  tar -cvf FileName.tar DirName
+  ```sh
+  $ tar -cvf FileName.tar DirName
   ```
 
   解包
 
-  ```
-  tar -xvf FileName.tar
+  ```sh
+  $ tar -xvf FileName.tar
   ```
 
   打包多个文件
 
-  ```
-  tar -czvf bak.tar.gz users/ config.xml jobs/ plugins/
+  ```sh
+  $ tar -czvf bak.tar.gz users/ config.xml jobs/ plugins/
   ```
 
   解压`tar.gz`/`tgz`
 
   这些是gzip压缩过的tar文件
 
-  ```
-  tar -zxvf filename.tgz
+  ```sh
+  $ tar -zxvf filename.tgz
   ```
 
   压缩
 
-  ```
-  tar -zcvf FileName.tar.gz DirName
+  ```sh
+  $ tar -zcvf FileName.tar.gz DirName
   ```
 
 - gz
@@ -541,15 +582,15 @@ rm -rf
 
   压缩
 
-  ```
-  gzip FileName
+  ```sh
+  $ gzip FileName
   ```
 
   解压
 
-  ```
-  gunzip FileName.gz 
-  gzip -d FileName.gz 
+  ```sh
+  $ gunzip FileName.gz 
+  $ gzip -d FileName.gz 
   ```
 
 - zip
@@ -558,14 +599,14 @@ rm -rf
 
   压缩：
 
-  ```
-  zip FileName.zip DirName 
+  ```sh
+  $ zip FileName.zip DirName 
   ```
 
   批量将文件解压到对应的目录
 
-  ```
-  unzip -d /app tomcat-all.zip
+  ```sh
+  $ unzip -d /app tomcat-all.zip
   ```
 
 解压错怎么办？
@@ -574,14 +615,14 @@ rm -rf
 
 - unzip
 
-  ```
-  zipinfo -1 ./ShareWAF.zip(误解压文件) | xargs rm -rf
+  ```sh
+  $ zipinfo -1 ./ShareWAF.zip(误解压文件) | xargs rm -rf
   ```
 
 - tar
 
-  ```
-  tar -tf 误解压文件 | xargs rm -rf
+  ```sh
+  $ tar -tf 误解压文件 | xargs rm -rf
   ```
 
 ## 查看文件
@@ -598,14 +639,14 @@ cat (concatenate，连接) ，显示文件内容。
 
 - 从键盘创建一个文件
 
-  ```
-  cat > filename
+  ```sh
+  $ cat > filename
   ```
 
 - 将几个文件合并为一个文件
 
-  ```
-  cat file1 file2 > file
+  ```sh
+  $ cat file1 file2 > file
   ```
 
 ### more
@@ -661,21 +702,21 @@ test.txt内容如下（末尾有个换行符）：
 
 - 以ASCII码的形式显示文件test.txt中的内容
 
-  ```
-  od -tc test.txt
+  ```sh
+  $ od -tc test.txt
   0000000    1   \   n   2  \n
   0000005
   ```
 
 - 使用ASCII码进行输出
 
-  ```
-  od -td1 test.txt
+  ```sh
+  $ od -td1 test.txt
   0000000    49  92 110  50  10
   0000005
   ```
 
-### sort
+### sorts
 
 对数据进行排序，按照规则对文本文件中的数据行进行排序。
 
@@ -700,14 +741,14 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 
 - 搜索`/usr/src/linux/Documentation`目录下搜索带字符串`magic`的行：
 
-  ```
-  grep magic /usr/src/linux/Documentation/*
+  ```sh
+  $ grep magic /usr/src/linux/Documentation/*
   ```
 
 - 输出含有字符t或f的所有行
 
-  ```
-  grep -e t -e f file1
+  ```sh
+  $ grep -e t -e f file1
   ```
 
 ### find
@@ -716,14 +757,14 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 
 - 在目录下査找文件名是`yum.conf`的文件（按照文件名搜索，不区分文件名大小）
 
-  ```
-  find /-name yum.conf
+  ```sh
+  $ find /-name yum.conf
   ```
 
 - 指定递归深度
 
-  ```
-  find ./test -maxdepth 2 -name "*.php"
+  ```sh
+  $ find ./test -maxdepth 2 -name "*.php"
   ```
 
 ### locate
@@ -902,14 +943,14 @@ ps (process status) 查看进程。
 
 - 批量杀死name线程
 
-  ```
-  ps -ef|grep name|awk '{print $2}'|xargs kill -9
+  ```sh
+  $ ps -ef|grep name|awk '{print $2}'|xargs kill -9
   ```
 
 列表说明：
 
-```
-ps -ef| grep test
+```sh
+$ ps -ef| grep test
 jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 ```
 
@@ -976,8 +1017,8 @@ df (disk free) ，用来检查Linux文件系统的占用情况。
 
 - `-h` 方便阅读方式显示（以较易阅读的格式显示）
 
-```
-➜  ~ df -h
+```sh
+$ df -h
 Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
 /dev/disk1s1s1  466Gi   14Gi  386Gi     4%  559993 4881892887    0%   /
 devfs           191Ki  191Ki    0Bi   100%     661          0  100%   /dev
@@ -1003,8 +1044,8 @@ du (disk usage) ，通过df命令很容易发现哪个磁盘的存储空间快�
 
 - 查看当前文件夹多大
 
-  ```
-  du -hs
+  ```sh
+  $ du -hs
   ```
 
 ### free
@@ -1017,8 +1058,8 @@ free 命令显示系统内存的使用情况。
 
 它跟 netstat 差不多，但有着比 netstat 更强大的统计功能
 
-```
-netstat -anp|grep 8005
+```sh
+$ netstat -anp|grep 8005
 ```
 
 ```
@@ -1037,16 +1078,16 @@ netstat -anp|grep 8005
 
 查看端口占用
 
-```
-netstat -tunlp |grep 9200
+```sh
+$ netstat -tunlp |grep 9200
 ```
 
 ### ss
 
 ss (Socket Statistics)
 
-```
-ss -antp | grep java | column -t
+```sh
+$ ss -antp | grep java | column -t
 ```
 
 ```
@@ -1070,8 +1111,8 @@ lsof (list open files) ，一个列出当前系统打开文件的工具。
 
 - 查看9999对应的端口
 
-  ```
-  lsof -i :9999
+  ```sh
+  $ lsof -i :9999
   ```
 
 ### 查看Linux的配置
@@ -1080,28 +1121,28 @@ lsof (list open files) ，一个列出当前系统打开文件的工具。
 
 - 查看物理CPU数
 
-  ```
-  cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+  ```sh
+  $ cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
   ```
 
 - 查看每个物理CPU中core的个数(即核数)
 
-  ```
-  cat /proc/cpuinfo| grep "cpu cores"| uniq
+  ```sh
+  $ cat /proc/cpuinfo| grep "cpu cores"| uniq
   ```
 
   总核数 = 物理CPU个数 X 每颗物理CPU的核数
 
 #### 查看CPU信息
 
-```
-cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
+```sh
+$ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 ```
 
 #### 查看操作系统版本
 
-```
-cat /etc/centos-release
+```sh
+$ cat /etc/centos-release
 ```
 
 ## 网络
@@ -1110,8 +1151,8 @@ cat /etc/centos-release
 
 #### telnet
 
-```
-telnet ip port
+```sh
+$ telnet ip port
 ```
 
 telnet之后如何退出？
@@ -1120,21 +1161,21 @@ telnet之后如何退出？
 
 #### nmap
 
-```
-nmap ip -p port
+```sh
+$ nmap ip -p port
 ```
 
 #### nc
 
-```
-nc -v ip port
+```sh
+$ nc -v ip port
 ```
 
 ### ssh
 
 SSH  (Secure Shell)，专为远程登录会话和其他网络服务提供安全性的协议，如果一个用户从本地计算机，使用SSH协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露，目前已经成为Linux系统的标准配置。
 
-```
+```sh
 ssh <username>@<hostname or IP address>
 ```
 
@@ -1146,8 +1187,8 @@ ssh <username>@<hostname or IP address>
 
 - 使用2222端口登陆
 
-  ```
-  ssh -p 2222 user@host
+  ```sh
+  $ ssh -p 2222 user@host
   ```
 
 ### 配置ssh免密登陆
@@ -1167,7 +1208,7 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
 
 1. 生成RSA类型私钥公钥
 
-   ```
+   ```sh
    ssh-keygen -t rsa -C "wujunnan@kungeek.com"
    ```
 
@@ -1179,14 +1220,14 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
 
    - 方法二：使用ssh-copy-id工具
 
-     ```
-     ssh-copy-id username@remote-server
+     ```sh
+     $ ssh-copy-id username@remote-server
      ```
 
      举例：
 
-     ```
-     ssh-copy-id -i id_rsa.pub jinp@172.27.0.8
+     ```sh
+     $ ssh-copy-id -i id_rsa.pub jinp@172.27.0.8
      ```
 
 注意：
@@ -1205,33 +1246,33 @@ scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令
 
 **上传命令**
 
-```
-scp local_file remote_ip:remote_folder 
+```sh
+$ scp local_file remote_ip:remote_folder 
 ```
 
 **多文件传输**
 
 - 多个文件用空格分割
 
-  ```
-  scp execute.sh jenkins.war jinp@172.27.0.8:
+  ```sh
+  $ scp execute.sh jenkins.war jinp@172.27.0.8:
   ```
 
 - 从本地文件复制整个文件夹到远程主机上（文件夹假如是diff）
   先进入本地目录下，然后运行如下命令：
 
-  ```
-  scp -v -r diff root@192.168.1.104:/usr/local/nginx/html/webs
+  ```sh
+  $ scp -v -r diff root@192.168.1.104:/usr/local/nginx/html/webs
   
-  scp -r /Users/wujunnan/develop/WWW/zookeeper-3.4.6 root@wujunnan.net:/usr/local/zookeeper
+  $ scp -r /Users/wujunnan/develop/WWW/zookeeper-3.4.6 root@wujunnan.net:/usr/local/zookeeper
   ```
 
 - 使用压缩来加快传输
   在文件传输的过程中，我们可以使用压缩文件来加快文件传输，我们可以使用 C选项来启用压缩功能，该文件在传输过程中被压缩，
   在目的主机上被解压缩。
 
-  ```
-  scp -vrC diff root@192.168.1.104:/usr/local/nginx/html/webs
+  ```sh
+  $ scp -vrC diff root@192.168.1.104:/usr/local/nginx/html/webs
   ```
 
 **从远程主机复制到本机**
@@ -1239,8 +1280,8 @@ scp local_file remote_ip:remote_folder
 从远程主机复制文件到本地主机(下载)的命令如下：（假如远程文件是about.zip）
 先进入本地目录下，然后运行如下命令：
 
-```
-scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
+```sh
+$ scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 ```
 
 注意：
@@ -1258,25 +1299,21 @@ scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 - 查看防火墙状态
 
   ```
-  systemctl status firewalld
-  ```
-
-  下面表示未开启防火墙
-
-  ```
-  Active: inactive (dead)
+  $ systemctl status firewalld
+  #下面表示未开启防火墙
+Active: inactive (dead)
   ```
 
 - 开启防火墙
 
   ```
-  systemctl start firewalld
+  $ systemctl start firewalld
   ```
 
 - 开启端口
 
   ```
-  firewall-cmd --permanent --zone=public --add-port=8080/tcp
+  $ firewall-cmd --permanent --zone=public --add-port=8080/tcp
   ```
 
   没有 --perman此参数重启后失效
@@ -1284,7 +1321,7 @@ scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 - 查看端口
 
   ```
-  firewall-cmd --permanent --query-port=8080/tcp
+  $ firewall-cmd --permanent --query-port=8080/tcp
   ```
 
   提示yes，即查询成功
@@ -1292,36 +1329,94 @@ scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 - 重启防火墙
 
   ```
-  firewall-cmd --reload
+  $ firewall-cmd --reload
   ```
 
 - 查看已经开放的端口
 
   ```
-  firewall-cmd --list-ports 
+  $ firewall-cmd --list-ports 
   ```
 
 - 关闭防火墙端口
 
   ```
-  firewall-cmd --zone=public --remove-port=3338/tcp --permanent
+  $ firewall-cmd --zone=public --remove-port=3338/tcp --permanent
   ```
 
 - 设置防火墙开机自动启动
 
   ```
-  systemctl enable firewalld
+  $ systemctl enable firewalld
   ```
 
 - 开机禁用防火墙
 
   ```
-  systemctl disable firewalld
+  $ systemctl disable firewalld
   ```
 
 ```
-service iptables status
+$ service iptables status
 ```
+
+### curl
+
+curl来自client的URL工具，用于请求Web服务器
+
+参数：
+
+- `-X`
+
+  `--request`
+
+  指定要使用的请求动作，默认为get
+
+  例如：
+
+  ```
+  $ curl -X POST www.example.com
+  ```
+
+  POST请求携带表单：
+
+  ```
+  $ curl -X POST --data "data=xxx" example.com/form.cgi
+  ```
+
+- `-L`
+
+  `--location` 
+
+  参数会让 HTTP 请求跟随服务器的重定向。curl 默认不跟随重定向。
+
+- `-H` 
+
+  `--header`
+
+  添加请求头
+
+  例如：
+
+  ```
+  $ curl 'https://hxduat.kungeek.com/openapi/event/tracking' --header 'Authorization: xxxxxx'
+  ```
+
+- `-b`
+
+  `--cookie`
+
+  携带cookie
+
+  例如：
+
+  ```
+  $ curl --cookie "name=xxx" www.example.com
+  ```
+
+- `-O`
+
+  参数将服务器回应保存成文件，并将 URL 的最后部分当作文件名。
 
 ## Shell
 
@@ -1365,6 +1460,13 @@ which指令会在环境变量$PATH设置的目录里查找符合条件的文件�
 cd和exit命令都内建于bash shell。可以利用type命令来了解某个命令是否是内建的。
 
 内建命令的执行速度要更快，效率也更高。
+
+### type
+
+```
+$ type cd
+cd is a shell builtin
+```
 
 ### sh
 
@@ -1719,6 +1821,11 @@ sh 是 /usr/bin/sh
 ```
 
 ## 其他
+
+终端中的`$`和`#`什么含义
+
+- `$`代表普通用户
+- `#`代表root用户
 
 ### history
 
@@ -2476,7 +2583,7 @@ Defaults:foobar    runas_default=rene
 Defaults后面如果有冒号，是对后面用户的默认，如果没有，则是对所有用户的默认。就像配置文件中自带的一行：
 
 ```
-Defaults  env_reset
+Defaults env_reset
 ```
 
 sudo的时候，由于有`env_reset`，所以使环境变量重置了，但是有一个`secure_path`，里面规定了可以使用的环境变量其中包括`/usr/bin`
