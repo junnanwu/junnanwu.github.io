@@ -158,7 +158,23 @@ Java [ options ] -jar file.jar [ arguments ]
 
 Java本身是不需要配置这个环境变量的，安装Java只需要将jdk的bin目录添加到PATH变量中即可，方便随时调用Javac、java等命令。
 
-至于哪些应用需要JAVA_HOME环境变量来获取JRE的位置，还需要调查。
+但是一些用到jdk/jre的工具有可能会使用JAVA_HOME环境变量：
+
+1. 例如：IDEA中的Gradle可以选择Gradle JVM为JAVA_HOME，这个时候，如果你没有设置JAVA_HOME环境变量，那么就会报错了。
+
+   <img src="Java%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%A6%82%E5%BF%B5_assets/image-20211025114743038.png" alt="image-20211025114743038" style="zoom: 33%;" />
+
+2. 在没有配置JAVA_HOME环境变量的时候，我本地的CAS Tomcat服务也出现了异常，
+
+   在我指定JAVA_HOME的时候，启动Tomcat显示（即使用指定的JRE）：
+
+   ```
+   Using JRE_HOME:        /Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home
+   ```
+
+   在没有指定JAVA_HOME的时候，启动Tomcat会使用/User目录下的jdk15，导致版本不对，服务异常。
+
+所以在配置Java环境的时候，最好配置上JAVA_HOME环境变量，以便其他软件使用。
 
 ## Jar
 

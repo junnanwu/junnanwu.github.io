@@ -601,6 +601,165 @@ shell或shell中运行的程序和脚本出错时生成的错误消息都会发�
 | `0`  | 命令行中使用的命令名称                 |
 | `_`  | shell的绝对路径名                      |
 
+## 操作文本
+
+### sed
+
+sed (stream editor)可以根据命令来处理数据流中的输入。
+
+sed命令会做如下操作：
+
+- 一次从输入中读取一行数据
+- 根据所提供的编辑器命令匹配数据
+- 按照命令修改流中的数据
+- 将新的数据输出到STDOUT
+
+在匹配完一行之后，会读取下一行并重复这个过程。
+
+格式：
+
+```
+sed OPTIONS... [SCRIPT] [INPUTFILE...] 
+```
+
+参数：
+
+- `-e script`
+
+  将script中指定的命令添加到已有的命令中
+
+  例如：
+
+  执行多个命令：
+
+  ```
+  $ echo 你好 | sed 's/你/您/; s/好/好吗/'
+  您好吗
+  ```
+
+  注意：
+
+  - 命令之间必须用分号隔开，并且在命令末尾和分号之间不能有空格。
+  - 可以用bash提供的次提示符来分隔命令（输入第一个单引号后换行，直至输入第二个单引号）
+
+- `-f file`
+
+  将file中指定的命令添加到已有的命令中
+
+SCRIPT：
+
+script参数指定了应用于流数据上的单个命令。如果需要用多个命令，要么使用`-e`选项在命令行中指定，要么使用`-f`选项在单独的文件中指定。
+
+- `s` 
+
+  `s`命令会用斜线间指定的第二个文本字符串来替换第 一个文本字符串模式。
+
+  例如：
+
+  ```
+  $ echo 你好 | sed 's/你/您/'
+  您好
+  ```
+
+例如：
+
+删除
+
+- 删除最后一行并输出（不改变原始内容）
+
+  ```
+  $ sed '$d' test.sql
+  ```
+
+- 删除所有包含COMMANT的行
+
+  ```
+  $ sed '/COMMENT/d' test.sql
+  ```
+
+- 删除以COMMANT开头的行
+
+  ```
+  $ sed '/^COMMENT/d' test.sql
+  ```
+
+### awk
+
+awk程序可以：
+
+- 定义变量来保存数据
+- 使用结构化编程（if-then）语句处理数据
+- 通过提取数据元素，生成报告
+
+格式：
+
+```
+awk options program file
+```
+
+参数：
+
+- `-f file`
+
+  从指定的文件中读取程序
+
+- `-F fs`
+
+  指定一行中中的分隔符的符号
+
+  例如：由于`/etc/passwd`文件用冒号来分隔 数字字段，因而如果要划分开每个数据元素，则必须在awk选项中将冒号指定为字段分隔符。
+
+program：
+
+awk脚本
+
+- 用一对大括号来定义
+- 脚本是单个文本字符串，必须放在单引号中
+
+例如：
+
+- awk等待从STDIN中接受数据：
+
+  ```
+  $ awk '{print "Hello World!"}'
+  1
+  Hello World!
+  ```
+
+- awk会自动给一行中的每个数据元素分配一个变量，awk中默认的字段分隔符是任意的空白字符（空格或制表符）
+
+  ```
+  $ echo "My name is Rich" | awk '{$4="Christine"; print $0}'
+  My name is Christine
+  ```
+
+  ```
+  $ cat data2.txt
+  One line of test text.
+  Two lines of test text.
+  Three lines of test text.
+  $ awk '{print $1}' data2.txt 
+  One
+  Two
+  Three
+  ```
+
+- 从文件中读取程序
+
+  ```
+  $ cat script2.gawk
+  {print $1 "'s home directory is " $6}
+  $
+  $ gawk -F: -f script2.awk /etc/passwd
+  root's home directory is /root
+  bin's home directory is /bin
+  daemon's home directory is /sbin
+  adm's home directory is /var/adm
+  lp's home directory is /var/spool/lpd
+  [...]
+  Christine's home directory is /home/Christine Samantha's home directory is /home/Samantha Timothy's home directory is /home/Timothy
+  ```
+
 ## 常用操作
 
 ### 操作字符串

@@ -7,6 +7,8 @@
       - **源码解析**
         - [feign源码解析](JavaEE/Spring/源码解析/feign源码解析.md)
       - [定时任务](JavaEE/Spring/定时任务.md)
+    - **SpringBoot**
+      - [SpringBoot配置](JavaEE/SpringBoot/SpringBoot配置.md)
     - [addShutdownHook钩子函数](JavaEE/addShutdownHook钩子函数.md)
     - [深入理解Java虚拟机](JavaEE/深入理解Java虚拟机.md)
 - **JavaSE**
@@ -65,6 +67,7 @@
       - [Mysql日志](数据/Mysql/Mysql日志.md)
       - [SQL语句](数据/Mysql/SQL语句.md)
 - **算法**
+    - [算法题](算法/算法题.md)
     - [加密算法](算法/加密算法.md)
 - **运维**
     - [Docker](运维/Docker.md)

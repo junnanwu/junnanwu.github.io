@@ -35,6 +35,8 @@ Markdown支持两种链接：
 - :happy:
 - :cn:
 
+[点此查看typora支持Emoji](https://blog.csdn.net/qq_43630810/article/details/109108879)
+
 ### 脚注
 
 语法：`[^1]:xxx`
