@@ -54,5 +54,14 @@
    $ mvn -v 
    ```
 
-   
+
+## ClickHouse
+
+[ClickHouse的安装](../数据/ClickHouse/ClickHouse)
+
+## Elasticsearch
+
+[Elasticsearch/Kibana的安装](../数据/Elasticsearch/Elasticsearch的安装和配置)
+
+
 

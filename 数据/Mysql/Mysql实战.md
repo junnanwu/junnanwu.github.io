@@ -706,6 +706,8 @@ SELECT list is not in GROUP BY clause and contains nonaggregated column .... inc
 
 即，没在group by中出现的字段或者聚合字段不能出现在select语句中。
 
+>In MySQL 5.7, the `ONLY_FULL_GROUP_BY` SQL mode is enabled by default because `GROUP BY` processing has become more sophisticated to include detection of functional dependencies. 
+
 执行下面语句：
 
 ```

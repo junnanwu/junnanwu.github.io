@@ -109,3 +109,41 @@ Markdown同样支持HTML的特殊符号
 
 [^1]: this is the reference
 
+## 其他
+
+### 配置自动图片上传
+
+### 生成目录
+
+有时候我们需要在文档开头生成整个文档的目录，我们就可以使用[doctoc](https://github.com/thlorenz/doctoc)工具。
+
+- 全局安装
+
+  ```
+  $ npm install -g doctoc
+  ```
+
+- 给当前目录及所有子目录的md文件加目录
+
+  ```
+  $ doctoc .
+  ```
+
+- 给指定文件加上目录
+
+  ```
+  $ doctoc README.md
+  
+  $ doctoc CONTRIBUTING.md LICENSE.md
+  ```
+
+- 指定位置生成目录
+
+  你可以将下面的标记放在你文档的任何位置让目录生成在这个中间。
+
+  ```
+  <!-- START doctoc -->
+  <!-- END doctoc -->
+  ```
+
+更多操作可以查看官方文档。

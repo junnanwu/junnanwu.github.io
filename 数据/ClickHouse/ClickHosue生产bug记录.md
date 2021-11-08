@@ -195,7 +195,12 @@ SQL 错误 [47]: ClickHouse exception, code: 47, host: 82.157.52.137, port: 8123
    21.8.5.7
    ```
 
-6. 之前的版本是20.xx版本是没有问题的，所以应该是新版本的bug
+6. 之前的版本是20.xx版本是没有问题的，所以应该是20.3.x版本的bug
 
-7. 解决方案就是回退到之前的版本
+   在ClickHouse GitHub中也有人提出了同样的issue，我也添加了我本次问题的描述。
+
+   - https://github.com/ClickHouse/ClickHouse/issues/30721
+   - https://github.com/ClickHouse/ClickHouse/issues/28019
+
+7. 解决方案就是回退到之前的20.3.x版本，经测试可行
 

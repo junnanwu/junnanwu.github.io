@@ -24,6 +24,8 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 
 ## 安装
 
+### 安装软件
+
 可以参考[官方文档](https://clickhouse.tech/docs/zh/getting-started/install/)，CentOS推荐使用`RPM`/`yum`的方式安装。
 
 方式一：yum的方式（默认安装最新的稳定版）：
@@ -42,7 +44,7 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
   $ sudo yum install clickhouse-server clickhouse-client
   ```
 
-方式二：自己下载rpm安装包进行安装，[点此下载](https://repo.yandex.ru/clickhouse/rpm/stable/x86_64/)
+方式二：（如果想要下载自己想要的更新或者更旧的版本）可以自己下载rpm安装包进行安装，[点此下载](https://repo.yandex.ru/clickhouse/rpm/stable/x86_64/)
 
 - 需要下载三个包，最好一样的版本
 
@@ -57,31 +59,111 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
   $ rpm -ivh clickhouse-common-static-20.9.3.45-2.x86_64.rpm clickhouse-client-20.9.3.45-2.noarch.rpm clickhouse-server-20.9.3.45-2.noarch.rpm
   ```
 
-## 使用
-
-配置文件：
+### 修改配置文件
 
 - `config.xml`
 
-  这里需要开启允许其他IP连接，默认只允许本机连接。
+  - 这里需要开启允许其他IP连接，默认只允许本机连接
 
-  ```
-  <listen_host>::</listen_host>
-  ```
+    ```xml
+    <listen_host>::</listen_host>
+    ```
 
 - `user.xml`
 
   这里需要设置用户的密码
   
-  ```
+  ```xml
   <password>123456</password>
   ```
 
-使用服务：
+### 修改数据目录
+
+我们可以看到ClickHouse使用的默认的数据文件夹如下：
+
+```xml
+<path>/var/lib/clickhouse/</path>
+<tmp_path>/var/lib/clickhouse/tmp/</tmp_path>
+<user_files_path>/var/lib/clickhouse/user_files/</user_files_path>
+```
+
+由于公司的服务器默认给`/data`了很大的分区，专门用于存放数据，我在安装的时候没有将数据目录指定到`/data`下，导致其他分区inode很快用完了，所以，要将数据放在`/data`下（取决服务器的分区）
+
+服务器分区如下：
+
+```
+$ df
+文件系统           1K-块     已用      可用 已用% 挂载点
+devtmpfs        16379192        0  16379192    0% /dev
+tmpfs           16390100       24  16390076    1% /dev/shm
+tmpfs           16390100      948  16389152    1% /run
+tmpfs           16390100        0  16390100    0% /sys/fs/cgroup
+/dev/vda1       51473868 12459740  36816884   26% /
+/dev/vdb1      515927296 25023880 464672684    6% /data
+tmpfs            3278020        0   3278020    0% /run/user/0
+tmpfs            3278020        0   3278020    0% /run/user/1002
+```
+
+修改数据文件有两种方法：
+
+方法一：修改配置文件
+
+将上面的配置文件中的`/var/lib/clickhouse`和`var/log/clickhouse-server`修改为`/data/clickhouse/data`和`/data/clickhouse/log`，并创建对应的文件夹，修改属主为ClickHouse。
+
+方法二：建立软连接
+
+思路是不修改配置文件，将原系统默认位置下的数据和日志复制到/data/clickhouse下，并在原文件位置建立软连接。
+
+- 在合理的分区创建日志和数据文件夹
+
+- 复制数据、日志 删除原文件夹、修改属主（如果是新的ClickHouse，则不需要复制数据）
+
+  ``` 
+  $ sudo mv /var/lib/clickhouse/* /data/clickhouse/data/
+  $ sudo mv /var/log/clickhouse-server/* /data/clickhouse/log/
+  ```
+  
+- 修改属主
+
+  ```
+  $ sudo chown -R clickhouse:clickhouse /data/clickhouse/data/
+  $ sudo chown -R clickhouse:clickhouse /data/clickhouse/log/
+  ```
+  
+- 删除原文件夹、修改属主
+
+  ```
+  $ sudo rm -r /var/lib/clickhouse/
+  $ sudo rm -r /var/log/clickhouse-server/
+  ```
+  
+- 建立软连接
+
+  ```
+  $ sudo ln -s /data/clickhouse/data/ /var/lib/clickhouse
+  $ sudo ln -s /data/clickhouse/log/ /var/log/clickhouse-server
+  ```
+
+建议采用第二种方式：
+
+采用第一种方式需要改配置文件，而且数据会分别存储在`/var/lib/`文件（系统表）下和`/data/clickhouse/`下，不利于数据迁移，如下：
+
+```
+$ sudo ls -l /var/lib/clickhouse/metadata
+lrwxrwxrwx 1 clickhouse clickhouse 63 11月  3 14:30 hxd -> /data/clickhouse/store/9ee/9eecb5e2-e144-48db-9cc0-729698e960e8
+-rw-r----- 1 clickhouse clickhouse 78 11月  3 14:30 hxd.sql
+lrwxrwxrwx 1 clickhouse clickhouse 67 11月  3 14:30 system -> /var/lib/clickhouse/store/2c0/2c0341a6-1658-4606-ac03-41a616588606/
+-rw-r----- 1 clickhouse clickhouse 78 11月  3 14:30 system.sql
+```
+
+第二种方式不需要修改配置文件，而且数据都在一个文件夹下。
+
+## 使用
 
 - 启动服务
 
   ```
+  # 21.8版本支持
   $ sudo clickhouse start
   ```
 
@@ -91,24 +173,25 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
   $ sudo /etc/init.d/clickhouse-server start
   ```
 
+  前台启动
+
   ```
-  $ clickhouse-server --config-file=/etc/clickhouse-server/config.xml
+  $ sudo -u clickhouse clickhouse-server --config-file=/etc/clickhouse-server/config.xml
   ```
 
+- 关闭服务
+
+  ```
+  $ sudo /etc/init.d/clickhouse-server stop
+  ```
+  
 - 开启客户端
 
   ```
   $ clickhouse-client
   ```
-  
-- 关闭服务
 
-  ```
-  sudo /etc/init.d/clickhouse-server stop
-  ```
-
-
-**关于客户端**
+### 客户端
 
 具体请查看官方文档：
 
@@ -130,7 +213,9 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 
 - `--queries_file, -qf`
 
-  执行对应的sql文件（低版本不支持，如20.3.x）
+  执行对应的sql文件（低版本不支持，如20年12月之前的）
+
+  后面可以加绝对路径或者相对路径
 
 - `--format, -f`
 
@@ -143,6 +228,42 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 - `--multiquery -n`
 
   允许多个查询使用分号分隔
+
+例如：
+
+- 非交互式一次提交多个语句：
+
+  ```
+  $ clickhouse-client --multiquery --query "show databases;show tables from system;"
+  default
+  system
+  aggregate_function_combinators
+  asynchronous_metrics
+  build_options
+  clusters
+  collations
+  ...
+  ```
+
+- 非交互式执行一个sql文件
+
+  新版本支持：
+
+  ```
+  $ clickhouse-client --queries-file test.sql
+  ```
+
+  旧版本：
+
+  ```
+  $ cat test.sql|clickhouse-client -mn
+  ```
+
+  或
+
+  ```
+  $ clickhouse-client --multiquery < test.sql
+  ```
 
 ## 基本语句
 
@@ -183,10 +304,9 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
      如果想在低版本执行，需要批量删除最后一行commant注释，参考如下命令：
 
      ```
-     sed '/^COMMENT/d' test.sql
+     $ sed -i '/^COMMENT/d' test.sql
      ```
 
-   
 
 ### CREATE语句
 
@@ -214,10 +334,6 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
   - TabSeparatedWithNames
   - CSV
 
-### INSERT语句
-
-
-
 ### 其他语句
 
 查看ClickHouse版本
@@ -226,14 +342,17 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 SELECT version();
 ```
 
-
-
 ## 数据类型
 
 `Decimal(P, S)`
 
-- `P` precision，有效范围为`[1,76]`，表示总位数
-- `S` scale，有效范围为`[0,P]`，表示小数位
+- `P` 
+
+  precision，有效范围为`[1,76]`，表示总位数
+
+- `S` 
+
+  scale，有效范围为`[0,P]`，表示小数位
 
 ## 函数
 
@@ -246,9 +365,44 @@ SELECT version();
   - `toDecimal128(value, S)`
   - `toDecimal256(value, S)`
 
-## 数据备份
+## 备份/迁移
 
-### 导出结构和数据
+### 方式一
+
+采用复制数据文件夹的方式
+
+主要涉及的`var/lib/clickhouse`（若更改，则为更改后数据地址）如下文件夹：
+
+- `metadata`
+
+  表结构数据
+
+- `data`
+
+  表数据
+
+- `store`
+
+  前两个文件里面存放的是软连接，链接到此文件夹
+
+这里要注意：
+
+- 数据文件夹中的`data`目录和`metadata`目录都采用的是软链接的方式，要注意软链接的地址是否存在
+
+  ```
+  $ sudo ls -l data/data/data_web/
+  总用量 20
+  lrwxrwxrwx 1 clickhouse clickhouse 63 11月  3 14:30 dim_ftsp_cust_base_info -> /data/clickhouse/store/a06/a067d774-79a9-4808-b107-93a184790c83
+  lrwxrwxrwx 1 clickhouse clickhouse 64 11月  3 14:30 dm_ftsp_cust_tag_ctd -> /data/clickhouse/store/ae4/ae4f7e2b-4bd9-4cad-ae4f-7e2b4bd91cad/
+  ```
+
+- 要注意文件最后的属主要改为ClickHouse
+
+- 建议使用前台启动命令，方便查看启动日志保存信息
+
+### 方式二
+
+#### 导出结构和数据
 
 由于ClickHouse没有类似mysqldump的备份工具，只能通过`show table`语句来查看表结构，但是当表存在很多的时候，就需要通过脚本来实现了。
 
@@ -295,7 +449,7 @@ done < <(clickhouse-client --password=${PASSWORD} -q "SHOW DATABASES")
 
 ClickHouse支持导出和导入数据的时候指定Format，默认的为TabSeparated，及将数据按照制表符的格式展示，但是当使用默认格式导出表结构的时候，会将换行符导出为`\`和`n`两个字符，导致执行的时候无法识别，这时候可以选择其他Format，例如TabSeparatedRaw；
 
-### 执行表结构语句
+#### 执行表结构语句
 
 同样的，由于表的数量很多，一个一个的执行建表SQL也很麻烦，可以使用下面脚本：
 
@@ -311,15 +465,9 @@ done
 
 注意：
 
-20.3.10版本不支持`--queries-file`参数
+20.3.10版本不支持`--queries-file`参数，参考上面如何非交互式执行sql文件。
 
-改成如下：
-
-```sh
-clickhouse-client --multiquery < '/home/jinp/table/'$file
-```
-
-### 执行插入语句
+#### 执行插入语句
 
 注意，采用上述方式导出的数据只是像csv一样的纯数据，而不是导出的insert插入语句，需要使用insert into语句并指定FORMAT为导出时候的格式。
 
@@ -331,28 +479,45 @@ clickhouse-client --multiquery < '/home/jinp/table/'$file
 $ cat hxd_dwd_hxd_third_jxfp_data.sql | clickhouse-client --password=xxxxxx --query "insert into hxd.dwd_hxd_third_jxfp FORMAT TabSeparated"
 ```
 
-## 卸载ClickHouse
+### 方式三
+
+select出远程的表然后进行插入：
+
+```
+INSERT INTO ... SELECT ...
+```
+
+### 方式四
+
+[clickhouse-copier](https://clickhouse.com/docs/en/operations/utilities/clickhouse-copier/)、[clickhouse-backup](https://github.com/AlexAkulov/clickhouse-backup)等工具
+
+## 卸载
 
 1. 查看ClickHouse安装包
 
    ```
-   $ yum list installed| grep clickhouse
-   clickhouse-client.noarch               21.8.5.7-2                     @repo.clickhouse.tech_rpm_stable_x86_64
-   clickhouse-common-static.x86_64        21.8.5.7-2                     @repo.clickhouse.tech_rpm_stable_x86_64
-   clickhouse-server.noarch               21.8.5.7-2                     @repo.clickhouse.tech_rpm_stable_x86_64
+   $ rpm -qa |grep clickhouse
+   clickhouse-server-21.7.4.18-2.noarch
+   clickhouse-common-static-21.7.4.18-2.x86_64
+   clickhouse-client-21.7.4.18-2.noarch
    ```
 
 2. 移除上面每个服务
 
    ```
-   $ yum erase clickhouse-client.noarch
-   ...
+   sudo rpm -e clickhouse-common-static-21.7.4.18-2.x86_64 clickhouse-client-21.7.4.18-2.noarch clickhouse-server-21.7.4.18-2.noarch
    ```
-
-3. 卸载重新安装的时候，注意不论是使用yum还是rpm卸载，都会存在数据文件夹和配置文件所在文件夹未清理的情况，尤其是卸载新版本安装旧版本的时候，很可能出现不兼容的情况，所以最好手动将以下两个地方的目录清理掉
+   
+3. 卸载重新安装的时候，注意不论是使用yum还是rpm卸载，都会存在数据文件夹和配置文件所在文件夹未清理的情况，尤其是卸载新版本安装旧版本的时候，很可能出现不兼容的情况，所以要关注以下两个地方的目录，如果想安装一个新的ClickHouse，可以将数据文件和配置文件清除：
 
    - `/etc/clickhouse-*`
    - `/var/lib/clickhouse/*`
+
+## Reference
+
+1. https://github.com/ClickHouse/ClickHouse/issues/4491
+2. https://clickhouse.com/docs/en/operations/backup/
+3. https://github.com/ClickHouse/ClickHouse
 
 
 

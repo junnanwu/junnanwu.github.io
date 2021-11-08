@@ -20,10 +20,6 @@ Beats中包括很多套件，其中就包括，Filebeat——日志文件采集�
 
 [Filebeat文档](https://www.elastic.co/guide/en/beats/filebeat/current/index.html)
 
-### Filebeat的工作流程
-
-
-
 ### 配置文件
 
 **multiline**（多行日志）
@@ -106,3 +102,10 @@ multiline.match: after
   multiline.match: after
 ```
 
+### 操作filebeat
+
+- 后台启动
+
+  ```
+  sudo nohup ./filebeat -e -c filebeat.yml -d publish &
+  ```

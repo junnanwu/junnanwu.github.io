@@ -2,7 +2,7 @@
 
 ## jdk提供的工具
 
-### Javac
+### javac
 
 Javac工具将Java源文件编译成.class字节码文件
 
@@ -88,7 +88,7 @@ Java [ options ] -jar file.jar [ arguments ]
 
   `cp`
 
-  指定一个或多个目录作为ClassPath，多个目录使用`:`进行分割（Linux，Mac），此选项会覆盖环境变量中的ClassPath。
+  指定一个或多个目录/zip/jar作为类的搜索路径，即ClassPath，多个目录使用`:`进行分割（Linux，Mac），此选项会覆盖环境变量中的ClassPath。
 
   **如果不设置ClassPath参数，同时也不设置ClassPath环境变量，那么ClassPath由当前目录(.)组成。**
 
@@ -146,6 +146,67 @@ Java [ options ] -jar file.jar [ arguments ]
 
 在IDE中运行Java程序，IDE自动传入的`-cp`参数是当前工程的`bin`目录和引入的jar包。
 
+### 理解lib文件夹
+
+当我们写一个JDBC测试代码，如下：
+
+```java
+public class JDBCTest {
+    public static void main(String[] args) throws ClassNotFoundException {
+		//注册驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/data_web", "root", "root")) {
+            try (Statement stmt = conn.createStatement()) {
+                try (ResultSet rs = stmt.executeQuery("SHOW DATABASES")) {
+                    while (rs.next()) {
+                        System.out.println(rs.getString(1));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+```
+
+其中需要用到Mysql JDBC驱动，即下面语句：
+
+```java
+Class.forName("com.mysql.jdbc.Driver");
+```
+
+这里我们可以去官网下载`mysql-connector-java-8.0.27.jar`，这个jar包里面包含`com.mysql.jdbc.Driver.class`，那么我们应该把这个Jar包放在哪里才能让上述语句找到呢？
+
+我们初学的时候通常会被告诉要放在lib文件夹下，为什么放在lib文件夹下就可以了呢，必须名字叫lib吗？
+
+其实还是我们上面说的，Java只会去classpath下找对应的class，那么我们需要做的就是把这个jar包放在classpath中即可。
+
+下面是我们的目录结构，我们选择将jar包放在src同级的lib文件夹中，目录结构如下：
+
+```
+├── lib
+│   └── mysql-connector-java-8.0.27.jar
+└── src
+    └── com
+        └── junnanwu
+            └── jdbc
+                ├── JDBCTest.class
+                └── JDBCTest.java
+```
+
+那么通过上述推荐的使用`-cp`参数来将lib文件夹也加入到classpath中即可：
+
+```
+java -cp lib/mysql-connector-java-8.0.27.jar:src com.junnanwu.jdbc.JDBCTest
+```
+
+所以其实原理还是classpath，那么当然可以把lib起名为任何名字，只要最后将对应的jar包加入classpath即可。
+
+当然，我们都是使用方便的IDE来开发，那么在IDEA中对应的操作就是：建一个文件夹（例如lib），然后**右键 -> Add as Library**，即可。
+
+如果我们使用maven来管理项目，使用约定好的目录结构，那就更简单了，不过最后原理还是一样的。
+
 ### Java核心类库去哪里找
 
 这里涉及到了Java虚拟机的[双亲委派模型](../JavaEE/深入理解Java虚拟机)，核心类库的类（`<JAVA_HOME>\lib`文件夹下）最终都会由应用程序类加载器(Application Class Loader)加载，**第三层，应用程序类加载器（Application ClassLoader）负责加载用户ClassPath上所有的类库。**
@@ -174,7 +235,7 @@ Java本身是不需要配置这个环境变量的，安装Java只需要将jdk的
 
    在没有指定JAVA_HOME的时候，启动Tomcat会使用/User目录下的jdk15，导致版本不对，服务异常。
 
-所以在配置Java环境的时候，最好配置上JAVA_HOME环境变量，以便其他软件使用。
+所以在配置Java环境的时候，最好配置上`JAVA_HOME`环境变量，以便其他软件使用。
 
 ## Jar
 
@@ -184,9 +245,17 @@ Jar文件使用zip格式进行打包，Java提供了Jar命令对Jar包进行创�
 
 JAR 文件与 ZIP 文件唯一的区别就是在 JAR 文件的内容中，包含了一个`META-INF/MANIFEST.MF`文件，这个文件是在生成 JAR 文件的时候自动创建的。
 
+格式：
+
+```
+jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+```
+
+清单文件名, 档案文件名和入口点名称的指定顺序与 `m`, `f` 和`e` 标记的指定顺序相同。
+
 **参数**
 
-- `c`
+- `-c`
 
   创建一个新的Jar包
 
@@ -194,19 +263,7 @@ JAR 文件与 ZIP 文件唯一的区别就是在 JAR 文件的内容中，包含
   jar cf jar-file input-file(s)
   ```
 
-- `m`
-
-  定义`MANIFEST.MF`文件
-
-  ```
-  $ jar -cvfm test.jar META-INF/MANIFEST.MF Test.class
-  ```
-
-- `v`
-
-  将过程信息输出
-
-- `t`
+- `-t`
 
   查看Jar包内容
 
@@ -214,12 +271,46 @@ JAR 文件与 ZIP 文件唯一的区别就是在 JAR 文件的内容中，包含
   jar tf jar-file
   ```
 
-- `x`
+- `-x`
 
   解压
 
   ```
   jar xf jar-file archived-file(s)
+  ```
+
+- `-v`
+
+  将过程信息输出
+
+- `-f`
+
+  指定档案文件名
+
+- `-m`
+
+  定义`MANIFEST.MF`清单文件
+
+  ```
+  $ jar -cvfm test.jar META-INF/MANIFEST.MF Test.class
+  ```
+
+- `-e`
+
+  为Jar文件指定入口点
+
+例如
+
+- 将两个类文件归档到一个名为 classes.jar 的档案中
+
+  ```
+  jar cvf classes.jar Foo.class Bar.class
+  ```
+
+- 使用现有的清单文件`mymanifest`并将`foo/`目录中的所有文件归档到`classes.jar`中
+
+  ```
+  jar cvfm classes.jar mymanifest -C foo/ .
   ```
 
 **使用**

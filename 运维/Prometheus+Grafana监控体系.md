@@ -21,33 +21,98 @@
 - 后台启动
 
   ```
-  sudo nohup ./prometheus &
+  $ sudo nohup ./prometheus &
   ```
 
 - 查看
 
   ```
-  http://49.233.9.128:9090/
+  http://49.233.9.128:9090/targets
   ```
+  
+- 修改配置文件后重启
+
+  ```
+  $ sudo kill -hup 6580
+  ```
+
+#### Prometheus配置文件说明
+
+[官方文档点此可见](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)
+
+```yml
+# my global config
+global:
+  # 采集被监控端的一个周期
+  # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  scrape_interval:     15s 
+  # 告警的评估周期
+  # Evaluate rules every 15 seconds. The default is every 1 minute.
+  evaluation_interval: 15s 
+
+# 告警配置
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - 127.0.0.1:9093
+
+# 指定告警规则 
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "rules/*.yml"
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+  
+  
+# 服务发现
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    # 静态配置为一种简单的配置方式
+    static_configs:
+    - targets: ['localhost:9090']
+    # 用于解决prometheus server的label与exporter端用户自定义label冲突的问题
+    # true: 同名的标签以被采集的标签为准, 忽略服务端本地标签
+    # false: 默认值，同名的被采集的标签将不会覆盖服务端本地标签，而是标签名前增加exported_而服务端本地标签保留
+    honor_labels: true
+    
+  - job_name: 'linux'
+    static_configs:
+      - targets: ['172.16.120.88:9100']
+      #可以定义一些自己的标签
+        labels:
+          instance: staging2
+      - targets: ['172.16.180.243:10100']
+        labels:
+          instance: staging
+```
+
+
 
 ### 监控Linux
 
 - 安装node_exporter
 
   ```
-  node_exporter-1.1.2.linux-amd64.tar.gz
+  $ node_exporter-1.1.2.linux-amd64.tar.gz
   ```
 
 - 启动node_exporter
 
   ```
-  node_exporter: $nohup ./node_exporter & 
+  $ node_exporter: $nohup ./node_exporter & 
   ```
 
   默认为9100端口，也可指定端口启动
 
   ```
-  nohup ./node_exporter --web.listen-address=":10100" &
+  $ nohup ./node_exporter --web.listen-address=":10100" &
   ```
 
 - ip+端口访问，查看存在信息
@@ -121,6 +186,61 @@
 最终如下：
 
 ![image-20210909234603402](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210909234603402.png)
+
+### 监控Mysql
+
+- [下载对应exporter](https://github.com/prometheus/mysqld_exporter/releases/download/v0.13.0/mysqld_exporter-0.13.0.linux-amd64.tar.gz)
+
+- 上传、解压
+
+  ```
+  $ sudo tar -xvf mysqld_exporter-0.13.0.linux-amd64.tar.gz
+  ```
+
+- 登录mysql为exporter创建账号并授权
+
+  ```
+  CREATE USER 'exporter'@'localhost' IDENTIFIED BY 'XXXXXXXX' WITH MAX_USER_CONNECTIONS 3;
+  GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'localhost';
+  ```
+
+- 创建文件`.my.cnf`
+
+  ```
+  [client]
+  user=exporter
+  password=xxxxxxx
+  ```
+
+- 运行
+
+  ```
+  $ nohup ./mysqld_exporter --config.my-cnf=.my.cnf &
+  ```
+
+- 访问端口测试
+
+  ```
+  http://xxxxxxxx:9104/
+  ```
+
+- 修改prometheus.yml添加job
+
+  ```yml
+  - job_name: "mysql"
+      static_configs:
+      - targets: ["172.16.74.199:9104"]
+      - targets: ["172.27.0.26:9104"]
+      honor_labels: true
+  ```
+
+- 重启prometheus
+
+[官方介绍详见此](https://github.com/prometheus/mysqld_exporter)
+
+效果如图：
+
+<img src="Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20211103201401338.png" alt="image-20211103201401338" style="zoom: 50%;" />
 
 ## 告警
 

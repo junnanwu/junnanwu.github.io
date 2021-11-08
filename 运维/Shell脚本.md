@@ -2,7 +2,7 @@
 
 创建shell脚本的时候，必须在第一行指定要使用的shell，除了第一行之外，可以使用`#`作为注释行。
 
-```sh
+```
 #！/bin/bash
 ```
 
@@ -12,11 +12,11 @@
 
 echo命令后面的字符串可以使用单引号或者双引号，如果字符串中用了其中一种，那么文本需要使用另一种引号。
 
-- ```sh
+- ```
   echo "wu's mac"
   ```
 
-- ```sh
+- ```
   'wu says "Hello"'
   ```
 
@@ -88,7 +88,7 @@ wc < test6
 
 将一个命令的输出作为另一个命令的输入
 
-```sh
+```
 rpm -qa > rpm.list
 sort < rpm.list
 ```
@@ -103,16 +103,16 @@ command1 | command2
 
 故上述脚本可以替换为：
 
-```sh
-rpm -qa | sort
+```
+$ rpm -qa | sort
 ```
 
 可以在一条命令中使用任意多条管道。
 
 比较实用的一个是使用more来一次显示一屏内容：
 
-```sh
-rpm -qa | sort | more
+```
+$ rpm -qa | sort | more
 ```
 
 ### 执行数学运算
@@ -526,7 +526,7 @@ Linux系统将每个对象当作文件处理。这包括输入和输出进程。
 
 STDIN文件描述符代表shell的标准输入。对终端界面来说，标准输入是键盘。
 
-```sh
+```
 $ cat
 this is a test
 this is a test
@@ -538,7 +538,7 @@ this is a second test.
 
 但你也可以通过STDIN重定向符号`<`强制cat命令接受来自另一个非STDIN文件的输入。
 
-```sh
+```
 $ cat < testfile
 This is the first line.
 This is the second line.
@@ -619,7 +619,7 @@ sed命令会做如下操作：
 格式：
 
 ```
-sed OPTIONS... [SCRIPT] [INPUTFILE...] 
+sed [OPTION]... {script-only-if-no-other-script} [input-file]...
 ```
 
 参数：
@@ -633,6 +633,7 @@ sed OPTIONS... [SCRIPT] [INPUTFILE...]
   执行多个命令：
 
   ```
+  # -e 参数可以省略
   $ echo 你好 | sed 's/你/您/; s/好/好吗/'
   您好吗
   ```
@@ -645,6 +646,10 @@ sed OPTIONS... [SCRIPT] [INPUTFILE...]
 - `-f file`
 
   将file中指定的命令添加到已有的命令中
+  
+- `-i --in-place`
+
+  直接编辑文件
 
 SCRIPT：
 

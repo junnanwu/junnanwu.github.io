@@ -1,4 +1,12 @@
+# Mysql日志
+
+
+
+> Prior to MySQL 5.7.7, statement-based format was the default. In MySQL 5.7.7 and later, row-based format is the default.
+
 ## binlog
+
+[详见官方文档](https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html)
 
 记录了所有的DDL和DML语句
 
@@ -7,7 +15,38 @@
 - 主从复制
 - 数据恢复
 
-可以借助mysql自带的mysqlbinlog工具可以查看binlog
+可以借助mysql自带的mysqlbinlog工具可以查看binlog。
+
+### mysqlbinlog
+
+格式：
+
+```
+mysqlbinlog [options] log_file ...
+```
+
+options：
+
+- `--base64-output=value `
+
+  value取值如下：
+
+  - `AUTO`
+
+    该选项的默认值
+
+  - `NEVER`
+
+  - `DECODE-ROWS`
+
+- `--verbose -V`
+
+  将行事件解释为带注释的SQL语句
+
+- `--database=db_name  -d db_name`
+
+  > This option causes mysqlbinlog to output entries from the binary log (local log only) that occur while `db_name` is been selected as the default database by `USE`.
+
 
 ### 实战
 
@@ -21,35 +60,25 @@
 show variables like '%log_bin%';
 ```
 
-变量`log_bin`如果为ON就表示开启了binlog
+变量`log_bin`如果为ON就表示开启了binlog，同时也会显示binlog的位置
 
 **步骤2：找到binlog文件**
 
-目录如下：
+例如，目录如下：
 
 ```
 /data/mysql/logs/my3306/binlog/mysql-bin
 ```
 
-里面有多个文件，可以通过`ll`命令找到最新更新的那个
+里面有多个文件，可以查看文件的更改时间，来确定文件
 
 **步骤3：根据已知条件进行查找**
 
 ```
-sudo ./mysqlbinlog --no-defaults --database=data_web --base64-output=decode-rows -v --start-datetime="2021-08-04 17:00:00" --stop-datetime="2021-08-04 18:00:00" /data/mysql/logs/my3306/binlog/mysql-bin.000029 |grep tag_sys |more
+sudo ./mysqlbinlog --no-defaults --database=data_web --base64-output=decode-rows -v --start-datetime="2021-08-04 17:00:00" --stop-datetime="2021-08-04 18:00:00" /data/mysql/logs/my3306/binlog/mysql-bin.000029 |grep tag_sys |less
 ```
 
-参数：
-
-- 查看库：`data_web`
-
-- 表：`tag_sys`
-
--  时间为`2021-08-04 17:00:00 - 2021-08-04 16:00:00`的语句
-
-- `--base64-output=decode-rows -v`
-
-  输出base64编码的语句，并将基于行的语句解码成一个SQL语句
+查看`data_web`库的`tag_sys`表，日志时间为`2021-08-04 17:00:00 - 2021-08-04 16:00:00`的语句，`--base64-output=decode-rows -v`作用是输出base64编码的语句，并将基于行的语句解码成一个SQL语句。
 
 输出结果：
 

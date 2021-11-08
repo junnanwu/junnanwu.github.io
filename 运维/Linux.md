@@ -38,7 +38,20 @@ Linux可以划分为以下四个部分：
 
 Linux操作系统将运行中的程序称为进程。
 
-内核创建了第一个进程(称为init进程)来启动系统上所有其他进程。当内核启动时，它会将init进程加载到虚拟内存中。内核在启动任何其他进程时，都会在虚拟内存中给新进程分配一块专有区域来存储该进程用到的数据和代码。
+内核启动了第一个进程（称为init进程）来启动任何其他进程当内核启动时，它会将init进程加载到虚拟内存中。内核在启动任何其他进程时，都会在虚拟内存中给新进程分配一块专有区域来存储该进程用到的数据和代码。
+
+一些Linux采用/etc/init.d目录，将开机时启动或停止某个应用的脚本放在这个目录下。
+
+```
+ll /etc/init.d/
+总用量 60
+-rwxr-xr-x 1 root root 10867 5月  23 2020 clickhouse-server
+-rw-r--r-- 1 root root 18281 5月  22 2020 functions
+-rwxr-xr-x 1 root root  4569 5月  22 2020 netconsole
+-rwxr-xr-x 1 root root  7928 5月  22 2020 network
+-rw-r--r-- 1 root root  1160 2月   3 2021 README
+-rwxr-xr-x 1 root root  5840 8月  11 13:59 srepagent
+```
 
 #### 硬件设备管理
 
@@ -65,7 +78,7 @@ Linux系统将硬件设备当成特殊的文件，称为设备文件。设备文
 
 Linux为系统上的每个设备都创建一种称为节点的特殊文件。与设备的所有通信都通过设备节点完成。每个节点都有唯一的数值对供Linux内核标识它。数值对包括一个主设备号和一 个次设备号。类似的设备被划分到同样的主设备号下。次设备号用于标识主设备组下的某个特定设备。
 
-## GNU工具
+### GNU工具
 
 除了由内核控制硬件设备外，操作系统还需要工具来执行一些标准功能，比如控制文件和程序。Linus在创建Linux系统内核时，并没有可用的系统工具。然而他很幸运，就在开发Linux内核的同时，有一群人正在互联网上共同努力，模仿Unix操作系统开发一系列标准的计算机系统工具。
 
@@ -193,19 +206,19 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
 - 查看已安装的软件包
 
-  ```sh
+  ```
   $ yum list installed
   ```
 
 - 查看可用的epel源
 
-  ```sh
+  ```
   $ yum list | grep epel-release
   ```
 
 - 安装 epel
 
-  ```sh
+  ```
   $ yum install -y epel-release
   ```
 
@@ -213,7 +226,7 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
   我们可以手动下载rpm安装文件并用yum安装
 
-  ```sh
+  ```
   $ yum -y localinstall clickhouse-*.rpm
   ```
 
@@ -221,13 +234,13 @@ yum使用Python语言写成，基于RPM包进行管理，可以通过HTTP服务�
 
 - 删除软件包而保留其配置文件和数据文件
 
-  ```sh
+  ```
   $ yum remove package_name
   ```
 
 - 删除软件和其他所有文件
 
-  ```sh
+  ```
   $ yum erase package_name
   ```
 
@@ -235,25 +248,25 @@ yum仓库
 
 - 查看正在使用的仓库
 
-  ```sh
+  ```
   $ yum repolist
   ```
 
 - 配置阿里镜像提供的epel源
 
-  ```sh
+  ```
   $ wget -O /etc/yum.repos.d/epel-7.repo  http://mirrors.aliyun.com/repo/epel-7.repo
   ```
 
 - 查看所有的yum源
 
-  ```sh
+  ```
   $ yum repolist all
   ```
 
 - 查看可用的yum源
 
-  ```sh
+  ```
   $ yum repolist enabled
   ```
 
@@ -287,21 +300,27 @@ wget是Linux中的一个下载文件的工具，是GNU项目的之一，名字�
 
 - 下载文件
 
-  ```sh
+  ```
   $ wget http://cn.wordpress.org/wordpress-4.9.4-zh_CN.tar.gz
   ```
 
 ## man
 
-man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
+**man (Manual) 命令用来访问存储在Linux系统上的手册页面。**在想要查找的工具的名称前面输入man命令，就可以找到那个工具相应的手册条目。
 
 举例：
 
 - 查看cp命令详解
 
-  ```sh
+  ```
   $ man cp
   ```
+
+注意：
+
+要想查看某个命令的用法，此种方式要优先于上网搜索网友总结的博客。
+
+因为man给出了**权威**的解释、**语法结构**（如本文命令下对应的格式）以及简写选项对应的详细选项（例如：`-l --login`），很多博客忽略了命令的语法结构，尤其是复杂命令，这会让命令的记忆非常困难，要尽早习惯man讲解命令的方式，越早后续学习Linux命令就越轻松。
 
 ## 文件目录列表
 
@@ -311,13 +330,13 @@ man (Manual) 命令用来访问存储在Linux系统上的手册页面。在想�
 
 - 回到上次打开的目录
 
-  ```sh
+  ```
   $ cd -
   ```
   
 - 回到用户目录
 
-  ```sh
+  ```
   $ cd
   ```
 
@@ -349,7 +368,7 @@ pwd (print work directory) 显示当前目录。
 
 - 文件太多想查看想看的文件
 
-  ```sh
+  ```
   $ ls -l |grep data
   ```
 
@@ -392,15 +411,30 @@ pwd (print work directory) 显示当前目录。
 
 - 使用`>`指令覆盖文件原内容并重新输入内容，若文件不存在则创建文件
 
-  ```sh
+  ```
   $ echo "Raspberry" > test.txt
   ```
 
 - 使用>>指令向文件追加内容，原内容将保存
 
-  ```sh
+  ```
   $ echo "Intel Galileo" >> test.txt  
   ```
+
+问题：
+
+执行下面命令，提示权限不足：
+
+```
+$ sudo echo 你好 > test
+-bash: test: 权限不够
+```
+
+解决办法：
+
+```
+sudo tee version.txt <<< 你好
+```
 
 ### tree
 
@@ -410,13 +444,13 @@ pwd (print work directory) 显示当前目录。
 
 - 便利层级
 
-  ```sh
+  ```
   $ tree -L 2
   ```
 
 - 只显示文件夹
 
-  ```sh
+  ```
   $ tree -d
   ```
 
@@ -439,11 +473,13 @@ cp (copy file) ，用于复制文件或目录。
 
 1. 在目标目录名尾部加上`/`，这表明destination是目录而不是文件，如果没有加`/`，而destination目录又不存在，那么反而会创建一个名为destination的文件，而且不会有任何提示。
 
-   ```sh
+   ```
    $ cp -i test_one Documents/
    ```
 
 ### ln
+
+给一个物理文件的虚拟副本就是链接，链接是指向文件真实位置的占位符。
 
 根据Linux文件系统：
 
@@ -453,45 +489,80 @@ cp (copy file) ，用于复制文件或目录。
 
 ln 命令用于给文件创建链接，分为下面两种：
 
-- 软链接
+- 符号链接（symbolic link，软链接）
 
-  类似于 Windows 系统中给文件创建快捷方式，即产生一个特殊的文件，该文件用来指向另一个文件，此链接方式同样适用于目录。
+  类似于 Windows 系统中给文件创建快捷方式，即产生一个实实在在的文件，该文件用来指向另一个文件，此链接方式同样适用于目录。
+
+  符号链接和原文件是两个完全不同的文件，可以看到俩个文件的inode编号和大小是不一样的。
+
+  ```
+  $ sudo ln -s test test_sym
+  $ ls -li
+  29360135 -rw-r--r-- 1 jinp jinp   16 10月 30 17:09 test
+  29360136 lrwxrwxrwx 1 root root    4 10月 30 17:08 test_sym -> test
+  ```
 
 - 硬链接
 
   硬链接指的就是给一个文件的 inode 分配多个文件名，通过任何一个文件名，都可以找到此文件的 inode，从而读取该文件的数据信息。
 
   两个文件进行硬链接，会共享inode编号，并且这两个文件的链接计数（`ls -l`的第三项）都显示2。
+  
+  ```
+  $ sudo ln test test_hard
+  $ ls -li
+  29360135 -rw-r--r-- 2 jinp jinp   16 10月 30 17:09 test
+  29360135 -rw-r--r-- 2 jinp jinp   16 10月 30 17:09 test_hard
+  ```
 
 命令格式：
 
-```sh
-ln -s [OPTIONS] FILE LINK
+```
+ln [OPTIONS] FILE LINK
 ```
 
-如果LINK参数没有写，那么就会在本文件夹内创建一个同名的软连接。
+如果LINK参数没有写，那么就会在本文件夹内创建一个同名链接。
 
 参数：
 
 - `-s` 
 
-  建立软链接（symbolic link）文件。如果不加此选项，则建立硬链接文件；
+  建立符号链接文件。如果不加此选项，则建立硬链接文件
 
-- `-f` 强制。如果目标文件已经存在，则删除目标文件后再建立链接文件；
+- `-f` 
+
+- 强制，如果目标文件已经存在，则删除目标文件后再建立链接文件
 
 举例：
 
 - 删除软连接
 
-  ```sh
+  ```
   # 注意结尾不能加/
   $ rm redis
   ```
 
 **注意**：
 
-1. 软链接文件的源文件必须写成绝对路径，而不能写成相对路径（硬链接没有这样的要求）
-2. **删除软链接的时候，后面不能加`/`，不然删除的就是原目录了**
+1. 只能对处于同一存储媒体的文件创建硬链接，要想在不同的存储媒介的文件之间创建链接，只能用符号链接。
+
+2. 符号链接文件的源文件必须写成绝对路径，而不能写成相对路径（硬链接没有这样的要求）
+
+3. **删除软链接的时候，后面不能加`/`，不然删除的就是原目录了**
+
+4. 权限问题，发现当修改符号链接的属主的时候，修改的实际上是原文件
+
+   ```
+   $ ll
+   -rw-r--r-- 1 root root   16 10月 30 17:09 test
+   lrwxrwxrwx 1 root root    4 10月 30 17:08 test_sym -> test
+   
+   $ sudo chown jinp:jinp test_sym
+   
+   $ ll
+   -rw-r--r-- 1 jinp jinp   16 10月 30 17:09 test
+   lrwxrwxrwx 1 root root    4 10月 30 17:08 test_sym -> test
+   ```
 
 ### mv
 
@@ -511,7 +582,7 @@ ln -s [OPTIONS] FILE LINK
 
 - 将root文件夹下的所有文件都移动到当前文件夹
 
-  ```bash
+  ```
   $ mv /root/* .
   ```
 
@@ -519,15 +590,15 @@ ln -s [OPTIONS] FILE LINK
 
 - 移动多个文件，将a，b移动到c中
 
-  - ```bash
+  - ```
     $ mv a b c_dir
     ```
 
-  - ```bash
+  - ```
     $ mv a b -t c_dir
     ```
 
-  - ```bash
+  - ```
     $ mv -t c_dir a b
     ```
 
@@ -537,19 +608,19 @@ ln -s [OPTIONS] FILE LINK
 
 - 将文件 aaa 改名为 bbb
 
-  ```sh
+  ```
   $ mv aaa bbb
   ```
 
   目标目录与原目录一致，则指定了新文件名，效果仅仅是重命名。
 
-  ```sh
+  ```
   $ mv /home/ffxhd/a.txt /home/ffxhd/b.txt    
   ```
 
 - 目标目录与原目录不一致，没有指定新文件名，效果就是仅仅移动。
 
-  ```sh
+  ```
   $ mv  /home/ffxhd/a.txt /home/ffxhd/test/ 
   或者
   $ mv  /home/ffxhd/a.txt /home/ffxhd/test 
@@ -557,7 +628,7 @@ ln -s [OPTIONS] FILE LINK
 
 - 目标目录与原目录一致, 指定了新文件名，效果就是：移动 + 重命名。
 
-  ```sh
+  ```
   $ mv  /home/ffxhd/a.txt /home/ffxhd/test/c.txt
   ```
 
@@ -571,7 +642,7 @@ ln -s [OPTIONS] FILE LINK
 
 一口气删除终极大法（危）
 
-```sh
+```
 $ rm -rf
 ```
 
@@ -601,19 +672,19 @@ $ rm -rf
 
   打包（这个不叫压缩）
 
-  ```sh
+  ```
   $ tar -cvf FileName.tar DirName
   ```
 
   解包
 
-  ```sh
+  ```
   $ tar -xvf FileName.tar
   ```
 
   打包多个文件
 
-  ```sh
+  ```
   $ tar -czvf bak.tar.gz users/ config.xml jobs/ plugins/
   ```
 
@@ -621,32 +692,43 @@ $ rm -rf
 
   这些是gzip压缩过的tar文件
 
-  ```sh
+  ```
   $ tar -zxvf filename.tgz
   ```
 
   压缩
 
-  ```sh
+  ```
   $ tar -zcvf FileName.tar.gz DirName
   ```
 
 - gz
 
-  GNU压缩工具，用Lempel-Ziv编码
+  GNU压缩工具，用Lempel-Ziv编码，属于无损压缩（lossless compression）
 
   压缩
 
-  ```sh
+  ```
   $ gzip FileName
   ```
 
   解压
 
-  ```sh
+  ```
   $ gunzip FileName.gz 
   $ gzip -d FileName.gz 
   ```
+
+  关于压缩比率
+
+  我的实际测试如下（数据库数据文件，不同文件会有差异）：
+
+  ```
+  -rw-r--r--  1 root       root        11G 11月  2 21:48 data_pro.gz.tar
+  -rw-r--r--  1 root       root        18G 11月  2 21:17 data_pro.tar
+  ```
+
+  gz压缩要比tar直接打包慢的多，需要20分钟左右，tar只需2分钟左右。
 
 - zip
 
@@ -654,13 +736,13 @@ $ rm -rf
 
   压缩：
 
-  ```sh
+  ```
   $ zip FileName.zip DirName 
   ```
 
   批量将文件解压到对应的目录
 
-  ```sh
+  ```
   $ unzip -d /app tomcat-all.zip
   ```
 
@@ -670,13 +752,13 @@ $ rm -rf
 
 - unzip
 
-  ```sh
+  ```
   $ zipinfo -1 ./ShareWAF.zip(误解压文件) | xargs rm -rf
   ```
 
 - tar
 
-  ```sh
+  ```
   $ tar -tf 误解压文件 | xargs rm -rf
   ```
 
@@ -694,13 +776,13 @@ cat (concatenate，连接) ，显示文件内容。
 
 - 从键盘创建一个文件
 
-  ```sh
+  ```
   $ cat > filename
   ```
 
 - 将几个文件合并为一个文件
 
-  ```sh
+  ```
   $ cat file1 file2 > file
   ```
 
@@ -710,7 +792,49 @@ cat命令的缺陷就是，一旦运行，无法控制，more命令会显示文�
 
 ### less
 
-less (less is more) ，more命令的升级版，less命令支持上下翻页键。
+less (less is more) ，more命令的升级版，less在刚开始不会读取整个文件，less命令支持上下翻页键。
+
+command：
+
+- `g`
+
+  跳转到文件的第1行
+
+  `20g` 跳转到第20行
+
+- `G`
+
+  跳转到文件的最后一行（大文件会很慢）
+
+- `ENTER/e/↓`
+
+  向前跳转1行
+
+- `y/↑`
+
+  想后跳转1行
+
+- `b/PageDown`
+
+  向后跳转一个屏幕的
+
+- `d/PageUp`
+
+  向前跳转N行，默认是半屏幕的大小
+
+- `p`
+
+  跳转到`N%`
+
+  `20p`，跳转到20%
+
+- `NUM`
+
+  跳转到第NUM行
+
+- `q`
+
+  退出
 
 ### tail
 
@@ -757,7 +881,7 @@ test.txt内容如下（末尾有个换行符）：
 
 - 以ASCII码的形式显示文件test.txt中的内容
 
-  ```sh
+  ```
   $ od -tc test.txt
   0000000    1   \   n   2  \n
   0000005
@@ -765,7 +889,7 @@ test.txt内容如下（末尾有个换行符）：
 
 - 使用ASCII码进行输出
 
-  ```sh
+  ```
   $ od -td1 test.txt
   0000000    49  92 110  50  10
   0000005
@@ -787,23 +911,52 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 
 参数：
 
-- `-v` 反向搜索，输出不匹配的行
-- `-n` 显示匹配行的行号
-- `-c` 一共多少行匹配
-- `-e` 指定多个匹配
+- `-v` 
+
+  反向搜索，输出不匹配的行
+
+- `-n` 
+
+  显示匹配行的行号
+
+- `-c` 
+
+  一共多少行匹配
+
+- `-e` 
+
+  指定多个匹配
+
+- `-C NUM, -NUM, --context=NUM`
+
+  打印匹配行的上下`NUM`行
+
+- `-A NUM, --after-context=NUM`
+
+  打印匹配行的后`NUM`行
+
+- `-B NUM, --before-context=NUM`
+
+  打印匹配行的前`NUM`行
 
 常用：
 
 - 搜索`/usr/src/linux/Documentation`目录下搜索带字符串`magic`的行：
 
-  ```sh
+  ```
   $ grep magic /usr/src/linux/Documentation/*
   ```
 
-- 输出含有字符t或f的所有行
+- 输出含有字符`t`或`f`的所有行
 
-  ```sh
+  ```
   $ grep -e t -e f file1
+  ```
+  
+- 输出日志中含有`kungeek.com`字符串的上下2行
+
+  ```
+  $ tail data-web.log |grep -2 kungeek.com
   ```
 
 ### find
@@ -812,13 +965,13 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 
 - 在目录下査找文件名是`yum.conf`的文件（按照文件名搜索，不区分文件名大小）
 
-  ```sh
+  ```
   $ find /-name yum.conf
   ```
 
 - 指定递归深度
 
-  ```sh
+  ```
   $ find ./test -maxdepth 2 -name "*.php"
   ```
 
@@ -827,6 +980,66 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 ```
 
 ```
+
+### stat
+
+stat用来查看文件的详细信息
+
+格式：
+
+```
+stat [OPTION]... FILE...
+```
+
+参数：
+
+- `-f`
+
+  查看文件所在的文件系统信息
+
+例如：
+
+- 查看指定文件的信息
+
+  ```
+  $ stat data_web
+    文件："data_web"
+    大小：4096      	块：8          IO 块：4096   目录
+  设备：fd01h/64769d	Inode：1088035     硬链接：6
+  权限：(0757/drwxr-xrwx)  Uid：(  994/clickhouse)   Gid：(  993/clickhouse)
+  最近访问：2021-10-30 13:56:52.690695999 +0800
+  最近更改：2021-10-30 13:56:02.770794238 +0800
+  最近改动：2021-10-30 13:56:02.770794238 +0800
+  创建时间：-
+  ```
+
+  - 大小：文件占用多少个字节
+  - 块：文件占用了多少个block
+  - IO块：每个block多大
+  - 文件类型：文件/目录...
+  - 设备：设备号码的十六进制和十进制
+  - Inode：Inode号码
+  - 硬链接：硬链接数
+  - ...
+
+- 同时可以查看目录下所有文件的信息
+
+  ```
+  $ stat *
+  ```
+
+- 查看文件所在的文件系统的信息
+
+  ```
+  $ stat -f data_web
+    文件："data_web"
+      ID：47d795d8889d00d3 文件名长度：255     类型：ext2/ext3
+  块大小：4096       基本块大小：4096
+      块：总计：12868467   空闲：9124416    可用：8575105
+  Inodes: 总计：3276800    空闲：3063657
+  ```
+
+  - 块大小：该文件系统每个block的大小
 
 ## 文本处理
 
@@ -915,7 +1128,7 @@ seq [选项]... 首数 增量 尾数
 
 ### tee
 
-tee显示输出结果并且保存到
+tee读取STDIN然后将其输出到STDOUT和指定的文件中。
 
 ##  vim
 
@@ -1087,13 +1300,13 @@ ps (process status) 查看进程。
 
 - 批量杀死name线程
 
-  ```sh
+  ```
   $ ps -ef|grep name|awk '{print $2}'|xargs kill -9
   ```
 
 列表说明：
 
-```sh
+```
 $ ps -ef| grep test
 jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 ```
@@ -1161,7 +1374,7 @@ df (disk free) ，用来检查Linux文件系统的占用情况。
 
 - `-h` 方便阅读方式显示（以较易阅读的格式显示）
 
-```sh
+```
 $ df -h
 Filesystem       Size   Used  Avail Capacity iused      ifree %iused  Mounted on
 /dev/disk1s1s1  466Gi   14Gi  386Gi     4%  559993 4881892887    0%   /
@@ -1188,7 +1401,7 @@ du (disk usage) ，通过df命令很容易发现哪个磁盘的存储空间快�
 
 - 查看当前文件夹多大
 
-  ```sh
+  ```
   $ du -hs
   ```
 
@@ -1202,7 +1415,7 @@ free 命令显示系统内存的使用情况。
 
 它跟 netstat 差不多，但有着比 netstat 更强大的统计功能
 
-```sh
+```
 $ netstat -anp|grep 8005
 ```
 
@@ -1222,7 +1435,7 @@ $ netstat -anp|grep 8005
 
 查看端口占用
 
-```sh
+```
 $ netstat -tunlp |grep 9200
 ```
 
@@ -1230,7 +1443,7 @@ $ netstat -tunlp |grep 9200
 
 ss (Socket Statistics)
 
-```sh
+```
 $ ss -antp | grep java | column -t
 ```
 
@@ -1255,7 +1468,7 @@ lsof (list open files) ，一个列出当前系统打开文件的工具。
 
 - 查看9999对应的端口
 
-  ```sh
+  ```
   $ lsof -i :9999
   ```
 
@@ -1265,13 +1478,13 @@ lsof (list open files) ，一个列出当前系统打开文件的工具。
 
 - 查看物理CPU数
 
-  ```sh
+  ```
   $ cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
   ```
 
 - 查看每个物理CPU中core的个数(即核数)
 
-  ```sh
+  ```
   $ cat /proc/cpuinfo| grep "cpu cores"| uniq
   ```
 
@@ -1279,13 +1492,13 @@ lsof (list open files) ，一个列出当前系统打开文件的工具。
 
 #### 查看CPU信息
 
-```sh
+```
 $ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 ```
 
 #### 查看操作系统版本
 
-```sh
+```
 $ cat /etc/centos-release
 ```
 
@@ -1295,7 +1508,7 @@ $ cat /etc/centos-release
 
 #### telnet
 
-```sh
+```
 $ telnet ip port
 ```
 
@@ -1305,13 +1518,13 @@ telnet之后如何退出？
 
 #### nmap
 
-```sh
+```
 $ nmap ip -p port
 ```
 
 #### nc
 
-```sh
+```
 $ nc -v ip port
 ```
 
@@ -1319,7 +1532,7 @@ $ nc -v ip port
 
 SSH  (Secure Shell)，专为远程登录会话和其他网络服务提供安全性的协议，如果一个用户从本地计算机，使用SSH协议登录另一台远程计算机，我们就可以认为，这种登录是安全的，即使被中途截获，密码也不会泄露，目前已经成为Linux系统的标准配置。
 
-```sh
+```
 ssh <username>@<hostname or IP address>
 ```
 
@@ -1331,7 +1544,7 @@ ssh <username>@<hostname or IP address>
 
 - 使用2222端口登陆
 
-  ```sh
+  ```
   $ ssh -p 2222 user@host
   ```
 
@@ -1352,7 +1565,7 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
 
 1. 生成RSA类型私钥公钥
 
-   ```sh
+   ```
    ssh-keygen -t rsa -C "wujunnan@kungeek.com"
    ```
 
@@ -1364,13 +1577,13 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
 
    - 方法二：使用ssh-copy-id工具
 
-     ```sh
+     ```
      $ ssh-copy-id username@remote-server
      ```
 
      举例：
 
-     ```sh
+     ```
      $ ssh-copy-id -i id_rsa.pub jinp@172.27.0.8
      ```
 
@@ -1390,7 +1603,7 @@ scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令
 
 **上传命令**
 
-```sh
+```
 $ scp local_file remote_ip:remote_folder 
 ```
 
@@ -1398,14 +1611,14 @@ $ scp local_file remote_ip:remote_folder
 
 - 多个文件用空格分割
 
-  ```sh
+  ```
   $ scp execute.sh jenkins.war jinp@172.27.0.8:
   ```
 
 - 从本地文件复制整个文件夹到远程主机上（文件夹假如是diff）
   先进入本地目录下，然后运行如下命令：
 
-  ```sh
+  ```
   $ scp -v -r diff root@192.168.1.104:/usr/local/nginx/html/webs
   
   $ scp -r /Users/wujunnan/develop/WWW/zookeeper-3.4.6 root@wujunnan.net:/usr/local/zookeeper
@@ -1415,7 +1628,7 @@ $ scp local_file remote_ip:remote_folder
   在文件传输的过程中，我们可以使用压缩文件来加快文件传输，我们可以使用 C选项来启用压缩功能，该文件在传输过程中被压缩，
   在目的主机上被解压缩。
 
-  ```sh
+  ```
   $ scp -vrC diff root@192.168.1.104:/usr/local/nginx/html/webs
   ```
 
@@ -1424,7 +1637,7 @@ $ scp local_file remote_ip:remote_folder
 从远程主机复制文件到本地主机(下载)的命令如下：（假如远程文件是about.zip）
 先进入本地目录下，然后运行如下命令：
 
-```sh
+```
 $ scp root@192.168.1.104:/usr/local/nginx/html/webs/about.zip .
 ```
 
@@ -1534,7 +1747,7 @@ curl来自client的URL工具，用于请求Web服务器
 
   参数会让 HTTP 请求跟随服务器的重定向。curl 默认不跟随重定向。
 
-- `-H` 
+- `-H`
 
   `--header`
 
@@ -1564,16 +1777,117 @@ curl来自client的URL工具，用于请求Web服务器
 
 ## Shell
 
+系统启动什么样的shell程序取决于你个人的用户ID配置。在/etc/passwd文件中，在用户ID记录的第7个字段中列出了默认的shell程序。
+
+### Shell的父子关系
+
+用于登录某个终端或GUI中启动终端时所启动的默认的交互shell，是一个父shell。
+
+在提示符后输入`bin/bash`命令或其他等效的bash命令的时候，会创建一个新的shell程序，这个shell程序被称为子shell。
+
+在生成子shell进程时，只有部分父进程的环境被复制到子shell环境中，下面的环境变量将讲解。
+
+要想知道是否生成了子shell，得借助一个使用了环境变量的命令。
+
+这个命令就是`echo $BASH_SUBSHELL`。如果该命令返回0，就表明没有子shell。如果返回1或者其他更大的数字，就表明存在子shell。
+
+#### exit
+
+exit命令用于退出子shell，当在父shell中输入exit的时候，就是退出CLI了。
+
+#### jobs
+
+也可以使用jobs命令来显示当前运行在后台模式中的所有用户的进程。
+
+```
+$ jobs
+[1]+  运行中               sleep 300 &
+```
+
+参数：
+
+- `-l`
+
+  查看更多信息
+
+  ```
+  jobs -l
+  [1]+  4770 运行中               sleep 300 &
+  ```
+
+#### 后台模式
+
+在交互式shell中，一个高效的子shell用法就是使用后台模式。
+
+在后台模式中运行命令可以在处理命令的同时让出CLI，以供他用，想要命令置入后台模式，可以在命令末尾上加上字符`&`。
+
+第一条信息时显示在方括号中的后台作业号，第二条是后台作业的进程ID。
+
+```
+$ sleep 300&
+[1] 4770
+```
+
+ps查看进程：
+
+```
+$ ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+jinp      4770 14033  0 19:05 pts/1    00:00:00 sleep 300
+jinp      4778 14033  0 19:05 pts/1    00:00:00 ps -f
+jinp     14033 14032  0 13:17 pts/1    00:00:00 -bash
+```
+
+注意，当后台进程运行时，它仍然会使用终端显示器来显示STDOUT和STDERR消息。最好是将后台运行的脚本的STDOUT和STDERR进行重定向，避免这种杂乱的输出。
+
+##### nohup
+
+nohup (no hang up) 不挂断的运行命令
+
+nohup命令运行了另外一个命令来阻断所有发送给该进程的SIGHUP信号。这会在退出终端会话时阻止进程退出。
+
+```
+$ nohup ./test1.sh &
+[1] 3856
+$ nohup: ignoring input and appending output to 'nohup.out'
+```
+
+和普通后台进程一样，shell会给命令分配一个作业号，Linux系统会为其分配一个PID号。区别在于，当你使用nohup命令时，如果关闭该会话，脚本会忽略终端会话发过来的SIGHUP信号。
+
+nohup命令会自动将STDOUT和STDERR的消息重定向到一个名为nohup.out的文件中。
+
+三种运行方式的区别：
+
+- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
+
+  回车之后，将日志文件输出到nohup.out文件中，若执行control+c或者关闭终端，进程将终止
+
+- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar &`
+
+  回车之后，会输出进程号，以及提示日志输出在nohup.out文件中，若执行control+c或者关闭终端，进程仍在运行
+
+- `nohup command > myout.file 2>&1 &`
+
+  在上面的例子中，输出被重定向到myout.file文件中。
+
+- `nohup ./filebeat  -e -c filebeat.yml -d "publish" >/dev/null  2>&1 &`
+
+  - 2>&1的意思 
+
+    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
+
+  - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
+
 ### 外部命令
 
 外部命令，有时候也被称为文件系统命令，是存在于bash shell之外的程序。它们并不是shell 程序的一部分。外部命令程序通常位于`/bin`、`/usr/bin`、`/sbin`或`/usr/sbin`中
 
-例如ps就是一个外部命令，可以通过which命令来查找它
+例如`ps`就是一个外部命令，可以通过which命令来查找它
 
-当外部命令执行时，会创建出一个子进程。这种操作被称为衍生(forking)。外部命令ps很 方便显示出它的父进程以及自己所对应的衍生子进程。
+当外部命令执行时，会创建出一个子进程。这种操作被称为衍生(forking)。外部命令ps很方便显示出它的父进程以及自己所对应的衍生子进程。
 
 ```
-ps -f
+$ ps -f
 UID        PID  PPID  C STIME TTY          TIME CMD
 jinp      9423 11751  0 00:14 pts/0    00:00:00 ps -f
 jinp     11751 11750  0 9月04 pts/0    00:00:00 -bash
@@ -1581,9 +1895,24 @@ jinp     11751 11750  0 9月04 pts/0    00:00:00 -bash
 
 可以看到，`ps -ef`的父进程为`-bash`
 
-### which
+```
+$ ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+jinp       851 14033  0 18:50 pts/1    00:00:00 ps -f
+jinp     14033 14032  0 13:17 pts/1    00:00:00 -bash
 
-which指令会在环境变量$PATH设置的目录里查找符合条件的文件。
+$ bash
+
+$ ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+jinp       883 14033  1 18:50 pts/1    00:00:00 bash
+jinp       924   883  0 18:50 pts/1    00:00:00 ps -f
+jinp     14033 14032  0 13:17 pts/1    00:00:00 -bash
+```
+
+#### which
+
+which指令会在环境变量`$PATH`设置的目录里查找符合条件的文件。
 
 外部命令，也就是存在于bash shell之外的程序，可以通过which命令查找
 
@@ -1592,38 +1921,119 @@ which指令会在环境变量$PATH设置的目录里查找符合条件的文件�
 - 查找java命令的位置
 
   ```
-  which java
-  
+  $ which java 
   /data/jdk1.8.0_151/bin/java
   ```
 
-### 内建命令
+#### type
 
-内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和shell编译成了一体，作为shell工具的组成部分存在。
-
-cd和exit命令都内建于bash shell。可以利用type命令来了解某个命令是否是内建的。
-
-内建命令的执行速度要更快，效率也更高。
-
-### type
+解某个命令是否是内建的
 
 ```
 $ type cd
 cd is a shell builtin
 ```
 
+### 内建命令
+
+内建命令和外部命令的区别在于前者不需要使用子进程来执行。它们已经和shell编译成了一体，作为shell工具的组成部分存在。
+
+cd和exit命令都内建于bash shell。可以利用上面type命令来了解某个命令是否是内建的。
+
+内建命令的执行速度要更快，效率也更高。
+
+注意：
+
+有些命令有多种实现，例如echo和pwd即有内建命令又有外部命令，可以使用如下命令查看：
+
+```
+$ type -a pwd
+pwd 是 shell 内嵌
+pwd 是 /usr/bin/pwd
+```
+
+如果想要外部命令实现，直接输入`/usr/bin/pwd`
+
+一些有用的内建命令：
+
+#### history
+
+显示最近输入的命令。
+
+默认显示1000条，修改环境变量`HISTSIZE`可以更改这个设置。
+
+#### alias
+
+为命令起别名
+
+参数：
+
+- `-p`
+
+  查看可用的别名
+
+创建命令别名
+
+```
+alias li='ls -li'
+```
+
 ### sh
 
-- `-x` 实现脚本的逐条语句跟踪，能打印出每一行命令以及当前的状态
-- ` -e`  Exit immediately if a command exits with a non-zero status
+参数：
 
-运行shell的两种方法
+- `-e`
 
-1. 作为可执行程序，
+  指示shell在命令行返回非0的结果的时候停止
 
-   要想运行一个`.sh`文件，要输入`./test.sh`而不是`test.sh`，运行其他二进制的程序也一样，直接写`test.sh`系统会进入PATH里面寻找有没有叫`test.sh`的，而只有 `/bin, /sbin, /usr/bin，/usr/sbin `等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 `test.sh` 是会找不到命令的，要用` ./test.sh` 告诉系统说，就在当前目录找，`.`代表当前目录
+- `-u`
 
-2. 作为解释器参数
+  shell在遇到未定义的变量的时候，会报错
+
+- `-x`
+
+  打印所执行的命令行
+
+- `-v`
+
+  显示shell所读取的输入值
+
+- `+`
+
+  取消某个set设置的参数
+
+### eval
+
+在bash中，反引号和`$()`都是用来做命令替换的，命令替换就是重组命令，先完成引号里面的命令，然后将其结果替换出来，再重组成新的命令行。
+
+也就是说，在执行一条命令的时候，会先将其中的反引号或者`$()`中的语句当成命令执行一遍，再将结果加到原命令中重新执行。
+
+例如：
+
+```
+$ echo ls
+ls
+$ echo `ls`
+X11 X11R6 bin lib libexec local sbin share standalone
+```
+
+eval命令适用于那些一次扫描无法实现其功能的变量。该命令对变量进行两次扫描
+
+例如：
+
+```
+$  ls
+file
+$  cat file
+hello world
+$ myfile="cat file"
+$ echo $myfile
+cat file
+$ eval $myfile
+hello world
+```
+
+[reference](https://blog.51cto.com/u_10706198/1788573)
 
 ### Linux信号
 
@@ -1657,7 +2067,7 @@ bash shell允许用键盘上的组合键生成两种基本的Linux信号。
   如果你的shell会话中有一个已停止的作业，在退出shell时，bash会提醒你。
 
   ```
-  sleep 100
+  $ sleep 100
   ^Z
   [1]+          Stopped          sleep 100
   ```
@@ -1671,97 +2081,11 @@ bash shell允许用键盘上的组合键生成两种基本的Linux信号。
 如果在有已停止作业存在的情况下，你仍旧想退出shell，只要再输入一遍exit命令就行了。 shell会退出，终止已停止作业。或者，既然你已经知道了已停止作业的PID，就可以用kill命令来发送一个SIGKILL信号来终止它。
 
 ```
-kill -9 2456
+$ kill -9 2456
 [1]+       Killed          sleep 100
 ```
 
 在终止作业时，最开始你不会得到任何回应。但下次如果你做了能够产生shell提示符的操作 (比如按回车键)，你就会看到一条消息，显示作业已经被终止了。每当shell产生一个提示符时， 它就会显示shell中状态发生改变的作业的状态。在你终止一个作业后，下次强制shell生成一个提 示符时，shell会显示一条消息，说明作业在运行时被终止了。
-
-### &
-
-后台模式运行脚本
-
-以后台模式运行shell脚本非常简单。只要在命令后加个&符就行了。
-
-```
-./test4.sh & 
-[1] 3231
-```
-
-方括号中的数字是shell分配给后台进程的作业号。下一个数是Linux系统分配给进程的进程 ID(PID)。Linux系统上运行的每个进程都必须有一个唯一的PID。
-
-**注意，当后台进程运行时，它仍然会使用终端显示器来显示STDOUT和STDERR消息。最好是将后台运行的脚本的STDOUT和STDERR进行重定向，避免这种杂乱的输出。**
-
-### nohup
-
-nohup (no hang up) 不挂断的运行命令
-
-nohup命令运行了另外一个命令来阻断所有发送给该进程的SIGHUP信号。这会在退出终端会话时阻止进程退出。
-
-```
-nohup ./test1.sh &
-[1] 3856
-$ nohup: ignoring input and appending output to 'nohup.out'
-```
-
-和普通后台进程一样，shell会给命令分配一个作业号，Linux系统会为其分配一个PID号。区别在于，当你使用nohup命令时，如果关闭该会话，脚本会忽略终端会话发过来的SIGHUP信号。
-
-nohup命令会自动将STDOUT和STDERR的消息重定向到一个名为nohup.out的文件中。
-
-三种运行方式的区别：
-
-- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar` 
-
-  回车之后，将日志文件输出到nohup.out文件中，若执行control+c或者关闭终端，进程将终止
-
-- `nohup /opt/jdk1.8.0_131/bin/java -jar ggg.jar &`
-
-  回车之后，会输出进程号，以及提示日志输出在nohup.out文件中，若执行control+c或者关闭终端，进程仍在运行
-
-- `nohup command > myout.file 2>&1 &`
-
-  在上面的例子中，输出被重定向到myout.file文件中。
-
-- `nohup ./filebeat  -e -c filebeat.yml -d "publish" >/dev/null  2>&1 &`
-
-  - 2>&1的意思 
-
-    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
-
-  - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
-
-### eval
-
-在bash中，反引号和$()都是用来做命令替换的，命令替换就是重组命令，先完成引号里面的命令，然后将其结果替换出来，再重组成新的命令行。
-
-也就是说，在执行一条命令的时候，会先将其中的反引号或者$()中的语句当成命令执行一遍，再将结果加到原命令中重新执行。
-
-例如：
-
-```
-➜  /usr echo ls
-ls
-➜  /usr echo `ls`
-X11 X11R6 bin lib libexec local sbin share standalone
-```
-
-eval命令适用于那些一次扫描无法实现其功能的变量。该命令对变量进行两次扫描
-
-例如：
-
-```
-➜  test ls
-file
-➜  test cat file
-hello world
-➜  test myfile="cat file"
-➜  test echo $myfile
-cat file
-➜  test eval $myfile
-hello world
-```
-
-[reference](https://blog.51cto.com/u_10706198/1788573)
 
 ## 环境变量
 
@@ -1769,44 +2093,21 @@ hello world
 
 环境变量分为两类：
 
-- 全局变量
-- 局部变量
+- 局部环境变量
 
-全局环境变量对于shell会话和所有生成的子shell都是可见的。局部变量则只对创建它们的shell可见。
+  局部变量则只对创建它们的shell可见。
+
+  Linux系统也默认定义了标准的局部环境变量。不过你也可以定义自 己的局部变量，这些变量被称为用户定义局部变量
+
+- 全局环境变量
+
+  全局环境变量对于shell会话和所有生成的子shell都是可见的。
 
 ### set
 
 我们知道，Bash执行脚本的时候，会新建一个shell，`set`就是用来修改这个环境的
 
 `set`在没有任何参数的时候表示：显示所有环境变量，同下`env`的区别就是它会按照字母顺序对结果进行排序
-
-参数：
-
-- `-e`
-
-  指示shell在命令行返回非0的结果的时候停止
-
-- `-u`
-
-  shell在遇到未定义的变量的时候，会报错
-
-- `-x`
-
-  打印所执行的命令行
-
-- `-v`
-
-  显示shell所读取的输入值
-
-- `+`
-
-  取消某个set设置的参数
-
-该命令等效于如下方式：
-
-```
-#!/bin/bash -xe
-```
 
 ### env
 
@@ -1815,16 +2116,16 @@ hello world
 要显示个别环境变量的值，可以使用printenv命令
 
 ```
-printenv HOME
+$ printenv HOME
 ```
 
 或者
 
 ```
-echo $HOME
+$ echo $HOME
 ```
 
-### 设置用户定义变量
+### 定义局部环境变量
 
 一旦启动了bash shell(或者执行一个shell脚本)，就能创建在这个shell进程内可见的局部变量了。可以通过等号给环境变量赋值，值可以是数值或字符串。
 
@@ -1835,19 +2136,21 @@ echo $my_variable
 Hello
 ```
 
-如果要给变量赋一个含有空格的字符串值，必须用单引号来界定字符串的首和尾。
+注意：
 
-没有单引号的话，bash shell会以为下一个词是另一个要执行的命令。注意，你定义的局部环境变量用的小写字母，而到目前为止你所看到的系统环境变量都是大写字母，这是标准惯例。
+- 如果要给变量赋一个含有空格的字符串值，必须用单引号来界定字符串的首和尾
+- 没有单引号的话，bash shell会以为下一个词是另一个要执行的命令。注意，**你定义的局部环境变量用的小写字母**，而到目前为止你所看到的**系统环境变量都是大写字母**，这是标准惯例
+- **变量名、等号和值之间没有空格**，如果在赋值表达式中加上了空格，bash shell就会把值当成一个单独的命令。
 
-记住，变量名、等号和值之间没有空格，这一点非常重要。如果在赋值表达式中加上了空格，bash shell就会把值当成一个单独的命令。
+### 定义全局环境变量
 
-### 设置全局环境变量
+在设定全局环境变量进程的子进程中，该变量都是可见的。
 
-在设定全局环境变量的进程所创建的子进程中，该变量都是可见的。创建全局环境变量的方法是先创建一个局部环境变量，然后再把它导出到全局环境中。
+创建全局环境变量的方法是先创建一个局部环境变量，然后再把它导出到全局环境中。
 
-这个过程通过export命令来完成，变量名前面不需要加`$`
+这个过程通过export命令来完成，变量名前面不需要加`$`。
 
-### export
+#### export
 
 作用就是设置或显示环境变量
 
@@ -1855,26 +2158,45 @@ Hello
 export [-fnp][变量名称]=[变量设置值]
 ```
 
-设置全局环境变量
+设置全局环境变量：
 
 ```
-my_variable="I am Global now"
-export my_variable
+$ my_variable='Hello World!'
+$ export my_variable
+$ echo $my_variable
+Hello World!
+#子进程依然可以访问
+$ bash
+$ echo $my_variable
+Hello World!
 ```
 
-但是这种改变仅在子shell中有效，并不会反应到父shell中，子shell甚至无法使用export命令改变父shell中全局环境变量的值。
+但是这种改变仅在子shell中有效，并不会反应到父shell中，子shell无法使用export命令改变父shell中全局环境变量的值。
+
+```
+$ my_variable2='Hello World!'
+$ export my_variable2
+$ echo my_variable2
+my_variable2
+$ exit
+exit
+$ echo $my_variable2
+(空白)
+```
 
 **删除环境变量**
 
 ```
-unset my_variable
+$ unset my_variable
 ```
+
+在处理全局环境变量时，如果你是在子进程中删除了一个全局环境变量， 这只对子进程有效。该全局环境变量在父进程中依然可用。
 
 注意：
 
-**如果要用到变量，使用`$`;如果要操作变量，不使用`$`**。
+- **如果要用到变量，使用`$`，如果要操作变量，不使用`$`**。这条规则的一个例外就是printenv显示某个变量的值。
 
-### 设置**PATH**环境变量
+### PATH环境变量
 
 当你在shell命令行界面中输入一个外部命令时，shell必须搜索系统来找到对应的程序。PATH环境变量定义了用于进行命令和程序查找的目录。PATH中的目录使用冒号分隔。
 
@@ -1890,15 +2212,21 @@ PATH=$PATH:/home/christine/Scripts
 PATH=$PATH:.
 ```
 
-### 定位系统环境变量
-
-怎样让环境变量的作用持久化?
-
-**登录shell**
+### 环境变量持久化
 
 在你登入Linux系统启动一个bash shell时，默认情况下bash会在几个文件中查找命令。这些文件叫作启动文件或环境文件。
 
-当你登录Linux系统时，bash shell会作为登录shell启动。登录shell会从5个不同的启动文件里 读取命令:
+启动bash shell有3种方式：
+
+- 登录时作为默认的shell
+- 作为非登录shell的交互式shell
+- 作为运行脚本的非交互shell
+
+bash检查的启动文件取决于你启动bash shell的是上面三种的何种方式。
+
+#### **登录shell**
+
+当你登录Linux系统时，bash shell会作为登录shell启动。登录shell会从5个不同的启动文件里读取命令:
 
 - `/etc/profile`
 - `$HOME/.bash_profile`
@@ -1906,39 +2234,129 @@ PATH=$PATH:.
 - `$HOME/.bash_login`
 - `$HOME/.profile`
 
-`/etc/profile`文件是bash shell默认的的主启动文件。只要你登录了Linux系统，bash就会执行
+`/etc/profile`文件是bash shell默认的的主启动文件。只要你登录了Linux系统，bash就会执行。
 
-`/etc/profile`启动文件中的命令。
-
-剩下的位于用户的HOME目录下，所以每个用户都可以编辑这些文件并添加自己的环境变量，这些环境变量会在每次启动bash shell会话时生效。
+剩下的4个是针对用户的，每个用户都可以编辑自己的环境变量，这些环境变量会在每次启动bash shell会话时生效。
 
 shell会按照按照下列顺序，运行第一个被找到的文件，余下的则被忽略:
 
+- `$HOME/.bash_profile`
+- `$HOME/.bash_login`
+- `$HOME/.profile`
+
+注意，这个列表中并没有`$HOME/.bashrc`文件。这是因为该文件通常通过其他文件运行的，`.bash_profile`启动文件会先去检查HOME目录中是不是还有一个叫`.bashrc`的启动文件。如果有 的话，会先执行启动文件里面的命令。
+
+**/etc/profile文件**
+
+```sh
+# /etc/profile
+
+# System wide environment and startup programs, for login setup
+# Functions and aliases go in /etc/bashrc
+
+# It's NOT a good idea to change this file unless you know what you
+# are doing. It's much better to create a custom.sh shell script in
+# /etc/profile.d/ to make custom changes to your environment, as this
+# will prevent the need for merging in future updates.
+
+pathmunge () {
+    case ":${PATH}:" in
+        *:"$1":*)
+            ;;
+        *)
+            if [ "$2" = "after" ] ; then
+                PATH=$PATH:$1
+            else
+                PATH=$1:$PATH
+            fi
+    esac
+}
+
+
+if [ -x /usr/bin/id ]; then
+    if [ -z "$EUID" ]; then
+        # ksh workaround
+        EUID=`/usr/bin/id -u`
+        UID=`/usr/bin/id -ru`
+    fi
+    USER="`/usr/bin/id -un`"
+    LOGNAME=$USER
+    MAIL="/var/spool/mail/$USER"
+fi
+
+# Path manipulation
+if [ "$EUID" = "0" ]; then
+    pathmunge /usr/sbin
+    pathmunge /usr/local/sbin
+else
+    pathmunge /usr/local/sbin after
+    pathmunge /usr/sbin after
+fi
+
+HOSTNAME=`/usr/bin/hostname 2>/dev/null`
+if [ "$HISTCONTROL" = "ignorespace" ] ; then
+    export HISTCONTROL=ignoreboth
+else
+    export HISTCONTROL=ignoredups
+fi
+
+export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL
+
+# By default, we want umask to get set. This sets it for login shell
+# Current threshold for system reserved uid/gids is 200
+# You could check uidgid reservation validity in
+# /usr/share/doc/setup-*/uidgid file
+if [ $UID -gt 199 ] && [ "`/usr/bin/id -gn`" = "`/usr/bin/id -un`" ]; then
+    umask 002
+else
+    umask 022
+fi
+
+for i in /etc/profile.d/*.sh /etc/profile.d/sh.local ; do
+    if [ -r "$i" ]; then
+        if [ "${-#*i}" != "$-" ]; then
+            . "$i"
+        else
+            . "$i" >/dev/null
+        fi
+    fi
+done
+
+unset i
+unset -f pathmunge
+PATH=$PATH:/data/sre/scripts/bin
+export PATH
 ```
-$HOME/.bash_profile
-$HOME/.bash_login
-$HOME/.profile
-```
 
-注意，这个列表中并没有`$HOME/.bashrc`文件。这是因为该文件通常通过其他文件运行的
+#### **交互式shell进程**
 
-`.bash_profile`启动文件会先去检查HOME目录中是不是还有一个叫`.bashrc`的启动文件。如果有 的话，会先执行启动文件里面的命令。
-
-**交互式shell进程**
-
-如果你的bash shell不是登录系统时启动的(比如是在命令行提示符下敲入bash时启动)，那 么你启动的shell叫作交互式shell。
+如果你的bash shell不是登录系统时启动的(比如是在命令行提示符下敲入bash时启动)，那么你启动的shell叫作交互式shell。
 
 如果bash是作为交互式shell启动的，它就不会访问`/etc/profile`文件，只会检查用户HOME目录中的`.bashrc`文件。
 
 `.bashrc`文件有两个作用:一是查看`/etc`目录下通用的`bashrc`文件，二是为用户提供一个定制自己的命令别名。
 
-**环境变量持久化**
+#### **非交互式shell**
 
-对全局环境变量来说(Linux系统中所有用户都需要使用的变量)，可能更倾向于将新的或修改过的变量设置放在`/etc/profile`文件中，但这可不是什么好主意。如果你升级了所用的发行版， 这个文件也会跟着更新，那你所有定制过的变量设置可就都没有了。 
+系统执行shell脚本的时候用的就是这种shell。
+
+在启动非交互式shell后，它会检查`BASH_ENV`环境变量中指定的启动文件，默认这个环境变量是空的。
+
+如果没有设置，那么shell脚本去哪里获取环境变量呢？
+
+有些shell脚本是通过启动某些子shell来执行的，子shell可以继承父shell导出过的变量。
+
+如果父shell是登录shell，在`/etc/profile`、`/etc/profile.d/*.sh`和`$HOME/.bashrc`文件中设置并导出了变量，用于执行脚本的子shell就能够继承这些变量。
+
+对于那些不启动子shell的脚本，变量已经存在于当前shell中了。所以就算没有设置`BASH_ENV`，也可以使用当前shell的局部变量和全局变量。
+
+#### 设置技巧
+
+对全局环境变量来说，可能更倾向于将新的或修改过的变量设置放在`/etc/profile`文件中，但如果升级了所用的发行版， 这个文件也会跟着更新，那你所有定制过的变量设置可就都没有了。 
 
 最好是在`/etc/profile.d`目录中创建一个以`.sh`结尾的文件。把所有新的或修改过的全局环境变量设置放在这个文件中。
 
-alias命令设置就是不能持久的。你可以把自己的alias设置放在`$HOME/.bashrc`启动文件中，使其效果永久化。
+在大多数发行版中，存储个人用户永久性bash shell变量的地方是`$HOME/.bashrc`文件。你还可以把自己的alias设置放在`$HOME/.bashrc`启动文件中，使其效果永久化。
 
 ### source
 
@@ -1964,30 +2382,16 @@ sh 是 /usr/bin/sh
 
 ## 其他
 
+### !!
+
+输入`!!`，唤出刚刚用过的那条命令。
+
+### $和#
+
 终端中的`$`和`#`什么含义
 
 - `$`代表普通用户
 - `#`代表root用户
-
-### history
-
-显示最近输入的命令
-
-### alias
-
-为命令起别名
-
-参数：
-
-- `-p`
-
-  查看可用的别名
-
-创建命令别名
-
-```
-alias li='ls -li'
-```
 
 ### except
 
@@ -2019,7 +2423,7 @@ set timeout         设置超时时间
 
 ssh登录远程主机执行命令
 
-```
+```sh
 #!/usr/tcl/bin/expect
 
 #设置超时时间，默认为10秒
@@ -2050,10 +2454,6 @@ send "exit\r"
 
 简单的说就是匹配到一个模式，就执行对应的动作
 
-### 管道符
-
-管道“|”可将命令的结果输出给另一个命令作为输入之用
-
 ### reboot
 
 ```
@@ -2073,7 +2473,7 @@ reboot  用于用来重新启动计算机
   .37
   ```
 
-### IP地址
+### 查看IP地址
 
 查看公网ip
 
@@ -2451,14 +2851,53 @@ userdel命令只删除`etc/passwd`文件中的信息，而不会删除系统中�
 
 用来修改`/etc/passwd`文件中的大部分字段，只需用与想修改的字段对应的命令行参数就可以了。参数大部分跟useradd命令的参数一样。
 
-- `-c`：修改备注字段
-- `-e`：修改过期时间
-- `-g`：修改默认的登陆组
-- `-l`：修改用户账户的登录名
-- `-L`：锁定账户，使用户无法登录
+格式：
 
-- `-p`：修改用户账户的密码
-- `-U`：解除锁定
+`usermod [选项] LOGIN`
+
+选项：
+
+- `-c`
+
+  修改备注字段
+
+- `-e`
+
+  修改过期时间
+
+- `-g GROUP`
+
+  修改默认的登陆组
+
+- `-G GROUP1[,GROUP2,...[,GROUPN]]]`
+
+  规定用户所属的组
+
+  如果用户不在列出的组中，那么这个用户会被那个组移除，要想仅将用户添加到列出的组中，则需要加`-a --append`
+
+- `-l --login NEW_LOGIN`
+
+  将用户的`LOGIN`修改为`NEW_LOGIN`
+
+- `-L --lock`
+
+  锁定账户，使用户无法登录
+
+- `-p`
+
+  修改用户账户的密码
+
+- `-U`
+
+  解除锁定
+
+例如：
+
+- 给jinp用户添加到ClickHouse组中
+
+  ```
+  sudo usermod -a -G clickhouse jinp
+  ```
 
 #### passwd
 
@@ -2510,6 +2949,18 @@ test:x:504:
 组密码允许非组内成员通过它临时成为该组成员。这个功能并不很普遍，但确实存在。
 
 千万不能通过直接修改`/etc/group`文件来添加用户到一个组，要用`usermod`命令，在添加用户到不同的组之前，首先得创建组。
+
+#### groups
+
+查看当前用户是哪个组的
+
+想查看某个组下有哪些用户
+
+**查看一共有哪些组**
+
+```
+compgen -g
+```
 
 ### 理解用户权限
 
@@ -2574,6 +3025,10 @@ chmod (change mode)
 - `-R`
 
   选项可以让权限的改变递归地作用到文件和子目录
+  
+- `-c`
+
+  若该文件权限确实已经更改，才显示其更改动作
 
 符号模式：
 
@@ -2587,21 +3042,21 @@ chmod (change mode)
 八进制模式：
 
 ```
-chmod 760 newfile
+$ chmod 760 newfile
 ```
 
 例如：
 
 - 将文件 file1.txt 与 file2.txt 设为该文件拥有者，与其所属同一个群体者可写入，但其他以外的人则不可写入 :
 
-  ```
-  chmod ug+w,o-w file1.txt file2.txt
+  ``` 
+  $ chmod ug+w,o-w file1.txt file2.txt
   ```
 
 - 将目前目录下的所有文件与子目录皆设为任何人可读取 :
 
   ```
-  chmod -R a+r *
+  $ chmod -R a+r *
   ```
 
   
@@ -2611,7 +3066,7 @@ chmod 760 newfile
 修改文件拥有者，格式如下：
 
 ```
-chown options owner[.group] file
+$ chown options owner[.group] file
 ```
 
 可用登录名或UID来指定文件的新属主，chown命令也支持同时改变文件的属主和属组。
@@ -2627,13 +3082,13 @@ chown options owner[.group] file
 - 将newfile的属主设置为wujn
 
   ```
-  chown wujn newfile
+  $ chown wujn newfile
   ```
 
 - 将newfile的属主设置为wujn，属组设置为shared
 
   ```
-  chown wujn.shared newfile
+  $ chown wujn.shared newfile
   ```
 
 注意：
@@ -2645,7 +3100,7 @@ chown options owner[.group] file
 切换用户
 
 ```
-su - user
+$ su - user
 ```
 
 `-`表示在切换用户时，同时切换掉当前用户的环境
@@ -2737,11 +3192,11 @@ sudo的时候，由于有`env_reset`，所以使环境变量重置了，但是�
 这样我们就可以使用软链接将我们所需要的命令链接到这个文件夹下面
 
 ```
-sudo ln -s /usr/local/jdk1.8/bin/javac /usr/bin
+$ sudo ln -s /usr/local/jdk1.8/bin/javac /usr/bin
 ```
 
 [Reference1](https://blog.csdn.net/q290994/article/details/77448626)
 
 [Reference2](https://www.cnblogs.com/wazy/p/8352369.html)
 
-## 管理文件系统
+## Reference

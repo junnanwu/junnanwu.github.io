@@ -169,7 +169,7 @@ server {
 
 由于IP地址数量有限，**因此存在多个域名对应着同一个IP地址的情况**，这时在nginx.conf中就可以按照server_name（对应用户请求中的主机名）并通过server块来定义虚拟主机，每个server块就是一个虚拟主机，它只处理与之对应的主机域名请求，这样，一台服务器上的Nginx就能以不同的方式处理访问不同域名的HTTP请求了。
 
-**listen**
+#### listen
 
 listen参数决定了Nginx如何监听端口，listen的使用非常灵活，如下：
 
@@ -194,7 +194,7 @@ listen 127.0.0.1 default_server accept_filter=dataready backlog=1024;
 
 - ...
 
-**server_name**
+#### server_name
 
 server_name指令默认值为`""`，默认配置意味着server部分没有server_name指定，对于没有设置Host头字段的请求，它将会匹配该server处理，一般应用于如何丢弃这种缺乏Host头的请求。
 
@@ -668,22 +668,62 @@ location /dap {
 
 ### nginx更改默认403页面
 
-```nginx
-server{
-	listen	443;
-	server_name	hxduat.kungeek.com;
-	error_page  403  /403.html;
-	...
-	}
-```
+1. 制作`403.html`
+
+   ```html
+   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+   <html>
+   <head>
+   <meta http-equiv="content-type" content="text/html;charset=utf-8">
+   <title>Error 403 Forbidden</title>
+   <style>
+   <!--
+   	body {font-family: arial,sans-serif}
+   	img { border:none; }
+   //-->
+   </style>
+   </head>
+   <body>
+   <blockquote>
+   	<h2>Error 403 Forbidden</h2>
+   	<p>对不起，您的访问被拒绝，有可能是您的IP不被允许访问，请联系管理员!
+   </blockquote>
+   </body>
+   </html>
+   ```
+
+2. 放在`nginx/html`下
+
+3. 修改配置
+
+   ```nginx
+   server{
+       listen	443;
+       server_name	hxduat.kungeek.com;
+       error_page  403  /403.html;
+       ...
+   }
+   ```
+
+   有时候会报找不到/403.html
+
+   那么就加上如下：
+
+   ```nginx
+   location /403.html {
+       root /data/nginx/html;
+   }
+   ```
 
 ### 访问客户端的真实IP
 
 
 
-**reference**
+## reference
 
 本文大量参考了 陶辉的《深入理解Nginx-模块开发于架构解析-第二版》
+
+
 
 
 
