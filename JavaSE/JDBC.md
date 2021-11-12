@@ -9,9 +9,7 @@ JDBC API在以下两个包中：
 - `java.sql`
 - `javax.sql`
 
-## 连接JDBC
-
-我们以Mysql为例
+## Mysql JDBC
 
 ### 下载JDBC驱动
 
@@ -109,6 +107,106 @@ public class JDBCTest {
 - 在ResultSet第一个调用`next()`后，得到的才是第一行
 - ResultSet获取列的时候，第一列从1开始，而不是0，还可以通过列名直接获取
 - JDBC在`java.sql.Types`定义了一组常量来表示如何映射SQL数据类型
+
+## Hive JDBC
+
+### URL
+
+[详见此](https://cwiki.apache.org/confluence/display/hive/HiveServer2+Clients#HiveServer2Clients-ConnectionURLs)
+
+格式：
+
+```
+jdbc:hive2://<host1>:<port1>,<host2>:<port2>/dbName;initFile=<file>;sess_var_list?hive_conf_list#hive_var_list
+```
+
+- `<file>`
+
+  创建连接后，在SQL语句执行之前，会自动执行的脚本
+
+- `sess_var_list`
+
+  session variables，key=value的格式，使用分号分隔
+
+- `hive_conf_list`
+
+  [Hive configuration variables](https://cwiki.apache.org/confluence/display/Hive/Configuration+Properties)，key=value的格式，使用分号分隔
+
+- `hive_var_list` 
+
+  Hive variables，key=value的格式，使用分号分隔
+
+### 样例代码
+
+```java
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.DriverManager;
+ 
+public class HiveJdbcClient {
+  private static String driverName = "org.apache.hive.jdbc.HiveDriver";
+ 
+  /**
+   * @param args
+   * @throws SQLException
+   */
+  public static void main(String[] args) throws SQLException {
+      try {
+      Class.forName(driverName);
+    } catch (ClassNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+      System.exit(1);
+    }
+    //replace "hive" here with the name of the user the queries should run as
+    Connection con = DriverManager.getConnection("jdbc:hive2://localhost:10000/default", "hive", "");
+    Statement stmt = con.createStatement();
+    String tableName = "testHiveDriverTable";
+    stmt.execute("drop table if exists " + tableName);
+    stmt.execute("create table " + tableName + " (key int, value string)");
+    // show tables
+    String sql = "show tables '" + tableName + "'";
+    System.out.println("Running: " + sql);
+    ResultSet res = stmt.executeQuery(sql);
+    if (res.next()) {
+      System.out.println(res.getString(1));
+    }
+       // describe table
+    sql = "describe " + tableName;
+    System.out.println("Running: " + sql);
+    res = stmt.executeQuery(sql);
+    while (res.next()) {
+      System.out.println(res.getString(1) + "\t" + res.getString(2));
+    }
+ 
+    // load data into table
+    // NOTE: filepath has to be local to the hive server
+    // NOTE: /tmp/a.txt is a ctrl-A separated file with two fields per line
+    String filepath = "/tmp/a.txt";
+    sql = "load data local inpath '" + filepath + "' into table " + tableName;
+    System.out.println("Running: " + sql);
+    stmt.execute(sql);
+ 
+    // select * query
+    sql = "select * from " + tableName;
+    System.out.println("Running: " + sql);
+    res = stmt.executeQuery(sql);
+    while (res.next()) {
+      System.out.println(String.valueOf(res.getInt(1)) + "\t" + res.getString(2));
+    }
+ 
+    // regular hive query
+    sql = "select count(1) from " + tableName;
+    System.out.println("Running: " + sql);
+    res = stmt.executeQuery(sql);
+    while (res.next()) {
+      System.out.println(res.getString(1));
+    }
+  }
+}
+```
 
 ## JDBC连接池
 

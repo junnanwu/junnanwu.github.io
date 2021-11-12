@@ -767,6 +767,22 @@ awk脚本
 
 ## 常用操作
 
+获取路径的文件名和目录名
+
+basename
+
+```
+$ basename /etc/sysconfig/network
+network
+```
+
+dirname
+
+```
+$ dirname /etc/sysconfig/network
+/etc/sysconfig
+```
+
 ### 操作字符串
 
 **计算字符串长度**

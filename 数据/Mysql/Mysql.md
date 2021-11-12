@@ -77,7 +77,7 @@ delete和truncate的区别：
 2. truncate是将整个表摧毁，重新创建了一个新的表，表的结构和原来的一模一样
 3. delete删除的数据能够找回，truncate删除的数据找不回来了
 
-## 用户授权
+## 用户
 
 用户
 
@@ -103,7 +103,17 @@ delete和truncate的区别：
   DROP USER 'username'@'host';
   ```
 
-权限
+### 授权
+
+[详见官方文档](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html)
+
+**权限**
+
+- `DROP`
+
+  可以drop已有的数据库，表，注意`TRUNCATE TABLE`也需要`DROP`权限。
+
+**语句**
 
 - 查看用户权限
 
@@ -118,7 +128,7 @@ delete和truncate的区别：
   ```
 
   ```
-  grant select,insert,update,delete on data_web.* to 'data_web'@'%';
+  GRANT select,insert,update,delete on data_web.* to 'data_web'@'%';
   ```
 
 - 查看数据库角色
@@ -282,240 +292,6 @@ InnoDB中，最多能存储字节数 = 最多能存储字符数 * 该编码中�
 #### 溢出列
 
 对于占用存储空间非常多的列，在记录真实数据时，**该列只会用`20`字节空间**，而这`20`字节的空间不存储数据，因为数据都分散存储在其他几行中了。这`20`字节的空间存储的是分散行的地址和占用的字节数。分散行记录是单链表连接的结构。
-
-
-
-## JDBC
-
-JDBC（Java DataBase Connectivity,java数据库连接）是一种用于执行SQL语句的Java API。JDBC是Java访问数据库的标准规范，可以为不同的关系型数据库提供统一访问，它由一组用Java语言编写的接口和类组成。
-
-## JDBC代码演示
-
-* DriverManager:用于注册驱动
-
-  里面有方法`DriverManager.registerDriver(new Driver());`
-
-  但是在Driver源码中
-
-  里面已经执行过`DriverManager.registerDriver(new Driver())`，导致驱动被注册了两次，而且强烈依靠JAR包，所以上述语句可以替换成`Class.forName("com.mysql.jdbc.Driver");`
-
-* Connection: 表示与数据库创建的连接
-
-* Statement: 操作数据库sql语句的对象
-
-* ResultSet: 结果集或一张虚拟表
-
-  ResultSet实际上就是一张二维的表格，我们可以调用其`boolean next()`方法指向某行记录，当第一次调用`next()`方法时，便指向第一行记录的位置，这时就可以使用ResultSet提供的`getXXX(int col)`方法来获取指定列的数据：(与数组索引从0开始不同，这里索引从1开始)
-
-  ```
-  rs.next();//指向第一行
-  rs.getInt(1);//获取第一行第一列的数据
-  ```
-
-  
-
-开发步骤：
-
-1. 注册驱动  
-
-   DriverManager->`void registerDeiver(Driver)`
-
-2. 获得连接  
-
-   DriverManager-> `Connection getConnection(url,user,password)`
-
-3. 获得执行sql语句的对象  
-
-   Connection->`Statement creatSratement()`
-
-4. 执行sql语句，并返回结果 
-
-   Statement->`excuteUpdate("sql")`/`ResultSet excuteQuery("sql")`
-
-5. 处理结果 
-
-   `resultSet.next()`/`resultSet.getInt()`/`resultSet.getString()`
-
-6. 释放资源
-
-   与IO流一样，使用后的东西都需要关闭！关闭的顺序是先得到的后关闭，后得到的先关闭。
-
-```java
-package com.itheima;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-public class demo01 {
-    public static void main(String[] args) throws Exception {
-        //1. 注册驱动
-        Class.forName("com.mysql.jdbc.Driver");
-        //2. 获得连接
-        String url = "jdbc:mysql://localhost:3306/demo2";
-        Connection connection = DriverManager.getConnection(url, "root", "root");
-        //3. 获取执行sql语句的对象
-        Statement statement = connection.createStatement();
-        //4.1 执行sql插入语句
-        //statement.executeUpdate("INSERT INTO stu(sid,sname,sage,tea_id) values (4,'王华伟',24,3)");
-        //4.2 执行sql修改语句
-        statement.executeUpdate("update stu set sname='旭强' where sname='王旭强'");
-        //4.3 执行sql查询语句
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM STU;");
-        while (resultSet.next()){
-            int sid = resultSet.getInt("sid");
-            String sname = resultSet.getString("sname");
-            System.out.println("sid: "+sid+";sname "+sname);
-        }
-        //5. 关闭资源
-        resultSet.close();
-        statement.close();
-        resultSet.close();
-    }
-}
-```
-
-## SQL注入问题
-
-```sql
-String sql = "select * from users where username = '"+username+"' and password = '"+password+"'";
-```
-
-此时，当用户输入正确的账号与密码后，查询到了信息则让用户登录。但是当用户输入的账号为XXX 密码为：`XXX’  OR ‘a’=’a`时，则真正执行的代码变为：
-
-```sql
-SELECT * FROM 用户表 WHERE NAME = ‘XXX’ AND PASSWORD =’ XXX’  OR ’a’=’a’;
-```
-
-此时，上述查询语句时永远可以查询出结果的。那么用户就直接登录成功了，显然我们不希望看到这样的结果，这便是SQL注入问题。
-为此，我们使用PreparedStatement来解决对应的问题。
-
-## 预处理对象
-
-**preparedStatement**：预编译对象，**是Statement对象的子类**
-
-PreparedStatement预处理对象，处理的每条sql语句中所有的实际参数，都必须使用占位符?替换
-
-```sql
-String sql = "select * from user where username = ? and password = ?";
-```
-
-分为以下三步：
-
-1. PreparedStatement预处理对象代码：
-
-   ```
-   PreparedStatement psmt = conn.prepareStatement(sql)
-   ```
-
-2. 设置实际参数
-
-   ```
-   void setXxx(int index, Xxx xx) 将指定参数设置指定类型的值
-   	参数1：index 实际参数序列号，从1开始。
-   	参数2：xxx 实际参数值，Xxx表示具体的类型。
-   例如：
-   setString(2, "1234") 把SQL语句中第2个位置的占位符?替换成实际参数 "1234"
-   ```
-
-3. 执行SQL语句
-
-   ```
-   int executeUpdate(); --执行insert update delete语句.
-   ResultSet executeQuery(); --执行select语句.
-   boolean execute(); --执行select返回true 执行其他的语句返回false.
-   ```
-
-演示代码：
-
-```java
-public class demo04 {
-    public static void main(String[] args) throws SQLException {
-        System.out.println("请输入要查询的用户名：");
-        Scanner scanner = new Scanner(System.in);
-        String userName = scanner.next();
-        Connection connection = JDBCUtils.getConnection();
-      //获取预对象
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT *from stu where sname = ?;");
-        preparedStatement.setObject(1,userName);
-      //执行sql语句
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()){
-            System.out.println("查找成功");
-        }else{
-            System.out.println("查找失败");
-        }
-        JDBCUtils.close(resultSet,preparedStatement,connection);
-    }
-}
-```
-
-读取properties文件方式编写工具类
-
-记住properties文件的格式和properties文件的普通读取方法和快速读取方式
-
-```properties
-url = jdbc:mysql://localhost:3306/demo2
-name = root
-password = root
-```
-
-```java
-package com.itheima.utils;
-
-import java.sql.*;
-import java.util.ResourceBundle;
-
-public class JDBCUtils2 {
-        private static String url;
-        private static String name;
-        private static String password;
-        static{
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            ResourceBundle conf = ResourceBundle.getBundle("conf");
-
-            url = conf.getString("url");
-            name = conf.getString("name");
-            password = conf.getString("password");
-
-        }
-
-        public static Connection getConnection() throws SQLException {
-            Connection connection = DriverManager.getConnection(url, name, password);
-            return connection;
-        }
-
-        //关闭资源
-        public  static void close(ResultSet resultSet, Statement statement,Connection connection){
-            if(resultSet!=null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(statement!=null){
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-}
-```
 
 ## 连接池
 

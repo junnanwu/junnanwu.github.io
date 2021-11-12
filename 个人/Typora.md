@@ -26,6 +26,8 @@ Markdown支持两种链接：
 
   [Google](https://www.google.com)
 
+[详见这里](https://support.typora.io/Links/)
+
 ### Emoji
 
 格式：`:happy:`

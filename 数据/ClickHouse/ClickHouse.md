@@ -1,4 +1,4 @@
-## ClickHouse
+# ClickHouse
 
 ## 什么是ClickHouse
 
@@ -157,6 +157,149 @@ lrwxrwxrwx 1 clickhouse clickhouse 67 11月  3 14:30 system -> /var/lib/clickhou
 ```
 
 第二种方式不需要修改配置文件，而且数据都在一个文件夹下。
+
+## 配置文件解读
+
+### users.xml
+
+[详见官方文档](https://clickhouse.com/docs/en/operations/settings/settings-users/#user-name-databases)
+
+```xml
+<users>
+    <!-- If user name was not specified, 'default' user is used. -->
+    <user_name>
+        <password></password>
+        <!-- Or -->
+        <password_sha256_hex></password_sha256_hex>
+
+        <access_management>0|1</access_management>
+
+        <networks incl="networks" replace="replace">
+        </networks>
+
+        <profile>profile_name</profile>
+
+        <quota>default</quota>
+        <default_database>default<default_database>
+        <databases>
+            <database_name>
+                <table_name>
+                    <filter>expression</filter>
+                <table_name>
+            </database_name>
+        </databases>
+    </user_name>
+    <!-- Other users settings -->
+</users>
+```
+
+#### access_management
+
+是否允许改用户使用SQL管理用户权限，默认值为0。
+
+#### profiles
+
+profiles即配置，下面是ClickHouse默认的只读配置：
+
+```xml
+<default>
+    <!-- Maximum memory usage for processing single query, in bytes. -->
+    <max_memory_usage>10000000000</max_memory_usage>
+
+    <!-- Use cache of uncompressed blocks of data. Meaningful only for processing many of very short queries. -->
+    <use_uncompressed_cache>0</use_uncompressed_cache>
+
+    <!-- How to choose between replicas during distributed query processing.
+                 random - choose random replica from set of replicas with minimum number of errors
+                 nearest_hostname - from set of replicas with minimum number of errors, choose replica
+                  with minimum number of different symbols between replica's hostname and local hostname
+                  (Hamming distance).
+                 in_order - first live replica is chosen in specified order.
+                 first_or_random - if first replica one has higher number of errors, pick a random one from replicas with minimum number of errors.
+            -->
+    <load_balancing>random</load_balancing>
+</default>
+```
+
+配置的作用是关联到用户上，例如官方文档提供只读的profile:
+
+```xml
+<!-- Profile that allows only read queries. -->
+<readonly>
+    <readonly>1</readonly>
+</readonly>
+```
+
+示例：
+
+```xml
+<!-- Settings profiles -->
+<profiles>
+    <!-- Default settings -->
+    <default>
+        <!-- The maximum number of threads when running a single query. -->
+        <max_threads>8</max_threads>
+    </default>
+
+    <!-- Settings for quries from the user interface -->
+    <web>
+        <max_rows_to_read>1000000000</max_rows_to_read>
+        <max_bytes_to_read>100000000000</max_bytes_to_read>
+
+        <max_rows_to_group_by>1000000</max_rows_to_group_by>
+        <group_by_overflow_mode>any</group_by_overflow_mode>
+
+        <max_rows_to_sort>1000000</max_rows_to_sort>
+        <max_bytes_to_sort>1000000000</max_bytes_to_sort>
+
+        <max_result_rows>100000</max_result_rows>
+        <max_result_bytes>100000000</max_result_bytes>
+        <result_overflow_mode>break</result_overflow_mode>
+
+        <max_execution_time>600</max_execution_time>
+        <min_execution_speed>1000000</min_execution_speed>
+        <timeout_before_checking_execution_speed>15</timeout_before_checking_execution_speed>
+
+        <max_columns_to_read>25</max_columns_to_read>
+        <max_temporary_columns>100</max_temporary_columns>
+        <max_temporary_non_const_columns>50</max_temporary_non_const_columns>
+
+        <max_subquery_depth>2</max_subquery_depth>
+        <max_pipeline_depth>25</max_pipeline_depth>
+        <max_ast_depth>50</max_ast_depth>
+        <max_ast_elements>100</max_ast_elements>
+
+        <readonly>1</readonly>
+    </web>
+</profiles>
+```
+
+#### quota
+
+[详见官方文档](https://clickhouse.com/docs/en/operations/quotas/#quotas)
+
+配额，用来控制该用户使用ClickHouse的资源。
+
+```xml
+<!-- Quotas. -->
+<quotas>
+    <!-- Name of quota. -->
+    <default>
+        <!-- Limits for time interval. You could specify many intervals with different limits. -->
+        <interval>
+            <!-- Length of interval. -->
+            <duration>3600</duration>
+
+            <!-- No limits. Just calculate resource usage for time interval. -->
+            <queries>0</queries>
+            <errors>0</errors>
+            <result_rows>0</result_rows>
+            <read_rows>0</read_rows>
+            <execution_time>0</execution_time>
+        </interval>
+    </default>
+</quotas>
+```
 
 ## 使用
 
@@ -365,6 +508,163 @@ SELECT version();
   - `toDecimal128(value, S)`
   - `toDecimal256(value, S)`
 
+## 添加用户即权限
+
+### 配置文件方式
+
+#### 添加用户
+
+这种方式是ClickHouse最初支持的方式，现在最新的版本依然支持，直接修改配置文件，不需要重启ClickHouse即可生效。
+
+[详见官方文档](https://clickhouse.com/docs/en/operations/settings/settings-users/#user-name-databases)
+
+- 可以选择使用sha256加密配置文件，使用如下命令生成原密码和加密后的密码
+
+  ```sh
+  $ PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
+  wUKtL7Ub
+  f0932a382fe7e2dcc01c484c59fa2999948146a00f90c4c483ef2658602fb8e1
+  ```
+
+- 在`/etc/clickhouse-server/users.d`目录下添加文件test.xml，内容如下：
+
+  ```xml
+  <yandex>
+      <users>
+          <test>                  <password_sha256_hex>f0932a382fe7e2dcc01c484c59fa2999948146a00f90c4c483ef2658602fb8e1</password_sha256_hex>
+              <networks>
+                  <ip>::/0</ip>
+              </networks>
+              <profile>default</profile>
+              <quota>default</quota>
+          </test>
+      </users>
+  </yandex>
+  ```
+
+- 使用如下命令登录
+
+  ```
+  $ clickhouse-client --user=test --password=wUKtL7Ub
+  ```
+
+#### 权限限制
+
+- `database_name`
+
+  例如：
+
+  user1只能查看table1中id字段值为1000的行，其他库可以访问
+
+  ```xml
+  <user1>
+      <databases>
+          <database_name>
+              <table1>
+                  <filter>id = 1000</filter>
+              </table1>
+          </database_name>
+      </databases>
+  </user1>
+  ```
+
+- `allow_databases`
+
+  > In the optional `<allow_databases>` section, you can also specify a list of databases that the user can access. By default, all databases are available to the user. You can specify the `default` database. In this case, the user will receive access to the database by default.
+  >
+  > The user can get a list of all databases and tables in them by using `SHOW` queries or system tables, even if access to individual databases isn't allowed.
+  >
+  > Database access is not related to the readonly setting. You can't grant full access to one database and `readonly` access to another one.
+  >
+  > ——[详见19.4版本官方文档](http://devdoc.net/database/ClickhouseDocs_19.4.1.3-docs/operations/access_rights/)
+
+  - 默认用户可以访问所有数据库
+  - 即使不允许用户访问某个数据库，用户也可以通过show来查看数据库
+  - 数据库的权限和readonly没有关系，你不能授予一个数据库的全部权限和另一个数据库的只读权限
+
+  例如：
+
+  限制只能访问test数据库
+
+  ```xml
+  <allow_databases>
+      <database>data_web</database>
+  </allow_databases>
+  ```
+
+### SQL方式
+
+[详见官方文档](https://clickhouse.com/docs/en/operations/access-rights/#user-account-management)
+
+ClickHouse在20.5版本之后实现使用SQL管理用户的全生命周期，这种方式在安全性方面也更上一个等级，推荐此种方式。
+
+```
+CREATE USER [IF NOT EXISTS | OR REPLACE] name1 [ON CLUSTER cluster_name1]
+        [, name2 [ON CLUSTER cluster_name2] ...]
+    [NOT IDENTIFIED | IDENTIFIED {[WITH {no_password | plaintext_password | sha256_password | sha256_hash | double_sha1_password | double_sha1_hash}] BY {'password' | 'hash'}} | {WITH ldap SERVER 'server_name'} | {WITH kerberos [REALM 'realm']}]
+    [HOST {LOCAL | NAME 'name' | REGEXP 'name_regexp' | IP 'address' | LIKE 'pattern'} [,...] | ANY | NONE]
+    [DEFAULT ROLE  [,...]]
+    [DEFAULT DATABASE database | NONE]
+    [GRANTEES {user | role | ANY | NONE} [,...] [EXCEPT {user | role} [,...]]]
+    [SETTINGS variable [= value] [MIN [=] min_value] [MAX [=] max_value] [READONLY | WRITABLE] | PROFILE 'profile_name'] [,...]
+```
+
+#### 角色
+
+![Relationship of RBAC Entities in ClickHouse](ClickHouse_assets/clickhouse-rbac-entity-diagram.png)
+
+参数：
+
+- Identification
+
+  例如：
+
+  - `IDENTIFIED WITH no_password`
+  - `IDENTIFIED WITH plaintext_password BY 'qwerty'`
+  - `IDENTIFIED WITH sha256_password BY 'qwerty'` or `IDENTIFIED BY 'password'`
+
+- `HOST`
+
+  - `HOST ANY`
+
+    任何host都可以连接，是默认选项
+
+例如：
+
+- 创建test用户，使用`ZjVlY2I5YTQzZDY`的sha256算法密文，有test库的所有表的只读权限
+
+  ```
+  CREATE USR test HOST ANY identified by 'ZjVlY2I5YTQzZDY' SETTINGS PROFILE 'readonly';
+  GRANT SHOW TABLES, SELECT ON test.* to test;
+  ```
+
+- 角色的使用
+
+  通过下面的语句，用户ro_user绑定了ro_role，ro_role上面绑定了ro_profile，batch_quota
+
+  ```
+  CREATE SETTINGS PROFILE IF NOT EXISTS ro_profile
+  SETTINGS
+    max_threads = 2 MIN 1 MAX 4,
+    max_memory_usage = 10000000 MIN 1000000 MAX 20000000
+  READONLY
+  
+  CREATE ROLE IF NOT EXISTS ro_role
+    SETTINGS PROFILE 'ro_profile'
+  
+  CREATE QUOTA IF NOT EXISTS batch_quota
+  FOR INTERVAL 3600 second
+    MAX queries 60,
+    MAX result_rows 1000000
+  TO ro_role
+  
+  CREATE USER ro_user
+    IDENTIFIED WITH SHA256_PASSWORD BY 'top_secret'
+    DEFAULT ROLE ro_role
+  ```
+
+  
+
 ## 备份/迁移
 
 ### 方式一
@@ -518,6 +818,7 @@ INSERT INTO ... SELECT ...
 1. https://github.com/ClickHouse/ClickHouse/issues/4491
 2. https://clickhouse.com/docs/en/operations/backup/
 3. https://github.com/ClickHouse/ClickHouse
+3. https://altinity.com/blog/goodbye-xml-hello-sql-clickhouse-user-management-goes-pro
 
 
 

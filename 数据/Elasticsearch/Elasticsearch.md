@@ -936,105 +936,55 @@ POST _bulk
 
 **Response body**
 
+#### query和filter的区别
 
+query更多关注的是这个查询子句和该文档的匹配程度如何？
 
+例如：是否包含、相关得分度多少，并且得分越高，排名越靠前
 
+典型的应用场景就是**全文检索**
 
+filter更多关注是否匹配？
 
+典型的应用场景：
 
+- 时间范围是否在xxxx-xxxx之间
+- 某个`keyword`字段是否是某个值
 
+**`filter`查询要更快**，原因如下：
 
-导入数据，这里是采用批处理的API，大家直接复制到kibana运行即可，**注意千万别使用kibana的格式化**
+- **不需要计算得分**
+- 经常使用的过滤器将被ElasticSearch自动缓存，以提高性能，而`query`的查询结果不可缓存
+
+ebay在Elasticsearch使用经验中总结到：
+
+> Use filter context instead of query context if possible.
+
+即：如果可能，请使用filter过滤器上下文而不是query查询上下文。
+
+**总结就是，当使用全文检索以及任何使用评分相关性的场景使用query检索，其他场景都使用filter过滤。**
+
+举例：
 
 ```
-POST /my/goods/_bulk
-{"index":{}}
-{"title":"大米手机","images":"http://image.leyou.com/12479122.jpg","price":3288}
-{"index":{}}
-{"title":"小米手机","images":"http://image.leyou.com/12479122.jpg","price":2699}
-{"index":{}}
-{"title":"小米电视4A","images":"http://image.leyou.com/12479122.jpg","price":4288}
-```
-
-官方网站：
-
-```
-GET /megacorp/employee/_search
+GET /_search
 {
-    "query" : {
-        "match" : {
-            "about" : "rock climbing"
-        }
-    }
-}
-```
-
-结果：
-
-```
-GET /megacorp/employee/_search
-{
-    "query" : {
-        "match" : {
-            "about" : "rock climbing"
-        }
-    }
-}
-拷贝为 cURL
-在 Sense 中查看
- 
-显然我们依旧使用之前的 match 查询在`about` 属性上搜索 “rock climbing” 。得到两个匹配的文档：
-
-{
-   ...
-   "hits": {
-      "total":      2,
-      "max_score":  0.16273327,
-      "hits": [
-         {
-            ...
-            "_score":         0.16273327, 
-            "_source": {
-               "first_name":  "John",
-               "last_name":   "Smith",
-               "age":         25,
-               "about":       "I love to go rock climbing",
-               "interests": [ "sports", "music" ]
-            }
-         },
-         {
-            ...
-            "_score":         0.016878016, 
-            "_source": {
-               "first_name":  "Jane",
-               "last_name":   "Smith",
-               "age":         32,
-               "about":       "I like to collect rock albums",
-               "interests": [ "music" ]
-            }
-         }
+  "query": { 
+    "bool": { 
+      "must": [
+        { "match": { "title":   "Search"        }},
+        { "match": { "content": "Elasticsearch" }}
+      ],
+      "filter": [ 
+        { "term":  { "status": "published" }},
+        { "range": { "publish_date": { "gte": "2015-01-01" }}}
       ]
-   }
-}
-```
-
-这是一个很好的案例，阐明了Elasticsearch如何在全文属性上搜索并返回相关性最强的结果。Elasticsearch中的相关性概念非常重要，也是完全区别于传统关系型数据库的一个概念，数据库中的一条记录要么匹配要么不匹配。
-
-```
-POST /索引库名/_search
-{
-    "query":{
-        "查询类型":{
-            "查询条件":"查询条件值"
-        }
     }
+  }
 }
 ```
 
-这里的query代表一个查询对象，里面可以有不同的查询属性
-
-- 查询类型：例如：`match_all`， `match`，`term` ， `range` 等等
-- 查询条件：查询条件会根据类型的不同，写法也有差异
+其中match适用于query域中，而filter适用于filter域中。
 
 #### 查询索引库总记录数/count
 
@@ -1042,36 +992,9 @@ POST /索引库名/_search
 GET /cust_tag/_count
 ```
 
-#### 查询所有/match_all
+#### 全文查询
 
-```
-POST /my/_search
-{
-    "query":{
-        "match_all": {}
-    }
-}
-```
-
-- `query`：代表查询对象
-- `match_all`：代表查询所有
-
-结果参数：
-
-- took：查询花费时间，单位是毫秒
-- time_out：是否超时
-- _shards：分片信息
-- hits：搜索结果总览对象
-  - total：搜索到的总条数
-  - max_score：所有结果中文档得分的最高分
-  - hits：搜索结果的文档对象数组，每个元素是一条搜索到的文档信息
-    - _index：索引库
-    - _type：文档类型
-    - _id：文档id
-    - _score：文档得分
-    - _source：文档的源数据
-
-#### 匹配查询/match
+##### 匹配查询/match
 
 现在，索引库中有2部手机，1台电视;
 
@@ -1094,7 +1017,7 @@ POST /my/_search
 
 - and
 
-#### 多字段查询/multi_match
+##### 多字段查询/multi_match
 
 `multi_match`与`match`类似，不同的是它可以在多个字段中查询
 
@@ -1126,7 +1049,207 @@ POST /my/_search
 
 本例中，我们会假设在title字段和subtitle字段中查询`小米`这个词
 
-#### 词条匹配/term
+##### 短语查询/match_phrase
+
+文档同时满足下面两个条件才会被搜索到：
+
+- 分词后所有词项都要出现在该字段中
+- 字段中的词项顺序要一致
+
+match_phrase与slop一起用，能保证分词间的邻近关系，slop参数告诉match_phrase查询词条能够相隔多远时仍然将文档视为匹配，默认是0。为0时，必须相邻才能被检索出来。
+
+参数说明：
+
+- analyzer 指定何种分析器来对该短语进行分词处理
+- slop 用于指定查询短语间的词项(term)间的距离
+- boost 用于设置该查询的权重
+
+```
+GET /_search
+{
+    "query": {
+        "match_phrase" : {
+            "message" : "this is a test",
+            "analyzer":"english",
+            "slop":0
+        }
+    }
+}
+```
+
+[深入理解 Match Phrase Query](https://ld246.com/article/1512989203733)
+
+[es 基于match_phrase/fuzzy的模糊匹配原理及使用](https://www.cnblogs.com/danvid/p/10570334.html)
+
+- 由于match_phrase是在搜索阶段进行的计算，会影响搜索效率，据说比term查询慢20倍，所以不要进行大文本量的字段搜索，尽量进行标题，名字这种类型的搜索才使用这个
+- 没有讨论在文本数据重复时的情况，即文本中有多个`东方宾馆`和query文本中有多个`东方宾馆`"分词的情况，但是原理是一样的还是取距离转换的最小值
+- 文中使用了standard分词，实际上可能会用不同的分词器，但是建议使用match_phrase时使用标准的一个个分词，这样是方便进行邻近搜索的控制的，如果使用ik等分词，执行match_phrase时分词是不可控的，所以结果也是不可控。match使用ik，match_phrase用standard结合一起使用也是可以的；
+
+##### matchPhrasePrefixQuery
+
+如果你调用matchPhrasePrefixQuery时，text为中文，那么，很大可能是一种状况：你会发现，matchPhraseQuery和matchPhrasePrefixQuery没有任何差别。而当text为英文时，差别就显现出来了：matchPhraseQuery的text是一个英文单词，而matchPhrasePrefixQuery的text则无这一约束，你可以从一个英文单词中抽几个连接在一起的字母进行查询。
+
+https://www.cnblogs.com/softidea/archive/2016/10/20/5981751.html
+
+#### 查询所有/match_all
+
+```
+POST /my/_search
+{
+    "query":{
+        "match_all": {}
+    }
+}
+```
+
+- `query`：代表查询对象
+- `match_all`：代表查询所有
+
+结果参数：
+
+- took：查询花费时间，单位是毫秒
+- time_out：是否超时
+- _shards：分片信息
+- hits：搜索结果总览对象
+  - total：搜索到的总条数
+  - max_score：所有结果中文档得分的最高分
+  - hits：搜索结果的文档对象数组，每个元素是一条搜索到的文档信息
+    - _index：索引库
+    - _type：文档类型
+    - _id：文档id
+    - _score：文档得分
+    - _source：文档的源数据
+
+#### 精准查询
+
+##### 是否存在/exists
+
+查询存在：
+
+```
+GET /_search
+{
+  "query": {
+    "exists": {
+      "field": "user"
+    }
+  }
+}
+```
+
+以下情况表示不存在
+
+- JSON的value为`null`或者`[]`
+- 字符串或`-`
+- 数组包含null
+
+```
+GET /_search
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "user.id"
+        }
+      }
+    }
+  }
+}
+```
+
+##### 模糊查询/fuzzy
+
+我们新增一个商品：
+
+```
+POST /my/goods/4
+{
+    "title":"apple手机",
+    "images":"http://image.leyou.com/12479122.jpg",
+    "price":5899.00
+}
+```
+
+fuzzy自动将拼写错误的搜索文本，进行纠正，纠正以后去尝试匹配索引中的数据
+
+它允许用户搜索词条与实际词条出现偏差，但是偏差的编辑距离不得超过2：
+
+```
+POST /my/_search
+{
+  "query": {
+    "fuzzy": {
+      "title": "appla"
+    }
+  }
+}
+```
+
+上面的查询，也能查询到apple手机
+
+fuzziness，你的搜索文本最多可以纠正几个字母去跟你的数据进行匹配，默认不设置，我们可以通过
+
+```
+POST /my/_search
+{
+  "query": {
+    "fuzzy": {
+      "title": {
+        "value": "applaa",
+        "fuzziness": 2
+      }
+    }
+  }
+}
+```
+
+##### ids查询/ids
+
+```
+{
+  "query": {
+    "ids": {
+      "type": "news",
+      "values": "2101"
+    }
+  }
+}
+```
+
+一次查询多个id
+
+```json
+{
+  "query": {
+    "ids": {
+      "values": [
+        "2101",
+        "2301"
+      ]
+    }
+  }
+}
+```
+
+##### 范围查询/range
+
+```
+GET /_search
+{
+  "query": {
+    "range": {
+      "age": {
+        "gte": 10,
+        "lte": 20,
+        "boost": 2.0
+      }
+    }
+  }
+}
+```
+
+##### 词条匹配/term
 
 `term` 查询被用于精确值匹配，这些精确值可能是数字、时间、布尔或者那些**未分词**的字符串
 
@@ -1154,7 +1277,7 @@ POST /my/_search
 
 ```
 
-#### 多词条精确匹配/terms
+##### 多词条精确匹配/terms
 
 `terms` 查询和 term 查询一样，但它允许你指定多值进行匹配。如果这个字段包含了指定值中的任何一个值，那么这个文档满足条件，类似于mysql的in：
 
@@ -1169,54 +1292,28 @@ POST /my/_search
 }
 ```
 
-#### 范围查询/range
+##### 通配符查询/wildcard
 
-`range` 查询找出那些落在指定区间内的数字或者时间
+使用通配符进行查询
 
-`range`查询允许以下字符：
-
-| 操作符 |   说明   |
-| :----: | :------: |
-|   gt   |   大于   |
-|  gte   | 大于等于 |
-|   lt   |   小于   |
-|  lte   | 小于等于 |
-
-示例：
+其中`?`代表任意一个字符，`*`代表任意的一个或多个字符。
 
 ```
-POST /my/_search
+GET /_search
 {
+    "from":0,
+    "size":2,
     "query":{
-        "range": {
-            "price": {
-                "gte":  3000,
-                "lt":   5000
-            }
-      }
+        "wildcard":{
+        "eu_birthday_date":"10-*" 
+        }
     }
 }
 ```
-
-日期：
-
-```
-{
-  "query": {
-    "range": {
-      "postdate": {
-        "gte": "2016-09-01 00:00:00",
-        "lte": "2016-09-30 23:59:59",
-        "format": "yyyy-MM-dd HH:mm:ss"
-      }
-    }
-  }
-}
-```
-
-format不加也行，如果写的时间格式正确
 
 #### 布尔查询/bool
+
+布尔查询将一个或多个子语句通过下面的链接符连接起来：
 
 - `must`
 
@@ -1270,174 +1367,7 @@ POST _search
 }
 ```
 
-##### query和filter的区别
 
-`query`
-
-更多关注的是这个查询子句和该文档的匹配程度如何？
-
-例如：是否包含、相关得分度多少，并且得分越高，排名越靠前
-
-典型的应用场景就是**全文检索**
-
-`filter`
-
-更多关注是否匹配。
-
-典型的应用场景：
-
-- 时间范围是否在xxxx-xxxx之间
-- 某个`keyword`字段是否是某个值
-
-**`filter`查询要更快**，原因如下：
-
-- 不需要计算得分
-- 经常使用的过滤器将被ElasticSearch自动缓存，以提高性能，而`query`的查询结果不可缓存
-
-ebay在Elasticsearch使用经验中总结到：
-
-> Use filter context instead of query context if possible.
-
-即：如果可能，请使用filter过滤器上下文而不是query查询上下文。
-
-**总结就是，当使用全文检索以及任何使用评分相关性的场景使用query检索，其他场景都使用filter过滤。**
-
-reference：[吃透 | Elasticsearch filter和query的不同](https://blog.csdn.net/laoyang360/article/details/80468757)
-
-#### ids查询
-
-```
-{
-  "query": {
-    "ids": {
-      "type": "news",
-      "values": "2101"
-    }
-  }
-}
-```
-
-一次查询多个id
-
-```json
-{
-  "query": {
-    "ids": {
-      "values": [
-        "2101",
-        "2301"
-      ]
-    }
-  }
-}
-```
-
-#### 模糊查询(fuzzy)
-
-我们新增一个商品：
-
-```
-POST /my/goods/4
-{
-    "title":"apple手机",
-    "images":"http://image.leyou.com/12479122.jpg",
-    "price":5899.00
-}
-```
-
-fuzzy自动将拼写错误的搜索文本，进行纠正，纠正以后去尝试匹配索引中的数据
-
-它允许用户搜索词条与实际词条出现偏差，但是偏差的编辑距离不得超过2：
-
-```
-POST /my/_search
-{
-  "query": {
-    "fuzzy": {
-      "title": "appla"
-    }
-  }
-}
-```
-
-上面的查询，也能查询到apple手机
-
-fuzziness，你的搜索文本最多可以纠正几个字母去跟你的数据进行匹配，默认不设置，我们可以通过
-
-```
-POST /my/_search
-{
-  "query": {
-    "fuzzy": {
-      "title": {
-        "value": "applaa",
-        "fuzziness": 2
-      }
-    }
-  }
-}
-```
-
-#### match_phrase
-
-文档同时满足下面两个条件才会被搜索到：
-
-- 分词后所有词项都要出现在该字段中
-- 字段中的词项顺序要一致
-
-match_phrase与slop一起用，能保证分词间的邻近关系，slop参数告诉match_phrase查询词条能够相隔多远时仍然将文档视为匹配，默认是0。为0时，必须相邻才能被检索出来。
-
-参数说明：
-
-- analyzer 指定何种分析器来对该短语进行分词处理
-- slop 用于指定查询短语间的词项(term)间的距离
-- boost 用于设置该查询的权重
-
-```
-GET /_search
-{
-    "query": {
-        "match_phrase" : {
-            "message" : "this is a test",
-            "analyzer":"english",
-            "slop":0
-        }
-    }
-}
-```
-
-[深入理解 Match Phrase Query](https://ld246.com/article/1512989203733)
-
-[es 基于match_phrase/fuzzy的模糊匹配原理及使用](https://www.cnblogs.com/danvid/p/10570334.html)
-
-- 由于match_phrase是在搜索阶段进行的计算，会影响搜索效率，据说比term查询慢20倍，所以不要进行大文本量的字段搜索，尽量进行标题，名字这种类型的搜索才使用这个
-- 没有讨论在文本数据重复时的情况，即文本中有多个`东方宾馆`和query文本中有多个`东方宾馆`"分词的情况，但是原理是一样的还是取距离转换的最小值
-- 文中使用了standard分词，实际上可能会用不同的分词器，但是建议使用match_phrase时使用标准的一个个分词，这样是方便进行邻近搜索的控制的，如果使用ik等分词，执行match_phrase时分词是不可控的，所以结果也是不可控。match使用ik，match_phrase用standard结合一起使用也是可以的；
-
-##### matchPhrasePrefixQuery
-
-如果你调用matchPhrasePrefixQuery时，text为中文，那么，很大可能是一种状况：你会发现，matchPhraseQuery和matchPhrasePrefixQuery没有任何差别。而当text为英文时，差别就显现出来了：matchPhraseQuery的text是一个英文单词，而matchPhrasePrefixQuery的text则无这一约束，你可以从一个英文单词中抽几个连接在一起的字母进行查询。
-
-https://www.cnblogs.com/softidea/archive/2016/10/20/5981751.html
-
-#### 通配符查询/wildcard
-
-使用通配符进行查询
-
-其中`?`代表任意一个字符，`*`代表任意的一个或多个字符。
-
-```
-GET /_search
-{
-    "from":0,
-    "size":2,
-    "query":{
-        "wildcard":{
-        "eu_birthday_date":"10-*" 
-        }
-    }
-}
-```
 
 #### 折叠/collapse
 
@@ -1990,3 +1920,9 @@ ElasticSearch的聚合过程是先每个分片提供对应size的桶，然后不
    ![这里写图片描述](Elasticsearch_assets/8731f59512099271c7424ea54ed2e089-20210717223514766.png)
 
 仅以产品C的排名作为举例，产品C（50个）的数据来自分片A（6个）和分片C（44个)之和。所以，排名第三。实际产品C在分片B中还存在4个，只不过这四个按照排名处于第10位，取前5的时候，显然取不到。所以，导致聚合结果不准确。
+
+
+
+## Reference
+
+1. https://blog.csdn.net/laoyang360/article/details/80468757

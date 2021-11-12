@@ -768,3 +768,5 @@ SELECT * FROM table WHERE name!='abc' or name IS NULL;
 
 
 
+
+
