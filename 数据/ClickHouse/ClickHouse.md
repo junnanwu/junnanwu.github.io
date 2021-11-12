@@ -508,7 +508,7 @@ SELECT version();
   - `toDecimal128(value, S)`
   - `toDecimal256(value, S)`
 
-## 添加用户即权限
+## 添加用户和权限
 
 ### 配置文件方式
 
@@ -531,7 +531,9 @@ SELECT version();
   ```xml
   <yandex>
       <users>
-          <test>                  <password_sha256_hex>f0932a382fe7e2dcc01c484c59fa2999948146a00f90c4c483ef2658602fb8e1</password_sha256_hex>
+          <test>                  			
+              <password_sha256_hex>f0932a382fe7e2dcc01c484c59fa299994(此处无换行)
+              8146a00f90c4c483ef2658602fb8e1</password_sha256_hex>
               <networks>
                   <ip>::/0</ip>
               </networks>
@@ -581,11 +583,12 @@ SELECT version();
   - 默认用户可以访问所有数据库
   - 即使不允许用户访问某个数据库，用户也可以通过show来查看数据库
   - 数据库的权限和readonly没有关系，你不能授予一个数据库的全部权限和另一个数据库的只读权限
-
+  - system库是都可以看到的
+  
   例如：
-
+  
   限制只能访问test数据库
-
+  
   ```xml
   <allow_databases>
       <database>data_web</database>
