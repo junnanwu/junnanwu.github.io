@@ -53,7 +53,9 @@ b. /etc/paths
 
  **查看所有的环境变量**
 
-`env`
+```
+$ env
+```
 
 注意：
 
@@ -75,12 +77,8 @@ b. /etc/paths
 
 **如何查看PATH环境变量**
 
-打开终端输入：
-
-`echo $PATH`
-
 ```
-echo命令的意思是在显示器上显示一段文字,起到提示的作用。 该命令的常规格式为:echo [-n]字符串
+$ echo $PATH
 ```
 
 **如何将添加PATH变量**
@@ -94,7 +92,7 @@ echo命令的意思是在显示器上显示一段文字,起到提示的作用。
   可以在paths.d文件夹中添加文件
 
   ```
-  echo "/usr/local/sbin/mypath" | sudo tee test
+  $ echo "/usr/local/sbin/mypath" | sudo tee test
   ```
 
   执行完之后需要重启终端
@@ -183,13 +181,17 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
   - 安装
 
     ```
-    brew install trash
+    $ brew install trash
     ```
 
   - 替换命令
 
-    在`.zshrc`文件中添加`alias rm=trash`
+    在`.zshrc`文件中添加：
 
+    ```
+    alias rm=trash
+    ```
+  
   - 删除的文件就会出现在Mac的回收站中，即`.Trash`
 
 ## 文本编辑器

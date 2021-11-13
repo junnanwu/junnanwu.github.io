@@ -124,5 +124,13 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
 
   将bucket按照terms字母的升序方式进行排序
 
+### 11/13
+
+- ingest
+
+  摄入，咽下
+
+  This table doesn’t contain the ingested data for `INSERT` queries.
+
 
 

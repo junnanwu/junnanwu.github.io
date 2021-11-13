@@ -95,7 +95,7 @@ scrape_configs:
 
 
 
-### 监控Linux
+### Linux
 
 - 安装node_exporter
 
@@ -137,7 +137,7 @@ scrape_configs:
 
 ![image-20210910000832378](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000832378.png)
 
-### 监控Spring
+### Spring
 
 - 导入spring-boot-starter-actuator依赖，并且增加micrometer-registry-prometheus的依赖，将原本的监控指标输出成prometheus的格式
 
@@ -178,7 +178,7 @@ scrape_configs:
 
 ![image-20210910000808016](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000808016.png)
 
-### 监控ClickHouse
+### ClickHouse
 
 - 使用Grafana自带的ClickHouse的数据源
 - 选择一个能使用ClickHouse数据源的dashboard即可
@@ -187,7 +187,7 @@ scrape_configs:
 
 ![image-20210909234603402](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210909234603402.png)
 
-### 监控Mysql
+### Mysql
 
 - [下载对应exporter](https://github.com/prometheus/mysqld_exporter/releases/download/v0.13.0/mysqld_exporter-0.13.0.linux-amd64.tar.gz)
 

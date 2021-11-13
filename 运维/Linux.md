@@ -2,11 +2,15 @@
 
 本文是本人从零开始的学习Linux的记录，目的是方便查阅记忆。
 
-本文内容，一部分来自生产实践，一部分来自网络和《Linux命令行与shell脚本编程大全》，学习Linux基础，推荐这本书，结构清晰，语言精简，实用性强。
+本文内容，一部分来自生产实践，一部分来自网络和书籍。
+
+关于书籍，刚开始快速入门Linux推荐《Linux命令行与shell脚本编程大全》，这本书讲的不是那么细，但是语言精简，能快速的让你把握Linux的脉络，而不是在网上今天学一个命令，明天看环境变量，后台再看inode是什么，不成体系，学习效率非常低。工作中使用了一段Linux，相信你也会有很多疑惑，那么再去分块的看一下《鸟哥的Linux私房菜》，这本书讲的非常细，非常全，通俗到不能再通俗，但当然内容也较多，适合慢慢把玩。
+
+本文参考的书籍也正是这两本。
 
 ## 什么是Linux
 
-Linus Torvalds在上学时 就开发了第一版Linux内核。起初他只是想仿造一款Unix系统而已，因为当时Unix操作系统在很多大学都很流行。
+Linus Torvalds在上学时就开发了第一版Linux内核。起初他只是想仿造一款Unix系统而已，因为当时Unix操作系统在很多大学都很流行。
 
 Linux可以划分为以下四个部分：
 
@@ -157,25 +161,25 @@ RPM (redhat package manager) 是Red Hat Linux推出的包管理器，能轻松�
 - 安装rpm包
 
   ```
-  rpm -ivh *.rpm
+  $ rpm -ivh *.rpm
   ```
 
 - 列出当前系统所有已安装的包
 
   ```
-  rpm -qa
+  $ rpm -qa
   ```
 
   配合grep
 
   ```
-  rpm -qa | grep clickhouse
+  $ rpm -qa | grep clickhouse
   ```
 
 - 查询包安装生成的文件清单
 
   ```
-  rpm -ql 包名
+  $ rpm -ql 包名
   ```
 
   注意，可以通过上面的grep命令获取包名完整名字，也可以通过tab键进行左匹配
@@ -183,7 +187,7 @@ RPM (redhat package manager) 是Red Hat Linux推出的包管理器，能轻松�
 - 查询某文件是哪个RPM包生成的
 
   ```
-  rpm -qf
+  $ rpm -qf
   ```
 
 ### yum
@@ -1488,14 +1492,25 @@ ps不足之处就是只能显示某个特定时间点的信息，如果想观察
 
 ### kill
 
-停止一个线程。
+向线程发一个信号，[信号详见](#Linux信号)
 
-信号：
+格式：
 
-- 1：挂起
-- 2：中断
-- 3：结束运行
-- 9：无条件终止
+```
+kill [-s signal_name] pid ...
+kill -signal_name pid ...
+kill -signal_number pid ...
+```
+
+信号名字和信号值：
+
+- 1       HUP (hang up)
+- 2       INT (interrupt)
+- 3       QUIT (quit)
+- 6       ABRT (abort)
+- 9       KILL (non-catchable, non-ignorable kill)
+- 14      ALRM (alarm clock)
+- 15      TERM (software termination signal)
 
 ### df
 
@@ -1904,9 +1919,115 @@ curl来自client的URL工具，用于请求Web服务器
 
   参数将服务器回应保存成文件，并将 URL 的最后部分当作文件名。
 
+## 理解输入输出
+
+### 标准文件描述符
+
+Linux系统将每个对象当作文件处理。这包括输入和输出进程。
+
+| 文件描述符 | 缩写   | 描述     |
+| ---------- | ------ | -------- |
+| 0          | STDIN  | 标准输入 |
+| 1          | STDOUT | 标准输入 |
+| 2          | STDERR | 标准错误 |
+
+**标准输入**
+
+STDIN文件描述符代表shell的标准输入。对终端界面来说，标准输入是键盘。
+
+当在命令行上只输入cat命令时，它会从STDIN接受输入。输入一行，cat命令就会显示出一行。
+
+但你也可以通过STDIN重定向符号`<`强制cat命令接受来自另一个非STDIN文件的输入。
+
+**标准输出**
+
+代表shell的标准输出。在终端界面上，标准输出就是终端显示器。
+
+默认情况下，大多数命令的输出导向STDOUT文件，同样可以使用输出重定向`>`来改变，同时，也就可以通过`>>`追加。
+
+注意：
+
+- shell对于错误消息的处理是跟普通输出分开的，将输出重定向的时候，只会将标准输出重定向
+
+  ```
+  ls -al badfile > file
+  ls: badfile: No such file or directory
+  ```
+
+**标准错误**
+
+shell或shell中运行的程序和脚本出错时生成的错误消息都会发送到标准错误这个位置，默认情况下，STDERR文件描述符会和STDOUT文件描述符指向同样的地方(尽管分配给它们的文件描述符值不同)。也就是说，默认情况下，错误消息也会输出到显示器输出中。
+
+**重定向错误**
+
+- 只重定向错误
+
+  ```
+  #注意2和>之间不能有空格
+  $ ls -al badfile 2> test4
+  $ cat test4
+  ls: cannot access badfile: No such file or directory
+  ```
+
+- 重定向错误和数据
+
+  如果想重定向错误和正常输出，必须用两个重定向符号。
+
+  ```
+  ls -al test test2 test3 badtest 2> test6 1> test7
+  ```
+
+  shell利用`1>`符号将ls命令的正常输出重定向到了test7文件，而这些输出本该是进入STDOUT 的。所有本该输出到STDERR的错误消息通过`2>`符号被重定向到了test6文件。
+
+  也可以将STDERR和STDOUT的输出重定向到同一个输出文件。为此bash shell 提供了特殊的重定向符号&>
+
+  ```
+  $ ls -al test test2 test4 badtest &> test7
+  $ cat test7
+  ls: badtest: No such file or directory
+  ls: test: No such file or directory
+  ls: test2: No such file or directory
+  -rw-r--r--  1 wujunnan  staff  39 11 13 22:26 test4
+  ```
+  
+- 重定向文件描述符
+
+  将标准错误重定向到标准输出
+
+  ```
+  2>&1 
+  ```
+
+#### 阻止命令输出
+
+Linux系统上null文件的标准位置是/dev/null。你重定向到该位置的任何数据都会被丢掉：
+
+```
+$ ls -al > /dev/null
+$ cat /dev/null
+$ 
+```
+
+也可以利用来/dev/null清空文件，而不用删除再重建：
+
+```
+$ cat /dev/null > testfile
+$ cat testfile
+$
+```
+
+这是清除日志文件的一个常用方法，因为日志文件必须时刻准备等待应用程序操作。
+
 ## Shell
 
 系统启动什么样的shell程序取决于你个人的用户ID配置。在/etc/passwd文件中，在用户ID记录的第7个字段中列出了默认的shell程序。
+
+不过由于bash shell广为流传，大都使用bash作为默认shell。
+
+```
+$ cat /etc/passwd | grep wujn
+wujn:x:1003:1004::/home/wujn:/bin/bash
+```
 
 ### Shell的父子关系
 
@@ -1919,6 +2040,29 @@ curl来自client的URL工具，用于请求Web服务器
 要想知道是否生成了子shell，得借助一个使用了环境变量的命令。
 
 这个命令就是`echo $BASH_SUBSHELL`。如果该命令返回0，就表明没有子shell。如果返回1或者其他更大的数字，就表明存在子shell。
+
+实际演示：
+
+```
+$ ps -f --forest
+UID        PID  PPID  C STIME TTY          TIME CMD
+wujn     22102 22101  0 19:59 pts/1    00:00:00 -bash
+wujn     22181 22102  0 19:59 pts/1    00:00:00  \_ ps -f --forest
+
+$ bash
+
+$ ps -f --forest
+UID        PID  PPID  C STIME TTY          TIME CMD
+wujn     22102 22101  0 19:59 pts/1    00:00:00 -bash
+wujn     22505 22102  0 20:00 pts/1    00:00:00  \_ bash
+wujn     22555 22505  0 20:00 pts/1    00:00:00      \_ ps -f --forest
+
+bash
+```
+
+后台模式、进程列表、协程和管道都用到了子shell。
+
+**注意：子shell只会继承父shell的全局环境变量**
 
 #### exit
 
@@ -1946,28 +2090,27 @@ $ jobs
 
 #### 后台模式
 
-在交互式shell中，一个高效的子shell用法就是使用后台模式。
+在交互式shell中，一个高效的子shell用法就是使用后台模式，在后台模式中， 进程运行时不会和终端会话上的STDIN、STDOUT以及STDERR关联。
 
 在后台模式中运行命令可以在处理命令的同时让出CLI，以供他用，想要命令置入后台模式，可以在命令末尾上加上字符`&`。
 
-第一条信息时显示在方括号中的后台作业号，第二条是后台作业的进程ID。
-
 ```
-$ sleep 300&
-[1] 4770
+$ sleep 5&
+[2] 38871
 ```
 
-ps查看进程：
+第一条信息时显示在方括号中的后台作业号（即有几个后台作业），第二条是后台作业的进程ID。
+
+一旦系统显示了这些内容，新的命令提示符就会出现，而你所执行的命令正在已后台模式安全运行，这时，你可以在提示符输入新的命令，在后台进程结束的时候，它会在终端显示出一条信息：
 
 ```
-$ ps -f
-UID        PID  PPID  C STIME TTY          TIME CMD
-jinp      4770 14033  0 19:05 pts/1    00:00:00 sleep 300
-jinp      4778 14033  0 19:05 pts/1    00:00:00 ps -f
-jinp     14033 14032  0 13:17 pts/1    00:00:00 -bash
+[2]  + 38871 done       sleep 5
 ```
 
-注意，当后台进程运行时，它仍然会使用终端显示器来显示STDOUT和STDERR消息。最好是将后台运行的脚本的STDOUT和STDERR进行重定向，避免这种杂乱的输出。
+注意：
+
+- 当后台进程运行时，它仍然会使用终端显示器来显示STDOUT和STDERR消息。最好是将后台运行的脚本的STDOUT和STDERR进行重定向，避免这种杂乱的输出
+- 如果终端会话退出，那么后台进程也会随之退出
 
 ##### nohup
 
@@ -2003,9 +2146,49 @@ nohup命令会自动将STDOUT和STDERR的消息重定向到一个名为nohup.out
 
   - 2>&1的意思 
 
-    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将标准错误重定向到标准输出的原因，那就归结为标准错误没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
+    这个意思是把标准错误（2）重定向到标准输出中（1），而标准输出又导入文件output里面，所以结果是标准错误和标准输出都导入文件output里面了。 至于为什么需要将stderr重定向到stdout的原因，那就归结为stderr没有缓冲区，而stdout有。这就会导致 >output 2>output 文件output被两次打开，而stdout和stderr将会竞争覆盖，这肯定不是我门想要的
 
-  - /dev/null文件的作用，这是一个无底洞，任何东西都可以定向到这里，但是却无法打开。 所以一般很大的stdou和stderr当你不关心的时候可以利用stdout和stderr定向到这里>./command.sh >/dev/null 2>&1 
+补充：
+
+标准文件描述符：
+
+| 文件描述符 | 缩写   | 描述     |
+| ---------- | ------ | -------- |
+| 0          | STDIN  | 标准输入 |
+| 1          | STDOUT | 标准输入 |
+| 2          | STDERR | 标准错误 |
+
+### 命令分组
+
+#### 小括号（进程列表）
+
+你可以使用小括号会让命令列表变成一个进程列表，进程列表会生成一个子shell来执行命令
+
+例如：
+
+```
+$ (pwd ; ls ; cd /etc ; pwd ; cd ; pwd ; ls)
+/home/wujn
+data  data-backend-execute.sh  nohup.out
+/etc
+/home/wujn
+data  data-backend-execute.sh  nohup.out
+```
+
+#### 花括号
+
+命令分组的另一种方式是花括号，这种方式不会创建子进程。
+
+```
+{ pwd; ls; cd /etc; pwd; cd; pwd; ls; }
+/home/wujn
+data  data-backend-execute.sh  nohup.out
+/etc
+/home/wujn
+data  data-backend-execute.sh  nohup.out
+```
+
+
 
 ### 外部命令
 
@@ -2109,6 +2292,23 @@ alias li='ls -li'
 
 ### sh
 
+sh (Bourne shell) 是UNIX最初使用的shell，另外还有bash (Bourne Again shell)，它是Bourne shell的扩展，简称Bash。
+
+sh可以解释来自命令行，标准输入，或者一个指定文件的命令。
+
+有的发行版本使用软连接将默认的系统shell设置为bash shell
+
+```
+$ ls -l /bin/sh
+lrwxrwxrwx 1 root root 4 7月  23 2020 /bin/sh -> bash
+```
+
+格式：
+
+```
+sh [-acefhikmnprstuvx] [arg] ...
+```
+
 参数：
 
 - `-e`
@@ -2162,7 +2362,7 @@ $ eval $myfile
 hello world
 ```
 
-[reference](https://blog.51cto.com/u_10706198/1788573)
+[Reference](https://blog.51cto.com/u_10706198/1788573)
 
 ### Linux信号
 
@@ -2177,21 +2377,19 @@ hello world
 | 18   | SIGTSTP | 停止或暂停进程，但不终止进程   |
 | 19   | SIGCONT | 继续运行停止的进程             |
 
-默认情况下，bash shell会忽略收到的任何SIGQUIT (3)和SIGTERM (5)信号(正因为这样， 交互式shell才不会被意外终止)。
-
-但是bash shell会处理收到的SIGHUP (1)和SIGINT (2)信号。 如果bash shell收到了SIGHUP信号，比如当你要离开一个交互式shell，它就会退出。
-
-但在退出之前，它会将SIGHUP信号传给所有由该shell所启动的进程(包括正在运行的shell脚本)。 
+默认情况下，bash shell会忽略收到的任何SIGQUIT (3)和SIGTERM (5)信号(正因为这样， 交互式shell才不会被意外终止)，但是bash shell会处理收到的SIGHUP (1)和SIGINT (2)信号。 如果bash shell收到了SIGHUP信号，比如当你要离开一个交互式shell，它就会退出，但在退出之前，它会将SIGHUP信号传给所有由该shell所启动的进程(包括正在运行的shell脚本)。 
 
 通过SIGINT信号，可以中断shell。Linux内核会停止为shell分配CPU处理时间。这种情况发生时，shell会将SIGINT信号传给所有由它所启动的进程，以此告知出现的状况。
 
+shell会将这些信号传给shell脚本程序来处理。而shell脚本的默认行为是忽略这些信号。它们可能会不利于脚本的运行。要避免这种情况，可以脚本中加入识别信号的代码，并执行命令来处理信号。
+
 bash shell允许用键盘上的组合键生成两种基本的Linux信号。
 
-- Ctrl+C组合键会生成SIGINT信号
+- Ctrl+C组合键会生成SIGINT信号中断进程
 
   例如，执行`sleep 100`命令，当你使用Ctrl+C，就可以提前终止sleep命令
 
-- Ctrl+Z组合键会生成一个SIGTSTP信号，停止shell中运行的任何进程
+- Ctrl+Z组合键会生成一个SIGTSTP信号，暂停，停止进程，停止（stopping）进程和终止（terminating）进程不一样，停止进程会让程序继续保留在内存中，并能从上次停止的位置继续运行。
 
   如果你的shell会话中有一个已停止的作业，在退出shell时，bash会提醒你。
 
@@ -2201,7 +2399,6 @@ bash shell允许用键盘上的组合键生成两种基本的Linux信号。
   [1]+          Stopped          sleep 100
   ```
 
-  方括号中的数字是shell分配的作业号(job number)。shell将shell中运行的每个进程称为作业， 并为每个作业分配唯一的作业号。它会给第一个作业分配作业号1，第二个作业号2，以此类推。
 
 可以用ps命令来查看已停止的作业。
 
@@ -2228,23 +2425,25 @@ kill Java进程最好使用kill，如果使用` kill -9`，则不会调用钩子
 
 - 局部环境变量
 
-  局部变量则只对创建它们的shell可见。
+  **局部变量则只对创建它们的shell可见。**
 
-  Linux系统也默认定义了标准的局部环境变量。不过你也可以定义自 己的局部变量，这些变量被称为用户定义局部变量
+  Linux系统也默认定义了标准的局部环境变量。不过你也可以定义自己的局部变量，这些变量被称为用户定义局部变量
 
 - 全局环境变量
 
-  全局环境变量对于shell会话和所有生成的子shell都是可见的。
+  **全局环境变量对于shell会话和所有生成的子shell都是可见的。**
+
+（用户定义变量包括用户定义局部变量和用户定义全局变量）
 
 ### set
 
 我们知道，Bash执行脚本的时候，会新建一个shell，`set`就是用来修改这个环境的
 
-`set`在没有任何参数的时候表示：显示所有环境变量，同下`env`的区别就是它会按照字母顺序对结果进行排序
+`set`在没有任何参数的时候表示：显示所有环境变量，**包括全局变量和局部变量以及用户定义变量**，同下`env`的区别就是它会按照字母顺序对结果进行排序
 
 ### env
 
-命令用于显示系统中已存在的环境变量
+**显示全局变量**
 
 要显示个别环境变量的值，可以使用printenv命令
 
@@ -2285,37 +2484,15 @@ Hello
 
 #### export
 
-作用就是设置或显示环境变量
+作用就是设置或显示全局环境变量
+
+格式：
 
 ```
 export [-fnp][变量名称]=[变量设置值]
 ```
 
-设置全局环境变量：
-
-```
-$ my_variable='Hello World!'
-$ export my_variable
-$ echo $my_variable
-Hello World!
-#子进程依然可以访问
-$ bash
-$ echo $my_variable
-Hello World!
-```
-
-但是这种改变仅在子shell中有效，并不会反应到父shell中，子shell无法使用export命令改变父shell中全局环境变量的值。
-
-```
-$ my_variable2='Hello World!'
-$ export my_variable2
-$ echo my_variable2
-my_variable2
-$ exit
-exit
-$ echo $my_variable2
-(空白)
-```
+#### unset
 
 **删除环境变量**
 
@@ -2345,7 +2522,7 @@ PATH=$PATH:/home/christine/Scripts
 
 ### 环境变量持久化
 
-在你登入Linux系统启动一个bash shell时，默认情况下bash会在几个文件中查找命令。这些文件叫作启动文件或环境文件。
+在你登入Linux系统启动一个bash shell时，默认情况下bash会在几个文件中查找命令。这些文件叫作启动文件或环境文件
 
 启动bash shell有3种方式：
 
@@ -2353,7 +2530,7 @@ PATH=$PATH:/home/christine/Scripts
 - 作为非登录shell的交互式shell
 - 作为运行脚本的非交互shell
 
-bash检查的启动文件取决于你启动bash shell的是上面三种的何种方式。
+**bash检查的启动文件取决于你启动bash shell的是上面三种的何种方式**
 
 #### **登录shell**
 
@@ -2491,25 +2668,26 @@ export PATH
 
 ### source
 
+格式：
+
+```
+.  filename [arguments]
+source filename [arguments]
+```
+
 source命令也称为"点命令"，也就是一个点符号`.`，是bash的内部命令，修改环境变量后，需要source使其生效。
 
-功能：使Shell读入指定的Shell程序文件并依次执行文件中的所有语句。
+功能：使读入指定的Shell程序文件并依次执行文件中的所有语句。
 
 ```
-source filename 
+$ source filename 
 或 
-. filename
+$ . filename
 ```
 
-`source filename` 与 `sh filename` 及`./filename`执行脚本的区别在那里呢？
+`source filename` 与 `sh filename` 及`./filename`执行脚本的区别在哪里呢？
 
-`sh filename` sh是外部命令，**会重新建立一个子shell**，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell，除非使用export。
-
-```
-type sh
-
-sh 是 /usr/bin/sh
-```
+`sh filename` sh是外部命令，**会重新建立一个子shell**，在子shell中执行脚本里面的语句，该子shell继承父shell的环境变量，但子shell新建的、改变的变量不会被带回父shell。
 
 ## 其他
 

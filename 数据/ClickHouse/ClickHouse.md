@@ -301,6 +301,12 @@ profiles即配置，下面是ClickHouse默认的只读配置：
 </quotas>
 ```
 
+### users.d
+
+推荐配置文件添加到此文件夹中，好处在于如果升级版本，users.xml也会跟着更新，但是user.d文件夹下的东西不会丢失。
+
+注意：配置文件会按照字母表的顺序进行加载，如果你确定想要某个配置可能存在冲突，你可以给你想要生效的配置文件前面加上`z_`前缀，让其最后执行。
+
 ## 使用
 
 - 启动服务
@@ -668,6 +674,50 @@ CREATE USER [IF NOT EXISTS | OR REPLACE] name1 [ON CLUSTER cluster_name1]
 
   
 
+## 日志
+
+### query_log
+
+[详见官方文档](https://clickhouse.com/docs/en/operations/system-tables/query_log/)
+
+query_log记录了的执行语句的相关信息，例如开始时间，执行时间，保存信息等。
+
+注意：
+
+- query_log不会记录insert的插入的具体数据
+- 建议开启此日志，这里面的记录的信息很重要
+- 当语句执行成功，会在此表生成两条日志，类型分别为 `QueryStart` 和 `QueryFinish` ，其他情况参考官方文档
+
+**查看query_log是否开启**
+
+```
+Select * from system.settings where name = 'log_queries' LIMIT 1;
+
+┌─name────────┬─value─┬─changed─┬─description─────────────────────────────────────────┬─min──┬─max──┬─readonly─┐
+│ log_queries │ 1     │       1 │ Log requests and write the log to the system table. │ ᴺᵁᴸᴸ │ ᴺᵁᴸᴸ │        0 │
+└─────────────┴───────┴─────────┴─────────────────────────────────────────────────────┴──────┴──────┴──────────┘
+```
+
+`value`如果是1的话就代表query_log已开启，如果没有开启，可以在`/etc/clickhouse-server/users.d`中添加文件`users.xml`，文件内容如下（这种方式不需要重启ClickHouse）：
+
+```xml
+<yandex>
+    <profiles>
+        <default>
+            <log_queries replace="replace">1</log_queries>
+        </default>
+    </profiles>
+</yandex>
+```
+
+开启了query log之后可以在下面的监控平台看到很多查询信息，例如查询占用资源情况等：
+
+<img src="ClickHouse_assets/image-20211113165850353.png" alt="image-20211113165850353" style="zoom: 50%;" />
+
+## ClickHouse监控
+
+如何搭建详细可见[Prometheus+Grafana监控体系——ClickHouse](../../运维/Prometheus+Grafana监控体系#ClickHouse)
+
 ## 备份/迁移
 
 ### 方式一
@@ -822,6 +872,5 @@ INSERT INTO ... SELECT ...
 2. https://clickhouse.com/docs/en/operations/backup/
 3. https://github.com/ClickHouse/ClickHouse
 3. https://altinity.com/blog/goodbye-xml-hello-sql-clickhouse-user-management-goes-pro
-
-
+3. https://stackoverflow.com/questions/63486092/not-able-to-add-settings-log-queries-1-in-clickhouse-settings
 
