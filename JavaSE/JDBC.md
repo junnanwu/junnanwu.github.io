@@ -13,7 +13,20 @@ JDBC API在以下两个包中：
 
 ### 下载JDBC驱动
 
-[点此下载mysql JDBC驱动](https://dev.mysql.com/downloads/connector/j/)（选择Platform independent，即与平台无关的）
+- Jar包
+
+  [点此下载mysql JDBC驱动](https://dev.mysql.com/downloads/connector/j/)（选择Platform independent，即与平台无关的）
+
+- maven依赖
+
+  ```
+  <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+  <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.26</version>
+  </dependency>
+  ```
 
 ### 建立Connection连接
 
@@ -135,6 +148,24 @@ jdbc:hive2://<host1>:<port1>,<host2>:<port2>/dbName;initFile=<file>;sess_var_lis
 - `hive_var_list` 
 
   Hive variables，key=value的格式，使用分号分隔
+
+例如：
+
+- 经常执行语句会超时，增加如下`hive_conf_list`配置：
+
+  ```
+  url: jdbc:hive2://82.157.126.218:7001/default;?hive.server2.session.check.interval=60000;hive.server2.idle.operation.timeout=1800000;hive.server2.idle.session.timeout=2400000#
+  ```
+
+### Maven依赖
+
+```xml
+<dependency>
+    <groupId>org.apache.hive</groupId>
+    <artifactId>hive-jdbc</artifactId>
+    <version>3.1.0</version>
+</dependency>
+```
 
 ### 样例代码
 

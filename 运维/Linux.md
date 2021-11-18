@@ -1490,28 +1490,6 @@ ps不足之处就是只能显示某个特定时间点的信息，如果想观察
 - TIME+：自进程启动到目前为止的CPU时间总量
 - COMMAND：进程所对应的命令行名称，也就是启动的程序名
 
-### kill
-
-向线程发一个信号，[信号详见](#Linux信号)
-
-格式：
-
-```
-kill [-s signal_name] pid ...
-kill -signal_name pid ...
-kill -signal_number pid ...
-```
-
-信号名字和信号值：
-
-- 1       HUP (hang up)
-- 2       INT (interrupt)
-- 3       QUIT (quit)
-- 6       ABRT (abort)
-- 9       KILL (non-catchable, non-ignorable kill)
-- 14      ALRM (alarm clock)
-- 15      TERM (software termination signal)
-
 ### df
 
 df (disk free) ，用来检查Linux文件系统的占用情况。
@@ -2364,18 +2342,18 @@ hello world
 
 [Reference](https://blog.51cto.com/u_10706198/1788573)
 
-### Linux信号
+## Linux信号
 
-| 信号 | 值      | 描述                           |
-| ---- | ------- | ------------------------------ |
-| 1    | SIGHUP  | 挂起进程                       |
-| 2    | SIGINT  | 终止进程                       |
-| 3    | SIGQUIT | 停止进程                       |
-| 9    | SIGKILL | 无条件终止进程                 |
-| 15   | SIGTERM | 尽可能终止进程                 |
-| 17   | SIGSTOP | 无条件停止进程，但不是终止进程 |
-| 18   | SIGTSTP | 停止或暂停进程，但不终止进程   |
-| 19   | SIGCONT | 继续运行停止的进程             |
+| 信号 | 值      | 信号值 | 描述                           |
+| ---- | ------- | ------ | ------------------------------ |
+| 1    | SIGHUP  | HUP    | 挂起进程                       |
+| 2    | SIGINT  | INT    | 终止进程                       |
+| 3    | SIGQUIT | QUIT   | 停止进程                       |
+| 9    | SIGKILL | KILL   | 无条件终止进程                 |
+| 15   | SIGTERM | TERM   | 尽可能终止进程                 |
+| 17   | SIGSTOP | STOP   | 无条件停止进程，但不是终止进程 |
+| 18   | SIGTSTP | TSTP   | 停止或暂停进程，但不终止进程   |
+| 19   | SIGCONT | CONT   | 继续运行停止的进程             |
 
 默认情况下，bash shell会忽略收到的任何SIGQUIT (3)和SIGTERM (5)信号(正因为这样， 交互式shell才不会被意外终止)，但是bash shell会处理收到的SIGHUP (1)和SIGINT (2)信号。 如果bash shell收到了SIGHUP信号，比如当你要离开一个交互式shell，它就会退出，但在退出之前，它会将SIGHUP信号传给所有由该shell所启动的进程(包括正在运行的shell脚本)。 
 
@@ -2413,9 +2391,23 @@ $ kill -9 2456
 
 在终止作业时，最开始你不会得到任何回应。但下次如果你做了能够产生shell提示符的操作 (比如按回车键)，你就会看到一条消息，显示作业已经被终止了。每当shell产生一个提示符时， 它就会显示shell中状态发生改变的作业的状态。在你终止一个作业后，下次强制shell生成一个提示符时，shell会显示一条消息，说明作业在运行时被终止了。
 
+### kill
+
+> The  command  kill  sends  the specified signal to the specified process or process group.  If no signal is specified, the TERM signal is sent
+
+向线程发一个信号，[信号详见](#Linux信号)
+
+格式：
+
+```
+kill [-s signal_name] pid ...
+kill -signal_name pid ...
+kill -signal_number pid ...
+```
+
 注意：
 
-kill Java进程最好使用kill，如果使用` kill -9`，则不会调用钩子函数，`kill -15`则会调用钩子函数。
+- kill Java进程最好使用kill，如果使用` kill -9`，则不会调用钩子函数，`kill -15`则会调用钩子函数。
 
 ## 环境变量
 

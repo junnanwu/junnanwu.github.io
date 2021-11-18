@@ -1,4 +1,18 @@
-# CAS-Shiro
+# CAS-Shiro实现单点登录
+
+## SSO-单点登录
+
+SSO (Single sign-on) ，即单点登录，含义就是当你登录了一个信任体系下的任意一个系统，你不用再次登录就可以访问信任体系下的其他系统。
+
+## CAS
+
+CAS (Central Authentication Service) ，CAS是Yale大学2000-2002开发的单点登录协议，并在2004年交由JASIG (Java in Administration Special Interest Group) 管理。
+
+## Shiro
+
+Apache shiro项目是一个Java安全框架，它提供了认证，授权，密码和session的管理，支持配合CAS服务使用。
+
+[详见官方文档](https://shiro.apache.org/documentation.html)
 
 ## 认证
 
@@ -485,19 +499,13 @@ https://hxduat.kungeek.com/data-web/index;JSESSIONID=03c4e4c8-20f7-47b5-b335-5f3
 
 ![CAS%E6%B5%81%E7%A8%8B_assets](https://images2018.cnblogs.com/blog/1337502/201806/1337502-20180611170307343-1343596933.png)
 
-Subject：代表当前用户，所有Subject都将绑定到SecurityManager，与Subject的所有交互都会委托给SecurityManager。
-
-SecurityManager：所有与安全相关的操作都由SecurityManager进行统一管理，负责与shiro的相关组件进行交互，类似前端控制器。
-
-Realm：为SecurityManager提供安全数据，如用户的身份、角色信息等，类似安全数据源。
-
-SessionManager：会话管理，会话可以是普通JavaSE环境的，也可以是Web环境的。
-
-SessionDAO：用于会话的CRUD。
-
-CacheManager：缓存管理器，可以将从Realm中获取的数据放入缓存中管理。
-
-Cryptography：Shiro提供了常见的加密工具类用于密码的加密。
+- Subject：代表当前用户，所有Subject都将绑定到SecurityManager，与Subject的所有交互都会委托给SecurityManager
+- SecurityManager：所有与安全相关的操作都由SecurityManager进行统一管理，负责与shiro的相关组件进行交互，类似前端控制器
+- Realm：为SecurityManager提供安全数据，如用户的身份、角色信息等，类似安全数据源
+- SessionManager：会话管理，会话可以是普通JavaSE环境的，也可以是Web环境的
+- SessionDAO：用于会话的CRUD
+- CacheManager：缓存管理器，可以将从Realm中获取的数据放入缓存中管理
+- Cryptography：Shiro提供了常见的加密工具类用于密码的加密
 
 ## 对资源设置权限
 
@@ -1538,7 +1546,10 @@ ShiroRedisCache里面存储的是prefix+key
 
 
 
+## Reference
 
+1. https://en.wikipedia.org/wiki/Single_sign-on
+2. https://en.wikipedia.org/wiki/Central_Authentication_Service
 
 
 

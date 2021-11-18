@@ -248,29 +248,12 @@
 5. token校验成功后进行重定向
 
    ```java
-   protected void issueSuccessRedirect(ServletRequest request, ServletResponse response, String from) throws Exception {
-       WebUtils.redirectToSavedRequest(request, response, "/index/" + from);
+   protected void issueSuccessRedirect(ServletResponse response, String from) throws Exception {
+       String loginUrl = INDEX_MAP.get(from);
+       log.info("登录成功后进行根据来源重定向{}", loginUrl);
+       WebUtils.toHttp(response).sendRedirect(loginUrl);
    }
    ```
 
-6. 然后进入EntryController，进行匹配
+   重定向后相当于再次访问 `localhost/analysis/`，再向后端发起请求通过JsessionID即可被验证为登录状态
 
-   ```java
-   @GetMapping(value = "/index/analysis")
-   public void analysisPage(HttpServletResponse response) throws Exception {
-       // /usertag/
-       response.sendRedirect(ShiroConfiguration.ANALYSIS_INDEX);
-   }
-   
-   @GetMapping(value = "/index/usertag")
-   public void usertagPage(HttpServletResponse response) throws Exception {
-       response.sendRedirect(ShiroConfiguration.USERTAG_INDEX);
-   }
-   
-   @GetMapping(value = "/index/dap")
-   public void dapPage(HttpServletResponse response) throws Exception {
-       response.sendRedirect(ShiroConfiguration.DAP_INDEX);
-   }
-   ```
-
-7. 重定向后相当于再次访问 `localhost/analysis/`，再向后端发起请求通过JsessionID即可被验证为登录状态

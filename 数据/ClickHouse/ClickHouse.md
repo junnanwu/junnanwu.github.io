@@ -22,6 +22,16 @@ ClickHouse是俄罗斯 Yandex开发的用于联机分析(**OLAP**)的**列式**�
 - 每个查询有一个大表。除了他以外，其他的都很小。
 - 查询结果明显小于源数据。换句话说，数据经过过滤或聚合，因此结果适合于单个服务器的RAM中
 
+**注意：**
+
+关于ClickHouse的简称，ClickHouse是由Click和House两个单词组成，所以按照英语缩写的规范，应该缩写为`CH`，而不是内裤`CK`！
+
+官方文档明确写到：
+
+>If you need to abbreviate it, use **CH**. For some historical reasons, abbreviating as CK is also popular in China, mostly because one of the first talks about ClickHouse in Chinese used this form.
+
+[详见此](https://clickhouse.com/docs/en/faq/general/dbms-naming/)
+
 ## 安装
 
 ### 安装软件
@@ -229,6 +239,10 @@ profiles即配置，下面是ClickHouse默认的只读配置：
     <readonly>1</readonly>
 </readonly>
 ```
+
+注意：
+
+
 
 示例：
 
