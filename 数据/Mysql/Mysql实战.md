@@ -762,11 +762,105 @@ WHERE子句后面时跟的一个`where_condition`的表达式，并且会筛选�
 SELECT * FROM table WHERE name!='abc' or name IS NULL;
 ```
 
+## mysql bug
 
+### 排序值相等导致的分页bug
 
+现象：发现有几条数据数据库中有，但是页面分页表格不显示。
 
+下面是全部数据（19条）：
 
+```
+mysql> SELECT id, perm, create_time FROM sys_permission WHERE ( ( dataplatform_code = 'bi' ) ) order by create_time DESC;
++-----+------------------+---------------------+
+| id  | perm             | create_time         |
++-----+------------------+---------------------+
+| 118 | test             | 2021-11-25 13:54:04 |
+| 117 | bi:test          | 2021-11-24 21:28:15 |
+| 116 | custom:report    | 2021-11-24 19:51:47 |
+| 115 | biMenu:delete    | 2021-11-24 19:51:47 |
+| 114 | biMenu:edit      | 2021-11-24 19:51:47 |
+| 113 | biMenu:save      | 2021-11-24 19:51:47 |
+| 112 | biMenu:query     | 2021-11-24 19:51:47 |
+| 111 | user:runAs       | 2021-11-24 19:51:47 |
+| 110 | user:update_role | 2021-11-24 19:51:47 |
+| 109 | role:update_perm | 2021-11-24 19:51:47 |
+| 108 | role:save        | 2021-11-24 19:51:47 |
+| 107 | role:query       | 2021-11-24 19:51:47 |
+| 106 | perm:del         | 2021-11-24 19:51:47 |
+| 105 | perm:save        | 2021-11-24 19:51:47 |
+| 104 | perm:query       | 2021-11-24 19:51:47 |
+| 103 | user:edit        | 2021-11-24 19:51:47 |
+| 102 | user:query       | 2021-11-24 19:51:47 |
+| 101 | user:add         | 2021-11-24 19:51:47 |
+| 100 | visitor          | 2021-11-24 19:51:47 |
++-----+------------------+---------------------+
+```
 
+查询第一页（简化语句）：
 
+```
+mysql> SELECT id, perm, create_time FROM sys_permission WHERE ( ( dataplatform_code = 'bi' ) ) order by create_time DESC LIMIT 10;
++-----+------------+---------------------+
+| id  | perm       | create_time         |
++-----+------------+---------------------+
+| 118 | test       | 2021-11-25 13:54:04 |
+| 117 | bi:test    | 2021-11-24 21:28:15 |
+| 100 | visitor    | 2021-11-24 19:51:47 |
+| 101 | user:add   | 2021-11-24 19:51:47 |
+| 102 | user:query | 2021-11-24 19:51:47 |
+| 103 | user:edit  | 2021-11-24 19:51:47 |
+| 104 | perm:query | 2021-11-24 19:51:47 |
+| 105 | perm:save  | 2021-11-24 19:51:47 |
+| 106 | perm:del   | 2021-11-24 19:51:47 |
+| 107 | role:query | 2021-11-24 19:51:47 |
++-----+------------+---------------------+
+```
 
+查询第二页：
+
+```
+mysql> SELECT id, perm, create_time FROM sys_permission WHERE ( ( dataplatform_code = 'bi' ) ) order by create_time DESC LIMIT 10, 10;
++-----+------------+---------------------+
+| id  | perm       | create_time         |
++-----+------------+---------------------+
+| 108 | role:save  | 2021-11-24 19:51:47 |
+| 107 | role:query | 2021-11-24 19:51:47 |
+| 106 | perm:del   | 2021-11-24 19:51:47 |
+| 105 | perm:save  | 2021-11-24 19:51:47 |
+| 104 | perm:query | 2021-11-24 19:51:47 |
+| 103 | user:edit  | 2021-11-24 19:51:47 |
+| 102 | user:query | 2021-11-24 19:51:47 |
+| 101 | user:add   | 2021-11-24 19:51:47 |
+| 100 | visitor    | 2021-11-24 19:51:47 |
++-----+------------+---------------------+
+```
+
+我们发现101、100、103、104等居然重复，114，115等缺失。
+
+初步确定原因是mysql要排序的字段`create_time`相同导致的第一次分页相同值正序排序，第二次分页相同值倒序排序，导致中间的一些值丢失。
+
+解决的话，加上一个排序字段`id`即可，如下：
+
+```sql
+SELECT id, perm, create_time FROM sys_permission WHERE ( ( dataplatform_code = 'bi' ) ) order by create_time DESC, id LIMIT 10;
+```
+
+我们进一步查询[官方文档](https://dev.mysql.com/doc/refman/5.7/en/limit-optimization.html)发现（官方文档举的例子跟我们这个场景几乎一样）：
+
+>If multiple rows have identical values in the `ORDER BY` columns, the server is free to return those rows in any order, and may do so differently depending on the overall execution plan. In other words, the sort order of those rows is nondeterministic with respect to the nonordered columns.
+
+也就是说，在多行值相同的情况下，服务器会以任意顺序返回这些行。
+
+>In each case, the rows are sorted by the `ORDER BY` column, which is all that is required by the SQL standard.
+
+Mysql只对`order by`关键字的顺序进行保证，其他顺序没有做任何要求。
+
+> If it is important to ensure the same row order with and without `LIMIT`, include additional columns in the `ORDER BY` clause to make the order deterministic. For example, if `id` values are unique, you can make rows for a given `category` value appear in `id` order by sorting 
+
+所以官方也是这样推荐的：如果你想要加不加limit都返回相同的顺序，那么最好在你排序字段的后面再加一个id字段。
+
+## Reference
+
+1. https://dev.mysql.com/doc/refman/5.7/en/limit-optimization.html
 
