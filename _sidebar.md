@@ -3,6 +3,8 @@
       - [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
     - [Guava](JavaEE/Guava.md)
+    - [Java日志框架](JavaEE/Java日志框架.md)
+    - [Log4j2漏洞](JavaEE/Log4j2漏洞.md)
     - **Spring**
       - [切面](JavaEE/Spring/切面.md)
       - **源码解析**
@@ -10,10 +12,13 @@
       - [定时任务](JavaEE/Spring/定时任务.md)
     - **SpringBoot**
       - [SpringBoot配置](JavaEE/SpringBoot/SpringBoot配置.md)
-    - [深入理解Java虚拟机](JavaEE/深入理解Java虚拟机.md)
+      - [关于Springboot的Jar](JavaEE/SpringBoot/关于Springboot的Jar.md)
+      - [关于Springboot配置文件的加载](JavaEE/SpringBoot/关于Springboot配置文件的加载.md)
+      - [配置中心](JavaEE/SpringBoot/配置中心.md)
 - **JavaSE**
     - [JDBC](JavaSE/JDBC.md)
     - [Java8新特性](JavaSE/Java8新特性.md)
+    - [Java数组List转换](JavaSE/Java数组List转换.md)
     - [Java时间相关](JavaSE/Java时间相关.md)
     - [Java常见系统方法](JavaSE/Java常见系统方法.md)
     - [Java中常用数据格式](JavaSE/Java中常用数据格式.md)
@@ -24,7 +29,7 @@
     - [多线程](JavaSE/多线程.md)
     - [序列化](JavaSE/序列化.md)
     - [单元测试](JavaSE/单元测试.md)
-    - [日志相关](JavaSE/日志相关.md)
+    - [深入理解Java虚拟机](JavaSE/深入理解Java虚拟机.md)
     - [代码优化方案](JavaSE/代码优化方案.md)
     - [深拷贝与浅拷贝](JavaSE/深拷贝与浅拷贝.md)
 - **JavaWeb**
@@ -62,6 +67,10 @@
       - [Elasticsearch原理](数据/Elasticsearch/Elasticsearch原理.md)
       - [Elasticsearch的安装和配置](数据/Elasticsearch/Elasticsearch的安装和配置.md)
       - [Elasticsearch在生产中的应用](数据/Elasticsearch/Elasticsearch在生产中的应用.md)
+    - **Hive**
+      - [Hive](数据/Hive/Hive.md)
+      - [HiveMetaStore](数据/Hive/HiveMetaStore.md)
+      - [阿里数仓历史数据迁移Hive](数据/Hive/阿里数仓历史数据迁移Hive.md)
     - **Kafka**
     - **Mysql**
       - [Mysql](数据/Mysql/Mysql.md)
@@ -76,14 +85,21 @@
     - [Docker](运维/Docker.md)
     - [ELK](运维/ELK.md)
     - [Jenkins](运维/Jenkins.md)
-    - [Linux](运维/Linux.md)
-    - [Linux文件系统](运维/Linux文件系统.md)
-    - [Linux软件安装](运维/Linux软件安装.md)
+    - **LInux**
+      - [Linux](运维/LInux/Linux.md)
+      - [Linux文件系统](运维/LInux/Linux文件系统.md)
+      - [Linux环境变量](运维/LInux/Linux环境变量.md)
+      - [Linux用户权限](运维/LInux/Linux用户权限.md)
+      - [Linux软件安装](运维/LInux/Linux软件安装.md)
+      - [Shell脚本](运维/LInux/Shell脚本.md)
+      - [Vim](运维/LInux/Vim.md)
+      - [的解压和压缩](运维/LInux/的解压和压缩.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
-    - [Shell脚本](运维/Shell脚本.md)
     - [远程部署项目](运维/远程部署项目.md)
 - **开源项目**
-    - [Davinci](开源项目/Davinci.md)
+    - **Davinci**
+      - [Davinci](开源项目/Davinci/Davinci.md)
+      - [Davinci埋点设计](开源项目/Davinci/Davinci埋点设计.md)
 - **计算机基础**
     - [浮点数](计算机基础/浮点数.md)
     - [关于时间](计算机基础/关于时间.md)
