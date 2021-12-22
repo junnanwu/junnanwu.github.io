@@ -237,7 +237,7 @@ Java本身是不需要配置这个环境变量的，安装Java只需要将jdk的
 
 1. 例如：IDEA中的Gradle可以选择Gradle JVM为`JAVA_HOME`，这个时候，如果你没有设置`JAVA_HOME`环境变量，那么就会报错了。
 
-   <img src="Java%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%A6%82%E5%BF%B5_assets/image-20211025114743038.png" alt="image-20211025114743038" style="zoom: 33%;" />
+   <img src="Java%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%A6%82%E5%BF%B5_assets/java-home-idea-gradle.png" alt="image-20211025114743038" style="zoom: 33%;" />
 
 2. 在没有配置`JAVA_HOME`环境变量的时候，我本地的CAS Tomcat服务也出现了异常，
 
@@ -361,7 +361,7 @@ jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ..
 
 在大型项目中，不可能手动编写`MANIFEST.MF`文件，再手动创建zip包。Java社区提供了大量的开源构建工具，例如[Maven](../Tool/Maven)，可以非常方便地创建jar包。
 
-## Reference
+## References
 
 1. [JDK Tools and Utilities](https://docs.oracle.com/Javase/7/docs/technotes/tools/index.html)
 2. https://www.liaoxuefeng.com/wiki/1252599548343744/1260466914339296

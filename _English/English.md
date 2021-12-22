@@ -102,7 +102,7 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
 
   There is no "correct" number of actions to perform in a single bulk request. Experiment with different settings to find the optimal size for your particular workload
 
-  在执行一个批请求的时候，没有一个正确的操作数。对于特定的工作量，你应该通过测试不同的配置来找到最合适的设置
+  在执行一个批请求的时候，没有一个正确的操作数。对于特定的工作量，你应该通过测试不同的配置来找到最合适的设置。
 
 -  strive to do
 
@@ -114,15 +114,15 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
 
   It is built using one or more boolean **clauses**, each clause with a **typed** **occurrence**. 
 
-  它是由一个或多个布尔子句构成的，每个子句都对应了一个类型的事件
+  它是由一个或多个布尔子句构成的，每个子句都对应了一个类型的事件。
 
 ### 7/13
 
 - alphabetically
 
-  Ordering the buckets alphabetically by their terms in an ascending manner
+  Ordering the buckets **alphabetically** by their terms in an ascending manner.
 
-  将bucket按照terms字母的升序方式进行排序
+  将bucket按照terms字母的升序方式进行排序。
 
 ### 11/13
 
@@ -130,7 +130,61 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
 
   摄入，咽下
 
-  This table doesn’t contain the ingested data for `INSERT` queries.
+  This table doesn’t contain the **ingested** data for INSERT queries.
+
+### 12/21
+
+- vulnerability
+
+  漏洞
+
+  vulnerable
+
+  脆弱的
+
+  who **identify** log4j **vulnerability**.
+
+- exploit
+
+  可以被利用（exploit）的漏洞
+
+  Log4Shell: RCE 0-day **exploit** found in log4j 2, a popular Java logging package.
+
+  How the exploit works.
+
+  exploitable
+
+  能够被利用攻击的
+
+  Since December 9th, the vulnerability has been reported to be massively **exploited** in the wild, due to the fact that it is trivially **exploitable** (weaponized PoCs are available publicly) and extremely popular, and got a wide coverage on media and social networks.
+
+  Many, many services are vulnerable to this exploit. Cloud services like Steam, Apple iCloud, and apps like Minecraft have already been found to be vulnerable.
+
+- reproduce
+
+  复现
+
+  If you want to **reproduce** this vulnerability locally, you can refer to...
+
+- mitigation
+
+  缓解措施
+
+  Mitigation and adaptation are two integral aspects in tackling climate change.
+
+  permanent mitigation and temporary **mitigation**.
+
+-  migrate
+
+  迁移
+
+  Version 1 of log4j is vulnerable to other RCE attacks, and if you're using it you need to **migrate** to `2.17.0`.
+
+- ubiquitous
+
+  普遍存在的，无所不在的
+
+  Given how **ubiquitous** this library is, the impact of the exploit (full server control), and how easy it is to exploit, the impact of this vulnerability is quite **severe**. We're calling it "Log4Shell" for short.
 
 
 

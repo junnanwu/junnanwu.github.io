@@ -696,7 +696,7 @@ WHERE T1.c1 = T2.c1 AND condition
 
 ## 全局设置
 
-### `global.sql_mode`
+### global.sql_mode
 
 报如下异常：
 
@@ -713,6 +713,27 @@ SELECT list is not in GROUP BY clause and contains nonaggregated column .... inc
 ```
 SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 ```
+
+或者通过[`ANY_VALUE(arg)`](https://dev.mysql.com/doc/refman/5.7/en/miscellaneous-functions.html#function_any-value)函数的方式绕开此模式。
+
+### max_allowed_packet
+
+允许传输的最大sql包，默认为4MB
+
+查看：
+
+```
+SHOW GLOBAL VARIABLES LIKE 'max_allowed_packet';
+```
+
+设置：
+
+```
+#单位为字节，下面104857600即为100M
+SET GLOBAL max_allowed_packet = 100 * 1024 * 1024;
+```
+
+
 
 ## 其他
 
@@ -860,7 +881,18 @@ Mysql只对`order by`关键字的顺序进行保证，其他顺序没有做任�
 
 所以官方也是这样推荐的：如果你想要加不加limit都返回相同的顺序，那么最好在你排序字段的后面再加一个id字段。
 
-## Reference
+## 时间新增当前时间
 
-1. https://dev.mysql.com/doc/refman/5.7/en/limit-optimization.html
+默认值设置为：
+
+```
+ALTER TABLE `data_web`.`tag_section` 
+ADD COLUMN `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间' AFTER `section_average`;
+```
+
+
+
+## References
+
+1. https://dev.mysql.com/doc/refman/5.7/en
 

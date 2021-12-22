@@ -145,7 +145,9 @@ http是全局参数，对整体产生影响
 
 #### upstream
 
-upstream块定义了一个上游服务器的集群，便于反向代理中的`proxy_pass`
+upstream块定义了一个上游服务器的集群，便于反向代理中的`proxy_pass`使用。
+
+配置块：`http`
 
 例如：
 
@@ -163,6 +165,34 @@ server {
 }
 ```
 
+- server
+
+  server配置项指定了一台上游服务器的名字，这个名字可以是域名，IP地址端口，UNIX句柄等其后面还可以加一些参数
+
+  - `weigth=number`
+
+    设置这台上游转发的权重，默认为1
+
+  - `max_fails=number`
+
+    与`fail_timeout`配合使用，指在fail_timeout时间段内，如果向当前的上游服务器转发失败的次数超过number，则认为当前的fail_timeout时间内这台上游服务器不可用，max_fails默认为1，如果设置为0，则不检查失败次数。
+
+  - `fail timcout = time`
+
+    fail timcout表示该时间段内转发失败多少次后就认为上游服务器暂时不可用，用于优化反向代理功能。它与向上游服务器建立连接的超时时间、读取上游服务器的响应超时时间等完全无关。 fail timcout默认为10秒。
+
+例如：
+
+```nginx
+upstrearn backend {
+  server backend1.example.com weight=5;
+  server 127.0.0.1:8080 max_fails=3 fail_timeout=30s; 
+  server unix:/tmp/backend3;
+}
+```
+
+
+
 ### server
 
 配置虚拟主机的相关参数，一个http中可以有多个server，一个虚拟服务器由listen和server_name指令组合定义
@@ -174,8 +204,9 @@ server {
 listen参数决定了Nginx如何监听端口，listen的使用非常灵活，如下：
 
 ```nginx
-listen 127.0.0。1:8000;
-listen 127.0.0.1; #不加端口时，默认监听80端口
+listen 127.0.0.1:8000;
+#不加端口时，默认监听80端口
+listen 127.0.0.1; 
 listen localhost:8080;
 ```
 
@@ -423,6 +454,63 @@ location /usertag/ {
 }
 ```
 
+#### rewirte
+
+参数可以存在的位置：`server`，`location`，`if`
+
+```
+rewrite <regex> <replacement> [flag];
+```
+
+flag：
+
+- last
+
+  本条规则匹配完成后，继续向下匹配新的location URI规则
+
+- break
+
+  本条规则匹配完成即终止，不再匹配后面的任何规则
+
+- redirect
+
+  返回302临时重定
+
+- permanent
+
+  返回301永久重定向
+
+正则部分可以使用`^/(.*) `代表完整的路径名
+
+应用场景：
+
+- 网址更换域名后，可以让旧的地址跳转到新的地址上
+- 根据客户端的信息，对URL进行调整
+
+举例：
+
+如果访问的是`www.abc.com`，重定向到`http://www.abc.com`
+
+```nginx
+server {
+
+    listen 80;
+    server_name abc.com www.abc.com;
+    if ( $host != 'www.abc.com'  ) {
+
+        rewrite ^/(.*) http://www.abc.com/$1 permanent;
+
+    }
+    location / {
+        root /data/www/www;
+        index index.html index.htm;
+
+    }
+    error_log    logs/error_www.abc.com.log error;
+    access_log    logs/access_www.abc.com.log    main;
+}
+```
+
 #### proxy_pass
 
 语法：
@@ -433,7 +521,7 @@ proxy_pass URL
 
 此配置项将当前请求反向代理到URL参数指定的服务器上
 
-
+配置块：`location`、`if`
 
 例如：
 
@@ -550,7 +638,7 @@ cache-control :
 
 vhost配置文件的作用是为了将更多的server配置文件的信息，单独存放，不至于集中在nginx.conf配置中，这样有助于查找问题
 
-http块中添加include vhosts/*.conf，然后在nginx目录下的vhosts目录中新增xxx.conf
+http块中添加`include vhosts/*.conf`，然后在nginx目录下的vhosts目录中新增xxx.conf
 
 ### ngx_http_core_module模块提供的变量
 
@@ -719,13 +807,9 @@ location /dap {
 
 
 
-## reference
+## Reference
 
 本文大量参考了 陶辉的《深入理解Nginx-模块开发于架构解析-第二版》
-
-
-
-
 
 
 

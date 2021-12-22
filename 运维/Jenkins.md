@@ -2,9 +2,31 @@
 
 ## Jenkins是什么？
 
-Jenkins是一款开源 CI持续集成&CD 软件，用于自动化各种任务，包括构建、测试和部署软件。
 
-### 什么是 Jenkins Pipeline?
+
+
+
+## Jenkins自动构建项目的类型
+
+- 自由风格软件项目（Preestyle Project）
+
+  Jenkins定义了一个应用的生命周期，你只需要在每个生命周期使用适当的插件即可。
+
+- Maven项目（Maven Project）
+
+- 流水线项目（Pipeline Project）
+
+  使用流水线项目你可以自定义应用的整个生命周期，非常灵活。
+
+
+
+## 自由风格项目
+
+我们生产中实际使用的就是自由风格的方式，能实现简单的自动部署。
+
+
+
+
 
 ```sh
 #/bin/bash
@@ -114,3 +136,6 @@ Already up-to-date.
 [zhuds@app-zlfzb-jr data-openapi]$
 ```
 
+
+
+## Reference

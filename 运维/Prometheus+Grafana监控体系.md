@@ -68,7 +68,6 @@ rule_files:
   
 # 服务发现
 # A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
@@ -137,16 +136,32 @@ scrape_configs:
 
 ![image-20210910000832378](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000832378.png)
 
-### Spring
+### Springboot
 
 - 导入spring-boot-starter-actuator依赖，并且增加micrometer-registry-prometheus的依赖，将原本的监控指标输出成prometheus的格式
+
+  gradle
 
   ```
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.1.6.RELEASE'
   implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.6.5'
   ```
 
-- 修改spring的配置文件
+  maven
+
+  ```xml
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+  </dependency>
+  <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <scope>runtime</scope>
+  </dependency>
+  ```
+
+- 增加springboot的配置文件
 
   ```yml
   #actuator配置
@@ -154,14 +169,39 @@ scrape_configs:
     endpoints:
       web:
         exposure:
-          include:
-             - "*" # 开放所有endpoints：health，info，metrics等，通过actuator/+端点名就可以获取相应的信息。默认打开health和info
-      health:
-        show-details: always
-    metrics:
-      export:
-        prometheus:
-          enabled: true
+          include: prometheus
+  ```
+  
+- 访问相应连接访问
+
+  ```
+  xxx/actuator/prometheus
+  ```
+
+  可以看到如下指标：
+
+  ```
+  # HELP tomcat_sessions_alive_max_seconds  
+  # TYPE tomcat_sessions_alive_max_seconds gauge
+  tomcat_sessions_alive_max_seconds 0.0
+  # HELP tomcat_servlet_error_total  
+  # TYPE tomcat_servlet_error_total counter
+  tomcat_servlet_error_total{name="default",} 0.0
+  tomcat_servlet_error_total{name="jsp",} 0.0
+  tomcat_servlet_error_total{name="dispatcherServlet",} 21.0
+  # HELP hikaricp_connections_timeout_total Connection timeout total count
+  # TYPE hikaricp_connections_timeout_total counter
+  hikaricp_connections_timeout_total{pool="HikariPool-1",} 0.0
+  hikaricp_connections_timeout_total{pool="HikariPool-2",} 0.0
+  hikaricp_connections_timeout_total{pool="HikariPool-3",} 0.0
+  # TYPE jvm_memory_max_bytes gauge
+  jvm_memory_max_bytes{area="heap",id="PS Survivor Space",} 1.1010048E7
+  jvm_memory_max_bytes{area="heap",id="PS Old Gen",} 2.776629248E9
+  jvm_memory_max_bytes{area="heap",id="PS Eden Space",} 1.325400064E9
+  jvm_memory_max_bytes{area="nonheap",id="Metaspace",} -1.0
+  jvm_memory_max_bytes{area="nonheap",id="Code Cache",} 2.5165824E8
+  jvm_memory_max_bytes{area="nonheap",id="Compressed Class Space",} 1.073741824E9
+  ...
   ```
 
 - 修改prometheus配置文件，可以新增一个job，不同的jobname即可
@@ -177,6 +217,14 @@ scrape_configs:
 - 同样在Grafana上找一个Spring的dashboard id，数据源选择prometheus即可
 
 ![image-20210910000808016](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000808016.png)
+
+**注意：**
+
+1. Spring Boot 2.0.4.RELEASE/2.0.3.RELEASE版本使用Prometheus，访问`actuator/prometheus`，会出现406的情况，解决方法如下：
+
+   https://stackoverflow.com/questions/51496648/cant-get-prometheus-to-work-with-spring-boot-2-0-3
+
+2. Springboot URL跨过CAS认证可以参考此文
 
 ### ClickHouse
 
@@ -243,4 +291,9 @@ scrape_configs:
 <img src="Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20211103201401338.png" alt="image-20211103201401338" style="zoom: 50%;" />
 
 ## 告警
+
+## Reference
+
+1. https://stackoverflow.com/questions/51496648/cant-get-prometheus-to-work-with-spring-boot-2-0-3
+2. https://blog.csdn.net/jackspring2010/article/details/104958148
 

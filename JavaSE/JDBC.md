@@ -135,7 +135,9 @@ jdbc:hive2://<host1>:<port1>,<host2>:<port2>/dbName;initFile=<file>;sess_var_lis
 
 - `<file>`
 
-  创建连接后，在SQL语句执行之前，会自动执行的脚本
+  创建连接后，在SQL语句执行之前，会自动执行的脚本，
+
+  例如：`user=foo;password=bar`
 
 - `sess_var_list`
 
@@ -166,6 +168,12 @@ jdbc:hive2://<host1>:<port1>,<host2>:<port2>/dbName;initFile=<file>;sess_var_lis
     <version>3.1.0</version>
 </dependency>
 ```
+
+注意：
+
+hive JDBC依赖了很多比如hadoop等相关的其他依赖，所以直接下载java jar是不能运行的人，Maven是可以解决依赖传递的，以至于最后打出来的fat jar足足有150M（Mysql jdbc简单连接项目打出来的fat jar只有5M左右...）
+
+也可以点击这里下载[Uber-jar](https://github.com/timveil/hive-jdbc-uber-jar)
 
 ### 样例代码
 
@@ -225,7 +233,7 @@ public class HiveJdbcClient {
     System.out.println("Running: " + sql);
     res = stmt.executeQuery(sql);
     while (res.next()) {
-      System.out.println(String.valueOf(res.getInt(1)) + "\t" + res.getString(2));
+      System.out.println(res.getInt(1) + "\t" + res.getString(2));
     }
  
     // regular hive query
@@ -245,7 +253,7 @@ JDBC连接池有一个标准的接口`javax.sql.DataSource`，注意这个类位
 
 - 
 
-## Reference
+## References
 
 1. https://www.liaoxuefeng.com/wiki/1252599548343744/1255943820274272
 

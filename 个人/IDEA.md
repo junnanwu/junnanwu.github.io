@@ -56,11 +56,11 @@
 
 ## IDEA好用插件
 
-**Lombok**
+### Lombok
 
 略
 
-**SQL Params Setter**
+### SQL Params Setter
 
 一款将预查询语句和参数转换为SQL语句的插件。
 
@@ -76,7 +76,7 @@
 >Note:
 >The selected area should contain both keyword [Preparing:] in the 1st line and keyword [Parameters:] in the 2nd line.
 
-**CamelCase**
+### CamelCase
 
 各种驼峰，蛇形等各种形式的转换。
 
@@ -86,21 +86,69 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 > Switch easily between kebab-case, SNAKE_CASE, PascalCase, camelCase, snake_case or space case. See Edit menu or use ⇧ + ⌥ + U / Shift + Alt + U. Allows to disable some conversions or change their order in the preferences.
 
-**POJO to JSON**
+### POJO to JSON
 
 将POJO转换为JSON方便接口调试，使用postman调试的时候，可以直接将pojo复制成json的格式放入请求体。
 
-**Json Formatter**
+### Json Formatter
 
 可以进行Json的格式校验和格式化。
 
 说明如下：
 
->Usage: Paste JSON string into editor, and press Reformat Code (Ctrl + Alt + L in windows) to format code as if you editing a file with .json suffix.
+>Usage: Paste JSON string into editor, and press Reformat Code (Ctrl/Command + Alt + L in windows) to format code as if you editing a file with .json suffix.
+
+### RestfulToolkit
+
+一套 RESTful 服务开发辅助工具集。
+
+功能如下：
+
+1. 根据 URL 直接跳转到对应的方法定义 ( `Ctrl \` or `Ctrl Alt N` );
+2. 提供了一个 Services tree 的显示窗口;
+3. 一个简单的 http 请求工具;
+4. 在请求方法上添加了有用功能: 复制生成 URL;,复制方法参数...
+5. 其他功能: java 类上添加 Convert to JSON 功能，格式化 json 数据 ( Windows: `Ctrl + Enter`; Mac:`Command + Enter` )。
+
+## IDEA配置
+
+- 双斜杠注释紧贴代码而不是在行首
+
+  ![image-20211210114721376](IDEA_assets/image-20211210114721376.png)
+
+  效果：
+
+  ```
+  修改前：
+  //    public ...
+  修改后：
+      //public ...
+  ```
+
+- 代码提示取消大小写匹配
+
+  ![image-20211210115332183](IDEA_assets/image-20211210115332183.png)
+
+- 创建文件的时候，自动创建文件头注释
+
+  ![image-20211210115635196](IDEA_assets/image-20211210115635196.png)
+
+  如下：
+
+  ```
+  /**
+   * @author wujunnan
+   * @date ${YEAR}/${MONTH}/${DAY}
+   */
+  ```
+  
+- 设置控制台限制的文件总大小
+
+  ![image-20211215183503991](IDEA_assets/image-20211215183503991.png)
 
 ## iml文件
 
 iml文件是Intelij在你的根目录创建的一个文件，它对你的代码没有任何影响。
 
-这个文件和代码无关，不应该被git管理，即使你的代码没有变动，这个文件也会有变化，而且maven等都可以创建此文件
+这个文件和代码无关，**不应该被git管理**，即使你的代码没有变动，这个文件也会有变化，而且maven等都可以创建此文件
 

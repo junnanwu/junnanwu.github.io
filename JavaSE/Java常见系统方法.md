@@ -23,7 +23,7 @@ public static void exit(int status) {
 
 方法：
 
-```
+```java
 public void addShutdownHook(Thread hook)
 ```
 

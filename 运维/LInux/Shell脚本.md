@@ -708,7 +708,34 @@ $ dirname /etc/sysconfig/network
 
 ### 操作字符串
 
-**计算字符串长度**
+#### 计算字符串长度
 
 - `${#var}`
 
+https://blog.csdn.net/u010003835/article/details/80749220
+
+#### 将字符串切割为数组
+
+例如：
+
+```
+$ branch=origin/release/v2.11.2.1
+```
+
+1. `cut`
+
+   ```
+   $ echo $(echo $branch | cut -d'/' -f3)
+   v2.11.2.1
+   ```
+
+2. `awk`
+
+   ```
+   $ echo $(awk -F/ '{print $3}' <<< $branch)
+   v2.11.2.1
+   $ echo $(awk -F/ '{print $NF}' <<< $branch)
+   v2.11.2.1
+   ```
+
+   
