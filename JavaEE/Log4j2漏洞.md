@@ -4,7 +4,9 @@ Log4j2是Apache广为使用的底层日志框架，是Log4j的升级版，很多
 
 ## 影响版本
 
-Apache Log4j2: 2.0 - 2.14.1、2.15.0-rc1（部分措施被绕过）版本。
+Apache log4j: 2.0 - 2.16.0版本，安全版本为：log4j-2.17.0。
+
+Log4j 1.x版本详见下文。
 
 ## 漏洞原理
 
@@ -13,6 +15,10 @@ Log4J2提供了Lookup的功能，允许在输出日志的时候，去查找要�
 其中就包括JNDI（Java Naming and Directory Interface），即Java命名和目录接口，是用于从Java应用程序中访问名称和目录服务的一组API，使开发人员在开发过程中可以使用名称来访问对象。
 
 类似的，`${jndi:<URL>}`就可以被识别，通过JNDI协议，**就可以将不可信任的资源，如Java对象加载并执行**。
+
+如图所示：
+
+![img](Log4j2%E6%BC%8F%E6%B4%9E_assets/log4j-attack-and-mitigations.png)
 
 ## 漏洞复现
 
@@ -102,7 +108,31 @@ at com.sun.jndi.url.ldap.ldapURLContext.lookup(ldapURLContext.java:94)
 
 ## 修复
 
-临时修复方案不再描述，以下是永久解决方案，原理就是将漏洞Jar包替换为2.16.0版本。
+### 临时方案
+
+- JVM参数关闭Lookup
+
+  一些软件可能需要一定时间替换最新版本，可以通过设置JVM启动参数的方式临时解决：
+
+  ```
+  -Dlog4j2.formatMsgNoLookups=true
+  ```
+
+- 同时可以通过设置环境变量
+
+  ```
+  JAVA_OPTS=-Dlog4j2.formatMsgNoLookups=true
+  ```
+
+- JDK
+
+  使用版本高于 `6u211`、`7u201`、 `8u191`、 `11.0.1`的JDK的服务是不受影响，这些JDK版本中， `com.sun.jndi.ldap.object.trustURLCodebase` 默认是`false`。
+
+  但此方案也仅仅可以作为临时方案，
+
+### 永久方案
+
+原理就是将漏洞Jar包替换为2.17.0版本。
 
 ### 查看依赖树
 
@@ -246,22 +276,76 @@ compile('org.apache.hive:hive-jdbc:2.3.7') {
 
 **引入新Jar包**
 
-将上述漏洞Jar包替换为**2.16.0**版本：
+将上述漏洞Jar包替换为**2.17.0**版本：
 
 ```xml
-implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.16.0'
-implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.16.0'
+implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.17.0'
+implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.0'
 ```
 
-在该版本中：
+2.16.0版本默认关闭了JNDI，需要显式的配置，同时限制了协议类型，另外，需要显式的允许开启访问外网host。
 
-> In version 2.16.0 Log4j disables access to JNDI by default. JNDI lookups in configuration now need to be enabled explicitly. Also, Log4j now limits the protocols by default to only java, ldap, and ldaps and limits the ldap protocols to only accessing Java primitive objects. Hosts other than the local host need to be explicitly allowed. The message lookups feature has been completely removed.
+2.17.0版本修复了由自引用 lookups 的导致的不受控制的递归漏洞，攻击者可以制作包含递归查找的恶意输入数据，导致 StackOverflowError。
 
-即默认关闭了JNDI，需要显式的配置，同时限制了协议类型，另外，需要显式的允许开启访问外网host。
+>Apache Log4j2 versions 2.0-alpha1 through 2.16.0, excluding 2.12.3, did not protect from uncontrolled recursion from self-referential lookups. When the logging configuration uses a non-default Pattern Layout with a Context Lookup (for example, $${ctx:loginId}), attackers with control over Thread Context Map (MDC) input data can craft malicious input data that contains a recursive lookup, resulting in a StackOverflowError that will terminate the process. This is also known as a DOS (Denial of Service) attack.
+
+## log4j1.x
+
+也被发现了漏洞，不过风险要比Log4j 2低得多，[参考此](https://access.redhat.com/security/cve/CVE-2021-4104)。
+
+只有那些使用了JMSAppender的应用会影响，但是这个并不是默认配置。
+
+>Note this flaw ONLY affects applications which are specifically configured to use JMSAppender, which is not the default, or when the attacker has write access to the Log4j configuration for adding JMSAppender to the attacker's JMS Broker.
+
+不过也建议升级到2.17.0。
 
 ## 实践指南
 
-1. 目前已知Hive JDBC Driver依赖中包含漏洞Jar包
+可以[点击这里](https://gist.github.com/SwitHak/b66db3a06c2955a9cb71a8718970c592)查看受影响的应用。
+
+### Maven依赖
+
+目前已知Hive JDBC Driver依赖中包含漏洞Jar包。
+
+### ElasticSearch
+
+详见[官方贴](https://discuss.elastic.co/t/apache-log4j2-remote-code-execution-rce-vulnerability-cve-2021-44228-esa-2021-31/291476)
+
+影响版本：
+
+7.16.2 和 6.8.22之前版本。
+
+>Elasticsearch 5 is susceptible to both remote code execution and an information leak via DNS. 
+>
+>We’ve confirmed that the Security Manager mitigates the remote code execution attack in Elasticsearch 6 and 7.
+
+临时措施：
+
+JVM开启 `-Dlog4j2.formatMsgNoLookups=true` 并重启所有节点。
+
+配置文件：elasticsearch/config/jvm.options
+
+永久措施：
+
+将Elasticsearch升级到7.16.2或6.8.22版本，这些版本使用了最新的log4j (2.17.0)。
+
+### ClickHouse
+
+[参见此](https://altinity.com/blog/cve-2021-44228-log4j-vulnerability-and-clickhouse)
+
+ClickHouse本身使用C++编写，不受此漏洞影响，但是需要注意使用的ClickHouse JDBC，使用了Log4j 1.2，参考[log4j1.x](#log4j1.x)
+
+### ZooKeeper
+
+[详见此](https://issues.apache.org/jira/browse/ZOOKEEPER-4423)
+
+### Atlassian
+
+Atlassian系列产品（Jira、Bitbucket、Confluence）部分使用了[log4j 1.x](#log4j1.x)，未经特殊配置，不受影响，详情查看[官方文档](https://confluence.atlassian.com/security/multiple-products-security-advisory-log4j-vulnerable-to-remote-code-execution-cve-2021-44228-1103069934.html)。
+
+### 腾讯云
+
+在弹性 MapReduce 服务中 flink、hive、ranger、 presto、 oozie 、knox 、 storm 、druid 等组件有受此漏洞影响，详情参考[腾讯云文档](https://cloud.tencent.com/document/product/589/66710)。
 
 ## JNDI
 
@@ -302,8 +386,13 @@ JNDI的基本使用操作就是：先创建一个对象，然后放到容器环�
 1. https://mp.weixin.qq.com/s/zXzJVxRxMUnoyJs6_NojMQ
 2. https://docs.oracle.com/javase/tutorial/jndi/overview/index.html
 3. https://en.wikipedia.org/wiki/Log4Shell
-3. https://github.com/mbechler/marshalsec
-3. https://zhuanlan.zhihu.com/p/444103520
-3. https://logging.apache.org/log4j/2.x/
-3. https://jfrog.com/blog/log4shell-0-day-vulnerability-all-you-need-to-know/
-
+4. https://github.com/mbechler/marshalsec
+5. https://zhuanlan.zhihu.com/p/444103520
+6. https://logging.apache.org/log4j/2.x/
+7. https://jfrog.com/blog/log4shell-0-day-vulnerability-all-you-need-to-know/
+8. https://discuss.elastic.co/t/apache-log4j2-remote-code-execution-rce-vulnerability-cve-2021-44228-esa-2021-31/291476
+9. https://altinity.com/blog/cve-2021-44228-log4j-vulnerability-and-clickhouse
+10. https://confluence.atlassian.com/security/multiple-products-security-advisory-log4j-vulnerable-to-remote-code-execution-cve-2021-44228-1103069934.html
+11. https://access.redhat.com/security/cve/CVE-2021-4104
+12. https://www.lunasec.io/docs/blog/log4j-zero-day-mitigation-guide/
+13. https://cloud.tencent.com/document/product/589/66710

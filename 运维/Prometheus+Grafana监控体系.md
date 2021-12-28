@@ -24,10 +24,16 @@
   $ sudo nohup ./prometheus &
   ```
 
-- 查看
+- 访问相关地址查看
 
   ```
-  http://49.233.9.128:9090/targets
+  http://49.233.9.xxx:9090/targets
+  ```
+  
+- 修改配置文件后检查配置文件
+
+  ```
+  $ ./promtool check config prometheus.yml
   ```
   
 - 修改配置文件后重启
@@ -35,36 +41,25 @@
   ```
   $ sudo kill -hup 6580
   ```
+  
+  注意：
+  
+  建议采用此种方式（kill -hup）重启，此种方式下，当你的配置出错的时候，不会重新加载错误的配置部分，也不会造成服务停止。
+  
+  当然，最好还是使用promtool在重启前检查一下配置。
 
-#### Prometheus配置文件说明
+#### 配置文件说明
 
 [官方文档点此可见](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)
 
 ```yml
-# my global config
+# 全局配置
 global:
-  # 采集被监控端的一个周期
-  # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  # 采集被监控端的一个周期，默认是1分钟
   scrape_interval:     15s 
-  # 告警的评估周期
+  # 告警的评估周期，默认是1分钟
   # Evaluate rules every 15 seconds. The default is every 1 minute.
   evaluation_interval: 15s 
-
-# 告警配置
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-       - 127.0.0.1:9093
-
-# 指定告警规则 
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-  - "rules/*.yml"
-  # - "first_rules.yml"
-  # - "second_rules.yml"
-  
   
 # 服务发现
 # A scrape configuration containing exactly one endpoint to scrape:
@@ -81,15 +76,36 @@ scrape_configs:
     # false: 默认值，同名的被采集的标签将不会覆盖服务端本地标签，而是标签名前增加exported_而服务端本地标签保留
     honor_labels: true
     
+  - job_name: 'openapi'
+    # How frequently to scrape targets from this job.
+    # [ scrape_interval: <duration> | default = <global_config.scrape_interval> ]
+    metrics_path: '/openapi/actuator/prometheus'
+    scrape_interval: '5s'
+    static_configs:
+      - targets: ['172.27.16.xxx:9091', '172.27.0.26:9091']
+        #可以定义一些自己的标签
+        labels:
+          application: 'openapi'
+        
   - job_name: 'linux'
     static_configs:
-      - targets: ['172.16.120.88:9100']
-      #可以定义一些自己的标签
+      - targets: ['172.16.120.xxx:9100']
         labels:
           instance: staging2
-      - targets: ['172.16.180.243:10100']
+      - targets: ['172.16.180.xxx:10100']
         labels:
           instance: staging
+```
+
+注意：
+
+要想配置多个targer：也可采用如下方式：
+
+```
+static_configs:
+- targets: ['192.168.x.x:9100']
+- targets: ['192.168.x.y:9100']
+- targets: ['192.168.x.z:9100']
 ```
 
 
@@ -122,10 +138,10 @@ scrape_configs:
   scrape_configs:
     - job_name: 'linux'
       static_configs:
-        - targets: ['172.16.120.88:9100']
+        - targets: ['172.16.120.xxx:9100']
           labels:
             instance: staging2
-        - targets: ['172.16.180.243:10100']
+        - targets: ['172.16.180.xxx:10100']
           labels:
             instance: staging
   ```
@@ -134,7 +150,7 @@ scrape_configs:
 
 - 在Grafana的数据源配置为prometheus，在Grafana Dashboards选择一个Dashboards即可
 
-![image-20210910000832378](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000832378.png)
+![image-20210910000832378](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_linux.png)
 
 ### Springboot
 
@@ -210,13 +226,18 @@ scrape_configs:
   scrape_configs:
     - job_name: 'openapi'
       metrics_path: '/openapi/actuator/prometheus'
+      scrape_interval: '5s'
       static_configs:
-      - targets: ['172.16.173.204:9098']
+      - targets: ['172.27.16.xxx:9091']
+        labels:
+          application: 'openapi'
   ```
 
-- 同样在Grafana上找一个Spring的dashboard id，数据源选择prometheus即可
+- 同样在Grafana上找一个Spring的dashboard id，数据源选择prometheus即可，可以采用如下：
 
-![image-20210910000808016](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210910000808016.png)
+  [Spring Boot 2.1 Statistics](https://grafana.com/grafana/dashboards/10280)
+
+  ![image-20211224160958531](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_spring.png)
 
 **注意：**
 
@@ -224,16 +245,15 @@ scrape_configs:
 
    https://stackoverflow.com/questions/51496648/cant-get-prometheus-to-work-with-spring-boot-2-0-3
 
-2. Springboot URL跨过CAS认证可以参考此文
-
 ### ClickHouse
 
-- 使用Grafana自带的ClickHouse的数据源
-- 选择一个能使用ClickHouse数据源的dashboard即可
+- Grafana下载ClickHouse插件
+- 在Grafana添加ClickHouse的数据源
+- 选择一个使用ClickHouse数据源的[dashboard](https://grafana.com/grafana/dashboards/13606)即可
 
 最终如下：
 
-![image-20210909234603402](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20210909234603402.png)
+![image-20210909234603402](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_clickhouse.png)
 
 ### Mysql
 
@@ -277,23 +297,115 @@ scrape_configs:
   ```yml
   - job_name: "mysql"
       static_configs:
-      - targets: ["172.16.74.199:9104"]
-      - targets: ["172.27.0.26:9104"]
+      - targets: ["172.16.74.xxx:9104", "172.27.0.xxx:9104"]
       honor_labels: true
   ```
-
+  
 - 重启prometheus
 
 [官方介绍详见此](https://github.com/prometheus/mysqld_exporter)
 
 效果如图：
 
-<img src="Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/image-20211103201401338.png" alt="image-20211103201401338" style="zoom: 50%;" />
+<img src="Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_mysql.png" alt="image-20211103201401338" style="zoom: 50%;" />
 
-## 告警
+## 预警
 
-## Reference
+### alertmanager
 
+**安装**
+
+**配置**
+
+alertmanager.yml
+
+```yml
+route:
+  #采用哪个标签进行分组
+  group_by: ['alertname']
+  #最初等待多久发送一组报警
+  group_wait: 30s
+  #发送不报警前的等待时间
+  group_interval: 5m
+  #发送重复报警的周期
+  repeat_interval: 1h
+  receiver: 'email'
+receivers:
+- name: 'email'
+  email_configs:
+  - to: 'houyaqian@kungeek.com,liuxiao@kungeek.com,wujunnan@kungeek.com,yinkai@kungeek.com,jinpeng@kungeek.com,maoyu@kungeek.com'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+
+global:
+  resolve_timeout: 5m #处理超时时间，默认为5min
+  smtp_smarthost: 'smtp.exmail.qq.com:587' # 邮箱smtp服务器代理
+  smtp_from: 'houyaqian@kungeek.com' # 发送邮箱名称
+  smtp_auth_username: 'houyaqian@kungeek.com' # 邮箱名称
+  smtp_auth_password: 'xxxxx' #邮箱密码
+  smtp_require_tls: true
+```
+
+### prometheus.yml
+
+在`prometheus.yml`中添加如下配置：
+
+```yml
+# 匹配的规则文件，会依次读取
+rule_files:
+  - "rules/*.yml"
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+  
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - 127.0.0.1:9093
+```
+
+并新增规则配置:
+
+```yml
+# 报警规则的名称
+# The name of the alert. Must be a valid label value.
+alert: <string>
+
+# The PromQL expression to evaluate. Every evaluation cycle this is
+# evaluated at the current time, and all resultant time series become
+# pending/firing alerts.
+expr: <string>
+
+# 评估等待时间，可选参数。用于表示只有当触发条件持续一段时间后才发送告警。在等待期间新产生告警的状态为pending
+# Alerts are considered firing once they have been returned for this long.
+# Alerts which have not yet fired for long enough are considered pending.
+[ for: <duration> | default = 0s ]
+
+# Labels to add or overwrite for each alert.
+# 自定义标签，允许用户指定要附加到告警上的一组附加标签。··
+labels:
+  [ <labelname>: <tmpl_string> ]
+
+# Annotations to add to each alert.
+# 用于指定一组附加信息，比如用于描述告警详细信息的文字等，annotations的内容在告警产生时会一同作为参数发送到Alertmanager。summary描述告警的概要信息，description用于描述告警的详细信息。同时Alertmanager的UI也会根据这两个标签值，显示告警信息。
+annotations:
+  [ <labelname>: <tmpl_string> ]
+```
+
+格式检查：
+
+```
+promtool check rules /path/to/example.rules.yml
+```
+
+## References
+
+1. https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 1. https://stackoverflow.com/questions/51496648/cant-get-prometheus-to-work-with-spring-boot-2-0-3
 2. https://blog.csdn.net/jackspring2010/article/details/104958148
 

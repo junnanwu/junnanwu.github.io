@@ -736,36 +736,24 @@ Select * from system.settings where name = 'log_queries' LIMIT 1;
 
 ### 方式一
 
-采用复制数据文件夹的方式
+复制数据文件，如果是相同版本推荐此种方式，速度较快。
 
-主要涉及的`var/lib/clickhouse`（若更改，则为更改后数据地址）如下文件夹：
+#### 相同版本
 
-- `metadata`
+相同版本之间迁移，直接复制数据文件夹（配置文件中的）即可，如下：
 
-  表结构数据
+```
+<!-- Path to data directory, with trailing slash. -->
+<path>/data/clickhouse/data/</path>
+```
 
-- `data`
+经实测，20.3.18是可以的。
 
-  表数据
+#### 不同版本
 
-- `store`
+不同版本之间的迁移，可以采用上述方式测一下，如果版本差异较大，可以采取先建表，再将data_path下的数据及data文件夹复制一下。
 
-  前两个文件里面存放的是软连接，链接到此文件夹
-
-这里要注意：
-
-- 数据文件夹中的`data`目录和`metadata`目录都采用的是软链接的方式，要注意软链接的地址是否存在
-
-  ```
-  $ sudo ls -l data/data/data_web/
-  总用量 20
-  lrwxrwxrwx 1 clickhouse clickhouse 63 11月  3 14:30 dim_ftsp_cust_base_info -> /data/clickhouse/store/a06/a067d774-79a9-4808-b107-93a184790c83
-  lrwxrwxrwx 1 clickhouse clickhouse 64 11月  3 14:30 dm_ftsp_cust_tag_ctd -> /data/clickhouse/store/ae4/ae4f7e2b-4bd9-4cad-ae4f-7e2b4bd91cad/
-  ```
-
-- 要注意文件最后的属主要改为ClickHouse
-
-- 建议使用前台启动命令，方便查看启动日志保存信息
+不推荐此种方式，不同版本推荐使用方式三。
 
 ### 方式二
 
@@ -872,7 +860,7 @@ INSERT INTO ... SELECT ...
 2. 移除上面每个服务
 
    ```
-   sudo rpm -e clickhouse-common-static-21.7.4.18-2.x86_64 clickhouse-client-21.7.4.18-2.noarch clickhouse-server-21.7.4.18-2.noarch
+   $ sudo rpm -e clickhouse-common-static-21.7.4.18-2.x86_64 clickhouse-client-21.7.4.18-2.noarch clickhouse-server-21.7.4.18-2.noarch
    ```
    
 3. 卸载重新安装的时候，注意不论是使用yum还是rpm卸载，都会存在数据文件夹和配置文件所在文件夹未清理的情况，尤其是卸载新版本安装旧版本的时候，很可能出现不兼容的情况，所以要关注以下两个地方的目录，如果想安装一个新的ClickHouse，可以将数据文件和配置文件清除：

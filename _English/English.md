@@ -186,5 +186,56 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
 
   Given how **ubiquitous** this library is, the impact of the exploit (full server control), and how easy it is to exploit, the impact of this vulnerability is quite **severe**. We're calling it "Log4Shell" for short.
 
+### 12/24
 
+- scrape
 
+  （艰难地）凑集，抓取
+
+  A `scrape_config` section specifies a set of targets and parameters describing how to scrape them.
+
+  How frequently to scrape targets from this job.
+
+- malformed
+
+  异常
+
+   The only possible returned error is ErrBadPattern, when pattern is malformed.
+
+### 12/28
+
+- remediation
+
+  补救措施
+
+  The simplest remediation is to set the JVM option `-Dlog4j2.formatMsgNoLookups=true` and restart each node of the cluster.
+
+- moderate
+
+  中等
+
+  Log4J 1.2 has a separate vulnerability CVE-2021-009, rated moderate.
+
+- underlying
+
+  底层
+
+  We have identified a possible use of Java in an underlying service for Altinity.Cloud log storage.
+
+- flaw
+
+  缺陷
+
+  A flaw was found in the Java logging library Apache Log4j in version 1.x.
+
+- impacted
+
+  受影响的
+
+  Who is impacted?
+
+- Vendor
+
+  供应商
+
+  Checking Vendor Software Versions.
