@@ -134,9 +134,9 @@ at com.sun.jndi.url.ldap.ldapURLContext.lookup(ldapURLContext.java:94)
 
 原理就是将漏洞Jar包替换为2.17.0版本。
 
-### 查看依赖树
+#### 查看依赖树
 
-#### gradle
+##### gradle
 
 ```
 $ gradle dependencies
@@ -193,7 +193,7 @@ org.apache.logging.log4j:log4j-core:2.6.2
                \--- org.apache.hive:hive-llap-common:2.3.7 (*)
 ```
 
-#### maven
+##### maven
 
 ```
 $ mvn dependency:tree
@@ -219,7 +219,7 @@ com.junnanwu:maven_project:jar:1.0-SNAPSHOT`
       \- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.10.0:compile
 ```
 
-### 替换jar包
+#### 替换jar包
 
 注意：
 
