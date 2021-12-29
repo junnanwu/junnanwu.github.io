@@ -4,9 +4,9 @@ Log4j2是Apache广为使用的底层日志框架，是Log4j的升级版，很多
 
 ## 影响版本
 
-Apache log4j: 2.0 - 2.16.0版本，安全版本为：log4j-2.17.0。
+Apache Log4j: 2.0 - 2.16.0版本，安全版本为：Log4j-2.17.0。
 
-Log4j 1.x版本详见下文。
+[Log4j 1.x](#Log4j1.x)版本详见下文。
 
 ## 漏洞原理
 
@@ -289,7 +289,7 @@ implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '
 
 >Apache Log4j2 versions 2.0-alpha1 through 2.16.0, excluding 2.12.3, did not protect from uncontrolled recursion from self-referential lookups. When the logging configuration uses a non-default Pattern Layout with a Context Lookup (for example, $${ctx:loginId}), attackers with control over Thread Context Map (MDC) input data can craft malicious input data that contains a recursive lookup, resulting in a StackOverflowError that will terminate the process. This is also known as a DOS (Denial of Service) attack.
 
-## log4j1.x
+## Log4j1.x
 
 也被发现了漏洞，不过风险要比Log4j 2低得多，[参考此](https://access.redhat.com/security/cve/CVE-2021-4104)。
 
@@ -327,13 +327,13 @@ JVM开启 `-Dlog4j2.formatMsgNoLookups=true` 并重启所有节点。
 
 永久措施：
 
-将Elasticsearch升级到7.16.2或6.8.22版本，这些版本使用了最新的log4j (2.17.0)。
+将Elasticsearch升级到7.16.2或6.8.22版本，这些版本使用了最新的Log4j (2.17.0)。
 
 ### ClickHouse
 
 [参见此](https://altinity.com/blog/cve-2021-44228-log4j-vulnerability-and-clickhouse)
 
-ClickHouse本身使用C++编写，不受此漏洞影响，但是需要注意使用的ClickHouse JDBC，使用了Log4j 1.2，参考[log4j1.x](#log4j1.x)
+ClickHouse本身使用C++编写，不受此漏洞影响，但是需要注意使用的ClickHouse JDBC，使用了Log4j 1.2，参考[Log4j1.x](#Log4j1.x)
 
 ### ZooKeeper
 
@@ -341,7 +341,7 @@ ClickHouse本身使用C++编写，不受此漏洞影响，但是需要注意使�
 
 ### Atlassian
 
-Atlassian系列产品（Jira、Bitbucket、Confluence）部分使用了[log4j 1.x](#log4j1.x)，未经特殊配置，不受影响，详情查看[官方文档](https://confluence.atlassian.com/security/multiple-products-security-advisory-log4j-vulnerable-to-remote-code-execution-cve-2021-44228-1103069934.html)。
+Atlassian系列产品（Jira、Bitbucket、Confluence）部分使用了[Log4j 1.x](#Log4j1.x)，未经特殊配置，不受影响，详情查看[官方文档](https://confluence.atlassian.com/security/multiple-products-security-advisory-log4j-vulnerable-to-remote-code-execution-cve-2021-44228-1103069934.html)。
 
 ### 腾讯云
 
