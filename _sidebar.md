@@ -92,6 +92,7 @@
       - [Linux用户权限](运维/Linux/Linux用户权限.md)
       - [Linux软件安装](运维/Linux/Linux软件安装.md)
       - [Linux解压与压缩](运维/Linux/Linux解压与压缩.md)
+      - [Linux带宽监控工具](运维/Linux/Linux带宽监控工具.md)
       - [Shell脚本](运维/Linux/Shell脚本.md)
       - [Vim](运维/Linux/Vim.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
