@@ -75,6 +75,15 @@ $ sudo iftop
 
 ![image-20211229215945856](Linux%E5%B8%A6%E5%AE%BD%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7_assets/use_of_iftop.png)
 
+含义：
+
+- TX：发送流量
+- RX：接收流量
+- TOTAL：总流量
+- Cumm：运行iftop到目前时间的总流量
+- peak：流量峰值
+- rates：分别表示过去 2s 10s 40s 的平均流量
+
 References
 
 1. https://www.ex-parrot.com/pdw/iftop/
