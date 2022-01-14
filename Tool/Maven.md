@@ -81,7 +81,11 @@ a-maven-project
 
     - `provided`
 
-      编译时需要，但是运行的时候不需要，例如Serverlet API，编译的时候，需要，但是运行的时，Servlet服务器内置了相关的Jar，所以运行的时候，不需要
+      编译时需要，但是运行的时候不需要，例如Serverlet API，编译的时候，需要，但是运行的时，Servlet服务器内置了相关的Jar，所以运行的时候，不需要。
+
+注意：
+
+当我们打包的时候要想打包某个依赖的时候，可以使用`provided`
 
 ## 依赖管理
 
@@ -356,6 +360,22 @@ descriptor
 - `<includeBaseDirectory>`
 
   是否多加一层基目录，否的话就会将要打包的直接打包在基目录下
+  
+- `useProjectArtifact`
+
+  > Determines whether the attached artifacts produced during the current project's build should be included in this dependency set. (Since 2.2-beta-1)
+  >
+  > **Default value is**: `false`.
+
+版本测试：
+
+2.2（默认版本）
+
+包含好多个goal，使用assembly:assembly会产生classes文件（其中包括文件），并将文件也打包进去
+
+3.0、3.3版本之后
+
+之后两个goal，主要就是single，这个时候，不会产生classes文件，并且没有文件
 
 ### maven-dependency-plugin
 
@@ -415,11 +435,10 @@ https://www.cnblogs.com/lianshan/p/7350614.html
 
 
 
-## Reference
+## References
 
 1. https://maven.apache.org/
-2. https://maven.apache.org/ref/3.8.1/
-3. https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610
+2.   https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610
 4. https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber
 5. https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
 6. https://developer.aliyun.com/article/630208

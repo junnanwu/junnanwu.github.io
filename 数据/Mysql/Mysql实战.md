@@ -231,6 +231,8 @@ utf8mb4_general_ci 和utf8mb4_unicode_ci 是我们最常使用的排序规则。
 
 ### CASE...WHEN
 
+
+
 - 有选择的UPDATE
 
   ```sql
@@ -262,6 +264,20 @@ utf8mb4_general_ci 和utf8mb4_unicode_ci 是我们最常使用的排序规则。
   ```
   
 - 有选择的SELECT
+
+  ```sql
+  SELECT
+  	CASE
+  	WHEN username = 'houyaqian@kungeek.com'  THEN dept+1
+  	WHEN username = 'wujunnan@kungeek.com' THEN dept
+  	END
+  FROM
+  	sys_user 
+  WHERE
+  	username IN ( 'houyaqian@kungeek.com', 'wujunnan@kungeek.com' );
+  ```
+
+  
 
 ### GROUP...BY
 
@@ -441,6 +457,26 @@ mysql> SELECT CONCAT_WS(',','First name','Second name','Last Name');
 ```
 
 可用于列转行
+
+## 建表语句
+
+### 默认值
+
+参考[官方文档](https://dev.mysql.com/doc/refman/5.7/en/data-type-defaults.html)
+
+> With one exception, the default value specified in a `DEFAULT` clause must be a literal constant; it cannot be a function or an expression. This means, for example, that you cannot set the default for a date column to be the value of a function such as `NOW()` or `CURRENT_DATE`. The exception is that, for `TIMESTAMP` and `DATETIME` columns, you can specify `CURRENT_TIMESTAMP` as the default. 
+
+> The `BLOB`, `TEXT`, `GEOMETRY`, and `JSON` data types cannot be assigned a default value.
+
+如果没有显式的指定默认值，那么Mysql将为其指定默认值
+
+- 如果此列可以接受NULL，那么则显式的加上 `DEFAULT NULL` 子句
+- 如果此列不接受NULL，那么mysql则没有 `DEFAULT NULL` 子句
+
+Mysql隐式默认值的定义：
+
+- 数值类的为0（递增则为下一个值）
+- `ENUM`以外的String类型，默认值为空字符串，枚举类型默认值为第一个枚举值
 
 ## 函数
 
@@ -883,6 +919,8 @@ Mysql只对`order by`关键字的顺序进行保证，其他顺序没有做任�
 
 ## 时间新增当前时间
 
+参考[官方文档](https://dev.mysql.com/doc/refman/8.0/en/timestamp-initialization.html)
+
 默认值设置为：
 
 ```
@@ -892,7 +930,10 @@ ADD COLUMN `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMME
 
 
 
+
+
 ## References
 
 1. https://dev.mysql.com/doc/refman/5.7/en
+1. https://stackoverflow.com/questions/20461030/current-date-curdate-not-working-as-default-date-value
 

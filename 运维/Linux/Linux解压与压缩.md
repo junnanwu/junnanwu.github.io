@@ -122,4 +122,45 @@ $ unzip -d /app tomcat-all.zip
   $ tar -tf 误解压文件 | xargs rm -rf
   ```
 
-## 
+## jar
+
+格式：
+
+```
+jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+```
+
+解压：
+
+- 使用unzip可以指定目录
+
+  ```
+  $ unzip test.jar -d dest/
+  ```
+
+
+
+### 最佳实践
+
+- 解压Jar包
+
+  ```
+  $ unzip test.jar -d dest/
+  ```
+
+- 删除解压后的某个文件夹并重新打包
+
+  ```
+  $ cd dest/
+  $ rm application.properties
+  $ jar cvf ../data_upload-1.0-SNAPSHOT.jar *
+  ```
+
+- 查看某个Jar中是否包含某个文件
+
+  ```
+  $ target jar tf data_upload-1.0-SNAPSHOT.jar|grep DataRecordDOMapper.xml 
+  ```
+
+  
+

@@ -1,5 +1,24 @@
 # Typora
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+- [Markdown](#markdown)
+- [Markdown](#markdown)
+  - [高亮](#%E9%AB%98%E4%BA%AE)
+  - [链接](#%E9%93%BE%E6%8E%A5)
+  - [Emoji](#emoji)
+  - [脚注](#%E8%84%9A%E6%B3%A8)
+  - [HTML](#html)
+    - [特殊符号](#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7)
+  - [数学公式](#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F)
+    - [行内公式](#%E8%A1%8C%E5%86%85%E5%85%AC%E5%BC%8F)
+    - [数学公式块](#%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E5%9D%97)
+- [其他](#%E5%85%B6%E4%BB%96)
+  - [配置自动图片上传](#%E9%85%8D%E7%BD%AE%E8%87%AA%E5%8A%A8%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0)
+  - [生成目录](#%E7%94%9F%E6%88%90%E7%9B%AE%E5%BD%95)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Markdown
 
 Markdown是由 Daring Fireball创造的，但是不同的编辑器有不同的格式，Typora支持的是 [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/).
@@ -147,5 +166,18 @@ Markdown同样支持HTML的特殊符号
   <!-- START doctoc -->
   <!-- END doctoc -->
   ```
+  
+- 更新目录
+
+  ```
+  <!-- START doctoc generated TOC please keep comment here to allow auto update -->
+  <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+  
+  <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+  ```
+  
+  生成的目录这三行不要动，再次再次运行`doctoc`命令即可更新目录。
 
 更多操作可以查看官方文档。
+
+## test

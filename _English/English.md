@@ -239,3 +239,65 @@ limit参数控制了模式将会被应用多少次，并且因此影响结果数
   供应商
 
   Checking Vendor Software Versions.
+
+### 1/3
+
+- theoretically
+
+  理论上
+
+  Theoretically it is possible for an agent to have the same label as a daemon, as daemons are loaded by the root launchd whereas agents are loaded by a user launchd, but it is not recommended.
+  
+- 自动启动
+
+  Once you have Tomcat installed and running, you can set it to start automatically when your system reboots.
+
+  Create Tomcat Auto startup script.
+
+### 1/4
+
+- valid
+
+  有效的
+
+  A valid shutdown command was received via the shutdown port.
+
+### 1/5
+
+- explicit
+
+  显式的
+
+  Data type specifications can have explicit or implicit default values.
+
+### 1/6
+
+- idle
+
+  空闲的
+
+### 1/7
+
+- sole
+
+  唯一的
+
+- inherited
+
+  继承
+
+  The root route with all parameters, which are inherited by the child routes if they are not overwritten.
+
+### 1/14
+
+- subsequent
+
+  接下来的
+
+  Methods for which the result is stored in the cache so that, on subsequent invocations (with the same arguments), the value in the cache is returned without having to actually invoke the method.
+
+- preceding snippets
+
+  The preceding snippets show how easy it is to select a certain argument, one of its properties, or even an arbitrary (static) method.
+
+  

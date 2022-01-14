@@ -84,6 +84,18 @@ $ sudo iftop
 - peak：流量峰值
 - rates：分别表示过去 2s 10s 40s 的平均流量
 
-References
+## 最佳实践
+
+- 想简单的看总的上传速度下载速度：
+
+  ```
+  $ nload -m eth0
+  ```
+
+  ![image-20211230111327219](Linux%E5%B8%A6%E5%AE%BD%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7_assets/use_of_nload-m-device.png)
+
+
+
+## References
 
 1. https://www.ex-parrot.com/pdw/iftop/

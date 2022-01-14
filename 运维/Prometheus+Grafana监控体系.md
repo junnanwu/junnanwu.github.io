@@ -244,6 +244,10 @@ static_configs:
 1. Spring Boot 2.0.4.RELEASE/2.0.3.RELEASE版本使用Prometheus，访问`actuator/prometheus`，会出现406的情况，解决方法如下：
 
    https://stackoverflow.com/questions/51496648/cant-get-prometheus-to-work-with-spring-boot-2-0-3
+   
+2. Spring Boot 2.0.4.RELEASE版本，Prometheus有数据，但是面板无数据
+
+   由于面板筛选变量instance的表达式为`label_values(jvm_classes_loaded_classes{application="$application"}, instance)`，`jvm_classes_loaded_classes`指标在该版本的名字为`jvm_classes_loaded`，将instance变量的表达式修改为共有变量`process_uptime_seconds`，即`label_values(process_uptime_seconds{application="$application"}, instance)`。
 
 ### ClickHouse
 
@@ -311,7 +315,25 @@ static_configs:
 
 ## 预警
 
+### prometheus告警状态
+
+- Inactive
+
+- Pending
+
+  已触发阈值，但未满足告警持续时间（即rule中的for字段）
+
+- Firing
+
+  已触发阈值且满足告警持续时间。警报发送到Notification Pipeline，经过处理，发送给接受者这样目的是多次判断失败才发告警，减少邮件。
+
 ### alertmanager
+
+管理页面
+
+```
+xxx:9093
+```
 
 **安装**
 
@@ -342,6 +364,7 @@ inhibit_rules:
     equal: ['alertname', 'dev', 'instance']
 
 global:
+  #声明警告被解决的时间,如果警报没有再次发送
   resolve_timeout: 5m #处理超时时间，默认为5min
   smtp_smarthost: 'smtp.exmail.qq.com:587' # 邮箱smtp服务器代理
   smtp_from: 'houyaqian@kungeek.com' # 发送邮箱名称
@@ -349,6 +372,90 @@ global:
   smtp_auth_password: 'xxxxx' #邮箱密码
   smtp_require_tls: true
 ```
+
+`global` 全局配置
+
+- `resolve_timeout`
+
+  >ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated.
+  >
+  >This has no impact on alerts from Prometheus, as they always include EndsAt.
+
+`route`
+
+- `group_by`
+
+  
+
+- `group_wait`
+
+  > How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+
+- `group_interval`
+
+  >How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+
+#### 举例
+
+```yml
+# 子route会继承所有根root未被重写的参数
+route:
+  receiver: 'default-receiver'
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  group_by: [cluster, alertname]
+  # 所有不匹配下面子route的都会留在根root并匹配default-receiver
+  routes:
+  # sevice等于mysql或cassandra的分配到atabase-pager
+  - receiver: 'database-pager'
+    group_wait: 10s
+    matchers:
+    - service=~"mysql|cassandra"
+  # All alerts with the team=frontend label match this sub-route.
+  # They are grouped by product and environment rather than cluster
+  # and alertname.
+  - receiver: 'frontend-pager'
+    group_by: [product, environment]
+    matchers:
+    - team="frontend"
+```
+
+
+
+https://www.cnblogs.com/longcnblogs/p/9620733.html
+
+`inhibit_rules`这个叫做抑制项，通过匹配源告警来抑制目的告警。比如说当我们的主机挂了，可能引起主机上的服务，数据库，中间件等一些告警，假如说后续的这些告警相对来说没有意义，我们可以用抑制项这个功能，让PrometheUS只发出主机挂了的告警。
+
+
+
+如果你觉得alertmanager的inhibit_rules麻烦，你可以不配置inhibit_rules，而是登录alertmanager的页面，新建slience规则，也能达到关闭某个告警的效果。
+
+
+
+https://tangxusc.github.io/2019/03/prometheus%E5%92%8Calertmanager%E7%9B%91%E6%8E%A7%E5%B9%B6%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/
+
+alertmanager是prometheus的体系中专门用来进行警告发送处理的组件.
+
+```shell
+./amtool check-config alertmanager-2.yml 
+```
+
+```
+#当目标标签匹配severity: 'warning'并且,源标签匹配severity: 'critical',并且'alertname', 'dev', 'instance'三个标签的值相等时,抑制警告发送
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+```
+
+
+
+
+
+
 
 ### prometheus.yml
 
@@ -402,6 +509,12 @@ annotations:
 ```
 promtool check rules /path/to/example.rules.yml
 ```
+
+### 企微预警
+
+
+
+## Grafana
 
 ## References
 

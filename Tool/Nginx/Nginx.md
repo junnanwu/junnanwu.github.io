@@ -805,6 +805,10 @@ location /dap {
 
 ### 访问客户端的真实IP
 
+### 安装SSH证书
+
+https://cloud.tencent.com/document/product/400/4143
+
 
 
 ## Reference

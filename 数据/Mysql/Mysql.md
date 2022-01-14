@@ -1,8 +1,6 @@
 # Mysql
 
-## SQL数据类型
-
-## MySQL 数据类型
+## 数据类型
 
 在 MySQL 中，有三种主要的类型：文本、数字和日期/时间类型。
 
@@ -49,16 +47,13 @@
 
 即便 DATETIME 和 TIMESTAMP 返回相同的格式，它们的工作方式很不同。在 INSERT 或 UPDATE 查询中，TIMESTAMP 自动把自身设置为当前的日期和时间。TIMESTAMP 也接受不同的格式，比如 YYYYMMDDHHMMSS、YYMMDDHHMMSS、YYYYMMDD 或 YYMMDD。
 
-### 蠕虫复制
+## 删除
 
-```sql
-在已有的数据的基础之上，将原来的数据进行复制，插入到对应的表中
-前提：表结构得一致
-语法格式：
-insert into 表名1 select *from 表名2;
-```
+### DELETE
 
-### 删除记录
+### TRUNCATE
+
+### DROP
 
 ```sql
 不带条件的删除数据：
@@ -77,29 +72,31 @@ delete和truncate的区别：
 2. truncate是将整个表摧毁，重新创建了一个新的表，表的结构和原来的一模一样
 3. delete删除的数据能够找回，truncate删除的数据找不回来了
 
-## 用户
+## 权限
+
+### 用户
 
 用户
 
-- 切换数据库
+- 查看所有用户
 
-  ```
-  use mysql
+  ```mysql
+  SELECT user FROM mysql.user;
   ```
 
 - 创建用户
 
-  ```
+  ```mysql
   CREATE USER 'username'@'host' IDENTIFIED BY 'password';
   ```
 
-  ```
-  create user 'data_web'@'%' identified by 'OWIwMTY5Njg1NWI';
+  ```mysql
+  CREATE USER 'data_web'@'%' identified by 'XXXXX5Njg1NWI';
   ```
 
 - 删除用户
 
-  ```
+  ```mysql
   DROP USER 'username'@'host';
   ```
 
@@ -109,43 +106,45 @@ delete和truncate的区别：
 
 **权限**
 
+- `ALL,ALL PRIVALEGES`
+
+  除了 `GRANT OPTION` 外的所有权限。
+  
 - `DROP`
 
-  可以drop已有的数据库，表，注意`TRUNCATE TABLE`也需要`DROP`权限。
+  可以drop已有的数据库，表和视图，注意`TRUNCATE TABLE`也需要`DROP`权限。
 
 **语句**
 
 - 查看用户权限
 
-  ```
-  show grants for jinp;
+  ```mysql
+  SHOW GRANTS FOR jinp;
   ```
 
 - 给用户赋予权限
 
-  ```
+  ```mysql
   GRANT privileges ON databasename.tablename TO 'username'@'host';
   ```
 
-  ```
+  ```mysql
   GRANT select,insert,update,delete on data_web.* to 'data_web'@'%';
   ```
 
-- 查看数据库角色
-
-  ```
-  select user from mysql.userl;
+  ```mysql
+  GRANT ALL PRIVILEGES ON `data_web`.* TO 'data_web'@'%';
   ```
 
 - 想要使某个用户拥有分配权限的权限
 
-  ```
+  ```mysql
   GRANT privileges ON databasename.tablename TO 'username'@'host' WITH GRANT OPTION;
   ```
 
 - 刷新权限
 
-  ```
+  ```mysql
   flush privileges;
   ```
 
@@ -681,7 +680,7 @@ public class C3P0Utils {
 }
 ```
 
-c3p0-config.xml（千万不能写错）（记得创建在src中）
+c3p0-config.xml
 
 ```java
 <?xml version="1.0" encoding="UTF-8"?>
@@ -875,3 +874,17 @@ select @@tx_isolation;
 并发的修改必须使用多线程去解决
 
 可重复读并不是别人不能修改，只是锁定快照，别人还是可以进行修改的
+
+
+
+## 其他操作
+
+### 蠕虫复制
+
+在已有的数据的基础之上，将原来的数据进行复制，插入到对应的表中
+
+语法格式：
+
+```sql
+insert into 表名1 select *from 表名2;
+```

@@ -1056,6 +1056,40 @@ stat [OPTION]... FILE...
 
   - 块大小：该文件系统每个block的大小
 
+### rename
+
+修改文件名
+
+格式：
+
+```
+rename [options] expression replacement file...
+```
+
+>rename  will  rename the specified files by replacing the first occurrence of expression in their name by replacement.
+
+例如：
+
+- 将文件名中的prod-data替换为prod_data
+
+  ```
+  $ rename prod-data prod_data *
+  ```
+
+- 将`.prog`后缀的文件重命名为`.prg`后缀的文件
+
+  ```
+  $ rename 's/.prog/.prg/' *.prog
+  ```
+
+  `s`意味着substitute，替代，替换
+
+- 删除所有`.c`结尾的文件的`sl_`前缀
+
+  ```
+  $ rename 's/sl_//' *.c
+  ```
+
 ## 文本处理
 
 ### seq
@@ -1133,6 +1167,30 @@ seq [选项]... 首数 增量 尾数
   1+2+3+4+5+6+7+8+9+10+%
   ```
 
+### wc
+
+wc (word command)，输出目标文件的行数/字符数/单词数，其中单词是以空格分割
+
+参数：
+
+- `-l --lines`
+
+  打印行数
+
+- `-w --words`
+
+  打印单词数
+
+举例：
+
+- 查看文件数
+
+  ```
+  $ ls | wc -w
+  ```
+
+  注意：`ll`有一行总用量，会导致数量+1
+
 ### sed
 
 详见文档[Shell脚本](Shell脚本)
@@ -1167,8 +1225,6 @@ tr [-Ccu] -d string1
 ```
 
 删除string1
-
-
 
 ### Vim
 
@@ -1237,19 +1293,30 @@ ps不足之处就是只能显示某个特定时间点的信息，如果想观察
 ```
 
 - PR：进程的优先级
+
 - NI：进程的谦让度值
+
 - VIRT：进程占用的虚拟内存总量
+
 - RES：进程占用的物理内存总量
+
 - SHR：进程和其他进程共享的内存总量
+
 - S：进程的状态
   - D：代表可中断的休眠状态
   - R：代表在运行状态
   - S：代表休眠状态
   - T：代表跟踪状态或停止状态
   - Z：代表僵化状态
+  
 - %CPU：进程使用的CPU时间比例
+
+  命令输出的cpu使用率实质是按cpu个数*100%计算
+
 - %MEM：进程使用的内存占可用内存的比例
+
 - TIME+：自进程启动到目前为止的CPU时间总量
+
 - COMMAND：进程所对应的命令行名称，也就是启动的程序名
 
 ### df
@@ -1306,8 +1373,16 @@ du (disk usage) ，通过df命令很容易发现哪个磁盘的存储空间快�
 - 查看当前文件夹多大
 
   ```
-  $ du -hs
+  $ du -sh
   ```
+  
+- 查看当前文件夹下所有文件夹总大小
+
+  ```
+  $ du -sh ./*
+  ```
+  
+  
 
 ### free
 
@@ -2309,4 +2384,6 @@ curl cip.cc
 
 [详见此](Linux用户权限)
 
-## Reference
+## References
+
+1. https://www.howtogeek.com/423214/how-to-use-the-rename-command-on-linux/

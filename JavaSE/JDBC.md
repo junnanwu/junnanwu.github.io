@@ -247,6 +247,35 @@ public class HiveJdbcClient {
 }
 ```
 
+## ClickHouse JDBC
+
+### 样例代码
+
+```java
+public class JDBCTest {
+    public static void main(String[] args) {
+        String url = "jdbc:clickhouse://82.157.52.xxx:8123/default";
+        String username = "default";
+        String password = "xxx";
+        ClickHouseDataSource dataSource = new ClickHouseDataSource(url);
+        try (Connection conn = dataSource.getConnection(username,password);
+             Statement stmt = conn.createStatement();
+             ResultSet resultSet = stmt.executeQuery("select today()")) {
+            while (resultSet.next()){
+                Object object = resultSet.getObject(1);
+                System.out.println(object);
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+}
+```
+
+注意：
+
+- 最好使用ClickHouse JDBC最新的版本，低版本有很多漏洞，而且经测不支持LocalDate的映射（`0.2.4`版本）
+
 ## JDBC连接池
 
 JDBC连接池有一个标准的接口`javax.sql.DataSource`，注意这个类位于Java标准库中，但仅仅是接口。要使用JDBC连接池，我们必须选择一个JDBC连接池的实现。常用的JDBC连接池有：

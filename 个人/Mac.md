@@ -97,6 +97,32 @@ $ echo $PATH
 
   执行完之后需要重启终端
 
+## Mac开启自启
+
+方式一：设置/用户与群组/登陆项
+
+![image-20220104002155751](Mac_assets/setting_automatic_starting.png)
+
+startup.sh如下：
+
+```
+sh /Users/wujunnan/WWW/apache-tomcat-7.0.90/bin/startup.sh
+```
+
+那么开机后，就会自动启动tomcat
+
+方式二：launchd
+
+https://blog.csdn.net/kevinlou2008/article/details/49155497
+
+https://www.launchd.info/
+
+https://en.wikipedia.org/wiki/Launchd
+
+https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-path-had-bad-ownership-permissions
+
+
+
 ## 终端
 
 ### 快捷键
@@ -130,6 +156,60 @@ $ echo $PATH
 [官方仓库点击这里](https://github.com/wting/autojump)
 
 这个工具为你的目录维护了一个数据库，只要你访问过这个目录，后续就可以直接直接 `j doc`，其中有模糊匹配，纠错，并根据熟练度进行选择，非常强大。
+
+## item2
+
+- 新建窗口
+
+  `command + t` 
+
+- 新建窗口
+
+  `command + t` 
+
+- 垂直分屏
+
+  `command + d` 
+
+- 水平分屏
+
+  `command + shift + d`  
+
+- 在最近使用的分屏直接切换
+
+  `command + option + 方向键`
+
+  `command + ]` 和 `command + [`
+
+- 查看历史命令
+
+  `command + ;`
+
+- 复制粘贴
+
+  鼠标选中复制，鼠标中键粘贴
+
+- 列出剪切板历史
+
+  `command + shift + h`
+
+  
+
+问题：
+
+- 关于mac下iterm2无权访问某些文件夹，并提示`ls .: Operation not permitted`
+
+  系统偏好设置 -> 安全性与隐私 -> 隐私 -> 文件和文件夹，发现iterm下面的“桌面和文件夹”没有被选中，把这一项打上勾，然后重启iterm2
+
+技巧：
+
+- 自动输入命令
+
+  输入打头几个字母，然后输入 `command + ;` iterm2 将自动列出之前输入过的类似命令。 　　
+
+- 在某个文件夹上右键，可以选择使用item2在此建立窗口
+
+  ![image-20211028010340642](Mac_assets/image-20211028010340642.png)
 
 ## Hombrew
 
@@ -218,25 +298,7 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
 
 2021/11/08 更新：换成了Typora，格式更加清晰，同样可以使用上述最后一种锁定文件的方案 。
 
-## item2
-
-- `command + t` 新建窗口
-- `command + t` 新建窗口
-- `command + d` 垂直分屏，
-- `command + shift + d` 水平分屏
-- `command + ]` 和 `command + [`在最近使用的分屏直接切换
-
-问题：
-
-- 关于mac下iterm2无权访问某些文件夹，并提示`ls .: Operation not permitted`
-
-  系统偏好设置 -> 安全性与隐私 -> 隐私 -> 文件和文件夹，发现iterm下面的“桌面和文件夹”没有被选中，把这一项打上勾，然后重启iterm2
-
-技巧：
-
-- 在某个文件夹上右键，可以选择使用item2在此建立窗口
-
-  ![image-20211028010340642](Mac_assets/image-20211028010340642.png)
+- 
 
 ## Oh My Zsh
 
@@ -278,3 +340,10 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
     `^\n`
 
     (正则中`^`表示数据字符串的开始位置)
+
+
+
+## References
+
+- https://cnbin.github.io/blog/2015/06/20/iterm2-kuai-jie-jian-da-quan/
+- https://www.launchd.info/
