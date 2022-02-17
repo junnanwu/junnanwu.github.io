@@ -1,44 +1,3 @@
-- **Algorithm**
-    - [算法题](Algorithm/算法题.md)
-    - [加密算法](Algorithm/加密算法.md)
-- **ComputerBasics**
-    - [浮点数](ComputerBasics/浮点数.md)
-    - [关于时间](ComputerBasics/关于时间.md)
-    - [字符编码](ComputerBasics/字符编码.md)
-    - [数据结构](ComputerBasics/数据结构.md)
-    - [反码与补码](ComputerBasics/反码与补码.md)
-    - [正则表达式](ComputerBasics/正则表达式.md)
-    - [计算机网络](ComputerBasics/计算机网络.md)
-    - [彻底理解转义字符](ComputerBasics/彻底理解转义字符.md)
-- **Data**
-    - **ClickHouse**
-      - [ClickHosue生产bug记录](Data/ClickHouse/ClickHosue生产bug记录.md)
-      - [ClickHouse](Data/ClickHouse/ClickHouse.md)
-    - **Elasticsearch**
-      - [Elasticsearch](Data/Elasticsearch/Elasticsearch.md)
-      - [Elasticsearch原理](Data/Elasticsearch/Elasticsearch原理.md)
-      - [Elasticsearch的安装和配置](Data/Elasticsearch/Elasticsearch的安装和配置.md)
-      - [Elasticsearch在生产中的应用](Data/Elasticsearch/Elasticsearch在生产中的应用.md)
-    - **Hive**
-      - [Hive](Data/Hive/Hive.md)
-      - [HiveMetaStore](Data/Hive/HiveMetaStore.md)
-      - [阿里数仓历史数据迁移Hive](Data/Hive/阿里数仓历史数据迁移Hive.md)
-    - **Kafka**
-      - [Kafka入门](Data/Kafka/Kafka入门.md)
-      - [Spring-Kafka](Data/Kafka/Spring-Kafka.md)
-    - **Mysql**
-      - [Server](Data/Mysql/Server.md)
-      - [Mysql](Data/Mysql/Mysql.md)
-      - [MysqlInJava](Data/Mysql/MysqlInJava.md)
-      - [Mysql实战](Data/Mysql/Mysql实战.md)
-      - [Mysql日志](Data/Mysql/Mysql日志.md)
-      - [SQL语句](Data/Mysql/SQL语句.md)
-    - **Presto**
-      - [Presto简介](Data/Presto/Presto简介.md)
-- **FrontEnd**
-    - [JavaScript](FrontEnd/JavaScript.md)
-    - [前端](FrontEnd/前端.md)
-    - [前端实战](FrontEnd/前端实战.md)
 - **JavaEE**
     - **CAS**
       - [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
@@ -87,52 +46,93 @@
     - [JavaWeb核心](JavaWeb/JavaWeb核心.md)
     - [Restful](JavaWeb/Restful.md)
     - [跨域](JavaWeb/跨域.md)
-- **OpenSourceProject**
-    - **DataX**
-      - [DataX改造](OpenSourceProject/DataX/DataX改造.md)
-      - [DataX简介](OpenSourceProject/DataX/DataX简介.md)
-    - **Davinci**
-      - [Davinci](OpenSourceProject/Davinci/Davinci.md)
-      - [Davinci埋点设计](OpenSourceProject/Davinci/Davinci埋点设计.md)
-- **Operation**
-    - [Docker](Operation/Docker.md)
-    - [ELK](Operation/ELK.md)
-    - [Jenkins](Operation/Jenkins.md)
-    - **Linux**
-      - [Linux](Operation/Linux/Linux.md)
-      - [Linux文件系统](Operation/Linux/Linux文件系统.md)
-      - [Linux环境变量](Operation/Linux/Linux环境变量.md)
-      - [Linux用户权限](Operation/Linux/Linux用户权限.md)
-      - [Linux软件安装](Operation/Linux/Linux软件安装.md)
-      - [Linux解压与压缩](Operation/Linux/Linux解压与压缩.md)
-      - [Linux带宽监控工具](Operation/Linux/Linux带宽监控工具.md)
-      - [Shell脚本](Operation/Linux/Shell脚本.md)
-      - [Vim](Operation/Linux/Vim.md)
-    - [Prometheus+Grafana监控体系](Operation/Prometheus+Grafana监控体系.md)
-    - [远程部署项目](Operation/远程部署项目.md)
-- **Personal**
-    - [关于本站](Personal/关于本站.md)
-- **Tool**
+- **个人**
+    - [关于本站](个人/关于本站.md)
+- **前端**
+    - [JavaScript](前端/JavaScript.md)
+    - [前端](前端/前端.md)
+    - [前端实战](前端/前端实战.md)
+- **工具**
     - **Build**
-      - [Gradle](Tool/Build/Gradle.md)
-      - [Maven](Tool/Build/Maven.md)
+      - [Gradle](工具/Build/Gradle.md)
+      - [Maven](工具/Build/Maven.md)
     - **Git**
-      - [Git原理](Tool/Git/Git原理.md)
-      - [Git实践](Tool/Git/Git实践.md)
-      - [commit](Tool/Git/commit.md)
+      - [Git原理](工具/Git/Git原理.md)
+      - [Git实践](工具/Git/Git实践.md)
+      - [commit](工具/Git/commit.md)
     - **Mac**
-      - [IDEA](Tool/Mac/IDEA.md)
-      - [Mac](Tool/Mac/Mac.md)
-      - [Typora](Tool/Mac/Typora.md)
+      - [IDEA](工具/Mac/IDEA.md)
+      - [Mac](工具/Mac/Mac.md)
+      - [Typora](工具/Mac/Typora.md)
     - **Nginx**
-      - [Lua脚本](Tool/Nginx/Lua脚本.md)
-      - [Nginx+Lua脚本](Tool/Nginx/Nginx+Lua脚本.md)
-      - [Nginx](Tool/Nginx/Nginx.md)
+      - [Lua脚本](工具/Nginx/Lua脚本.md)
+      - [Nginx+Lua脚本](工具/Nginx/Nginx+Lua脚本.md)
+      - [Nginx](工具/Nginx/Nginx.md)
     - **RabbitMQ**
-      - [RabbitMQ](Tool/RabbitMQ/RabbitMQ.md)
+      - [RabbitMQ](工具/RabbitMQ/RabbitMQ.md)
     - **WebTool**
-      - [Chromedriver](Tool/WebTool/Chromedriver.md)
-      - [PhantomJS](Tool/WebTool/PhantomJS.md)
+      - [Chromedriver](工具/WebTool/Chromedriver.md)
+      - [PhantomJS](工具/WebTool/PhantomJS.md)
     - **zookeeper**
-      - [zookeeper入门](Tool/zookeeper/zookeeper入门.md)
+      - [zookeeper入门](工具/zookeeper/zookeeper入门.md)
+- **数据**
+    - **ClickHouse**
+      - [ClickHosue生产bug记录](数据/ClickHouse/ClickHosue生产bug记录.md)
+      - [ClickHouse](数据/ClickHouse/ClickHouse.md)
+    - **Elasticsearch**
+      - [Elasticsearch](数据/Elasticsearch/Elasticsearch.md)
+      - [Elasticsearch原理](数据/Elasticsearch/Elasticsearch原理.md)
+      - [Elasticsearch的安装和配置](数据/Elasticsearch/Elasticsearch的安装和配置.md)
+      - [Elasticsearch在生产中的应用](数据/Elasticsearch/Elasticsearch在生产中的应用.md)
+    - **Hive**
+      - [Hive](数据/Hive/Hive.md)
+      - [HiveMetaStore](数据/Hive/HiveMetaStore.md)
+      - [阿里数仓历史数据迁移Hive](数据/Hive/阿里数仓历史数据迁移Hive.md)
+    - **Kafka**
+      - [Kafka入门](数据/Kafka/Kafka入门.md)
+      - [Spring-Kafka](数据/Kafka/Spring-Kafka.md)
+    - **Mysql**
+      - [Server](数据/Mysql/Server.md)
+      - [Mysql](数据/Mysql/Mysql.md)
+      - [MysqlInJava](数据/Mysql/MysqlInJava.md)
+      - [Mysql实战](数据/Mysql/Mysql实战.md)
+      - [Mysql日志](数据/Mysql/Mysql日志.md)
+      - [SQL语句](数据/Mysql/SQL语句.md)
+    - **Presto**
+      - [Presto简介](数据/Presto/Presto简介.md)
+- **算法**
+    - [算法题](算法/算法题.md)
+    - [加密算法](算法/加密算法.md)
+- **运维**
+    - [Docker](运维/Docker.md)
+    - [ELK](运维/ELK.md)
+    - [Jenkins](运维/Jenkins.md)
+    - **Linux**
+      - [Linux](运维/Linux/Linux.md)
+      - [Linux文件系统](运维/Linux/Linux文件系统.md)
+      - [Linux环境变量](运维/Linux/Linux环境变量.md)
+      - [Linux用户权限](运维/Linux/Linux用户权限.md)
+      - [Linux软件安装](运维/Linux/Linux软件安装.md)
+      - [Linux解压与压缩](运维/Linux/Linux解压与压缩.md)
+      - [Linux带宽监控工具](运维/Linux/Linux带宽监控工具.md)
+      - [Shell脚本](运维/Linux/Shell脚本.md)
+      - [Vim](运维/Linux/Vim.md)
+    - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
+    - [远程部署项目](运维/远程部署项目.md)
+- **开源项目**
+    - **DataX**
+      - [DataX改造](开源项目/DataX/DataX改造.md)
+      - [DataX简介](开源项目/DataX/DataX简介.md)
+    - **Davinci**
+      - [Davinci](开源项目/Davinci/Davinci.md)
+      - [Davinci埋点设计](开源项目/Davinci/Davinci埋点设计.md)
+- **计算机基础**
+    - [浮点数](计算机基础/浮点数.md)
+    - [关于时间](计算机基础/关于时间.md)
+    - [字符编码](计算机基础/字符编码.md)
+    - [数据结构](计算机基础/数据结构.md)
+    - [反码与补码](计算机基础/反码与补码.md)
+    - [正则表达式](计算机基础/正则表达式.md)
+    - [计算机网络](计算机基础/计算机网络.md)
+    - [彻底理解转义字符](计算机基础/彻底理解转义字符.md)
 
