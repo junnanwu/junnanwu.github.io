@@ -574,7 +574,6 @@ $ chmod 760 newfile
   $ chmod -R a+r *
   ```
 
-
 ### chown
 
 修改文件拥有者，格式如下：

@@ -170,6 +170,8 @@ lrwxrwxrwx 1 clickhouse clickhouse 67 11月  3 14:30 system -> /var/lib/clickhou
 
 ## 配置文件解读
 
+### config.xml
+
 ### users.xml
 
 [详见官方文档](https://clickhouse.com/docs/en/operations/settings/settings-users/#user-name-databases)
@@ -240,10 +242,6 @@ profiles即配置，下面是ClickHouse默认的只读配置：
 </readonly>
 ```
 
-注意：
-
-
-
 示例：
 
 ```xml
@@ -287,6 +285,22 @@ profiles即配置，下面是ClickHouse默认的只读配置：
     </web>
 </profiles>
 ```
+
+##### 开启query log
+
+默认是没有开启query log的，我们可以在user.d文件夹中添加如下`query_log.xml`配置：
+
+```xml
+<yandex>
+    <profiles>
+        <default>
+            <log_queries replace="replace">1</log_queries>
+        </default>
+    </profiles>
+</yandex>
+```
+
+
 
 #### quota
 
@@ -690,6 +704,17 @@ CREATE USER [IF NOT EXISTS | OR REPLACE] name1 [ON CLUSTER cluster_name1]
 
 ## 日志
 
+Clickhouse目前一共有6种类型
+
+| 日志类型         | 说明                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| query_log        | 包含有关已执行查询的信息，例如，开始时间、处理持续时间、错误消息 |
+| query_thread_log | 包含有关执行查询的线程的信息，例如，线程名称、线程开始时间、查询处理的持续时间 |
+| part_log         | 添加或合并数据                                               |
+| text_log         | 日志记录了ClickHouse运 过程中产生的一系列打印日志， 包括INFO、 DEBUG 和 Trace |
+| metric_log       | 用于将system.metrics和system.events中的数据汇聚              |
+| trace_log        | 包含采样查询探查器收集的堆栈跟踪                             |
+
 ### query_log
 
 [详见官方文档](https://clickhouse.com/docs/en/operations/system-tables/query_log/)
@@ -727,6 +752,10 @@ Select * from system.settings where name = 'log_queries' LIMIT 1;
 开启了query log之后可以在下面的监控平台看到很多查询信息，例如查询占用资源情况等：
 
 <img src="ClickHouse_assets/image-20211113165850353.png" alt="image-20211113165850353" style="zoom: 50%;" />
+
+
+
+
 
 ## ClickHouse监控
 

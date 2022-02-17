@@ -42,15 +42,13 @@ Javac [ options ] [ sourcefiles ] [ classes ] [ @argfiles ]
 
 ### Java
 
-Java命令用于启动一个Java应用，它会启动Java运行环境，加载指定的class文件，调用main方法：
-
-main方法如下：
+Java命令用于启动一个Java应用，它会启动Java运行环境，加载指定的class文件，调用main方法，形如下：
 
 ```
 public static void main(String[] args)
 ```
 
-main方法：
+要求：
 
 - 必须被public和static修饰
 - 不能有返回值
@@ -68,59 +66,111 @@ java [ options ] class [ arguments ]
 java [ options ] -jar file.jar [ arguments ]
 ```
 
-参数：
-
 - `options`
 
-  - `-jar`
-
-    > When you use this option, the JAR file is the source of all user classes, and other user class path settings are ignored.
+  详见下文[Java启动参数](#Java启动参数)
 
 - `class`
 
   需要调用的class
 
+- `-jar`
+
+  > When you use this option, the JAR file is the source of all user classes, and other user class path settings are ignored.
+
+  `file.jar`
+
+  将被调用的JAR文件，仅仅用作`-jar`格式
+
 - `arguments`
 
   传递给main方法的参数
 
-- `ClassPath`
+#### Java启动参数
 
-  `cp`
+分为标准参数，即不同虚拟机都需要实现的参数：
+
+- `-cp -classpath`
 
   指定一个或多个目录/zip/jar作为类的搜索路径，即ClassPath，多个目录使用`:`进行分割（Linux，Mac），此选项会覆盖环境变量中的ClassPath。
 
   **如果不设置ClassPath参数，同时也不设置ClassPath环境变量，那么ClassPath由当前目录(.)组成。**
-  
-- `-D<名称>=<值>`
+
+  注意；
+
+  - 执行的时候需要考虑到ClassPath
+
+    例如，如果A.class在a.b.c包下，那么需要在最外层(src下)执行
+
+    ```
+    $ java a.b.c.A
+    ```
+
+    或者在`src/a/b/c`下执行，指定ClassPath
+
+    ```
+    $ java -cp ../../../ a.b.c.A
+    ```
+
+- `-Dproperty=value`
 
   设置系统属性
 
-例如：
+  例如：
 
-- 启动的时候指定系统的字符集
+  - 启动的时候指定系统的字符集，指定多个参数
 
-  ```
-  java -Dfile.encoding=UTF-8 ...
-  ```
+    ```
+    java -Dfile.encoding=UTF-8 -Ddruid.mysql.usePingMethod=false...
+    ```
 
-  
+  - 如果value是包含空格的字符串，则必须使用双引号扩起来
 
-注意：
+    ```
+    java -Dmydir="some string" SomeClass
+    ```
 
-- 执行的时候需要考虑到ClassPath
+- `-agentlib:<libname>[=<options>]`
 
-  例如，如果A.class在a.b.c包下，那么需要在最外层(src下)执行
+  加载本机代理库
 
-  ```
-  $ java a.b.c.A
-  ```
+  其中libname位本地代理库的名，默认搜索路径为环境变量PATH的路径，options为传给本地库启动时的参数，多个参数之间用逗号分隔。
 
-  或者在`src/a/b/c`下执行，指定ClassPath
+  例如：
 
-  ```
-  $ java -cp ../../../ a.b.c.A
-  ```
+  - `-agentlib:hprof`
+
+    获取jvm的运行情况，包括CPU、内存、线程等的运行数据
+
+  - `-agentlib:jdwp=help`
+
+    查看JDWP相关
+
+另外，默认的Java虚拟机HotSpot还提供了一组非标准选项，这些选项可能在未来的版本中有所更改，如下：
+
+- `-X`
+
+  展示非标准项
+
+- `-Xint`
+
+  仅解释模式执行
+
+- `-Xbootclasspath:bootclasspath`
+
+  让jvm从指定路径（可以是分号分隔的目录、jar、或者zip）中加载bootclass，用来替换jdk的rt.jar
+
+- `-Xms<size>`
+
+  设置初始Java堆大小
+
+- `-Xmx<size>`
+
+  设置最大 Java 堆大小
+
+- `-Xss`
+
+  设置单个线程栈的大小，一般默认512K
 
 ### Javadoc
 
@@ -363,6 +413,7 @@ jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ..
 
 ## References
 
-1. [JDK Tools and Utilities](https://docs.oracle.com/Javase/7/docs/technotes/tools/index.html)
+1. https://docs.oracle.com/Javase/7/docs/technotes/tools/index.html
 2. https://www.liaoxuefeng.com/wiki/1252599548343744/1260466914339296
 3. https://www.cnblogs.com/flashsun/p/7246260.html
+3. https://blog.csdn.net/guyue35/article/details/107957859

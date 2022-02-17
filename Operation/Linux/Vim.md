@@ -224,6 +224,10 @@ vim如何删除一行或者多行内容
 - 关闭搜索高亮
 
   ` :noh` 或 `:nohlsearch`
+  
+- 开启搜索高亮
+
+  `:set hlsearch`
 
 
 

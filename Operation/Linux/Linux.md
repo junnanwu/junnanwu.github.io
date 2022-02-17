@@ -2384,6 +2384,19 @@ curl cip.cc
 
 [详见此](Linux用户权限)
 
+## 日志
+
+ [详见此](https://support.hpe.com/hpesc/public/docDisplay?docId=c02947726)
+
+- `/var/log/messages`
+
+  这里记录了全局系统消息。
+
+  > This file has all the global system messages located inside, including the messages that are logged during system startup. Depending on how the syslog config file is sent up, there are several things that are logged in this file including mail, cron, daemon, kern, auth, etc
+
+  当程序因为系统OOM被杀死的时候，可以来这里看日志信息。
+
 ## References
 
 1. https://www.howtogeek.com/423214/how-to-use-the-rename-command-on-linux/
+1. https://support.hpe.com/hpesc/public/docDisplay?docId=c02947726

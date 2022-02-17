@@ -293,6 +293,16 @@ public interface CacheManager {
 
 Ehcache、Caffeine、Guava Cache都属于堆内存缓存，只适用于单点应用，分布式应用就需要Redis了。
 
+**导入依赖**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+    <version>${spring-boot.version}</version>
+</dependency>
+```
+
 ### 实现缓存过期
 
 **原生的实现并不支持设置缓存过期时间**，而Redis的实现是支持设置过期时间的。
@@ -331,10 +341,14 @@ public class RedisCacheConfig {
     }
 
     private RedisCacheConfiguration getConfigInstance(Long ttl) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //使Localdate能够正常反序列化
+        objectMapper.registerModule(new JavaTimeModule());
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
         return RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofSeconds(ttl))
-            .disableCachingNullValues()
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+                .entryTtl(Duration.ofSeconds(ttl))
+                .disableCachingNullValues()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
     }
 }
 ```
@@ -408,10 +422,14 @@ public class RedisCacheConfig {
     }
 
     private RedisCacheConfiguration getConfigInstance(Long ttl) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //使Localdate能够正常反序列化
+        objectMapper.registerModule(new JavaTimeModule());
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(objectMapper);
         return RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofSeconds(ttl))
-            .disableCachingNullValues()
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+                .entryTtl(Duration.ofSeconds(ttl))
+                .disableCachingNullValues()
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer));
     }
 
 }
@@ -448,7 +466,8 @@ public class CacheServer {
 
 ## 现存问题
 
-上述RedisCacheManager方案依赖Redis服务，Redis服务异常则接口无法正常访问。
+1. 上述RedisCacheManager方案依赖Redis服务，Redis服务异常则接口无法正常访问。
+2. 是否存在缓存击穿问题，缓存过期瞬间接收到很多请求的情况
 
 ## References
 
@@ -461,3 +480,4 @@ public class CacheServer {
 7. https://www.cnblogs.com/top-housekeeper/p/11865399.html
 7. https://blog.csdn.net/sz85850597/article/details/89301331
 7. https://zhuanlan.zhihu.com/p/39639130
+

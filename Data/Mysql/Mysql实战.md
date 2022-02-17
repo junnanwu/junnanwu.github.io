@@ -191,6 +191,16 @@ utf8mb4_general_ci 和utf8mb4_unicode_ci 是我们最常使用的排序规则。
 
 
 
+## 字符集
+
+- 查看默认字符集
+
+  ```
+  SHOW variables LIKE 'character%';
+  ```
+
+  
+
 ## 语句
 
 ### SQl基本语句书写规范
@@ -730,6 +740,14 @@ SET T1.c2 = T2.c2,
 WHERE T1.c1 = T2.c1 AND condition
 ```
 
+### 根据另一张表更新本表的列
+
+```sql
+update api_call_log t1, api_token t2 set t1.caller_name = t2.department_name where t1.token = t2.token and  t1.token is not null;
+```
+
+
+
 ## 全局设置
 
 ### global.sql_mode
@@ -930,10 +948,37 @@ ADD COLUMN `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMME
 
 
 
+## Mac Mysql全局配置
+
+
+
+注意：
+
+需要将`my.cnf`权限改为mysql认可的664。
+
+### 读取顺序
+
+```
+$ mysql --verbose --help | grep my.cnf
+```
+
+查看说明文档可以看到：
+
+>Default options are read from the following files in the given order:
+>/etc/my.cnf /etc/mysql/my.cnf /usr/local/mysql/etc/my.cnf ~/.my.cnf
+
+
+
 
 
 ## References
 
 1. https://dev.mysql.com/doc/refman/5.7/en
 1. https://stackoverflow.com/questions/20461030/current-date-curdate-not-working-as-default-date-value
+
+
+
+
+
+
 

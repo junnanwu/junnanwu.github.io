@@ -9,6 +9,10 @@
 - 显示隐藏文件、文件夹
 
   `Command+Shift+. `
+  
+- 显示一个应用打开的所有窗口
+
+  `Control + 向上箭头`
 
 ## Mac环境变量
 
@@ -218,38 +222,47 @@ Homebrew是一款Mac OS平台下的软件包管理工具，拥有安装、卸载
 - 查看当前的镜像源
 
   ```
-  brew config
+  $ brew config
   ```
   
 - 查询可用包
 
   ```
-  brew search <packageName>
+  $ brew search <packageName>
   ```
 
 - 查看安装的软件列表
 
   ```
-  brew list
+  $ brew list
   ```
 
 - 查看某个软件的列表
 
   ```
-  brew list nginx
+  $ brew list nginx
   ```
 
 - 查找包中所有的文件
 
   ```
-  brew ls nginx
+  $ brew ls nginx
   ```
 
 - 查看已安装的信息
 
   ```
-  brew info maven
+  $ brew info maven
   ```
+  
+- 切回官方源
+
+  ```
+  $ cd "$(brew --repo)"
+  $ git remote set-url origin https://github.com/Homebrew/brew.git
+  ```
+  
+  
 
 
 ### 常用软件

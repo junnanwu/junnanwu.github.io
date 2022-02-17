@@ -12,5 +12,10 @@
 
 默认配置是`0.0.0.0`，允许所有地址，也可以配置成私网ip地址。
 
+`server.servlet.session.timeout`
 
+设置session的过期时间，默认是30分钟
 
+## References
+
+1. https://www.jianshu.com/p/9d91cca74082
