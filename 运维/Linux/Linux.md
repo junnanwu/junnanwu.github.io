@@ -1271,6 +1271,20 @@ jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 - TIME：运行进程需要的累积CPU时间
 - CMD：启动的程序名称
 
+
+
+监测当前占用内存top10进程：
+
+```
+ps aux|head -1;ps aux|grep -v PID|sort -rn -k +4|head
+```
+
+监测当前占用cpu top10进程：
+
+```
+ps aux|head -1;ps aux|grep -v PID|sort -rn -k +3|head
+```
+
 ### jps
 
 **jps** (Java Virtual Machine Process Status Tool) 是java提供的一个显示当前所有java进程pid的命令。

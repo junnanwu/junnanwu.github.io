@@ -758,6 +758,8 @@ update api_call_log t1, api_token t2 set t1.caller_name = t2.department_name whe
 SELECT list is not in GROUP BY clause and contains nonaggregated column .... incompatible with sql_mode=only_full_group_by
 ```
 
+
+
 即，没在group by中出现的字段或者聚合字段不能出现在select语句中。
 
 >In MySQL 5.7, the `ONLY_FULL_GROUP_BY` SQL mode is enabled by default because `GROUP BY` processing has become more sophisticated to include detection of functional dependencies. 

@@ -1546,10 +1546,11 @@ ShiroRedisCache里面存储的是prefix+key
 
 
 
-## Reference
+## References
 
 1. https://en.wikipedia.org/wiki/Single_sign-on
 2. https://en.wikipedia.org/wiki/Central_Authentication_Service
+2. https://my.oschina.net/thinwonton/blog/1475562
 
 
 

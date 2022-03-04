@@ -91,6 +91,28 @@ public static void main(String[] args) throws InterruptedException {
 $ xattr -d com.apple.quarantine /usr/local/bin/chromedriver
 ```
 
+
+
+**退出quit和close的区别**
+
+https://blog.csdn.net/u011541946/article/details/73549967
+
+## 注意
+
+在开启headless的情况下，开启下面全屏设置，并没有全屏：
+
+```
+driver.manage().window().maximize();
+```
+
+可以显式的指定屏幕的大小：
+
+```
+chromeOptions.addArguments("--window-size=1680x1050");
+```
+
+[点此快速获取屏幕大小](https://bestfirms.com/what-is-my-screen-resolution/)
+
 ## 应用
 
 ## References
