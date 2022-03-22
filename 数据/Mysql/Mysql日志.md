@@ -167,3 +167,45 @@ DELIMITER ;
 
 从而找到了完整的删除语句，可以使用insert语句再次插入。
 
+### 删除binlog日志
+
+手动删除
+
+非主从数据库：
+
+`reset master`
+
+删除所有binlog日志文件，清空索引，重新开始新的日志文件。
+
+```
+reset master;
+```
+
+不能用于有任何slave 正在运行的主从关系的主库。因为在slave 运行时刻 reset master 命令不被支持，reset master 将master 的binlog从000001 开始记录,slave 记录的master log 则是reset master 时主库的最新的binlog,从库会报错无法找的指定的binlog文件。
+
+`PURGE`
+
+格式：
+
+```
+PURGE { BINARY | MASTER } LOGS {
+    TO 'log_name'
+  | BEFORE datetime_expr
+}
+```
+
+不改变索引位置。
+
+- 删除此时间点之前的log
+
+  ```
+  purge master logs before '2022-03-17 14:03:50';
+  ```
+
+- 删除`mysql-bin.000004`之前的文件（不包括本身）
+
+  ```
+  purge master logs to 'mysql-bin.000004'
+  ```
+
+  

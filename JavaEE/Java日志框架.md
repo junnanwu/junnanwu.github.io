@@ -249,7 +249,6 @@ com.kungeek.data:data_migration:jar:1.0-SNAPSHOT
 
 - 速度更快 
 - 和SLF4J配套，是SLF4J的直接实现
-- 
 
 SLF4改进使用了占位符：
 

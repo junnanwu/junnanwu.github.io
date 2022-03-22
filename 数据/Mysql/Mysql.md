@@ -47,6 +47,36 @@
 
 即便 DATETIME 和 TIMESTAMP 返回相同的格式，它们的工作方式很不同。在 INSERT 或 UPDATE 查询中，TIMESTAMP 自动把自身设置为当前的日期和时间。TIMESTAMP 也接受不同的格式，比如 YYYYMMDDHHMMSS、YYMMDDHHMMSS、YYYYMMDD 或 YYMMDD。
 
+## 运算符
+
+### 赋值运算符
+
+[详见此](https://dev.mysql.com/doc/refman/5.6/en/assignment-operators.html)
+
+- `:=`
+
+  赋值运算符
+
+  ```
+  mysql> SELECT @var1, @var2;
+          -> NULL, NULL
+  mysql> SELECT @var1 := 1, @var2;
+          -> 1, NULL
+  ```
+
+- `=`
+
+  用作赋值运算符或比较运算符
+
+  在set语句或者update的set子句中，`=`用来赋值，其他时候用于比较。
+
+## 变量
+
+想要查看当前的系统变量，可以通过：
+
+- `show variables`
+- 查看performance_schema库中的相应表
+
 ## 删除
 
 ### DELETE

@@ -950,6 +950,15 @@ ADD COLUMN `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMME
 
 
 
+## 建表指定默认集
+
+```
+...
+default character set 'utf8mb4';
+```
+
+
+
 ## Mac Mysql全局配置
 
 

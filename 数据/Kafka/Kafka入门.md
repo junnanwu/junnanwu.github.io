@@ -1,5 +1,11 @@
 # Kafka入门
 
+## Kafka概念
+
+如果所有的消费者实例都属于相同的消费群，那么记录将有效地被均衡到每个消费者实例。
+
+如果所有的消费者实例有不同的消费群，那么每个消息将被广播到所有的消费者进程。
+
 ## Mac测试Kafka
 
 1. 安装
@@ -19,6 +25,14 @@
    ```
    $ kafka-server-start server.properties &
    ```
+
+   使用brew
+
+   ```
+   $ brew services restart kafka
+   ```
+
+   
 
 3. 创建一个topic
 
@@ -79,6 +93,38 @@
    ```
 
    可以使用`Ctrl+C`停止
+   
+7. 删除topic
+
+   ```
+   $ kafka-topics --topic voice-events --delete --bootstrap-server localhost:9092
+   ```
+   
+   当然，也可以使用正则匹配，删除`aaa`开头的topic：
+
+   ```
+   $  kafka-topics --topic "aaa.*" --delete --bootstrap-server localhost:9092
+   ```
+
+## Linux测试Kafka
+
+1. [下载Kafka](https://kafka.apache.org/downloads)
+
+2. 开启zookeeper
+
+   ```
+   $ bin/zookeeper-server-start.sh config/zookeeper.properties
+   ```
+
+   
+
+3. 开启Kafka服务
+
+   ```
+   $ nohup ./kafka-server-start.sh ../config/server.properties &
+   ```
+
+   
 
 
 
