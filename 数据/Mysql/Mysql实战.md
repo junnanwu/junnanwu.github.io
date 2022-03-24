@@ -468,6 +468,12 @@ mysql> SELECT CONCAT_WS(',','First name','Second name','Last Name');
 
 可用于列转行
 
+## 创建数据库
+
+```
+CREATE DATABASE database_name;
+```
+
 ## 建表语句
 
 ### 默认值
@@ -986,10 +992,3 @@ $ mysql --verbose --help | grep my.cnf
 
 1. https://dev.mysql.com/doc/refman/5.7/en
 1. https://stackoverflow.com/questions/20461030/current-date-curdate-not-working-as-default-date-value
-
-
-
-
-
-
-

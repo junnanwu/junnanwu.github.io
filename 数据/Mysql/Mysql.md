@@ -114,6 +114,20 @@ delete和truncate的区别：
   SELECT user FROM mysql.user;
   ```
 
+- 查看用户密码
+
+  ```mysql
+  SELECT host,user,authentication_string FROM mysql.user;
+  ```
+
+  （密码是MD5加密的）
+  
+- 设置用户密码
+
+  ```mysql
+  SET PASSWORD FOR root@localhost = password('CGA1S9DZegVKoScD');
+  ```
+
 - 创建用户
 
   ```mysql
