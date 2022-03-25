@@ -70,6 +70,7 @@
     - **Git**
       - [Git原理](工具/Git/Git原理.md)
       - [Git实践](工具/Git/Git实践.md)
+      - [关于GitHub](工具/Git/关于GitHub.md)
       - [commit](工具/Git/commit.md)
     - **Mac**
       - [IDEA](工具/Mac/IDEA.md)
