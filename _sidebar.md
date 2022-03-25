@@ -1,3 +1,6 @@
+- **Bug**
+    - **应用**
+      - [应用卡顿问题bug记录](Bug/应用/应用卡顿问题bug记录.md)
 - **JavaEE**
     - **CAS**
       - [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
@@ -5,20 +8,24 @@
     - **Freemarker**
       - [Freemarker入门](JavaEE/Freemarker/Freemarker入门.md)
     - [Guava](JavaEE/Guava.md)
+    - [Java发送邮件](JavaEE/Java发送邮件.md)
     - [Java日志框架](JavaEE/Java日志框架.md)
     - [Log4j2漏洞](JavaEE/Log4j2漏洞.md)
     - **Spring**
       - [SpringAOP](JavaEE/Spring/SpringAOP.md)
       - [SpringCache](JavaEE/Spring/SpringCache.md)
       - [SpringWebMVC](JavaEE/Spring/SpringWebMVC.md)
+      - [Spring基础](JavaEE/Spring/Spring基础.md)
       - [拦截器](JavaEE/Spring/拦截器.md)
       - **源码解析**
         - [feign源码解析](JavaEE/Spring/源码解析/feign源码解析.md)
       - [定时任务](JavaEE/Spring/定时任务.md)
     - **SpringBoot**
-      - [SpringBoot配置](JavaEE/SpringBoot/SpringBoot配置.md)
+      - [Boot基础](JavaEE/SpringBoot/Boot基础.md)
+      - [SpringBoot配置项](JavaEE/SpringBoot/SpringBoot配置项.md)
+      - [index](JavaEE/SpringBoot/index.md)
+      - [Boot的配置文件](JavaEE/SpringBoot/Boot的配置文件.md)
       - [关于Springboot的Jar](JavaEE/SpringBoot/关于Springboot的Jar.md)
-      - [关于Springboot配置文件的加载](JavaEE/SpringBoot/关于Springboot配置文件的加载.md)
       - [配置中心](JavaEE/SpringBoot/配置中心.md)
     - **连接池**
       - [Druid](JavaEE/连接池/Druid.md)
@@ -30,6 +37,7 @@
     - [Java时间相关](JavaSE/Java时间相关.md)
     - [Java远程调控](JavaSE/Java远程调控.md)
     - [Java常见系统方法](JavaSE/Java常见系统方法.md)
+    - [Java调用本地命令](JavaSE/Java调用本地命令.md)
     - [Java中常用数据格式](JavaSE/Java中常用数据格式.md)
     - [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
     - [Threadlocal](JavaSE/Threadlocal.md)
@@ -55,7 +63,10 @@
 - **工具**
     - **Build**
       - [Gradle](工具/Build/Gradle.md)
+      - [Gradle基本原理](工具/Build/Gradle基本原理.md)
       - [Maven](工具/Build/Maven.md)
+    - **Chrome**
+      - [Network](工具/Chrome/Network.md)
     - **Git**
       - [Git原理](工具/Git/Git原理.md)
       - [Git实践](工具/Git/Git实践.md)
@@ -63,6 +74,7 @@
     - **Mac**
       - [IDEA](工具/Mac/IDEA.md)
       - [Mac](工具/Mac/Mac.md)
+      - [Postman](工具/Mac/Postman.md)
       - [Typora](工具/Mac/Typora.md)
     - **Nginx**
       - [Lua脚本](工具/Nginx/Lua脚本.md)
@@ -73,6 +85,8 @@
     - **WebTool**
       - [Chromedriver](工具/WebTool/Chromedriver.md)
       - [PhantomJS](工具/WebTool/PhantomJS.md)
+    - **image**
+      - [图片Base64转换](工具/image/图片Base64转换.md)
     - **zookeeper**
       - [zookeeper入门](工具/zookeeper/zookeeper入门.md)
 - **数据**
@@ -90,6 +104,7 @@
       - [阿里数仓历史数据迁移Hive](数据/Hive/阿里数仓历史数据迁移Hive.md)
     - **Kafka**
       - [Kafka入门](数据/Kafka/Kafka入门.md)
+      - [Kafka动态新增topic](数据/Kafka/Kafka动态新增topic.md)
       - [Spring-Kafka](数据/Kafka/Spring-Kafka.md)
     - **Mysql**
       - [Server](数据/Mysql/Server.md)
@@ -109,6 +124,7 @@
     - [Jenkins](运维/Jenkins.md)
     - **Linux**
       - [Linux](运维/Linux/Linux.md)
+      - [Linux安装字体](运维/Linux/Linux安装字体.md)
       - [Linux文件系统](运维/Linux/Linux文件系统.md)
       - [Linux环境变量](运维/Linux/Linux环境变量.md)
       - [Linux用户权限](运维/Linux/Linux用户权限.md)
@@ -117,6 +133,7 @@
       - [Linux带宽监控工具](运维/Linux/Linux带宽监控工具.md)
       - [Shell脚本](运维/Linux/Shell脚本.md)
       - [Vim](运维/Linux/Vim.md)
+      - [linux监测](运维/Linux/linux监测.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
     - [远程部署项目](运维/远程部署项目.md)
 - **开源项目**

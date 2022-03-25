@@ -161,6 +161,12 @@ https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-pa
 
 这个工具为你的目录维护了一个数据库，只要你访问过这个目录，后续就可以直接直接 `j doc`，其中有模糊匹配，纠错，并根据熟练度进行选择，非常强大。
 
+## Chrome
+
+- 切换标签页
+
+  `ctrl+tab`
+
 ## item2
 
 - 新建窗口
