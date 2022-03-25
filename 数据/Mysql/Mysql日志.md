@@ -17,6 +17,12 @@
 
 可以借助mysql自带的mysqlbinlog工具可以查看binlog。
 
+**查看binlog日志保留日期**
+
+```mysql
+show variables like '%expire_logs_days%';
+```
+
 ### mysqlbinlog
 
 格式：
@@ -208,4 +214,33 @@ PURGE { BINARY | MASTER } LOGS {
   purge master logs to 'mysql-bin.000004'
   ```
 
+
+
+
+## slowlog
+
+> The slow query log consists of SQL statements that take more than `long_query_time` seconds to execute and require at least `min_examined_row_limit` rows to be examined. 
+
+默认情况下，slow query日志是关闭的，其默认值为10
+
+#### 清理slowlog
+
+- 查看show query log位置
+
+  ```
+  show variables like '%slow%';
+  ```
+
+- 清除日志文件内容
+
+  ```
+  $ > mysql-slow.log
+  ```
+
   
+
+
+
+## References
+
+1. https://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html

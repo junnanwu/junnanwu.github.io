@@ -1366,11 +1366,35 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
 参数：
 
 - `-b` 指定密钥长度
+
 - `-t` 指定要创建的密钥类型
+
+  [查看此](https://www.ssh.com/academy/ssh/keygen)
+
+  - `rsa`
+
+  - `dsa`
+
+  - `ecdsa`
+
+    支持三种长度， 256, 384, and 521 
+
+  - `ed25519`
+
 - `-C` 添加注释
+
 - `-f` 指定用来保存密钥的文件名
 
-配置步骤：
+**不同密钥类型举例：**
+
+```
+$ ssh-keygen -t rsa -b 4096
+$ ssh-keygen -t dsa 
+$ ssh-keygen -t ecdsa -b 521
+$ ssh-keygen -t ed25519
+```
+
+**配置SSH免密步骤：**
 
 1. 生成RSA类型私钥公钥
 
@@ -1396,15 +1420,23 @@ ssh-keygen命令用于为ssh生成、管理和转换认证密钥，它支持RSA�
      $ ssh-copy-id -i id_rsa.pub jinp@172.27.0.8
      ```
 
-注意：
+**注意：**
 
 1. 私钥默认放在`.ssh`下才会生效
 
 2. 如果是想通过ssh免密git操作，将上述的步骤二换成将公钥保存到相关git远程仓库即可
 
-3. github没有我的私钥，他是怎么解密我加密过的数据呢
+3. GitHub没有我的私钥，他是怎么解密我加密过的数据呢
 
    你用私钥加密的东西，GitHub用公钥可以解开，能解开说明你有对应的私钥，就是上传公钥那个人
+   
+3. GitHub已不支持RSA-1，但是OpenSSH 7.2以下版本只支持RSA-1，所以7.2以下版本要么升级版本，使用RSA-2，要么使用ECDSA算法，如下：
+
+   ```
+   $ ssh-keygen -t ecdsa -C "wujunnan-ECDSA"
+   ```
+
+
 
 ### scp
 
@@ -2230,3 +2262,4 @@ curl cip.cc
 
 1. https://www.howtogeek.com/423214/how-to-use-the-rename-command-on-linux/
 1. https://support.hpe.com/hpesc/public/docDisplay?docId=c02947726
+1. https://www.ssh.com/academy/ssh/keygen
