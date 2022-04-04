@@ -1,7 +1,5 @@
 # Email Protocol
 
-用户代理，例如Outlook等客户端；邮件服务器，例如Outlook等服务器。
-
 ## SMTP
 
 SMTP（Simple Mail Transfer Protocol）是因特网电子邮件中主要的应用层协议，它使用TCP协议传输数据。
@@ -36,9 +34,30 @@ SMTP一般不使用中间邮件服务器发送邮件，即使这两个邮件服�
 - SMTP也用来将邮件从发送方的用户代理发送到发送方的邮件服务器
 - POP3等的邮件访问协议将邮件从接收方的邮件服务器传送到接收方的用户代理
 
+注意：
+
+- 用户代理（User Agent），如Outlook等客户端
+- 邮件服务器（Mail Server），如Outlook等服务器。
+
 缺点：
 
 - SMTP协议要求每个报文采用7比特ASCII格式
+
+### MIME
+
+由于Internet的迅速发展，人们已不满足于电子邮件仅仅是用来交换文本信息，而是希望交换更为更为丰富的多媒体信息，故有了MIME（Multipurpose Internet Mail Extensions）协议对SMTP协议进行扩充。
+
+一封MIME 邮件可以由多个不同类型的MIME消息组合而成，一个MIME消息表示邮件中的一个基本MIME资源或若干基本MIME消息的组合体。每个MIME消息的 数据格式与RFC822数据格式相似，也包括头和体两部分，分别称为MIME消息头和MIME消息体，它们之间使用空行分隔。MIME消息体中包含了资源的具体内容，MIME消息头中则包含了对资源的描述信息。
+
+MIME类型由两部分组成，前面是数据的大类别，例如声音audio、图象image等，后面定义具体的种类，例如：
+
+- 超文本标记语言文本（ .html ）`text/html`
+- 普通文本（.txt）`text/plain`
+- PNG图像（.png）`image/png`
+
+MIME使得邮件也支持了非ASCII字符，二进制文件等多种格式的邮件消息。
+
+最早的HTTP协议所有的传送数据都被客户端解释为HTML文档，为了支持多媒体数据类型，HTTP协议后续也支持了MIME。
 
 ## POP3
 
