@@ -27,6 +27,9 @@
       - [Boot的配置文件](JavaEE/SpringBoot/Boot的配置文件.md)
       - [关于Springboot的Jar](JavaEE/SpringBoot/关于Springboot的Jar.md)
       - [配置中心](JavaEE/SpringBoot/配置中心.md)
+    - **邮件**
+      - [Protocol](JavaEE/邮件/Protocol.md)
+      - [Email](JavaEE/邮件/Email.md)
     - **连接池**
       - [Druid](JavaEE/连接池/Druid.md)
 - **JavaSE**
@@ -43,7 +46,10 @@
     - [Threadlocal](JavaSE/Threadlocal.md)
     - [泛型](JavaSE/泛型.md)
     - [注解](JavaSE/注解.md)
-    - [多线程](JavaSE/多线程.md)
+    - **多线程**
+      - [JUC](JavaSE/多线程/JUC.md)
+      - [线程池](JavaSE/多线程/线程池.md)
+      - [多线程基础](JavaSE/多线程/多线程基础.md)
     - [序列化](JavaSE/序列化.md)
     - [单元测试](JavaSE/单元测试.md)
     - [深入理解Java虚拟机](JavaSE/深入理解Java虚拟机.md)

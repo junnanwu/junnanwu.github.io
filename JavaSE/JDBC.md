@@ -276,6 +276,38 @@ public class JDBCTest {
 
 - 最好使用ClickHouse JDBC最新的版本，低版本有很多漏洞，而且经测不支持LocalDate的映射（`0.2.4`版本）
 
+## Presto JDBC
+
+依赖：
+
+```
+<dependency>
+    <groupId>com.facebook.presto</groupId>
+    <artifactId>presto-jdbc</artifactId>
+    <version>0.271</version>
+</dependency>
+```
+
+样例代码：
+
+```
+public class Main {
+
+    private static String url = "jdbc:presto://49.233.xx.xx:9000/hive/hsz_sap?user=xxx";
+
+    public static void main(String[] args) throws SQLException {
+        Connection connection = DriverManager.getConnection(url);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("show tables from hive.hsz_sap");
+        while (resultSet.next()){
+            System.out.println(resultSet.getString(1));
+        }
+    }
+}
+```
+
+
+
 ## JDBC连接池
 
 JDBC连接池有一个标准的接口`javax.sql.DataSource`，注意这个类位于Java标准库中，但仅仅是接口。要使用JDBC连接池，我们必须选择一个JDBC连接池的实现。常用的JDBC连接池有：
@@ -285,4 +317,5 @@ JDBC连接池有一个标准的接口`javax.sql.DataSource`，注意这个类位
 ## References
 
 1. https://www.liaoxuefeng.com/wiki/1252599548343744/1255943820274272
+1. https://prestodb.io/docs/current/installation/jdbc.html
 

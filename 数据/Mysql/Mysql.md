@@ -74,8 +74,72 @@
 
 想要查看当前的系统变量，可以通过：
 
-- `show variables`
+- `SHOW [GLOBAL|SESSION] VARIABLES [like xx]`
+
+  不指定则返回SESSION变量
+
 - 查看performance_schema库中的相应表
+
+### 系统变量
+
+系统变量包括两部分
+
+- global variables
+
+  服务启动时，会被初始化
+
+  设置全局变量
+
+  ```
+  SET GLOBAL max_connections = 1000;
+  SET @@GLOBAL.max_connections = 1000;
+  ```
+
+  注意：
+
+  上述方式在服务重启后就会失效，Mysql 5.7持久化需要修改`my.cnf`，Mysql 8.0可以通过`SET PERSIST`方式持久化，[参考此](https://dev.mysql.com/doc/refman/8.0/en/persisted-system-variables.html)。
+
+- session variables
+
+  当客户端连接的时候，会被初始化为`global variables`，例如，`sql_mode`
+
+  设置session变量
+
+  ```
+  SET SESSION sql_mode = 'TRADITIONAL';
+  SET @@SESSION.sql_mode = 'TRADITIONAL';
+  SET @@sql_mode = 'TRADITIONAL';
+  ```
+
+很多变量是动态的，可以在运行时使用set语句
+
+注意：
+
+- 当给变量赋值的时候，可以使用K、M、G (不区分大小写)，来表示1024、1024^2 、1024^3
+
+  例如：
+
+  ```
+  mysqld --innodb-log-file-size=16M --max-allowed-packet=1G
+  ```
+
+- set语句中可以使用`*`表达式，但是不能使用K、M，例如
+
+  ```
+  -- illegal
+  mysql> SET GLOBAL max_allowed_packet=16M;
+  -- legal
+  mysql> SET GLOBAL max_allowed_packet=16*1024*1024;
+  ```
+
+  命令行的方式则相反
+
+  ```
+  -- legal
+  $> mysql --max_allowed_packet=16M
+  -- illegal
+  $> mysql --max_allowed_packet=16*1024*1024
+  ```
 
 ## 删除
 
@@ -106,8 +170,6 @@ delete和truncate的区别：
 
 ### 用户
 
-用户
-
 - 查看所有用户
 
   ```mysql
@@ -120,14 +182,8 @@ delete和truncate的区别：
   SELECT host,user,authentication_string FROM mysql.user;
   ```
 
-  （密码是MD5加密的）
+  （密码是加密的）
   
-- 设置用户密码
-
-  ```mysql
-  SET PASSWORD FOR root@localhost = password('CGA1S9DZegVKoScD');
-  ```
-
 - 创建用户
 
   ```mysql
@@ -138,6 +194,36 @@ delete和truncate的区别：
   CREATE USER 'data_web'@'%' identified by 'XXXXX5Njg1NWI';
   ```
 
+- 设置用户密码
+
+  语法：
+
+  ```
+  SET PASSWORD [FOR user] = password_option
+  
+  password_option: {
+      PASSWORD('auth_string')
+    | OLD_PASSWORD('auth_string')
+    | 'hash_string'
+  }
+  ```
+
+  - `hash_string`代表编码后的密码
+
+  - 如果没有FOR语句，则代表给当前用户设置密码
+
+    ```
+    SET PASSWORD = password_option;
+    ```
+
+  例如：
+
+  ```mysql
+  SET PASSWORD FOR root@localhost = password('CGA1S9DZegVKoSxx');
+  ```
+
+  注意：如果省略`@xx`则默认为`'%'`
+
 - 删除用户
 
   ```mysql
@@ -147,18 +233,6 @@ delete和truncate的区别：
 ### 授权
 
 [详见官方文档](https://dev.mysql.com/doc/refman/5.7/en/privileges-provided.html)
-
-**权限**
-
-- `ALL,ALL PRIVALEGES`
-
-  除了 `GRANT OPTION` 外的所有权限。
-  
-- `DROP`
-
-  可以drop已有的数据库，表和视图，注意`TRUNCATE TABLE`也需要`DROP`权限。
-
-**语句**
 
 - 查看用户权限
 
@@ -172,9 +246,13 @@ delete和truncate的区别：
   GRANT privileges ON databasename.tablename TO 'username'@'host';
   ```
 
+  例如：
+
   ```mysql
   GRANT select,insert,update,delete on data_web.* to 'data_web'@'%';
   ```
+
+  赋予用户在data-web库的除了 `GRANT OPTION` 外的所有权限
 
   ```mysql
   GRANT ALL PRIVILEGES ON `data_web`.* TO 'data_web'@'%';
@@ -189,14 +267,15 @@ delete和truncate的区别：
 - 刷新权限
 
   ```mysql
-  flush privileges;
+  FLUSH privileges;
   ```
 
-  
+
+注意：
+
+- `TRUNCATE TABLE`也需要`DROP`权限。
 
 ## 事务
-
-MySQL 事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务！
 
 MySQL中，事务是最小的工作单元，事务能保证一个业务的完整性
 
@@ -217,7 +296,8 @@ MySQL 默认情况下开启了一个自动提交的模式 autocommit，一条语
 要想实现回滚就需要设置MySQL自动提交为False，这也是开启事务的一种方式
 
 ```sql
-set autocommit=0; -- 0:OFF  1:ON
+-- 0:OFF  1:ON
+set autocommit=0; 
 ```
 
 当使用`commit;`手动提交数据之后，再进行回滚，就不管用了，体现了事务的持久性，事务一旦提交，就不能再回滚，也就是说这个事务在提交的时候已经结束了
@@ -932,3 +1012,10 @@ select @@tx_isolation;
 ```sql
 insert into 表名1 select *from 表名2;
 ```
+
+### mysqldump
+
+```
+$ mysqldump -u root -p123456 --all-databases > all.sql
+```
+

@@ -248,8 +248,6 @@ $ git clone git://github.com/schacon/ticgit.git
 
   所有分支
 
-- 
-
 举例：
 
 - 创建分支

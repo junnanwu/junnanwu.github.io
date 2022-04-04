@@ -1,6 +1,6 @@
 # Chrome网络
 
-
+[参考官方文档](https://developer.chrome.com/docs/devtools/network/reference/#overview)
 
 ## WaterFall
 
@@ -10,7 +10,7 @@
 
 - **Queueing**
 
-  . The browser queues requests when:
+  The browser queues requests when:
 
   - There are higher priority requests.
   - There are already six TCP connections open for this origin, which is the limit. Applies to HTTP/1.0 and HTTP/1.1 only.
@@ -40,4 +40,4 @@
 
 ## References
 
-- https://developer.chrome.com/docs/devtools/network/reference/#waterfall
+- https://developer.chrome.com/docs/devtools/network/reference/#timing-explanation
