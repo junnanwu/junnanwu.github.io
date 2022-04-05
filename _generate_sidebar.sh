@@ -7,7 +7,6 @@ set -e
 target_catalog="JavaSE JavaEE JavaWeb 数据库 大数据 计算机基础 运维 工具 前端 算法 开源项目 Bug 个人"
 #最终输出
 result=""
-relative_path=""
 echo 开始生成目录...
 print_dir(){
 	#默认for...in会根据空格进行分割，导致文件名里面不能空格，这里ls输出的分割符为\n
@@ -39,7 +38,8 @@ print_dir(){
 	elif [[ -n $file && $file == *.md && $file != _* && $file != README* ]]
 	then
 		#去除文件第一个/
-		final_path=${relative_path:1}
+		#final_path=${relative_path:1}
+		final_path=${relative_path}
 		#${file%.*}删除最后一个.及其右边内容
 		result="$result$space- [${file%.*}]($final_path)\n"
 	fi
@@ -52,6 +52,7 @@ IFS_OLD=$IFS
 for catalog in $target_catalog
 do 
 	depth=-1
+	relative_path=$catalog
 	print_dir ~/docs/$catalog
 done
 IFS=$IFS_OLD

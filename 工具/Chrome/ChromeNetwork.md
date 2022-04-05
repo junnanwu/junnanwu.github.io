@@ -1,10 +1,10 @@
-# Chrome网络
+# Chrome Network
 
 [参考官方文档](https://developer.chrome.com/docs/devtools/network/reference/#overview)
 
 ## WaterFall
 
-![image-20220325005253388](Chrome%20Network_assets/image-20220325005253388.png)
+![image-20220325005253388](ChromeNetwork_assets/image-20220325005253388.png)
 
 不同的阶段：
 

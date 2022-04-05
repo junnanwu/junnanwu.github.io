@@ -28,7 +28,7 @@ SMTP一般不使用中间邮件服务器发送邮件，即使这两个邮件服�
 
 因特网电子邮件的一些协议：
 
-![Email Protocol](Email%20Protocol_assets/Email%20Protocol.jpg)
+![Email Protocol](Email-Protocol_assets/Email%20Protocol.jpg)
 
 - SMTP用来将邮件从发送方的邮件服务器传输到接受方的邮件服务器
 - SMTP也用来将邮件从发送方的用户代理发送到发送方的邮件服务器
@@ -100,7 +100,7 @@ IMAP的另一个重要特性是它具有允许用户代理获取报文某些部�
 - 收件人通过HTTP协议将邮件从邮件服务器发送到他的浏览器
 - 然而，发件人的邮件服务器和收件人的邮件服务器之间仍采用SMTP通信
 
-![Email Protocol HTTP](Email%20Protocol_assets/Email%20Protocol%20HTTP.jpg)
+![Email Protocol HTTP](Email-Protocol_assets/Email%20Protocol%20HTTP.jpg)
 
 ## References
 
