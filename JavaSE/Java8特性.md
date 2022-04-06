@@ -1,4 +1,4 @@
-# Java8新特性
+# Java8特性
 
 ## Lambda表达式
 

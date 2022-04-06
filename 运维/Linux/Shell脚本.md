@@ -59,6 +59,16 @@ echo "The date and time are: " $testing
 
 注意：命令替换就创建一个子shell
 
+举例：
+
+- 输出今日日期：
+
+  ```
+  ~ today=`date +%y%m%d`
+  ~ echo $today
+  220405
+  ```
+
 ### 重定向输入和输出
 
 **输出重定向**
@@ -119,6 +129,8 @@ $ rpm -qa | sort | more
 
 **expr命令**
 
+局限太多，推荐使用下方改进版——方括号。
+
 **方括号**
 
 ```sh
@@ -146,6 +158,103 @@ var2=45
 var3=$(echo "scale=4; $var1 / $var2" | bc)
 echo The answer for this is $var3
 ```
+
+### 参数扩展
+
+[详见此](https://wiki.bash-hackers.org/syntax/pe)
+
+#### 子字符串
+
+- `${PARAMETER#PATTERN}`
+
+  移除第一个匹配成功及其左侧的字符
+
+- `${PARAMETER#PATTERN}`
+
+  移除最后一个匹配成功及其左侧的字符
+
+- `${PARAMETER%PATTERN}`
+
+  移除最后一个匹配成功及其右侧的字符
+
+- ``${PARAMETER%%PATTERN}`
+
+  移除第一个匹配成功及其右侧的字符
+
+- `${PARAMETER:OFFSET}`
+
+  截取字符串从`OFFSET`到结束，`OFFSET`从0开始
+
+- `${PARAMETER:OFFSET:LENGTH}`
+
+  截取字符串从`OFFSET`开始，`LENGTH`长度
+
+例如：
+
+- **Get name without extension**
+  - `${FILENAME%.*}`
+  - `bash_hackers.txt` ⇒ `bash_hackers`
+- **Get extension**
+  - `${FILENAME##*.}`
+  - `bash_hackers.txt` ⇒ `txt`
+- **Get directory name**
+  - `${PATHNAME%/*}`
+  - `/home/bash/bash_hackers.txt` ⇒ `/home/bash`
+- **Get filename**
+  - `${PATHNAME##*/}`
+  - `/home/bash/bash_hackers.txt` ⇒ `bash_hackers.txt`
+
+#### 查找并替换
+
+- `${PARAMETER/PATTERN/STRING}`
+
+  查找出`PARAMETER`中第一个符合`PATTERN`的字符串并替换为`STRING`
+
+  还可以使用`#`和`%`
+
+  ```
+  MYSTRING=xxxxxxxxxx
+  echo ${MYSTRING/#x/y}  # RESULT: yxxxxxxxxx
+  echo ${MYSTRING/%x/y}  # RESULT: xxxxxxxxxy
+  ```
+
+- `${PARAMETER//PATTERN/STRING}`
+
+  查找出`PARAMETER`中所有符合`PATTERN`的字符串并替换为`STRING`
+
+- `${PARAMETER/PATTERN}`
+
+  删除第一个匹配`PATTERN`的字符串
+
+- `${PARAMETER//PATTERN}`
+
+  删除所有匹配`PATTERN`的字符串
+
+#### 字符串长度
+
+`${#PARAMETER}`
+
+返回字符数
+
+#### 默认值
+
+- `${PARAMETER:-WORD}`
+
+  如果`PARAMETER`没有设置或者为空，则使用`WORD`
+
+- `${PARAMETER-WORD}`
+
+  如果`PARAMETER`没有设置，则使用`WORD`
+
+#### 替换值
+
+- `${PARAMETER:+WORD}`
+
+  如果`PARAMETER`没有设置或者为空，则使用`WORD`所指向的值
+
+- `${PARAMETER+WORD}`
+
+  如果`PARAMETER`没有设置，则使用`WORD`所指向的值
 
 ### 退出脚本
 
@@ -301,6 +410,7 @@ fi
 ```sh
 #!/bin/bash
 # testing the if statement if pwd
+if pwd
 then
 	echo "It worked"
 fi
@@ -309,7 +419,8 @@ fi
 你可能在有些脚本中看到过if-then语句的另一种形式（看起来更像其他编程语言中的if语句）：
 
 ```sh
-if command; then commands
+if command; then 
+  commands
 fi
 ```
 
@@ -331,6 +442,8 @@ fi
 
 ### test命令
 
+test提供了测试命令退出状态码之外的条件。
+
 ```sh
 test condition
 ```
@@ -348,7 +461,7 @@ if-then语句允许你使用布尔逻辑来组合测试。有两种布尔运算�
 - `[ condition1 ] && [ condition2 ]`
 - `[ condition1 ] || [ condition2 ]`
 
-**数值比较**
+#### 数值比较
 
 | 比较        | 描述                   |
 | ----------- | ---------------------- |
@@ -363,7 +476,7 @@ if-then语句允许你使用布尔逻辑来组合测试。有两种布尔运算�
 if [ $value1 -gt 5 ]
 ```
 
-**字符串比较**
+#### 字符串比较
 
 | 比较           | 描述                   |
 | -------------- | ---------------------- |
@@ -376,7 +489,7 @@ if [ $value1 -gt 5 ]
 
 在比较字符串的相等性时，比较测试会将所有的标点和大小写情况都考虑在内。
 
-**文件比较**
+#### 文件比较
 
 | 比较              | 描述                                     |
 | ----------------- | ---------------------------------------- |
@@ -392,7 +505,14 @@ if [ $value1 -gt 5 ]
 | `file1 -nt file2` | 检查file1是否比file2新                   |
 | `file1 -ot file2` | 检查file1是否比file2旧                   |
 
-**使用双括号**
+
+
+Bash shell提供了两项可在if-then语句中使用的高级特性：
+
+- 用于数学表达式的双括号
+- 用于高级字符串处理的双方括号
+
+#### 双括号
 
 ```sh
 (( expression ))
@@ -428,7 +548,7 @@ fi
 | `&&`    | 逻辑和   |
 | `||`    | 逻辑或   |
 
-**使用双方括号**
+#### 双方括号
 
 双方括号命令提供了针对字符串比较的高级特性，可以使用正则表达式对一个字符串进行匹配：
 
@@ -442,6 +562,164 @@ fi
 ```
 
 在上面的脚本中，我们使用了双等号(`==`)。双等号将右边的字符串(`r*`)视为一个模式。
+
+### for命令
+
+基本格式：
+
+```shell
+for var in list
+do 
+    commands
+done
+```
+
+或
+
+```sh
+for var in list;do 
+    commands
+done
+```
+
+**空格问题**
+
+for循环假定每个值都是用空格分割的，当字符串里面包含空格的时候，就会将这个字符串分割开。
+
+**双引号解决**
+
+可以在双引号的字符串两端加上双引号，shell不会将双引号识别为值的一部分。
+
+#### 字段分隔符
+
+如果我们的for命令读取的是一个命令的结果，例如`ls`，那么如果目录中有出现空格，那么for循环依然会将其拆成两个词。
+
+造成这个原因的是环境变量IFS（internal field separator），IFS环境变量定义了bash shell用作字段分隔符的一系列字符。
+
+默认情况下，包括如下字符：
+
+- 空格
+- 制表符
+- 换行符
+
+如果bash shell在数据中看到了这些字符的任意一个，它就会假定这表明了列表中一个新数据字段的开始。
+
+要解决这个问题，可以临时更改此临时变量：
+
+例如：
+
+想要bash shell只识别换行符：
+
+```sh
+IFS.OLD=$IFS 
+IFS=$'\n' 
+<在代码中使用新的IFS值> 
+IFS=$IFS.OLD
+```
+
+为了避免影响这个脚本其他的地方使用默认的IFS，可以使用上述代码使用完毕恢复默认的IFS。
+
+要指定多个IFS，只要将它们串起来即可：
+
+```
+ISF=$'\n';:"
+```
+
+这个赋值会将换行符、冒号、分号、和双引号作为字段分隔符。
+
+**用通配符读取目录**
+
+在文件名或者路径名中使用通配符，它会强制shell使用文件拓展匹配，可以用此方法遍历某文件夹。
+
+```sh
+#file为绝对路径字符串
+for file in /home/rich/test/*
+do
+    if [ -d "$file" ]
+    then
+       echo "$file is a directory"
+    elif [ -f "$file" ]
+    then
+       echo "$file is a file"
+    fi
+done
+
+#也可以列出多个目录通配符
+for file in /home/rich/.b* /home/rich/badtest
+```
+
+#### C语言风格的for命令
+
+例如：C代码
+
+```c
+for (i = 0; i < 10; i++)
+{
+    printf("The next number is %d\n", i);
+}
+```
+
+以下是bash中C语言风格的for循环的基本格式：
+
+```sh
+for (( variable assignment ; condition ; iteration process ))
+```
+
+例如：
+
+```sh
+for (( i=1; i <= 10; i++ ))
+do
+    echo "The next number is $i"
+done
+```
+
+### while命令
+
+while命令允许定义一个要测试 的命令，然后循环执行一组命令，只要定义的测试命令返回的是退出状态码0。它会在每次迭代的一开始测试test命令。在test命令返回非零退出状态码时，while命令会停止执行那组命令。
+
+格式：
+
+```sh
+while test command do
+other commands
+done
+```
+
+最常见的test command的用法是用方括号来检查循环命令中用到的shell变量的值。
+
+例如打印10-1：
+
+```sh
+#!/bin/bash
+    # while command test
+var1=10
+while [ $var1 -gt 0 ]
+do
+echo $var1
+    var1=$[ $var1 - 1 ]
+done
+```
+
+### 实例
+
+#### 创建多个用户账户
+
+```sh
+#!/bin/bash
+# process new user accounts
+input="users.csv"
+while IFS=',' read -r userid name
+do
+  echo "adding $userid"
+  useradd -c "$name" -m $userid
+done < "$input"
+```
+
+注意：
+
+- read命令会自动读取.csv文本文件的下一行内容，所以不需要专门再写一个循环来处理。当read命令返回FALSE时(也就是读取完整个文件时)，while命令就会退出
+- 要想把数据从文件中送入while命令，只需在while命令尾部使用一个重定向符就可以了
 
 ## 处理用户输入
 
@@ -794,12 +1072,6 @@ $ dirname /etc/sysconfig/network
 
 ### 操作字符串
 
-#### 计算字符串长度
-
-- `${#var}`
-
-https://blog.csdn.net/u010003835/article/details/80749220
-
 #### 将字符串切割为数组
 
 例如：
@@ -824,4 +1096,8 @@ $ branch=origin/release/v2.11.2.1
    v2.11.2.1
    ```
 
-   
+
+## References
+
+1. 《Linux命令行与shell脚本编程大全》
+2. https://wiki.bash-hackers.org/syntax/pe
