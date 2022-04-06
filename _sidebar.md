@@ -1,6 +1,6 @@
 - **JavaSE**
     - [JDBC](JavaSE/JDBC.md)
-    - [Java8新特性](JavaSE/Java8新特性.md)
+    - [Java8特性](JavaSE/Java8特性.md)
     - [Java数组List转换](JavaSE/Java数组List转换.md)
     - [Java定时任务](JavaSE/Java定时任务.md)
     - [Java时间相关](JavaSE/Java时间相关.md)
@@ -9,7 +9,7 @@
     - [Java调用本地命令](JavaSE/Java调用本地命令.md)
     - [Java中常用数据格式](JavaSE/Java中常用数据格式.md)
     - [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
-    - [Threadlocal](JavaSE/Threadlocal.md)
+    - [ThreadLocal](JavaSE/ThreadLocal.md)
     - [泛型](JavaSE/泛型.md)
     - [注解](JavaSE/注解.md)
     - **多线程**
@@ -120,8 +120,8 @@
     - **Git**
       - [Git原理](工具/Git/Git原理.md)
       - [Git实践](工具/Git/Git实践.md)
+      - [Git操作](工具/Git/Git操作.md)
       - [关于GitHub](工具/Git/关于GitHub.md)
-      - [优雅的git commit](工具/Git/优雅的git commit.md)
     - **Mac**
       - [IDEA](工具/Mac/IDEA.md)
       - [Mac](工具/Mac/Mac.md)
