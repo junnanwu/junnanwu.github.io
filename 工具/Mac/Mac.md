@@ -125,7 +125,15 @@ https://en.wikipedia.org/wiki/Launchd
 
 https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-path-had-bad-ownership-permissions
 
+## 无法验证开发者
 
+当弹出：无法打开"chromedriver"，因为无法验证开发者的时候
+
+需要执行如下：
+
+```
+$ xattr -d com.apple.quarantine /usr/local/bin/chromedriver
+```
 
 ## 终端
 
