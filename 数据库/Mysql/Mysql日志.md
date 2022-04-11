@@ -23,6 +23,10 @@
 show variables like '%expire_logs_days%';
 ```
 
+默认值是`0`，意味着不自动删除日志。
+
+
+
 ### mysqlbinlog
 
 格式：
@@ -49,7 +53,7 @@ options：
 
   将行事件解释为带注释的SQL语句
 
-- `--database=db_name  -d db_name`
+- `--database=db_name -d db_name`
 
   > This option causes mysqlbinlog to output entries from the binary log (local log only) that occur while `db_name` is been selected as the default database by `USE`.
 
@@ -223,7 +227,7 @@ PURGE { BINARY | MASTER } LOGS {
 
 默认情况下，slow query日志是关闭的，其默认值为10
 
-#### 清理slowlog
+### 清理slowlog
 
 - 查看show query log位置
 

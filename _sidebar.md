@@ -55,6 +55,7 @@
 - **JavaWeb**
     - [Http](JavaWeb/Http.md)
     - [JavaWeb核心](JavaWeb/JavaWeb核心.md)
+    - [Java发送HTTP请求](JavaWeb/Java发送HTTP请求.md)
     - [Restful](JavaWeb/Restful.md)
     - [跨域](JavaWeb/跨域.md)
 - **数据库**

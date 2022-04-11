@@ -516,7 +516,79 @@ SELECT IF(1>2, 2, 3)
 SELECT if (1<2, 'yes', 'no')
 ```
 
+### 日期函数
 
+[详见官方文档](https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_curtime)
+
+#### CURDATE
+
+选择当天日期
+
+示例：
+
+```
+mysql> SELECT CURDATE();
+2022-04-09
+```
+
+#### CURTIME
+
+选择当前时间
+
+示例：
+
+```
+mysql> SELECT CURTIME();
+23:50:26
+```
+
+#### DATE_ADD/DATE_SUB
+
+格式：
+
+```
+DATE_ADD(date,INTERVAL expr unit), DATE_SUB(date,INTERVAL expr unit)
+```
+
+示例：
+
+- 选择指定日期后一天
+
+  ```
+  mysql> SELECT DATE_ADD('2018-05-01',INTERVAL 1 DAY);
+  2018-05-02
+  ```
+
+- 选择指定日期前一年
+
+  ```
+  mysql> SELECT DATE_SUB('2018-05-01',INTERVAL 1 YEAR);
+  2017-05-01
+  ```
+
+- 选择昨天0点
+
+  ```
+  mysql> SELECT DATE_FORMAT( DATE_SUB(CURDATE(), INTERVAL 1 DAY), '%Y-%m-%d 00:00:00')
+  2022-04-08 00:00:00
+  ```
+
+#### DATE_FORMAT
+
+按照指从的格式对日期进行格式化。
+
+```
+DATE_FORMAT(date,format)
+```
+
+例如：
+
+- 指定为时间格式：
+
+  ```
+  mysql> SELECT DATE_FORMAT('2007-10-04 22:23:00', '%H:%i:%s');
+  22:23:00
+  ```
 
 ### NVL
 
