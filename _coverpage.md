@@ -4,6 +4,6 @@
 
 # wujunnan's summary
 
-[GitHub](https://github.com/junnanwu/docs)
+[GitHub](https://github.com/junnanwu/junnanwu.github.io)
 [Get Started](README.md)
 
