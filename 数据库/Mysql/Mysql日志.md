@@ -1,8 +1,6 @@
 # Mysql日志
 
-## binlog
-
-> Prior to MySQL 5.7.7, statement-based format was the default. In MySQL 5.7.7 and later, row-based format is the default.
+## bin log
 
 记录了所有的DDL和DML语句
 
@@ -13,15 +11,41 @@
 
 可以借助mysql自带的mysqlbinlog工具可以查看binlog。
 
-**查看binlog日志保留日期**
+- `expire_logs_days`
 
-```mysql
-show variables like '%expire_logs_days%';
+  **查看binlog日志保留日期**
+
+  ```mysql
+  show variables like '%expire_logs_days%';
+  ```
+
+  默认值是`0`，意味着不自动删除日志。
+
+### bin log格式
+
+> Prior to MySQL 5.7.7, statement-based format was the default. In MySQL 5.7.7 and later, row-based format is the default.
+
+bin log有三种格式：
+
+- statement-based
+
+  基于语句的记录
+
+- row-based
+
+  基于表的行的变化来记录
+
+- mixed logging
+
+  这种模式下，优先使用基于语句模式
+
+查看binlog存储格式：
+
+```
+show variables like '%binlog_format%';
 ```
 
-默认值是`0`，意味着不自动删除日志。
-
-### 查看binlog
+### 查看bin log
 
 格式：
 
@@ -209,7 +233,7 @@ PURGE { BINARY | MASTER } LOGS {
 
 
 
-## slowlog
+## slow query log
 
 慢查询由查询时间超过`long_query_time` 或查询行数超出`min_examined_row_limit`的语句组成。
 
