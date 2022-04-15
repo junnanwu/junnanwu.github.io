@@ -1,12 +1,8 @@
 # Mysql日志
 
-
-
-> Prior to MySQL 5.7.7, statement-based format was the default. In MySQL 5.7.7 and later, row-based format is the default.
-
 ## binlog
 
-[详见官方文档](https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html)
+> Prior to MySQL 5.7.7, statement-based format was the default. In MySQL 5.7.7 and later, row-based format is the default.
 
 记录了所有的DDL和DML语句
 
@@ -25,9 +21,7 @@ show variables like '%expire_logs_days%';
 
 默认值是`0`，意味着不自动删除日志。
 
-
-
-### mysqlbinlog
+### 查看binlog
 
 格式：
 
@@ -177,15 +171,9 @@ DELIMITER ;
 
 从而找到了完整的删除语句，可以使用insert语句再次插入。
 
-### 删除binlog日志
+### 删除binlog
 
-手动删除
-
-非主从数据库：
-
-`reset master`
-
-删除所有binlog日志文件，清空索引，重新开始新的日志文件。
+非主从数据库删除所有binlog日志文件，清空索引，重新开始新的日志文件。
 
 ```
 reset master;
@@ -223,11 +211,117 @@ PURGE { BINARY | MASTER } LOGS {
 
 ## slowlog
 
+慢查询由查询时间超过`long_query_time` 或查询行数超出`min_examined_row_limit`的语句组成。
+
 > The slow query log consists of SQL statements that take more than `long_query_time` seconds to execute and require at least `min_examined_row_limit` rows to be examined. 
 
-默认情况下，slow query日志是关闭的，其默认值为10
+默认情况下，slow query日志是关闭的。
 
-### 清理slowlog
+- 查看slow query  log是否开启
+
+  ```
+  show variables like 'slow_query_log';
+  ```
+
+- 查看`long_query_time` 
+
+  ```
+  show variables like '%long_query_time%';
+  ```
+
+  最小值为`0`，默认值为`10`
+
+- 查看`min_examined_row_limit`
+
+  ```
+  show variables like '%min_examined_row_limit%';
+  ```
+
+  最小值为`0`，默认值为`0`
+
+- `log_slow_admin_statements`
+
+  是否记录管理员语句
+
+-  `log_queries_not_using_indexes` 
+
+  是否将不使用索引的语句记录入slow query log
+
+  （不会记录少于2行的表）
+
+- `log_throttle_queries_not_using_indexes`
+
+  开启上述变量后，可以使用该变量来控制记录不使用索引语句的速率 
+
+### 查看slow query log
+
+可以使用mysqldumpslow来查看slow query log
+
+格式：
+
+```
+mysqldumpslow [options] [log_file ...]
+```
+
+选项：
+
+- `-a`
+
+  不要将数值展示为N，字符串展示为S
+
+- `-r`
+
+  输出结果反转排序
+
+- `-g`
+
+  输出匹配的结果
+
+- `-s`
+
+  输出排序后的结果
+
+- `-t N`
+
+  输出前N个结果
+
+例如：
+
+(此mysql的`long_query_time`为`0.2`)
+
+```
+./mysqldumpslow -a /data/mysql/logs/my3306/slowlog/mysql-slow.log-2022041510
+
+Reading mysql slow query log from /data/mysql/logs/my3306/slowlog/mysql-slow.log-2022041510
+Count: 1  Time=0.44s (0s)  Lock=0.00s (0s)  Rows=1431.0 (1431), data_web[data_web]@[127.0.0.1]
+  SELECT action_content ->> '$.properties.tag_id' AS tagId FROM sys_log WHERE action_content ->> '$.properties.tag_id' != '' AND log_time >= '2022-01-15 10:45:21.257'
+
+Count: 1  Time=0.42s (0s)  Lock=0.00s (0s)  Rows=21.0 (21), data_web[data_web]@[127.0.0.1]
+  SELECT id,column_guid,table_guid,table_name,column_name,column_type,has_parent,column_comment,column_business_logic,column_calculation_logic,column_data_standard,is_primary_key,is_foreign_key,process_rule,create_time,update_time,create_user,update_user,is_sync,sensitive_type  FROM warehouse_table_column_info  WHERE  table_guid = 'odps.hsz_sap.ods_ftsp_kh_qy_ztxx_record_ctd'
+
+Count: 1  Time=0.42s (0s)  Lock=0.00s (0s)  Rows=1431.0 (1431), data_web[data_web]@[127.0.0.1]
+  SELECT action_content ->> '$.properties.tag_id' AS tagId FROM sys_log WHERE action_content ->> '$.properties.tag_id' != '' AND log_time >= '2022-01-15 10:01:20.789'
+```
+
+字段解释：
+
+- Time
+
+  查询时间
+
+- Lock
+
+  获取锁的时间
+
+- Rows
+
+  向客户端发送的条数
+
+注意：
+
+- 从Mysql 5.7.38开始，错误语法语句不会被记录入slow query log
+
+### 清理slow qurey log
 
 - 查看show query log位置
 
@@ -241,10 +335,10 @@ PURGE { BINARY | MASTER } LOGS {
   $ > mysql-slow.log
   ```
 
-  
 
 
 
 ## References
 
+1. https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html
 1. https://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html

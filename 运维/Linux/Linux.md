@@ -1545,6 +1545,53 @@ curl来自client的URL工具，用于请求Web服务器
 
   参数将服务器回应保存成文件，并将 URL 的最后部分当作文件名。
 
+### dig
+
+dig (domain information groper) DNS查询工具
+
+例如：
+
+- 查询域名解析的IP地址
+
+  ```
+  $ dig junnanwu.com
+  
+  ; <<>> DiG 9.10.6 <<>> junnanwu.com
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 20792
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+  
+  ;; QUESTION SECTION:
+  ;junnanwu.com.			IN	A
+  
+  ;; ANSWER SECTION:
+  junnanwu.com.		600	IN	A	185.199.108.153
+  
+  ;; Query time: 59 msec
+  ;; SERVER: 114.114.114.114#53(114.114.114.114)
+  ;; WHEN: Tue Apr 12 22:08:32 CST 2022
+  ;; MSG SIZE  rcvd: 46
+  ```
+
+  解析：
+
+  1. 第一部分为dig命令的版本和输出参数
+  2. 第二部分为显示服务返回的一些技术详情，status状态为NOERROR则表示本次查询结束
+  3. 第三部分QUESTION SECTION为我们要查询的域名
+  4. 第四部分ANSWER SECTION为查询的结果，其中600位DNS的缓存时间，单位为秒
+  5. 第五部分为本次查询的一些统计信息，例如用时，查询了哪个DNS服务器，查询时间等
+
+- 简短输出
+
+  ```
+  $ dig +short baidu.com
+  220.181.38.251
+  220.181.38.148
+  ```
+
+
+
 ## 理解输入输出
 
 ### 标准文件描述符
