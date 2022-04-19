@@ -79,8 +79,13 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
 
 上述测试，还有很多疑问没有解决，涉及到mysql对语句的优化了，查看了优化后的语句也是比较复杂，没有明确的得出结论，哪种in的子查询能否导致这种情况。
 
+[官方文档](https://dev.mysql.com/doc/refman/5.7/en/rewriting-subqueries.html)同样推荐用join语句替换in子查询：
+
+> A `LEFT [OUTER] JOIN` can be faster than an equivalent subquery because the server might be able to optimize it better
+
 故在生产中，慎重在mysql的in中使用子查询，可能会导致查询速度非常慢，最好通过改写成jion语句的方式来解决，或加索引、临时表等方式。
 
 ## References
 
 1. https://dev.mysql.com/doc/refman/5.7/en/subquery-optimization-with-exists.html
+1. https://dev.mysql.com/doc/refman/5.7/en/rewriting-subqueries.html
