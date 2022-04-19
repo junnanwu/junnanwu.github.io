@@ -39,6 +39,55 @@ Mysql隐式默认值的定义：
 
 ### 修改表结构
 
+#### 修改索引
+
+- 查看索引
+
+  ```
+  show index from table;
+  ```
+
+- 创建索引
+
+  ```
+  ALTER TABLE table_name ADD {INDEX | KEY} [index_name] [index_type] (key_part,...) [index_option] ...
+  
+  key_part:
+      col_name [(length)] [ASC | DESC]
+  
+  index_type:
+      USING {BTREE | HASH}
+      
+  index_option: {
+      KEY_BLOCK_SIZE [=] value
+    | index_type
+    | WITH PARSER parser_name
+    | COMMENT 'string'
+  }
+  ```
+
+- 删除索引
+
+  ```
+  ALTER TABLE table_name DROP {INDEX | KEY} index_name
+  ```
+
+### 创建索引
+
+格式：
+
+```
+CREATE [UNIQUE | FULLTEXT | SPATIAL] INDEX index_name
+    [index_type]
+    ON tbl_name (key_part,...)
+    [index_option]
+    [algorithm_option | lock_option] ...
+```
+
+```
+ALTER TABLE table_name ADD INDEX index_name ( column )
+```
+
 
 
 ## DML
@@ -408,3 +457,7 @@ KILL [CONNECTION | QUERY] processlist_id
   -- illegal
   $> mysql --max_allowed_packet=16*1024*1024
   ```
+
+## References
+
+1. https://dev.mysql.com/doc/refman/5.7/en/create-index.html

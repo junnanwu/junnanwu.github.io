@@ -645,38 +645,33 @@ root
 
 sudo命令用来以其他身份来执行命令，预设的身份为root。在/etc/sudoers中设置了可执行sudo指令的用户。若其未经授权的用户企图使用sudo，则会发出警告的邮件给管理员。用户使用sudo时，必须先输入密码，之后有5分钟的有效期限，超过期限则必须重新输入密码。 
 
-赋予普通用户root权限：
+例如：
 
-修改 /etc/sudoers 文件，找到下面一行
+- 允许用户aaa执行sudo命令(需要输入密码)
 
-```
-Allows people in group wheel to run all commands
-root ALL=(ALL) ALL
-```
-
-然后添加一行，获取root权限aaa
-
-```
-aaa  ALL=(ALL)  ALL
-```
-
-修改完毕，现在可以用aaa帐号登录，然后用命令 sudo(选项)(参数) ，即可获得临时root权限进行操作。
-
-ps:这里说下你可以sudoers添加下面四行中任意一条
-
-```
+  ```
   aaa       ALL=(ALL)         ALL
+  ```
+
+- 允许用户组aaa里面的用户执行sudo命令(需要输入密码)
+
+  ```
   %aaa      ALL=(ALL)         ALL
+  ```
+
+- 允许用户qie执行sudo命令,并且在执行的时候不输入密码
+
+  ```
   aaa       ALL=(ALL)         NOPASSWD: ALL
-  %aaa      ALL=(ALL)         NOPASSWD: ALL
-```
+  ```
 
-- 第一行:允许用户qie执行sudo命令(需要输入密码)
-- 第二行:允许用户组qie里面的用户执行sudo命令(需要输入密码)
-- 第三行:允许用户qie执行sudo命令,并且在执行的时候不输入密码
-- 第四行:允许用户组qie里面的用户执行sudo命令,并且在执行的时候不输入密码
+- 允许用户组qie里面的用户执行sudo命令,并且在执行的时候不输入密码
 
-现在让我们来看一下那三个ALL到底是什么意思。
+  ```
+    %aaa      ALL=(ALL)         NOPASSWD: ALL
+  ```
+
+三个ALL：
 
 - 第一个ALL是指网络中的主机，可以将它改成localhost=，它指明foobar可以在此主机上执行后面的命令。
 
@@ -708,6 +703,7 @@ sudo的时候，由于有`env_reset`，所以使环境变量重置了，但是�
 $ sudo ln -s /usr/local/jdk1.8/bin/javac /usr/bin
 ```
 
-[Reference1](https://blog.csdn.net/q290994/article/details/77448626)
+## References
 
-[Reference2](https://www.cnblogs.com/wazy/p/8352369.html)
+1. https://blog.csdn.net/q290994/article/details/77448626
+2. https://www.cnblogs.com/wazy/p/8352369.html

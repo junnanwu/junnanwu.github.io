@@ -360,8 +360,6 @@ Count: 1  Time=0.42s (0s)  Lock=0.00s (0s)  Rows=1431.0 (1431), data_web[data_we
   ```
 
 
-
-
 ## References
 
 1. https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html
