@@ -75,6 +75,8 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
 
 ![image-20220419215223346](Mysql%E8%B0%83%E4%BC%98_assets/explain-without-index.png)
 
+在某些in子查询的情况下，会扫描大量行，从而查询速度变慢。
+
 ### 结论
 
 上述测试，还有很多疑问没有解决，涉及到mysql对语句的优化了，查看了优化后的语句，发现也是比较复杂，没有明确的得出结论，哪种in的子查询能否导致这种情况。
