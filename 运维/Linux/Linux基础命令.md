@@ -653,14 +653,6 @@ test.txt内容如下（末尾有个换行符）：
   0000005
   ```
 
-### sorts
-
-对数据进行排序，按照规则对文本文件中的数据行进行排序。
-
-- `-M` 按月排序
-
-  当日志文件按照月份在前的时候，可以使用该参数
-
 ### sort
 
 格式：
@@ -748,12 +740,26 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
 
 ### find
 
+格式：
+
+```
+find [-H] [-L] [-P] [-Olevel] [-D help|tree|search|stat|rates|opt|exec] [path...] [expression]
+```
+
+EXPRESSIONS：
+
+
+
+
+
+
+
 举例：
 
 - 在目录下査找文件名是`yum.conf`的文件（按照文件名搜索，不区分文件名大小）
 
   ```
-  $ find /-name yum.conf
+  $ find / -name yum.conf
   ```
 
 - 指定递归深度
@@ -1033,6 +1039,24 @@ $ cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c
 $ cat /etc/centos-release
 ```
 
+### 查看shell
+
+#### 查看有哪些shell
+
+```
+$ cat /etc/shells
+```
+
+#### 查看当前使用的shell
+
+```
+$ echo $SHELL
+/bin/zsh
+```
+
+
+
 ## References
 
 1. https://www.howtogeek.com/423214/how-to-use-the-rename-command-on-linux/
+1. https://www.tecmint.com/find-and-sort-files-modification-date-and-time-in-linux/
