@@ -8,7 +8,7 @@ EOF
 set -e
 alias sed='gsed'
 echo '删除已有排行...'
-start_line=$[`gsed -n '/^## 最近新增\/修改TOP$/=' README.md`+1]
+start_line=$[`gsed -n '/^## 最近新增\/修改$/=' README.md`+1]
 end_line=$[($start_line + 10)]
 gsed -i "${start_line},${end_line}d" README.md
 echo '已删除旧排行'
