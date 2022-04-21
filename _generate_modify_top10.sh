@@ -17,7 +17,7 @@ top10=""
 index=1
 IFS_OLD=$IFS 
 IFS=$'\n' 
-for line in `gfind ./ -name '*.md' -printf "\n%AD %AT %p %f" |grep -v 'README'|grep -v 'sidebar'| sort -k1.7,1.8nr -k1.1,1.2rn -k1.4,1.5rn -k2.1,2.2rn -k2.4,2.5rn|head`
+for line in `gfind ./ -name '*.md' -printf "\n%AD %AT %p %f" |grep -v 'README'|grep -v 'sidebar'| sort -t' ' -k1.7,1.8nr -k1.1,1.2rn -k1.4,1.5rn -k2.1,2.2rn -k2.4,2.5rn|head`
 do
 	file0=$(echo $line | cut -d' ' -f4)_
 	file=${file0%.*}
