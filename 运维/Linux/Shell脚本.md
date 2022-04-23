@@ -159,6 +159,26 @@ var3=$(echo "scale=4; $var1 / $var2" | bc)
 echo The answer for this is $var3
 ```
 
+#### 自增
+
+- 中括号
+
+  ```
+  a=$[$a+1]
+  ```
+
+- 双括号
+
+  ```
+  ((a++))
+  ```
+
+- $+双括号
+
+  ```
+  a=$(($a+1))
+  ```
+
 ### 参数扩展
 
 [详见此](https://wiki.bash-hackers.org/syntax/pe)

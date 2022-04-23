@@ -20,8 +20,3 @@
   String yesterdayString = simpleDateFormat.format(yesterday);
   System.out.println(yesterdayString);
   ```
-
-
-
-
-

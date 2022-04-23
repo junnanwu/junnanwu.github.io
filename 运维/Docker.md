@@ -4,9 +4,7 @@
 
 Docker 是一个开源的应用容器引擎，Docker可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上。
 
-Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE（Enterprise Edition: 企业版）
-
-本文基于CentOS7 安装Docker
+本文基于CentOS7 安装Docker。
 
 ## 安装Docker
 
@@ -28,43 +26,43 @@ Docker 从 17.03 版本之后分为 CE（Community Edition: 社区版） 和 EE�
 - 使用官方安装脚本自动安装
 
   ```
-  curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+  $ curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
   ```
 
   也可以使用国内 daocloud 一键安装命令：
 
   ```
-  curl -sSL https://get.daocloud.io/docker | sh
+  $ curl -sSL https://get.daocloud.io/docker | sh
   ```
 
 - 启动Docker
 
   ```
-  systemctl start docker
+  $ systemctl start docker
   ```
 
 - 重启Docker
 
   ```
-  systemctl restart  docker
+  $ systemctl restart  docker
   ```
 
 - 关闭docker 
 
   ```
-  systemctl stop docker
+  $ systemctl stop docker
   ```
 
 - 查看是否启动成功
 
   ```
-  docker ps -a
+  $ docker ps -a
   ```
   
 - 查看日志
 
   ```
-  docker logs CONTAINER ID(容器id)
+  $ docker logs CONTAINER ID(容器id)
   ```
 
 ## Docker架构
@@ -82,20 +80,20 @@ Docker 包括三个基本概念:
 查看docker镜像
 
 ```
-docker info
+$ docker info
 ```
 
 配置阿里云镜像
 
 ```
-sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <<-'EOF'
+$ sudo mkdir -p /etc/docker
+$ sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": ["https://afi5x6i2.mirror.aliyuncs.com"]
 }
 EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart docker
 ```
 
 ## Dorker镜像相关命令
@@ -103,19 +101,19 @@ sudo systemctl restart docker
 - 查看本地所有镜像
 
   ```
-  docker images
+  $ docker images
   ```
 
 - 从网络查找相关镜像
 
   ```
-  docker search 镜像名称
+  $ docker search 镜像名称
   ```
 
 - 拉取镜像
 
   ```
-  docker pull mysql:5.7
+  $ docker pull mysql:5.7
   ```
 
   从Docker仓库下载镜像到本地，镜像名称格式为 名称:版本号，如果版本号不指定则是最新的版本
@@ -123,7 +121,7 @@ sudo systemctl restart docker
 - 删除本地镜像
 
   ```
-  docker rmi 镜像id   //i(image)
+  $ docker rmi 镜像id   //i(image)
   ```
 
 ## Docker容器相关命令
@@ -131,187 +129,77 @@ sudo systemctl restart docker
 - 查看正在运行的容器
 
   ```
-  docker ps 
+  $ docker ps 
   ```
 
 - 查看所有容器
 
   ```
-  docker ps -a
+  $ docker ps -a
   ```
 
 - 新建容器
 
   ```
-  docker run 参数
-  docker run -it --name=c1 centos:7 /bin/bash #交互式容器
-  docker run -id --name=c2 centos:7  #守护式容器
+  $ docker run 参数
+  $ docker run -it --name=c1 centos:7 /bin/bash #交互式容器
+  $ docker run -id --name=c2 centos:7  #守护式容器
   ```
 
   新建mysql容器
 
   ```
-  docker run -it --name=mysql mysql:5.7 /bin/bash
+  $ docker run -it --name=mysql mysql:5.7 /bin/bash
   ```
 
 - 进入容器
 
   ```
-  docker exec -it mysql /bin/bash 
+  $ docker exec -it mysql /bin/bash 
   ```
 
 - 启动容器
 
   ```
-  docker start 容器名称
+  $ docker start 容器名称
   ```
 
 - 关闭容器
 
   ```
-  docker stop 容器名称
+  $ docker stop 容器名称
   ```
 
 - 删除容器：如果容器是运行状态则删除失败，需要停止容器才能删除
 
   ```
-  docker rm 容器名称
+  $ docker rm 容器名称
   ```
 
 - 查看容器信息（IP）
 
   ```
-  docker inspect 容器名称
+  $ docker inspect 容器名称
   ```
 
 - 容器开机自启动
 
   ```
-  docker update --restart=always 容器名|容器ID
+  $ docker update --restart=always 容器名|容器ID
   ```
 
 - 目录挂载
 
   ```
-  docker run -id --name=容器名 -v 宿主机的目录:容器的目录 镜像名:镜像版本
+  $ docker run -id --name=容器名 -v 宿主机的目录:容器的目录 镜像名:镜像版本
   ```
-
-## Docker应用部署
-
-- mysql
-
-  ```
-  docker run -id \
-  -p 3307:3306 \
-  --name=c_mysql \
-  -v $PWD/conf:/etc/mysql/conf.d \
-  -v $PWD/logs:/logs \
-  -v $PWD/data:/var/lib/mysql \
-  -e MYSQL_ROOT_PASSWORD=root \
-  mysql:5.7
-  ```
-
-  参数说明：
-
-  - **-p 3307:3306**：将容器的 3306 端口映射到宿主机的 3307 端口。
-  - **-v $PWD/conf:/etc/mysql/conf.d**：将主机当前目录下的 conf/my.cnf 挂载到容器的 /etc/mysql/my.cnf。配置目录
-  - **-v $PWD/logs:/logs**：将主机当前目录下的 logs 目录挂载到容器的 /logs。日志目录
-  - **-v $PWD/data:/var/lib/mysql** ：将主机当前目录下的data目录挂载到容器的 /var/lib/mysql 。数据目录
-  - **-e MYSQL_ROOT_PASSWORD=123456：**初始化 root 用户的密码。
-
-- tomcat
-
-  ```
-  docker run -id --name=c_tomcat \
-  -p 8081:8080 \
-  -v /root/tomcat:/usr/local/tomcat/webapps \
-  tomcat
-  ```
-
-- Nginx
-
-  ```
-  # 在/root目录下创建nginx目录用于存储nginx数据信息
-  mkdir ~/nginx
-  cd ~/nginx
-  mkdir conf
-  cd conf
-  # 在~/nginx/conf/下创建nginx.conf文件,粘贴下面内容
-  vim nginx.conf
-  ```
-
-  ```
-  user  nginx;
-  worker_processes  1;
-  
-  error_log  /var/log/nginx/error.log warn;
-  pid        /var/run/nginx.pid;
-  
-  
-  events {
-      worker_connections  1024;
-  }
-  
-  
-  http {
-      include       /etc/nginx/mime.types;
-      default_type  application/octet-stream;
-  
-      log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                        '$status $body_bytes_sent "$http_referer" '
-                        '"$http_user_agent" "$http_x_forwarded_for"';
-  
-      access_log  /var/log/nginx/access.log  main;
-  
-      sendfile        on;
-      #tcp_nopush     on;
-  
-      keepalive_timeout  65;
-  
-      #gzip  on;
-  
-      include /etc/nginx/conf.d/*.conf;
-  }
-  ```
-
-  ```
-  #切至 /root/nginx 目录下
-  cd ~/nginx
-  docker run -id --name=c_nginx \
-  -p 80:80 \
-  --privileged=true \
-  -v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf \
-  -v $PWD/logs:/var/log/nginx \
-  -v $PWD/html:/usr/share/nginx/html \
-  nginx
-  ```
-
-  参数说明：
-
-  - **-p 80:80**：将容器的 80端口映射到宿主机的 80 端口。
-  - **-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf**：将主机当前目录下的 /conf/nginx.conf 挂载到容器的 :/etc/nginx/nginx.conf。配置目录
-  - **-v $PWD/logs:/var/log/nginx**：将主机当前目录下的 logs 目录挂载到容器的/var/log/nginx日志目录
-
-- Redis
-
-  ```
-  docker run -id --name=c_redis -p 6379:6379 redis
-  ```
-  
-- rabbitMQ
-
-  ```
-  docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
-  ```
-
-  
 
 ## dockerfile
 
 制作镜像的两种方式，一种是将容器提交为镜像
 
 ```
-docker commit 容器ID|容器名 镜像名:镜像版本
+$ docker commit 容器ID|容器名 镜像名:镜像版本
 ```
 
 手动编写dockerfile
@@ -343,7 +231,7 @@ docker commit 容器ID|容器名 镜像名:镜像版本
   没有开启转发,网桥配置完后，需要开启转发，不然容器启动后，就会没有网络，配置`/etc/sysctl.conf`,添加`net.ipv4.ip_forward=1`
 
   ```
-  vim /etc/sysctl.conf
+  $ vim /etc/sysctl.conf
   
   #配置转发
   #检查系统设置，打开IPv4转发
@@ -357,13 +245,10 @@ docker commit 容器ID|容器名 镜像名:镜像版本
   sysctl net.ipv4.ip_forward
   ```
 
-  [Reference](https://blog.csdn.net/yelllowcong/article/details/78295600)
 
 ## 为什么Docker镜像那么小
 
 ### 为什么Docker的centOS镜像那么小?
-
-![使用docker pull 下载的镜像为什么只有几百兆？](Docker_assets/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=.png)
 
 Linux操作系统分别由两部分组成
 
@@ -379,11 +264,9 @@ Linux操作系统分别由两部分组成
 
 ### 为什么Docker中的镜像那么小？例如HelloWord
 
-[Reference](https://blog.csdn.net/shlazww/article/details/47375009)
-
 通过docker build以上Dockerfile的时候，会在Ubuntu:14.04镜像基础上，添加三层独立的镜像，依次对应于三条不同的命令。镜像示意图如下：
 
-![镜像](Docker_assets/20150809123859183.png)
+![镜像](Docker_assets/docker_image.png)
 
 不得不说，在层级化管理的Docker镜像中，有不少层大小都为0。那些镜像层大小`不为0`的情况，归根结底的原因是：构建Docker镜像时，对当前的文件系统造成了修改更新。而修改更新的情况主要有两种：
 
@@ -441,7 +324,7 @@ UTC为标准时间，为格林威治时间
   之后显示时间是正常的，这时候就是中国时间CST了，即东八区
 
   ```
-  root@7ea093bca245:/# date
+  # date
   Thu Dec 17 15:37:31 CST 2020
   ```
 
@@ -452,11 +335,6 @@ UTC为标准时间，为格林威治时间
   RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
   ```
 
-#### docker运行rabbitmq15672端口连接不上
+## References
 
-进入rabbitmq之后，安装插件
-
-```
-rabbitmq-plugins enable rabbitmq_management
-```
-
+1. https://blog.csdn.net/shlazww/article/details/47375009

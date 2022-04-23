@@ -70,7 +70,7 @@ ER结构：
   | OUTPUT_FORMAT             | 文件输出格式     | org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat |
   | SERDE_ID                  | 序列化类ID       | 41，对应SERDES表                                           |
 
-## Reference
+## References
 
 1. https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration
 2. http://hadooptutorial.info/hive-metastore-configuration/

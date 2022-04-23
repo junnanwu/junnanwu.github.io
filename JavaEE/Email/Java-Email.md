@@ -17,5 +17,3 @@
 ## References
 
 1. https://javaee.github.io/javamail/FAQ#badaddr
-
-   

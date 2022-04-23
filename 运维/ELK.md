@@ -107,5 +107,9 @@ multiline.match: after
 - 后台启动
 
   ```
-  sudo nohup ./filebeat -e -c filebeat.yml -d publish &
+  $ sudo nohup ./filebeat -e -c filebeat.yml -d publish &
   ```
+
+## References
+
+1. https://www.elastic.co/guide/en/beats/filebeat/current/index.html
