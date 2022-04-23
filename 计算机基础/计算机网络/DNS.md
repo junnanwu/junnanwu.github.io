@@ -36,7 +36,7 @@ DNS有大量分布在世界范围的服务器，有三种类型：
 
 层次关系如下图所示：
 
-![image-20220423223435921](DNS_assets/DNS_server_level.png)
+![DNS_server_level](DNS_assets/DNS_server_level.png)
 
 假设一个客户要获取`www.amazon.com`的IP地址：
 
@@ -48,7 +48,7 @@ DNS有大量分布在世界范围的服务器，有三种类型：
 
 还有一个属于本地DNS服务器，每个IPS都有一台本地的DNS服务器，起着代理客户端的作用，如下图所示：
 
-<img src="DNS_assets/DNS_local_server.png"/>
+![DNS_local_server](DNS_assets/DNS_local_server.png)
 
 ### DNS缓存
 
