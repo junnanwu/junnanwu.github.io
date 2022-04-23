@@ -48,7 +48,7 @@ DNS有大量分布在世界范围的服务器，有三种类型：
 
 还有一个属于本地DNS服务器，每个IPS都有一台本地的DNS服务器，起着代理客户端的作用，如下图所示：
 
-<img src="DNS_assets/DNS_local_server.png" alt=DNS_local_server style="zoom:50%;" />
+<img src="DNS_assets/DNS_local_server.png"/>
 
 ### DNS缓存
 
