@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](个人/关于本站.md)。
 
 ## 最近新增/修改
-1. [关于本站](个人/关于本站.md)
-2. [LinuxShell](运维/Linux/LinuxShell.md)
-3. [Shell脚本](运维/Linux/Shell脚本.md)
-4. [Linux基础命令](运维/Linux/Linux基础命令.md)
-5. [IDEA](工具/Mac/IDEA.md)
-6. [Mac](工具/Mac/Mac.md)
-7. [Mysql调优](数据库/Mysql/Mysql调优.md)
-8. [Mysql-EXPLAIN](数据库/Mysql/Mysql-EXPLAIN.md)
-9. [Mysql语句](数据库/Mysql/Mysql语句.md)
-10. [Linux网络](运维/Linux/Linux网络.md)
+1. [DNS](计算机基础/计算机网络/DNS.md)
+2. [_HTML](前端/_HTML.md)
+3. [HTTPS](计算机基础/计算机网络/HTTPS.md)
+4. [NAT](计算机基础/计算机网络/NAT.md)
+5. [Java邮件](JavaEE/Java邮件.md)
+6. [Log4j2漏洞](JavaEE/Log4j2漏洞.md)
+7. [Guava](JavaEE/Guava.md)
+8. [Email-Protocol](计算机基础/计算机网络/Email-Protocol.md)
+9. [IP地址](计算机基础/计算机网络/IP地址.md)
+10. [正则表达式](计算机基础/正则表达式.md)
 

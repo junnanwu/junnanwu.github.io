@@ -31,10 +31,8 @@
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
     - **Email**
       - [Java-Email](JavaEE/Email/Java-Email.md)
-    - **Freemarker**
-      - [Freemarker入门](JavaEE/Freemarker/Freemarker入门.md)
     - [Guava](JavaEE/Guava.md)
-    - [Java发送邮件](JavaEE/Java发送邮件.md)
+    - [Java邮件](JavaEE/Java邮件.md)
     - [Java日志框架](JavaEE/Java日志框架.md)
     - [Log4j2漏洞](JavaEE/Log4j2漏洞.md)
     - **Spring**
@@ -72,7 +70,6 @@
     - **Hive**
       - [Hive](数据库/Hive/Hive.md)
       - [HiveMetaStore](数据库/Hive/HiveMetaStore.md)
-      - [阿里数仓历史数据迁移Hive](数据库/Hive/阿里数仓历史数据迁移Hive.md)
     - **Kafka**
       - [Kafka入门](数据库/Kafka/Kafka入门.md)
       - [SpringKafka](数据库/Kafka/SpringKafka.md)
@@ -97,17 +94,13 @@
     - [浮点数](计算机基础/浮点数.md)
     - [关于时间](计算机基础/关于时间.md)
     - [字符编码](计算机基础/字符编码.md)
-    - [数据结构](计算机基础/数据结构.md)
     - **计算机网络**
+      - [DNS](计算机基础/计算机网络/DNS.md)
       - [Email-Protocol](计算机基础/计算机网络/Email-Protocol.md)
       - [HTTPS](计算机基础/计算机网络/HTTPS.md)
       - [IP地址](计算机基础/计算机网络/IP地址.md)
       - [NAT](计算机基础/计算机网络/NAT.md)
-      - [SSL证书](计算机基础/计算机网络/SSL证书.md)
-      - [域名解析](计算机基础/计算机网络/域名解析.md)
-    - [反码与补码](计算机基础/反码与补码.md)
     - [正则表达式](计算机基础/正则表达式.md)
-    - [彻底理解转义字符](计算机基础/彻底理解转义字符.md)
 - **运维**
     - [Docker](运维/Docker.md)
     - [ELK](运维/ELK.md)
@@ -131,7 +124,6 @@
       - [linux监测](运维/Linux/linux监测.md)
       - [linux简介](运维/Linux/linux简介.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
-    - [远程部署项目](运维/远程部署项目.md)
 - **工具**
     - **Build**
       - [Gradle](工具/Build/Gradle.md)
@@ -164,8 +156,8 @@
       - [zookeeper入门](工具/zookeeper/zookeeper入门.md)
 - **前端**
     - [JavaScript](前端/JavaScript.md)
-    - [前端](前端/前端.md)
-    - [前端实战](前端/前端实战.md)
+    - [TypeScript](前端/TypeScript.md)
+    - [VUE](前端/VUE.md)
 - **算法**
     - [算法题](算法/算法题.md)
     - [加密算法](算法/加密算法.md)
