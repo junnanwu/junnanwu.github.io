@@ -123,6 +123,20 @@ $ ssh-keygen -t ed25519
    $ ssh-keygen -t ecdsa -C "wujunnan-ECDSA"
    ```
 
+### 第一次连接ssh
+
+会弹出如下框：
+
+```
+The authenticity of host '<<IP address>>' port <<port#>>: can't be established.
+ECDSA key fingerprint is SHA256:<<blahblahblahblahblahblah>>.
+Are you sure you want to continue connecting (yes/no)?  
+```
+
+当你选择了`yes`，这个host的摘要信息就会被添加到`~/.ssh/known_hosts`，也就是你信任的主机摘要。
+
+这样做的好处就是当你连接的host被中间人攻击的时候（中间人攻击参考[HTTPS](../../计算机基础/计算机网络/HTTPS)），也就是劫持了目标host，那么此摘要就会变化，从而SSH就会发出告警。
+
 ## scp
 
 scp是secure copy的简写，用于在Linux下进行远程拷贝文件的命令
@@ -349,3 +363,4 @@ dig (domain information groper) DNS查询工具
 ## References
 
 1. https://www.ssh.com/academy/ssh/keygen
+1. https://superuser.com/questions/1507193/what-does-this-ssh-message-mean-the-authenticity-of-host-cant-be-establis

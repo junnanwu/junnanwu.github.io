@@ -1093,15 +1093,19 @@ hard  源码也会回退到某个版本,commit和index 都会回退到某个版�
 - 放弃所有文件修改
 
   ```
-  git checkout .
+  $ git checkout .
   ```
 
 - 放弃指定文件
 
   ```
-  git checkout -- filename
+  $ git checkout -- filename
   ```
 
   
 
-​       
+
+
+
+
+## References       
