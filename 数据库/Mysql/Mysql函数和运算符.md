@@ -2,6 +2,34 @@
 
 ## 函数
 
+### LOCATE
+
+- 格式一
+
+  ```
+  LOCATE(substr, str);
+  ```
+
+  返回`substr`在`str`中第一次出现的位置
+
+- 格式二
+
+  ```
+  LOCATE(substr, str, pos);
+  ```
+
+  返回`substr`在`str`的pos位置起第一次出现的位置
+
+例如：
+
+```
+-- 2
+SELECT LOCATE('b','abc');
+
+-- 4
+SELECT LOCATE('b','abcbc',3);
+```
+
 ### IF
 
 `IF(expr1,expr2,expr3)`
@@ -12,15 +40,29 @@
 
 `expr2`和`expr3`是什么类型，那么返回值就是什么类型。
 
-举例：
+例如：
 
-```
--- 3
-SELECT IF(1>2, 2, 3)
+- SELECT语句中使用
 
--- 'yes'
-SELECT if (1<2, 'yes', 'no')
-```
+  ```
+  -- 3
+  SELECT IF(1>2, 2, 3)
+  
+  -- 'yes'
+  SELECT IF (1<2, 'yes', 'no')
+  ```
+
+- WHERE语句中使用
+
+  判断
+
+  ```
+  SELECT *
+  FROM table
+  WHERE IF(a IS NULL, b >= 100, a >= 100);
+  ```
+
+  
 
 ### 日期函数
 

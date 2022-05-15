@@ -1,4 +1,4 @@
-# alaNginx
+# Nginx
 
 ## Nginx的用途
 

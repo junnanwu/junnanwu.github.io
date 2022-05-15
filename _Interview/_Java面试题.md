@@ -179,8 +179,6 @@ public class MergeSort implements IArraySort {
 }
 ```
 
-![img](img/v2-2958d4f3d9dd9156f1b5dca6788fe8a7_1440w.jpg)
-
 #### 快速排序
 
 ```java
@@ -260,8 +258,6 @@ Integer实际是对象的引用，当new一个Integer时，实际上是生成一
 Integer的默认值是null，int的默认值是0
 ```
 
-
-
 ### 抽象静态相关
 
 #### 抽象类可以定义抽象的static方法吗？
@@ -287,19 +283,21 @@ Integer的默认值是null，int的默认值是0
 面向对象的四大特征：
 1. 抽象
 
-  将一类对象的共同特征总结出来构造类的过程，抽象只关注有哪些行为和属性，并不关注这些行为的细节是什么
+   将一类对象的共同特征总结出来构造类的过程，抽象只关注有哪些行为和属性，并不关注这些行为的细节是什么
 
 2. 封装
 
-  封装就是隐藏一切可以隐藏的东西，
+   封装就是隐藏一切可以隐藏的东西，
 
 3. 继承
 
-  从已有的类中继承信息创建新类，派生类可以从它的父类那里继承方法和实例变量
+   从已有的类中继承信息创建新类，派生类可以从它的父类那里继承方法和实例变量
 
 4. 多态
 
-  多态指允许不同的类对同一消息作出响应，方法的重载，重写和动态链接构成多态性，Java引入多态的概念原因之一就是弥补类的单继承带来的不足
+   多态指允许不同的类对同一消息作出响应，方法的重载，重写和动态链接构成多态性，Java引入多态的概念原因之一就是弥补类的单继承带来的不足
+
+
 
 ### String相关
 
@@ -339,11 +337,9 @@ public final class String implements xxx{
 
 #### String  str =  new  String("abc")发生了什么，创建了多少个实例
 
-- 在加载类时，`"abc"`被创建并驻留在了字符创常量池中；
+- 在加载类时，`"abc"`被创建并驻留在了字符串常量池中；
 
 - 当执行此句时，因为`"abc"`对应的String实例已经存在于字符串常量池中，所以JVM会在堆中建立一个String类型的s对象，里面存的是`"abc"`常量池中的地址。
-
-  ![img](img/v2-4cfe138fb2af4f7d9fc701f72133f26e_b.png)[Reference1](https://www.iteye.com/blog/rednaxelafx-774673)
 
   [Reference2](https://zhuanlan.zhihu.com/p/27626724)
 
@@ -411,7 +407,7 @@ s3==s8 => true
 
 - 可拓展
 
-  StringBuilder和StringBuffer都继承了AbstractStringBuilder，AbstractStringBuilder内有两个非常重要的变 量，分别是：
+  StringBuilder和StringBuffer都继承了AbstractStringBuilder，AbstractStringBuilder内有两个非常重要的变量，分别是：
 
   ```
   char[] value; 
@@ -508,12 +504,6 @@ s3==s8 => true
   [Reference2](https://blog.csdn.net/mad1989/article/details/26389541)
 
 ## 集合
-
-### 说说集合
-
-```
-
-```
 
 ### List相关
 
@@ -614,7 +604,7 @@ Node[] table的初始化长度length(默认值是16)
 Load factor为负载因子(默认值是0.75)
 默认的负载因子0.75是对空间和时间效率的一个平衡选择，建议大家不要修改，除非在时间和空间比较特殊的情况下，如果内存空间很多而又对时间效率要求很高，可以降低负载因子Load factor的值；相反，如果内存空间紧张而对时间效率要求不高，可以增加负载因子loadFactor的值。
 为什么是0.75
-当桶中元素到达8个的时候，概率已经变得非常小，也就是说用0.75作为加载因子，每个碰撞位置的链表长度超过８个是几乎不可能的。当桶中元素到达8个的时候，概率已经变得非常小，也就是说用0.75作为加载因子，每个碰撞位置的链表长度超过８个是几乎不可能的。
+当桶中元素到达8个的时候，概率已经变得非常小，也就是说用0.75作为加载因子，每个碰撞位置的链表长度超过８个是几乎不可能的。
 
 threshold是HashMap所能容纳的最大数据量的Node(键值对)个数。threshold = length * Load factor。也就是说，在数组定义好长度之后，负载因子越大，所能容纳的键值对个数越多，实际存储个数如果超过threshold就要进行扩容，扩容后的HashMap容量是之前容量的两倍。
 
@@ -626,8 +616,6 @@ Hashtable初始化桶大小为11
 
 扩容(resize)就是重新计算容量，向HashMap对象里不停的添加元素，而HashMap对象内部的数组无法装载更多的元素时，对象就需要扩大数组的长度，以便能装入更多的元素。当然Java里的数组是无法自动扩容的，方法是使用一个新的数组代替已有的容量小的数组，就像我们用一个小桶装水，如果想装更多的水，就得换大水桶。
 ```
-
-![img](img/v2-bb8ee0ee1c0cc51537ae5f8e02038102_b.jpg)
 
 ```java
 put存入操作源码解析：
@@ -799,10 +787,6 @@ public enum State {
 主动释放资源和执行权，不设置超时时间，需要被唤醒：等待态
 主动释放资源和执行权，设置超时时间，能自动唤醒：超时等待态
 ```
-
-![img](img/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3BhbmdlMTk5MQ==,size_16,color_FFFFFF,t_70.jpeg)
-
-![img](img/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5OTI3NDU=,size_16,color_FFFFFF,t_70.png)
 
 JVM会为一个使用内部锁（synchronized）的对象维护两个集合，**Entry Set**和**Wait Set**，也有人翻译为锁池和等待池，意思基本一致。
 
@@ -1247,10 +1231,6 @@ threadFactory（线程工厂）：用于创建新线程。threadFactory创建的
 handler（线程饱和策略）：当线程池和队列都满了，再加入线程会执行此策略。
 ```
 
-
-
-![image-20210104210844976](img/image-20210104210844976.png)
-
 #### 线程池的拒绝策略
 
 ```
@@ -1327,8 +1307,6 @@ Java的内存结构：
     - 运行时常量池
 
       是方法区的一部分，Class文件中有一部分是常量池，这个常量池是具有动态性的，并不一定只有编译的时候才会产生常量，运行时常量池的内存区域Java虚拟机规范没有做出要求，不同提供商可以自己来实现
-
-      ![这里写图片描述](img/SouthEast.png)
 
 - 线程独享的内存
 
@@ -1607,7 +1585,7 @@ document.cookie = "username=caofeng; path=/; domain=baidu.com"
 
 **CORS**
 
-CORS是一个W3C标准，全称是"跨域资源共享"（Cross-origin resource sharing)，它允许浏览器向跨源服务器，发出`XMLHttpRequest`请求，从而克服了AJAX只能同源使用的限制CORS有两种请求，分为简单请求和非简单请求。
+CORS是一个W3C标准，全称是"跨域资源共享"（Cross-origin resource sharin），它允许浏览器向跨源服务器，发出`XMLHttpRequest`请求，从而克服了AJAX只能同源使用的限制CORS有两种请求，分为简单请求和非简单请求。
 
 **简单请求**
 
@@ -1835,8 +1813,6 @@ URI中不应该有动词
 ```
 
 ```
-
-![img](img/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f323434383735322d656666376231373339343536663930342e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970253743696d61676556696577322f322f772f31323430.png)
 
 ## Spring
 
@@ -2220,18 +2196,6 @@ mybatis中动态的sql语句的主要标签是if,where,foreach,set
 我在工作中也有用到过，比如在之前的健身房预约私教课项目，网页上面会有一个搜索框，里面可以用名字进行模糊查询，还有价格范围进行查询，那么这个时候，我们可以用where和if标签来选择出我们传过来的查询条件，来构建一个动态sql语句，同时满足多条件和无条件的分页查询
 ```
 
-### Mybatis的配置文件
-
-```
-
-```
-
-### Mybatis的执行流程分析，源码分析
-
-```
-
-```
-
 ### Mabatis批量执行语句怎么办？
 
 ```
@@ -2273,11 +2237,8 @@ Spring Cloud 就是微服务系统架构的一站式解决方案，在平时我�
 ### 你这个SpringCloud都用到的哪些组件
 
 ```
-这个我用到了比如说注册中心Eureka，SpringCloudGateWay网关,负载均衡Ribbon, Feign远程调用，Hystrix熔断器，
-
+这个我用到了比如说注册中心Eureka，SpringCloudGateWay网关,负载均衡Ribbon, Feign远程调用，Hystrix熔断器
 ```
-
-
 
 ### 什么是微服务
 
@@ -2335,12 +2296,6 @@ Spring Cloud 就是微服务系统架构的一站式解决方案，在平时我�
   因此，Eureka可以很好地应对因网络故障导致部分节点失去联系的情况。
 ```
 
-
-
-
-
-
-
 ## Database
 
 ### 基础
@@ -2390,7 +2345,7 @@ count,sum,max,min,avg
 select 字段1,字段2... from 表名 group by 分组字段
 ```
 
-#### 分页查询语法**
+#### 分页查询语法
 
 ```
 select * from 表名 limit 2,4 -- 即取出第3条至第6条，共计4条记录(2表示索引，即从第三条数据开始)
@@ -2510,7 +2465,6 @@ MySQL在公司使用的时候往往都是一主多从结构的，从服务器需
 
   - B+树存储的数据都是在一行上，而且这些数据都是有指针指向的，也就是有顺序的
 
-    ![preview](img/v2-bda6661499c51dcff63eb12fd4b3795d_r.jpg)
 
 因此Mysql的索引用的就是B+树：
 
@@ -2644,8 +2598,6 @@ Innodb不支持全文索引，而MyISAM支持全文索引，在涉及全文索�
 InnoDB支持表、行(默认)级锁，而MyISAM支持表级锁
 InnoDB表必须有唯一索引（如主键）（用户没有指定的话会自己找/生产一个隐藏列Row_id来充当默认主键），而Myisam可以没有
 ```
-
-![img](img/70.png)
 
 [深入理解 Mysql 索引底层原理](https://zhuanlan.zhihu.com/p/113917726)
 
@@ -2863,8 +2815,6 @@ Linux操作系统分别由两部分组成
 Docker镜像的复用主：多个不同的Docker镜像能够共享同样的镜像层。
 ```
 
-![使用docker pull 下载的镜像为什么只有几百兆？](img/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=.png)
-
 ### Dockerfile
 
 ```
@@ -2998,20 +2948,6 @@ Map entries = redisTemplate.boundHashOps("HashKey").entries();
 - Direct：定向，把消息交给符合指定routing key 的队列，消息的发送方，必须制定路由，然后发给交换机
 ```
 
-### AMQP 通用组件
-
-```
-
-```
-
-
-
-### MQ怎么保证信息不丢失
-
-```
-
-```
-
 ## Elasticsearch
 
 ### 什么是ES
@@ -3058,179 +2994,4 @@ ES是一个基于RESTful web接口并且构建在Apache Lucene之上的开源分
 
 映射配置（mappings）--------- 表结构
 ```
-
-### ES代码中如何进行模糊查询的
-
-```
-我们首先构建一个boolQueryBuilder组合搜索(模糊、精确、范围)对象
-
-模糊搜索：
-boolQueryBuilder.must(QueryBuilders.matchQuery("name",searchMap.get("keywords")).operator(Operator.AND));
-
-精确搜索：
-boolQueryBuilder.filter(QueryBuilders.termQuery("brandName", searchMap.get("brand")));
-
-价格区间搜索：
-boolQueryBuilder.filter(QueryBuilders.rangeQuery("price").gte(low).lte(high));
-
-然后构建顶级搜索对象：
-nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
-
-设置聚合时的分组名
-nativeSearchQueryBuilder.addAggregation(brandGroupBuilder);
-
-根据排序字段进行排序
-nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort(sortField).order(SortOrder.DESC));//降序
-
-进行分页搜素：
-nativeSearchQueryBuilder.withPageable(PageRequest.of(pageNo-1,pageSize));
-
-进行高亮显示：
-nativeSearchQueryBuilder.withHighlightFields(highlightField);
-
-获取搜索结果：
-AggregatedPage<SkuInfo> searchResult = elasticsearchTemplate.queryForPage(nativeSearchQueryBuilder.build(), SkuInfo.class, new SearchResultMapper() {
-
-将结果转换成对应的对象
-public <T> AggregatedPage<T> mapResults(SearchResponse searchResponse, Class<T> aClass, Pageable pageable) {
-}
-```
-
-## 项目
-
-### 常见的端口号***
-
-```
-数据库的端口号: 3306
-redis的端口号: 6379
-ES http: 9200 TCP: 9300
-eureka: 8761
-rabbitMQ：5672 15672管理页面
-```
-
-### 项目介绍
-
-### 项目模块
-
-那我们可以按照流程说一下我们的项目模块，首先用户的请求过来是通过nginx进行负载均衡，nginx转发给网关微服务，包括网关在内的各个微服务都需要一个注册中心，也就是eureka微服务(fuwan_eureka)，消费者网关微服务按配置好的路由规则将请求路由到小程序渲染微服务，此外还有web页面渲染微服务，我们的页面渲染微服务再调用各个业务微服务，例如商品微服务(fuwan_service_goods)，订单微服务(fuwan_service_order)，用户微服务(fuwan_service_user)，搜索微服务(fuwan_service_search)等各种微服务。
-
-### 首页大广告预热
-
-我们都知道网站的主要流量都聚集在首页，那么首页就要有一定的抗并发能力，我们仅仅连接数据库会存在风险，而且读取速度比较慢，我们一般都会使用redis做一个首页图片的缓存，这样不仅增加了并发能力，而且读取速度大大增加，同时因为我们也用了nginx做为反向代理，同时我们也利用nginx的缓存做了一个二级缓存，具体流程是这样的，加载首页的时候将对应的读请求发送到nginx，由于我们在nginx中的配置文件中做了一个分发，将对应的请求发送给lua脚本，lua脚本去先读nginx缓存，然后再读redis。
-
-大广告的预热工作，当我们的大广告上下架的时候，直接将相应的修改的数据写入redis。
-
-### 商品的上下架
-
-因为我们的上架一般会触发到很多其他操作，例如我做的一个搜索业务，因为搜索业务我们是用的ES，我们现在要将上架的商品加入到ES的索引中，还有什么静态页面队列，这时候就需要用到rabbitMQ消息队列，的广播模式，这样做的好处有解耦合，我不需要去知道谁要用，我放到队列中就可以了，还有一个就是消峰，比如商家要做活动，大量的商品都是凌晨上架，这时候就需要使用队列来缓冲压力。
-
-下架的操作也是类似的，只不过我们不是删除静态页面队列，而是做一个下架的标记，因为即使下架了，虽然搜索不到，但是我们依然想让买过的人看到这个商品的详情页。
-
-### 购物车
-
-首先是购物车的逻辑，我们的设计的逻辑是跟随主流大型电商的，不登陆就不能进行使用购物车功能，所以我们就没必要使用redis进行存储，我们使用的方案是使用redis和数据库同步进行存储，读的时候从redis中进行读取，写的时候，同时写入数据库和redis，这样的好处有存取速度较快，而且也减轻了数据库的压力。
-
-购物车内的每一条购物记录对应的pojo类是OrderItem，这个比sku多了购买数量和小记
-
-然后是数据的存储类型，采用redis中的hash类型的结构，key存储的是用户名，value里面存储的是一个HashMap，其中pid作为key，OrderItem订单详情为value。
-
-我们的购物车是在fuwan_service_order模块中，CartController中的。
-
-- 展示购物车
-
-  从redis中查询到购物车之后，我们还要通过每个购物项的复选框状态，来计算出小记金额和总数量
-
-  然后将这个map传回
-
-  ```java
-  map.put("orderItemList", cartList);
-  map.put("totalNum", totalNum);
-  map.put("totalPrice", totalPrice);
-  ```
-
-- 增加orderItem（新加入到购物车，或者按加号，或者减号）
-
-  - 主要参数是sku的id，修改后的数量，该用户的用户名
-
-  - 我们先从redis中根据用户名和skuID读取到这个orderItem
-
-    ```
-    (OrderItem)redisTemplate.boundHashOps(username).get(pid);
-    ```
-
-  - 如果能获取到购物项，那么就set一下这个购物项的num，看看相加后的值是大于0
-
-    - 如果是小于等于0，那么就删除这个购物项
-    - 然后计算一下最新的小记
-
-  - 如果不能获取到购物项，那么就新建一个购物项
-
-  - 最后将最新的购物项放回到redis中
-
-    ```
-    redisTemplate.boundHashOps(username).put(pId, orderItem);
-    ```
-
-- 删除orderItem
-
-  直接从redis中删除即可
-
-- 标记orderItem（修改）
-
-- 勾选购物项
-
-  会调用updatelist，要重新计算上面那个map中的所有数据
-
-### 搜索
-
-搜索业务我们使用的是ES搜索，我们使用elasticsearchTemplate来进行搜索
-
-模糊搜索(name)
-
-精确搜索(分类)：根据品牌名，分类名进行搜索
-
-聚合：分类信息的展示
-
-分页
-
-高亮显示
-
-NativeSearchQueryBuilder查询对象
-
-- BoolQueryBuilder布尔查询(根据什么搜)
-  - must模糊搜索
-  - filter(TermQueryBuilder)精确搜索
-  - filter(RangeQueryBuilder)范围搜索
-- HighlighBuilder.Field高亮查询
-
-![image-20201227181018926](img/image-20201227181018926.png)
-
-### 分布式锁
-
-项目难点：
-
-ES搜索的分词器
-
-图片上传
-
-### 如何防止表单重复提交问题
-
-```
-首先说两个我们购物时经常有过的体验或者说购物网站的网页提醒
-你提交的动作过快，请稍后尝试
-你的订单已经超时，请刷新页面后重新提交
-
-第一个应该比较简单，限制某个时间内的最大操作次数只需要有一个计数器就可以，计数器可以用redis实现，设置一个带有有效时间的值作为计数器，如果值不存在则自动创建，超过某一个值就认为操作次数用完即可以实现。
-第二个可以使用token机制，token即令牌，学过spring security的相信对这个词不会陌生。我们可以使用类似spring security的机制在页面上生成一个token，当提交订单时，根据该token的有效时间和允许的使用次数来判断订单是否允许提交，从而规避重复提交的问题。当然，有人会问，在高并发的情况下，如果是判断token有效之前有很多同一个用户的提交线程过来（用户正常使用一般不会出现这种情况，一般是压力测试工具导致的），那么还是会重复提交，所以，这里需要用到锁机制，访问同一个用户的token同一时间只能有一个线程，token使用之后失效了就会被清掉，之后的线程就找不到该token，从而认为订单不能提交。
-```
-
-## 其他
-
-### 如何设计一个定时任务
-
-```
-
-```
-
-### 自我介绍
 

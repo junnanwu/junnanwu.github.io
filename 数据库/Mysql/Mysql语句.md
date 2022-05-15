@@ -134,7 +134,37 @@ Data Manipulation Statements
 
 #### CASE语句
 
-- 有选择的UPDATE
+- 格式一
+
+  ```
+  CASE case_value
+      WHEN when_value THEN statement_list
+      [WHEN when_value THEN statement_list] ...
+      [ELSE statement_list]
+  END CASE
+  ```
+
+  将`case_value`和`when_value`进行对比，当相等的时候，执行`statement_list`，如果没有`when_value`相等，那么就执行`ELSE`后面的`statement_list`。
+
+  注意：
+
+  - 不能测试`NULL`值，因为`NULL=NULL`的结果为false
+
+- 格式二
+
+  ```
+  CASE
+      WHEN search_condition THEN statement_list
+      [WHEN search_condition THEN statement_list] ...
+      [ELSE statement_list]
+  END CASE
+  ```
+
+  执行`search_condition`，当其值为true时，对应的`statement_list`将会被执行，如果没有`search_condition`值为`true`，则执行`ELSE`语句。
+
+例如：
+
+- UPDATE中使用
 
   ```sql
   UPDATE sys_log
@@ -154,31 +184,42 @@ Data Manipulation Statements
   ELSE salary END; 
   ```
 
-  ```sql
-  UPDATE tag_filter_section 
-  SET tag_system_id =
-  CASE
-  WHEN  LOCATE('cust',tag_name)!=0 THEN 2
-  WHEN  LOCATE('staff',tag_name)!=0 THEN 3
-  WHEN  LOCATE('eu',tag_name)!=0 THEN 1
-  ELSE 0 END;
-  ```
-
-- 有选择的SELECT
+- SELECT中使用
 
   ```sql
   SELECT
   	CASE
-  	WHEN username = 'houyaqian@kungeek.com'  THEN dept+1
-  	WHEN username = 'wujunnan@kungeek.com' THEN dept
+  	WHEN season = 1  THEN 'SPRING'
+  	WHEN season = 2  THEN 'SUMMER'
+  	WHEN season = 3  THEN 'FALL'
+  	WHEN season = 4  THEN 'WINTER'
   	END
-  FROM
-  	sys_user 
-  WHERE
-  	username IN ( 'houyaqian@kungeek.com', 'wujunnan@kungeek.com' );
+  FROM table;
   ```
+  
+  或
+  
+  ```sql
+  SELECT
+  	CASE season
+  	WHEN 1 THEN 'SPRING'
+  	WHEN 2 THEN 'SUMMER'
+  	WHEN 3 THEN 'FALL'
+  	WHEN 4 THEN 'WINTER'
+  	END
+  FROM table;
+  ```
+  
+- WHERE中使用
 
-
+  (此例可以用IF代替)
+  
+  ```sql
+  SELECT * FROM table WHERE 
+      CASE WHEN a IS NULL THEN  b > 10
+      ELSE  a > 10 
+      END;
+  ```
 
 ## 数据库管理员语句
 
@@ -212,6 +253,8 @@ Data Manipulation Statements
 
 - 设置用户密码
 
+  **SET语句**
+
   语法：
 
   ```
@@ -239,6 +282,14 @@ Data Manipulation Statements
   ```
 
   注意：如果省略`@xx`则默认为`'%'`
+
+  **直接UPDATE** 
+
+  ```
+  USE mysql; 
+  UPDATE user SET password=password('123') WHERE user='root' AND host='localhost'; 
+  FLUSH PRIVILEGES;
+  ```
 
 - 删除用户
 

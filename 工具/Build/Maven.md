@@ -117,6 +117,21 @@ mvn dependency:tree
 
 即pom.xml > /home_dir/.m2/settings.xml > /maven_dir/conf/settings.xml
 
+### 设置仓库镜像
+
+由于Maven官方仓库下载速度太慢，我们可以使用国内的景象进行替换，[详见此](https://developer.aliyun.com/mvn/guide)。
+
+在Maven的配置文件`<mirrors></mirrors>`标签中添加mirror子节点中添加如下内容：
+
+```
+<mirror>
+  <id>aliyunmaven</id>
+  <mirrorOf>*</mirrorOf>
+  <name>阿里云公共仓库</name>
+  <url>https://maven.aliyun.com/repository/public</url>
+</mirror>
+```
+
 ## Maven生命周期
 
 [详见此官方文档](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
@@ -447,3 +462,4 @@ https://www.cnblogs.com/lianshan/p/7350614.html
 5. https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
 6. https://developer.aliyun.com/article/630208
 6. https://maven.apache.org/plugins/maven-dependency-plugin
+6. https://developer.aliyun.com/mvn/guide

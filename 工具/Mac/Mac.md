@@ -135,6 +135,14 @@ https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-pa
 $ xattr -d com.apple.quarantine /usr/local/bin/chromedriver
 ```
 
+若目录带有空格：
+
+```
+$ xattr -d com.apple.quarantine '/Applications/Another Redis Desktop Manager.app'
+```
+
+
+
 ## 终端
 
 ### 快捷键
