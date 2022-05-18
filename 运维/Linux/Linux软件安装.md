@@ -17,6 +17,40 @@
    $ ln  -s /node-v8.11.4/bin/cnpm /usr/bin/cnpm
    ```
 
+## node
+
+升级node
+
+使用n模块
+
+1. 安装n模块
+
+   ```
+   $ npm install -g n
+   ```
+
+2. 升级node.js
+
+   - 升级到最新稳定版
+
+     ` /usr/local/node/bin/n`
+
+     ```
+     $ n stable
+     ```
+
+   - 升级到最新版
+
+     ```
+     $ n latest
+     ```
+
+   - 升级到指定版本
+
+     ```
+     n v7.10.0
+     ```
+
 ## maven
 
 1. 下载压缩包

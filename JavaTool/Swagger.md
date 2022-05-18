@@ -1,13 +1,13 @@
 # Swagger
 
-Swagger是一组围绕 OpenAPI规范构建的开源工具，可以设计、构建、记录和使用 REST API。
+Swagger是一组围绕 OpenAPI规范构建的开源工具，可以设计、构建、记录和使用REST API。
 
 ## 引入依赖
 
 - `springfox-swagger`，对Spring和Swagger的使用进行了整合
 - `springfox-swagger-ui`，提供了可视化界面
 
-```
+```xml
 <dependency>
     <groupId>io.springfox</groupId>
     <artifactId>springfox-swagger2</artifactId>
@@ -22,30 +22,7 @@ Swagger是一组围绕 OpenAPI规范构建的开源工具，可以设计、构�
 
 ## 配置
 
-```java
-@Configuration
-@EnableSwagger2
-@Profile({"dev"})
-public class SwaggerConfig {
-    @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                //选择被@Api修饰的接口
-                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-                .build();
-    }
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("解决方案平台")
-                .description("解决方案平台接口文档")
-                .version("1.0")
-                .build();
-    }
-}
-```
 
 ## 注解
 

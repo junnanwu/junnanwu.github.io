@@ -1109,3 +1109,5 @@ hard  源码也会回退到某个版本,commit和index 都会回退到某个版�
 
 
 ## References       
+
+1. https://dev.mysql.com/doc/refman/5.7/en/information-schema-innodb-trx-table.html
