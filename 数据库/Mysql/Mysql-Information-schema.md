@@ -48,3 +48,4 @@
 
 ## References
 
+1. https://dev.mysql.com/doc/refman/5.7/en/information-schema.html

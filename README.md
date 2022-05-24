@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](个人/关于本站.md)。
 
 ## 最近新增/修改
-1. [Cookie](JavaWeb/Cookie.md)
-2. [SpringSecurity](JavaEE/SpringBoot/SpringSecurity.md)
-3. [Mysql-Information-schema](数据库/Mysql/Mysql-Information-schema.md)
-4. [Nginx](工具/Nginx/Nginx.md)
-5. [Git实践](工具/Git/Git实践.md)
-6. [Mysql语句](数据库/Mysql/Mysql语句.md)
-7. [Mysql应用](数据库/Mysql/Mysql应用.md)
-8. [Linux日志](运维/Linux/Linux日志.md)
-9. [ClickHouse](数据库/ClickHouse/ClickHouse.md)
-10. [Linux网络](运维/Linux/Linux网络.md)
+1. [SpringSecurity退出登录](JavaEE/SpringBoot-Security/SpringSecurity退出登录.md)
+2. [SpringSecuritySession](JavaEE/SpringBoot-Security/SpringSecuritySession.md)
+3. [SpringSecurity](JavaEE/SpringBoot-Security/SpringSecurity.md)
+4. [Mysql语句](数据库/Mysql/Mysql语句.md)
+5. [SpringSecurity鉴权](JavaEE/SpringBoot-Security/SpringSecurity鉴权.md)
+6. [Cookie](JavaWeb/Cookie.md)
+7. [Linux基础命令](运维/Linux/Linux基础命令.md)
+8. [Mysql-Information-schema](数据库/Mysql/Mysql-Information-schema.md)
+9. [Mysql应用](数据库/Mysql/Mysql应用.md)
+10. [Mysql函数和运算符](数据库/Mysql/Mysql函数和运算符.md)
 

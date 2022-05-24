@@ -47,10 +47,14 @@
       - [SpringBoot](JavaEE/SpringBoot/SpringBoot.md)
       - [SpringBoot基础](JavaEE/SpringBoot/SpringBoot基础.md)
       - [SpringBoot配置项](JavaEE/SpringBoot/SpringBoot配置项.md)
-      - [SpringSecurity](JavaEE/SpringBoot/SpringSecurity.md)
       - [关于SpringBoot的Jar](JavaEE/SpringBoot/关于SpringBoot的Jar.md)
       - [关于SpringBoot的配置文件](JavaEE/SpringBoot/关于SpringBoot的配置文件.md)
       - [配置中心](JavaEE/SpringBoot/配置中心.md)
+    - **SpringBoot-Security**
+      - [SpringSecurity](JavaEE/SpringBoot-Security/SpringSecurity.md)
+      - [SpringSecuritySession](JavaEE/SpringBoot-Security/SpringSecuritySession.md)
+      - [SpringSecurity鉴权](JavaEE/SpringBoot-Security/SpringSecurity鉴权.md)
+      - [SpringSecurity退出登录](JavaEE/SpringBoot-Security/SpringSecurity退出登录.md)
     - **分布式**
       - [Nacos](JavaEE/分布式/Nacos.md)
       - [服务注册与发现](JavaEE/分布式/服务注册与发现.md)

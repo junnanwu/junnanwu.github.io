@@ -37,6 +37,31 @@ cookies版本1是对cookies版本0的扩展，cookies版本0更为广泛，二�
 
   可选，如果包含了这一属性，就只有在HTTPS的时候才会发送cookie
 
+其他属性
+
+- `HttpOnly`
+
+  包含此属性意味着cookie不能被本地API调用，包括JavaScript。
+
+  此属性可以避免网站受到`corss-site scripting(XSS)`攻击，但仍有 `cross-site request forgery (CSRF) `攻击的风险。
+
+- `SameSite`
+
+  2016，google chrome引入了一个新的属性，`SameSite`，可取如下值：
+
+  - `Strict`
+
+    表示只能给原domain相同的domain发送cookie，用于解决跨域攻击
+
+  - `Lax`
+
+    允许给与原域不同的域发送cookie，但是请求必须是`GET`
+
+  - `None`
+
+    允许给与原域不同的域发送cookie，但是大多数浏览器要求必须有`Secure`属性
+
 ## References
 
 1. 《HTTP权威指南》
+1. https://en.wikipedia.org/wiki/HTTP_cookie
