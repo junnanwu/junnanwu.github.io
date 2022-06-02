@@ -1,8 +1,10 @@
-# 单元测试
+# Spring Boot Test
+
+## 单元测试
 
 一个单元测试不应该包含外部依赖的逻辑，反之就是集成测试了，可以借助Mock技术摆脱外部依赖。
 
-## 单元测试的原则和建议
+### 单元测试的原则和建议
 
 - 单元测试每个方法必须可以**独立运行**，单元测试用例之间决不能相互调用，**不能依赖执行的先后顺序**
 - 单元测试是可重复执行的，不能受外界环境的影响 
@@ -16,7 +18,7 @@
 
 - 测试类一般使用 Test 作为类名的后缀
 
-## Junit4与Junit5
+### Junit4与Junit5
 
 JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage
 
@@ -45,7 +47,7 @@ JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage
     import org.junit.Test;
     ```
 
-## Assert
+### Assert
 
 #### 传统Assert
 

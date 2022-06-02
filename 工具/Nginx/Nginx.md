@@ -787,7 +787,7 @@ location /dap {
    ```nginx
    server{
        listen	443;
-       server_name	hxduat.kungeek.com;
+       server_name	hxduat.kg.com;
        error_page  403  /403.html;
        ...
    }
@@ -809,7 +809,25 @@ location /dap {
 
 https://cloud.tencent.com/document/product/400/4143
 
+### 客户端超时问题
 
+背景：
+
+业务方反馈，页面发生504 Gateway Time-out
+
+处理：
+
+Nginx默认后端1分钟未响应，则返回504超时。
+
+增加如下配置：
+
+```
+proxy_connect_timeout  180s;
+proxy_send_timeout  180s;
+proxy_read_timeout  180s;
+```
+
+[详见此](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout)
 
 ## Reference
 

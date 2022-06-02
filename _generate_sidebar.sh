@@ -4,7 +4,7 @@ EOF
 
 #! /bin/bash
 set -e
-target_catalog="JavaSE JavaEE JavaWeb 数据库 大数据 计算机基础 运维 工具 前端 算法 开源项目 Bug 个人"
+target_catalog="JavaSE JavaEE JavaWeb Spring 数据库 计算机基础 大数据 运维 工具 前端 算法 开源项目 Bug 个人"
 #最终输出
 result=""
 echo 开始生成目录...

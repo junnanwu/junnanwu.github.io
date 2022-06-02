@@ -1,74 +1,5 @@
 # Git操作
 
-## .gitignore
-
-gitignore文件中记录了git应该忽略的文件，已经被git管理的文件则不受影响。
-
-规范：
-
-- 每一行代表一个匹配规则
-
-- 所有空行或者以 `#` 开头的行都会被忽略。
-
-- 可以使用标准的 glob 模式匹配，它会递归地应用在整个工作区中。
-
-  所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。 星号（`*`）匹配零个或多个任意字符；`[abc]` 匹配任何一个列在方括号中的字符 （这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）； 问号（`?`）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符， 表示所有在这两个字符范围内的都可以匹配（比如 `[0-9]` 表示匹配所有 0 到 9 的数字）。 使用两个星号（`**`）表示匹配任意中间目录，比如 `a/**/z` 可以匹配 `a/z` 、 `a/b/z` 或 `a/b/c/z` 等。
-
-- 匹配模式可以以（`/`）开头防止递归。
-
-  `logs/`：**忽略当前路径下的logs目录**，包含logs下的所有子目录和文件
-
-  `/logs.txt`：**忽略根目录下的logs.txt文件**
-
-- 匹配模式可以以（`/`）结尾指定目录。
-
-- 要忽略指定模式以外的文件或目录，可以在模式前加上叹号（`!`）取反。
-
-java开发通用版本：
-
-```
-# Compiled class file
-*.class
-
-# Eclipse
-.project
-.classpath
-.settings/
-
-# Intellij
-*.ipr
-*.iml
-*.iws
-.idea/
-
-# Maven
-target/
-
-# Gradle
-build
-.gradle
-
-# Log file
-*.log
-log/
-
-# out
-**/out/
-
-# Mac
-.DS_Store
-
-# others
-*.jar
-*.war
-*.zip
-*.tar
-*.tar.gz
-*.pid
-*.orig
-temp/
-```
-
 ## git config
 
 参数：
@@ -84,6 +15,10 @@ temp/
 - `--local`
 
   修改的是当前本地仓库的配置文件及`.git/config`，`git config`默认使用的就是这个参数
+  
+- `--list -l`
+
+  查看Git的配置
 
 举例：
 
@@ -96,18 +31,20 @@ temp/
 
   如果使用了 `--global` 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 `--global` 选项的命令来配置。
 
-- 检查Git的配置
-
-  ```
-  git config --list
-  ```
-
 - 查看Git中该变量的原始值
 
   ```
-  git config --show-origin user.name
+  $ git config --show-origin user.name
   file:/Users/wujunnan/.gitconfig	wujunnan
   ```
+  
+- 设置别名
+
+  ```
+  $ git config --global alias.co commit
+  ```
+  
+  下次使用commit命令时直接换成`git co` 即可
 
 ## git init
 
@@ -129,47 +66,25 @@ git clone <版本库的网址>
 $ git clone git://github.com/schacon/ticgit.git
 ```
 
-**git clone发生了什么？**
-
-1. 复制远程仓库`objects/`文件夹中的内容到本地仓库； (对应`Receiving objects`);
-
-   注意：这里存在了objects/文件夹中的pack文件夹
-
-   ```
-   .
-   ├── info
-   └── pack
-       ├── pack-1c3164bae6be1ec896f23c61c438bc32a8a0e8f3.idx
-       └── pack-1c3164bae6be1ec896f23c61c438bc32a8a0e8f3.pack
-   ```
-
-2. 为所接收到的文件创建索引（对应`Resolving deltas`）;
-
-3. 为所有的远程分支创建本地的跟踪分支,存储在`.git/refs/remote/xxx/`下；
-
-4. 检测远程分支上当前的活跃分支（`.git/HEAD`文件中存储的内容）；
-
-5. 在当前分支上执行`git pull`，保证当前分支和工作区与远程分支一致；
-
-除此之外，`git`会自动在`.git/config`文件中写入部分内容，
-
-```
-[remote "origin"]
-        url = git@git.in.zhihu.com:zhangwang/zhihu-lite.git
-        fetch = +refs/heads/*:refs/remotes/origin/*
-```
-
-**默认情况下会把clone的源仓库取名`origin`**，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
+默认情况下会把clone的源仓库取名`origin`，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
 
 - 想用其他的主机名，需要用`git clone`命令的`-o`选项指定。
 
   ```
-  git clone -o jQuery https://github.com/jquery/jquery.git
-  git remote
+  $ git clone -o jQuery https://github.com/jquery/jquery.git
+  $ git remote
   jQuery
   ```
 
+## git show
 
+格式：
+
+```
+git show [<options>] [<object>…]
+```
+
+可以用来展示一个或多个对象，包括blobs、trees、tags、commits
 
 ## git remote
 
@@ -234,8 +149,6 @@ $ git clone git://github.com/schacon/ticgit.git
   git fetch origin master
   ```
 
-
-
 ## git branch
 
 参数：
@@ -284,8 +197,6 @@ $ git clone git://github.com/schacon/ticgit.git
 
   `git branch -vv`
 
-
-
 ## git status
 
 - 简介的形式显示
@@ -296,8 +207,6 @@ $ git clone git://github.com/schacon/ticgit.git
   - `A`表示新添加的
   - `M`表示修改的
 
-- 
-
 ## git add
 
 ## git commit
@@ -307,7 +216,7 @@ $ git clone git://github.com/schacon/ticgit.git
 - `-a`
 
   Git 就会自动把所有**已经跟踪过**的文件暂存起来一并提交
-
+  
 - `--amend`
 
   当我们不想要上一次的commit的时候，或者想将当前的commit合并到之前的commit时候，可以使用
@@ -330,7 +239,6 @@ $ git clone git://github.com/schacon/ticgit.git
   git commit -c ORIG_HEAD
   ```
 
-  
 
 ## git diff
 
@@ -363,8 +271,6 @@ git add a.txt
 
   删除文件夹
 
-
-
 ## git mv
 
 
@@ -373,13 +279,79 @@ git add a.txt
 
 查看某一个分支的提交
 
-- 查看日志的图形化版本
+```
+$ git log --oneline --graph
+```
 
-  `git log --graph`
+参数：
 
-- 将日志放置在一行显示
+- `--graph`
 
-  `git log --oneline`
+  查看日志的图形化版本
+
+- `--oneline`
+
+  将日志放置在一行显示
+
+- `--abbrev-commit`
+
+  简单的格式显示commit id
+
+- `--author="<pattern>" `
+
+  根据作者进行筛选
+
+  ```
+  $ git log --author="wujunnan" 
+  ```
+
+- `--stat `
+
+  额外显示改动信息
+
+- `<file>`
+
+  显示包含此文件的提交
+
+- 根据分支分类筛选
+
+  - `--all`
+
+    `refs/`中的所有内容
+
+  - `--branches`
+
+    `refs/heads/`中的所有内容
+
+  - `--remotes`
+
+    `refs/remotes/`中的所有内容
+
+  - `--tags`
+
+    `refs/tags/`中的所有内容
+
+举例：
+
+设置查看日志组合命令：
+
+1. 命令如下
+
+   ```
+   $ git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all
+   ```
+
+2. 设置别名
+
+   ```
+   $ git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --all"
+   ```
+
+3. 使用
+
+   ```
+   $ git lg
+   ```
 
 ## git pull
 
@@ -474,6 +446,8 @@ git config --global push.default matching
 git config --global push.default simple
 ```
 
+[详见此](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
+
 参数：
 
 - `--all`
@@ -517,22 +491,6 @@ git config --global push.default simple
   >This option allows you to say that you expect the history you are updating is what you rebased and want to replace. 
 
   此选项通过检查你本地的远程仓库的引用与远程仓库的相关分支是否一致，例如当其他人push了分支，那么你的远程仓库的引用就过时了，这个时候，该参数是不允许你进行push的，除非你fetch或者pull更新你本地的远程仓库的引用。
-
-[Reference](http://www.ruanyifeng.com/blog/2014/06/git_remote.html)
-
-## 远程命令
-
-如果我们是中途加入某个项目，往往我们的开发会建立在已有的仓库之上。如果使用`github`或者`gitlab`,像已有仓库提交代码的常见工作流是
-
-1. `fork`一份主仓库的代码到自己的远程仓库；
-2. `clone` 自己远程仓库代码到本地；
-3. 添加主仓库为本地仓库的远程仓库，`git remote add ...`，便于之后保持本地仓库与主仓库同步`git pull`；
-4. 在本地分支上完成开发，推送本地分支到个人远程仓库某分支`git push`；
-5. 基于个人远程仓库的分支向主仓库对应分支提交`MR`,待`review`通过合并代码到主仓库；
-
-![commit后_git文件夹里发生了什么](/Users/wujunnan/docs/%25E5%25B7%25A5%25E5%2585%25B7/Git/Git%25E5%25AE%259E%25E8%25B7%25B5_assets/commit%25E5%2590%258E_git%25E6%2596%2587%25E4%25BB%25B6%25E5%25A4%25B9%25E9%2587%258C%25E5%258F%2591%25E7%2594%259F%25E4%25BA%2586%25E4%25BB%2580%25E4%25B9%2588.png)
-
-- 
 
 
 
@@ -633,265 +591,6 @@ git config --global push.default simple
 
   `git push --all origin`
 
-reference：
-
-[Git-深入一点点](https://github.com/Val-Zhang/blogs/issues/9)
-
-[手撕Git，告别盲目记忆](https://zhuanlan.zhihu.com/p/98679880)
-
-[用动画图解 Git 的 10 大命令](https://zhuanlan.zhihu.com/p/147356242)
-
-[图文详解如何利用Git+Github进行团队协作开发](https://zhuanlan.zhihu.com/p/23478654)
-
-分支分类：
-
-- master分支，即主分支。任何项目都必须有个这个分支。对项目进行tag或发布版本等操作，都必须在该分支上进行。
-- develop分支，即开发分支，从master分支上检出。团队成员一般不会直接更改该分支，而是分别从该分支检出自己的feature分支，开发完成后将feature分支上的改动merge回develop分支。同时release分支由此分支检出。
-- release分支，即发布分支，从develop分支上检出。该分支用作发版前的测试，可进行简单的bug修复。如果bug修复比较复杂，可merge回develop分支后由其他分支进行bug修复。此分支测试完成后，需要同时merge到master和develop分支上。
-- feature分支，即功能分支，从develop分支上检出。团队成员中每个人都维护一个自己的feature分支，并进行开发工作，开发完成后将此分支merge回develop分支。此分支一般用来开发新功能或进行项目维护等。
-- fix分支，即补丁分支，由develop分支检出，用作bug修复，bug修复完成需merge回develop分支，并将其删除。所以该分支属于临时性分支。
-- hotfix分支，即热补丁分支。和fix分支的区别在于，该分支由master分支检出，进行线上版本的bug修复，修复完成后merge回master分支，并merge到develop分支上，merge完成后也可以将其删除，也属于临时性分支。
-
-
-
-
-
-
-
-- 查看远程仓库
-
-  `git remote -v`
-
-- 更换远程仓库
-
-  ```
-  git remote origin set-url [url]
-  ```
-
-- 删除远程仓库
-
-  ```
-  git remote rm origin
-  ```
-
-  
-
-  ```
-  git remote add origin [url]
-  ```
-
-- 取回所有分支的更新
-
-  `git fetch`
-
-- 取回特定分支的更新
-
-  `git fetch <远程主机名> <分支名>`
-
-  例如，取回origin主机上的master分支
-
-  `git fetch origin master`
-
-
-
-## 其他
-
-### pack文件
-
-git原理：pack打包
-
-git向磁盘中存储对象使用“松散（loose）”对象格式。比如文件a.txt第一个版本大小是10k，第二个版本向其中添加了一行代码，假如此时文件为10.1k，那么第二个版本会重新产生一个10.1k的文件，这样会很浪费磁盘空间，所以git会时不时地将多个这些对象打包成一个称为“包文件（packfile）”的二进制文件，以节省空间和提高效率。在手动执行git gc的时候，或者向远程推送的时候，都会进行打包的操作
-
-执行git gc会主动出发git的打包机制，打包以后，会在 .git/objects/pack文件夹中产生两个文件，其他的文件都是在此次打包过程中，git认为不能是摇摆的文件，一般是没有被添加到任何提交记录中的文件
-
-.pack 是包文件，这个文件包含了从文件系统中移除的所有对象的内容
-.idx是索引文件，这个文件包含了包文件的偏移信息
-
-reference：
-
-[git原理：pack打包]( https://www.cnblogs.com/413xiaol/p/7828770.html)
-
-[为什么你的 Git 仓库变得如此臃肿]( https://www.jianshu.com/p/7231b509c279)
-
-### 关于空文件夹
-
-问题：每次cherry-pick老师的初始化项目的时候，总是不显示idea给建出来的Java,resources,test/java等文件夹，这是因为每次提交的时候，这些空文件夹不会被提交
-
-因为git空目录无法add。如果想add一个空目录，则需要在它下面创建一个文件，比如（.gitignore）
-
-原因：
-
-> 见 [Can_I_add_empty_directories]( https://git.wiki.kernel.org/index.php/GitFaq#Can_I_add_empty_directories.3F)
-> Currently the design of the git index (staging area) only permits files to be listed, and nobody competent enough to make the change to allow empty directories has cared enough about this situation to remedy it.
-
-解决方案：
-
-现在的主流做法是在空文件夹里放置一个.gitkeep文件，加个.gitconfig文件在里面比较实用，也不会觉得突兀。
-
-reference：
-
-[大坑：git无法添加一个空的文件夹]( https://blog.csdn.net/u013467442/article/details/88806250)
-
-
-
-标签
-
-HEAD reflogs
-
-[Git 之术与道 -- 索引](https://www.jianshu.com/p/6c06773d1311)
-
-
-
-### 关于untracked files
-
-请记住，你工作目录下的每一个文件都不外乎这两种状态：**已跟踪** 或 **未跟踪**
-
-什么时候会出现未跟踪呢？
-
-例如我们新建一个README文件，这时候我们git status就会显示这个文件是untracked的
-
-如果我们确实想跟踪这个文件
-
-就git add README，这时候就会显示Changes to be committed，这就说明是已暂存状态
-
-```
-$ git statusOn branch masterChanges to be committed:  (use "git restore --staged <file>..." to unstage)        modified:   READEME.md
-```
-
-
-
-#### git restore
-
-```
-注意这个git restore 意思是返回到未add的状态 即modified$ git restore --staged READEME.mdgit restore --staged [file] : 表示从暂存区将文件的状态修改成 unstage 状态。当然，也可以不指定确切的文件 ，例如：git restore --staged *.java 表示将所有暂存区的java文件恢复状态git restore --staged . 表示将当前目录所有暂存区文件恢复状态--staged 参数就是表示仅仅恢复暂存区的
-```
-
-问题总结接踵而至，如果我不们不止执行了 `add` 命令，还执行了 `commit` 命令。是不是也可以利用 `restore` 命令返回呢？答案是肯定的。
-
-```
-$ git restore -s HEAD~1 READEME.md  // 该命名表示将版本回退到当前快照的前一个版本
-```
-
-这时候和reset作用是一样的
-
-
-
-
-
-删除untracked files
-
-```
-# 删除 untracked files$ git clean -f# 连 untracked 的目录也一起删掉$ git clean -fd# 连 gitignore 的untrack 文件/目录也一起删掉 （慎用，一般这个是用来删掉编译出来的 .o之类的文件用的）$ git clean -xfd# 在用上述 git clean 前，建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删$ git clean -nxfd$ git clean -nf$ git clean -nfd
-```
-
-
-
-## 实际操作
-
-
-
-
-
-Your branch is ahead of 'origin/master' by 14 commits.
-
-表示在你之前已经有14个commit而没有push到远程分支上
-
-- git stutas的几种情况
-
-  - 如果只在本地修改，还没有commit，那么用git status, 打印信息为：
-
-    ```
-    # On branch master# Changes not staged for commit:#   (use "git add <file>..." to update what will be committed)#   (use "git checkout -- <file>..." to discard changes in working directory)##    modified:   conf/gitolite.conf#no changes added to commit (use "git add" and/or "git commit -a")
-    ```
-
-  - commit之后，用git status，打印信息为：
-
-    ```
-    # On branch master# Your branch is ahead of 'origin/master' by 1 commit.#nothing to commit (working directory clean)
-    ```
-
-  - 说明没有文件需要commit，但是本地仓库 有一个commit ahead原来的master，就是本地仓库有一个提交，比远程仓库要先进一个commit。git push origin master之后，再用git staus，打印信息为：
-
-    ```
-    # On branch masternothing to commit (working directory clean)
-    ```
-
-  - 切换分支前想保存本地的更改，但是又不想commit
-
-    - 点击工具栏的 VCS -> Git -> Stash Changes
-    - 输入Message，然后点击 Create Stash
-    - 切换分支
-    - 想要复原，切回原来的分支，VCS -> Git -> UnStash Changes
-
-    调用 git stash –keep-index。只会备份那些没有被add的文件
-
-- 
-
-### git checkout
-
-- 切换分支
-
-  `git checkout testing` 切换到testing分支
-
-  `git checkout -b newtest` 创建并切换到newtest分支
-
-- 远程先创建了分支，本地如何切换到本地对应的分支
-
-  `git checkout feature/HDATA-335`
-
-  当checkout后面的分支不存在，但是正好存在一个远程分支与这个分支相匹配，那么这个命令相当于
-
-  `git checkout -b <branch> --track <remote>/<branch>`
-
-  ```
-  ➜  data-web-notice-backend git:(develop) ✗ git checkout feature/HDATA-335Branch 'feature/HDATA-335' set up to track remote branch 'feature/HDATA-335' from 'origin'.Switched to a new branch 'feature/HDATA-335'
-  ```
-
-- 切换到线上分支并且跟踪远程的分支
-
-  `git checkout -b 本地新建的分支名 origin/线上分支名`
-
-- 
-
-### git fetch
-
-当远程创建了新的分支，或者新的tag，或者分支有了新的提交，就需要更新到本地的版本库中
-
-- 指定远程主机
-
-  `git fetch <远程主机名>`
-
-- 指定远程主机和分支
-
-  `git fetct <远程主机名><分支名>`
-
-- **拉取全部（常用）**
-
-  `git fetch`
-
-  > When no remote is specified, by default the `origin` remote will be used, unless there’s an upstream branch configured for the current branch.
-
-
-### git pull
-
-
-
-### git push
-
-- 将当前分支推送到远程分支
-
-  `git push`
-
-  (默认的为simple模式，即将本地的当前分支推到远程的同名分支，不存在的话将报错)
-
-  工作场景，一版都是先创建远程分支，然后创建本地同名分支，commit，最后push
-
-### git merge
-
-- 将某分支合并到当前分支
-
-  `git merge 分支名`
-
 ### git tag
 
 Git中，我们通过tag来标记版本。
@@ -900,6 +599,12 @@ Git中，我们通过tag来标记版本。
 
 - tag是对应的某次commit
 - branch是一系列commit
+
+参数：
+
+- `-l --list [pattern]`
+
+  列出所有tag，`git tag`即`git tag --list`
 
 举例：
 
@@ -929,9 +634,7 @@ Git中，我们通过tag来标记版本。
 
 - 打标签
 
-  - 在当前分支的当前版本新建标签
-
-    `git tag v1.0`
+  - `git tag v1.0`
 
   - 在指定分支的当前版本新建标签
 
@@ -969,38 +672,37 @@ Git中，我们通过tag来标记版本。
   >
   >Pushing an empty `<src>` allows you to delete the `<dst>` ref from the remote repository.
 
-- 按照时间顺序查看tag
+## 其他
 
-  `git tag --sort=-creatordate`
+### 添加空文件夹
 
-  `git for-each-ref --sort=creatordate --format '%(refname)' refs/tags`
+git空目录无法add。如果想add一个空目录，则需要在它下面创建一个文件，比如（.gitignore或.gitkeep）
 
-  包括具体时间：
+### git checkout
+
+- 切换分支
+
+  `git checkout testing` 切换到testing分支
+
+  `git checkout -b newtest` 创建并切换到newtest分支
+
+- 远程先创建了分支，本地如何切换到本地对应的分支
+
+  `git checkout feature/HDATA-335`
+
+  当checkout后面的分支不存在，但是正好存在一个远程分支与这个分支相匹配，那么这个命令相当于
+
+  `git checkout -b <branch> --track <remote>/<branch>`
 
   ```
-  git for-each-ref --sort=creatordate --format '%(refname) %(creatordate)' refs/tags
+  ➜  data-web-notice-backend git:(develop) ✗ git checkout feature/HDATA-335Branch 'feature/HDATA-335' set up to track remote branch 'feature/HDATA-335' from 'origin'.Switched to a new branch 'feature/HDATA-335'
   ```
 
+- 切换到线上分支并且跟踪远程的分支
 
+  `git checkout -b 本地新建的分支名 origin/线上分支名`
 
-问题记录：
-
-`git tag后git push失败`
-
-```
-➜  data-ui git:(feature/HDATA-584) ✗ git merge origin/release/v2.9.1
-Updating dccea066..b8457a13
-Fast-forward
-➜  data-ui git:(feature/HDATA-584) ✗ git tag v2.9.1  
-➜  data-ui git:(feature/HDATA-584) ✗ git push v2.9.1
-fatal: 'v2.9.1' does not appear to be a git repository
-fatal: Could not read from remote repository.
-
-Please make sure you have the correct access rights
-and the repository exists.
-➜  data-ui git:(feature/HDATA-584) ✗ git push origin v2.9.1
-Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
-```
+### git merge
 
 
 
@@ -1014,33 +716,22 @@ Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
 
 ## 场景
 
-移除已经push的文件
+### 移除已经push的文件
 
 ```
-git rm --cached update_frontend
-
-git commit -am '删除文件' 
+$ git rm --cached update_frontend
+$ git commit -am '删除文件' 
 ```
-
-
 
 ### 移除暂存区的文件
 
-- IDEA
-
-  暂未知
-
-- Git
-
-  `git rm --cached ESUtilTest.java `
-
-  把文件从暂存区删除
-
-  关于删除操作详见`git rm`
+```
+$ git rm --cached ESUtilTest.java 
+```
 
 ### 撤销未push的commit
 
-- IDEA
+**IDEA**
 
 commit未push的撤销
 
@@ -1052,7 +743,7 @@ VSC => Git=> reset head
 
 退回到指定commit版本：To Commit: id号
 
-- Git
+**Git**
 
 ```
 git reset HEAD~git reset --soft|--mixed|--hard <commit_id>
@@ -1089,14 +780,17 @@ hard  源码也会回退到某个版本,commit和index 都会回退到某个版�
 - 放弃所有文件修改
 
   ```
-  git checkout .
+  $ git checkout .
   ```
 
 - 放弃指定文件
 
   ```
-  git checkout -- filename
+  $ git checkout -- filename
   ```
 
 
 ## References
+
+1. https://segmentfault.com/a/1190000007996197
+2. http://www.ruanyifeng.com/blog/2014/06/git_remote.html

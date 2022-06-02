@@ -1,5 +1,5 @@
 ```
-package com.kungeek.data.schedule;
+package com.xxx.data.schedule;
 
 import java.util.Calendar;
 import java.util.Timer;

@@ -42,11 +42,11 @@ public class JdkLoggingTest {
 输出：
 
 ```
-十二月 02, 2021 8:13:35 下午 com.kungeek.data.migration.UploadData main
+十二月 02, 2021 8:13:35 下午 com.xxx.data.migration.UploadData main
 信息: test jdk logger info
-十二月 02, 2021 8:13:35 下午 com.kungeek.data.migration.UploadData main
+十二月 02, 2021 8:13:35 下午 com.xxx.data.migration.UploadData main
 警告: test jdk logger warning
-十二月 02, 2021 8:13:35 下午 com.kungeek.data.migration.UploadData main
+十二月 02, 2021 8:13:35 下午 com.xxx.data.migration.UploadData main
 严重: test jdk logger severe
 ```
 
@@ -90,11 +90,11 @@ public class CommonsLoggingTest {
 输出如下：
 
 ```
-十二月 02, 2021 8:23:07 下午 com.kungeek.data.migration.CommonsLoggingTest main
+十二月 02, 2021 8:23:07 下午 com.xxx.data.migration.CommonsLoggingTest main
 信息: test CommonsLogging info
-十二月 02, 2021 8:25:21 下午 com.kungeek.data.migration.CommonsLoggingTest main
+十二月 02, 2021 8:25:21 下午 com.xxx.data.migration.CommonsLoggingTest main
 警告: test CommonsLogging warn
-十二月 02, 2021 8:23:07 下午 com.kungeek.data.migration.CommonsLoggingTest main
+十二月 02, 2021 8:23:07 下午 com.xxx.data.migration.CommonsLoggingTest main
 严重: test CommonsLogging error
 ```
 
@@ -207,13 +207,13 @@ log.info("User signed in.");
 当引入依赖后并使用上述配置后，上述代码输出自动变为：
 
 ```
-12-02 20:48:32.111 [main] INFO  com.kungeek.data.migration.CommonsLoggingTest
+12-02 20:48:32.111 [main] INFO  com.xxx.data.migration.CommonsLoggingTest
 test CommonsLogging info
 
-12-02 20:48:32.113 [main] ERROR com.kungeek.data.migration.CommonsLoggingTest
+12-02 20:48:32.113 [main] ERROR com.xxx.data.migration.CommonsLoggingTest
 test CommonsLogging error
 
-12-02 20:48:32.113 [main] WARN  com.kungeek.data.migration.CommonsLoggingTest
+12-02 20:48:32.113 [main] WARN  com.xxx.data.migration.CommonsLoggingTest
 test CommonsLogging warn
 ```
 
@@ -238,7 +238,7 @@ test CommonsLogging warn
 
 ```
 $ mvn dependency:tree -Dverbose -Dincludes="*logback:logback*"
-com.kungeek.data:data_migration:jar:1.0-SNAPSHOT
+com.xxx.data:data_migration:jar:1.0-SNAPSHOT
 \- ch.qos.logback:logback-classic:jar:1.2.3:compile
    \- ch.qos.logback:logback-core:jar:1.2.3:compile
 ```

@@ -188,6 +188,142 @@ clean生命周期：
 | `test`    | `surefire:test`                                              |
 | `package` | `ejb:ejb` or `ejb3:ejb3` or  `jar:jar`  or  `par:par` or  `rar:rar`  or  `war:war` |
 
+## Dependency Management
+
+Dependency Management的作用是集中管理依赖，例如：
+
+1. excluded部分
+2. version
+
+Dependency Management中有的信息，dependency中再次使用就不用再写，详见[官方文档](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html)例子。
+
+相当于依赖的模版，当maven使用某个依赖的时候，会去Dependency Management中寻找有没有对应的模版，如果有，则直接使用其模版，如果模板的内容不合适，可以直接在dependency中指定自己需要的内容，dependency的优先级大于Management。
+
+### Importing Dependencies
+
+由于maven是单继承的，所以在大型项目中，要想引入多份Dependency Management，可以通过导入import scope的依赖来实现。
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>maven</groupId>
+            <artifactId>A</artifactId>
+            <version>1.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <dependency>
+            <groupId>test</groupId>
+            <artifactId>d</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+此项目就继承了A项目的Dependency Management.
+
+### Bill of Materials (BOM) POMs
+
+> A BOM is a special kind of POM that is used to control the versions of a project’s dependencies and provide a central place to define and update those versions.
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.test</groupId>
+        <version>1.0.0</version>
+        <artifactId>bom</artifactId>
+    </parent>
+
+    <groupId>com.test</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.12</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>project1</module>
+        <module>project2</module>
+    </modules>
+</project>
+```
+
+其他想要使用这个库的项目应该把这个POM导入他们的dependencyManagement中。
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.test</groupId>
+            <artifactId>bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+> When referring to artifacts whose POMs have transitive dependencies, the project needs to specify versions of those artifacts as managed dependencies. Not doing so results in a build failure since the artifact may not have a version specified.
+
+依赖版本的生效顺序：
+
+1. 在POM中直接显式指定的版本
+2. 父项目中提供的版本
+3. 导入的pom版本
+4. dependency mediation
+
+如果在继承多个 pom 时发生冲突，则按顺序更早声明的依赖项优先。
+
+### Spring BOM
+
+我们可以在我们项目中的dependencyManagement导入spring-framework-bom来确保所有Spring依赖在同一版本。
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-framework-bom</artifactId>
+            <version>4.3.8.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+这样导入的时候就不需要指定版本属性：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+    </dependency>
+<dependencies>
+```
+
 ## Java打包
 
 Java打包有几种方式
@@ -456,10 +592,11 @@ https://www.cnblogs.com/lianshan/p/7350614.html
 
 ## References
 
-1. https://maven.apache.org/
-2.   https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610
-4. https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber
-5. https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
-6. https://developer.aliyun.com/article/630208
-6. https://maven.apache.org/plugins/maven-dependency-plugin
+1. https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610
+2. https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber
+3. https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
+4. https://developer.aliyun.com/article/630208
+5. https://maven.apache.org/plugins/maven-dependency-plugin
 6. https://developer.aliyun.com/mvn/guide
+7. https://www.baeldung.com/spring-maven-bom
+8. https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html

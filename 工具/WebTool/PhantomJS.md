@@ -130,7 +130,7 @@ https://segmentfault.com/q/1010000003989521
 
 ```java
 public void testPhantomJS() throws IOException, InterruptedException {
-    String url = "https://hxduat.kungeek.com/report/company_operations_daily_report/multi-progress.html";
+    String url = "https://hxduat.xxx.com/report/company_operations_daily_report/multi-progress.html";
     String cmd = "phantomjs template/script/getImage.js" + " " + url;
     System.out.println("开始执行...");
     Runtime.getRuntime().exec(cmd).waitFor();

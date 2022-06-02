@@ -762,10 +762,10 @@ grep (global search regular expression(RE) and print out the line) ，查找输�
     $ cat file1|grep -v 't'|grep -v 'f'
     ```
   
-- 输出日志中含有`kungeek.com`字符串的上下2行
+- 输出日志中含有`xxx.com`字符串的上下2行
 
   ```
-  $ tail data-web.log |grep -2 kungeek.com
+  $ tail data-web.log |grep -2 xxx.com
   ```
 
 ### find

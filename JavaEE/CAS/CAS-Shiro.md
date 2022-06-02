@@ -472,11 +472,11 @@ UAT环境退出登录后的路径
 访问这个路径进行退出登录
 
 ```
-https://hxduat.kungeek.com/data-web/logout
+https://hxduat.kg.com/data-web/logout
 ```
 
 ```
-https://sso.kungeek.com/cas/logout?service=https://sso.kungeek.com/cas/login?service=https://hxduat.kungeek.com/data-web/shiro-cas/usertag
+https://sso.kg.com/cas/logout?service=https://sso.kg.com/cas/login?service=https://hxduat.kg.com/data-web/shiro-cas/usertag
 ```
 
 
@@ -484,7 +484,7 @@ https://sso.kungeek.com/cas/logout?service=https://sso.kungeek.com/cas/login?ser
 再次登录成功后是这个
 
 ```
-https://hxduat.kungeek.com/data-web/index;JSESSIONID=03c4e4c8-20f7-47b5-b335-5f38b727d8ee?from=usertag
+https://hxduat.kg.com/data-web/index;JSESSIONID=03c4e4c8-20f7-47b5-b335-5f38b727d8ee?from=usertag
 ```
 
 

@@ -16,10 +16,6 @@
 @Pointcut("execution(* com.data.controller..*.*(..)) && @annotation(com.data.annotation.IgnoreToken)")
 ```
 
-
-
-
-
 ## AOP中获取注解
 
 ```

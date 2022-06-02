@@ -355,7 +355,7 @@ route:
 receivers:
 - name: 'email'
   email_configs:
-  - to: 'houyaqian@kungeek.com,liuxiao@kungeek.com,wujunnan@kungeek.com,yinkai@kungeek.com,jinpeng@kungeek.com,maoyu@kungeek.com'
+  - to: 'xxx@xx.com'
 inhibit_rules:
   - source_match:
       severity: 'critical'
@@ -367,8 +367,8 @@ global:
   #声明警告被解决的时间,如果警报没有再次发送
   resolve_timeout: 5m #处理超时时间，默认为5min
   smtp_smarthost: 'smtp.exmail.qq.com:587' # 邮箱smtp服务器代理
-  smtp_from: 'houyaqian@kungeek.com' # 发送邮箱名称
-  smtp_auth_username: 'houyaqian@kungeek.com' # 邮箱名称
+  smtp_from: 'xxx@xx.com' # 发送邮箱名称
+  smtp_auth_username: 'xxx@xx.com' # 邮箱名称
   smtp_auth_password: 'xxxxx' #邮箱密码
   smtp_require_tls: true
 ```

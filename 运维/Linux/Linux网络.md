@@ -86,7 +86,7 @@ $ ssh-keygen -t ed25519
 1. 生成RSA类型私钥公钥
 
    ```
-   ssh-keygen -t rsa -C "wujunnan@kungeek.com"
+   ssh-keygen -t rsa -C "wujunnan@xxx.com"
    ```
 
    注意，一般接下来的两个都回车处理即可，即使用默认名字（`id_rsa`），默认位置（`./ssh`），不使用密钥密码，会默认生成`id_rsa`和`id_rsa.pub`
@@ -296,7 +296,7 @@ curl来自client的URL工具，用于请求Web服务器
   例如：
 
   ```
-  $ curl 'https://hxduat.kungeek.com/openapi/event/tracking' --header 'Authorization: xxxxxx'
+  $ curl 'https://hxduat.xxx.com/openapi/event/tracking' --header 'Authorization: xxxxxx'
   ```
 
 - `-b`

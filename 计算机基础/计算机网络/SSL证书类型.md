@@ -20,7 +20,7 @@ OV（Organization validated），即组织认证，证书里面除了注明了�
 
 如下图所示：
 
-![digital_credential_of_kungeek](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_kungeek.png)
+![digital_credential_of_company](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_company.png)
 
 ## EV证书
 

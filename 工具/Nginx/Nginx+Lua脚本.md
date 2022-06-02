@@ -69,7 +69,7 @@ centOS为例：
 ```nginx
 server{
     listen	443 ssl;
-    server_name	hxduat.kungeek.com;
+    server_name	hxduat.xxx.com;
     location = /openapi/test {
         default_type 'text/plain';
         content_by_lua_block {
@@ -82,7 +82,7 @@ server{
 测试成功：
 
 ```sh
-$ curl -X GET 'https://hxduat.kungeek.com/openapi/event/tracking' --header 'Authorization: xxxxxx'
+$ curl -X GET 'https://hxduat.xxx.com/openapi/event/tracking' --header 'Authorization: xxxxxx'
 Hello World
 ```
 
