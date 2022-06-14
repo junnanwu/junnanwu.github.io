@@ -624,7 +624,23 @@ IP地址
 
 2. 默认的`X-Forwarded-For`是空值，
 
+#### proxy_cookie_domain
 
+```
+proxy_cookie_domain domain replacement
+```
+
+转换response的set-cookie header中的domain选项，由后端设置的域名domain转换成你的域名replacement，来保证cookie顺利写入到当前页面中。（只负责处理domain属性）
+
+与此类似的还有proxy_cookie_path。
+
+**应用**
+
+**给应用cookie加Secure属性**
+
+```
+proxy_cookie_path / "/; Secure";
+```
 
 ### Cache-Control
 

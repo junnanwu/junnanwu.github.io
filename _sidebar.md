@@ -77,7 +77,6 @@
       - [ClickHouse](数据库/ClickHouse/ClickHouse.md)
     - **Elasticsearch**
       - [Elasticsearch](数据库/Elasticsearch/Elasticsearch.md)
-      - [Elasticsearch原理](数据库/Elasticsearch/Elasticsearch原理.md)
       - [Elasticsearch的安装和配置](数据库/Elasticsearch/Elasticsearch的安装和配置.md)
       - [Elasticsearch在生产中的应用](数据库/Elasticsearch/Elasticsearch在生产中的应用.md)
     - **Hive**
@@ -168,8 +167,8 @@
     - **WebTool**
       - [Chromedriver](工具/WebTool/Chromedriver.md)
       - [PhantomJS](工具/WebTool/PhantomJS.md)
-    - **Zookeeper**
-      - [zookeeper入门](工具/Zookeeper/zookeeper入门.md)
+    - **dev**
+      - [mkcert本地安装https证书](工具/dev/mkcert本地安装https证书.md)
 - **前端**
     - [JavaScript](前端/JavaScript.md)
     - [TypeScript](前端/TypeScript.md)

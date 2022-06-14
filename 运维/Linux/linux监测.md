@@ -84,13 +84,13 @@ jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
 监测当前占用内存top10进程：
 
 ```
-ps aux|head -1;ps aux|grep -v PID|sort -rn -k 4|head
+$ ps aux|head -1;ps aux|grep -v PID|sort -rn -k 4|head
 ```
 
 监测当前占用cpu top10进程：
 
 ```
-ps aux|head -1;ps aux|grep -v PID|sort -rn -k 3|head
+$ ps aux|head -1;ps aux|grep -v PID|sort -rn -k 3|head
 ```
 
 ## jps

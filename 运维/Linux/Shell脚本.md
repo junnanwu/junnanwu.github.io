@@ -1049,6 +1049,12 @@ awk脚本
 
 例如：
 
+- 查看Linux所有用户
+
+  ```
+  $ cat /etc/passwd|awk -F':' '{ print $1}'
+  ```
+  
 - awk等待从STDIN中接受数据：
 
   ```

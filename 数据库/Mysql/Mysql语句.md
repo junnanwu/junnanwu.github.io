@@ -248,7 +248,7 @@ Data Manipulation Statements
   ```
 
   ```mysql
-  CREATE USER 'data_web'@'%' identified by 'XXXXX5Njg1NWI';
+  CREATE USER 'data_web'@'%' IDENTIFIED BY 'XXXXX5Njg1NWI';
   ```
 
 - 设置用户密码

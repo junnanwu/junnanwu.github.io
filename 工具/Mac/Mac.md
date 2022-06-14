@@ -141,7 +141,29 @@ $ xattr -d com.apple.quarantine /usr/local/bin/chromedriver
 $ xattr -d com.apple.quarantine '/Applications/Another Redis Desktop Manager.app'
 ```
 
+## 访达
 
+- 查看隐藏文件夹
+
+  例如`/usr/local`
+
+  - 方式一：
+
+    `Command+Shift+G`打开路径跳转，输入目标路径跳转即可
+
+  - 方式二：
+
+    `Command+空格` 打开全局搜索，输入跳转即可
+
+- 复制文件路径
+
+  - 方式一：
+
+    `Command+Option+C`
+
+  - 方式二：
+
+    打开文件，按住`Option`的同时，按下右键，即可复制文件路径
 
 ## 终端
 
