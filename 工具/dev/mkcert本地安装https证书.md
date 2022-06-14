@@ -2,11 +2,11 @@
 
 ## 背景
 
-当我们本地调试的时候，有时候需要https访问，我们可以使用`openssl`工具来生成自己的证书，但是步骤较为麻烦，可以mkcert小工具来实现。
+当我们本地调试的时候，有时候需要https访问，我们可以使用`openssl`工具来生成自己的证书，但是步骤较为麻烦，可以谷歌开源的mkcert小工具来实现。
 
 ## mkcert
 
-mkcert是一个用来搭建本地https信任环境的工具，使用非常简单，[详见此](https://github.com/FiloSottile/mkcert)
+mkcert是一个用来搭建本地https信任环境的工具，由Go语言实现，使用非常简单，[详见此](https://github.com/FiloSottile/mkcert)。
 
 **安装**
 
