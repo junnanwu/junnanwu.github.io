@@ -27,7 +27,7 @@ a-maven-project
 
 ### pom.xml
 
-```
+```xml
 <project ...>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.junnanwu</groupId>
@@ -369,6 +369,44 @@ Java打包有几种方式
   一个Jar包中内嵌了其他Jar包，这个方式彻底解决了解压到出来同名覆盖的问题，但是这个是不被JVM原生支持的，JVM仅会读取包含class文件的Jar包，所以需要自定义ClassLoader。
 
   代表插件：[Spring boot plugin](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/).
+
+## Resources标签
+
+如前文所说，maven约定的资源文件夹为
+
+- `src/main/resouces`
+- `src/test/resources`
+
+这两个目录中的文件也会分别被复制到`target/classes`和`target/test-classes`目录中，打包插件也会默认将这两个目录下的文件打包到jar或war中。
+
+这也正是Maven Resources标签所决定的，其默认值为：
+
+```xml
+<resource>
+    <!-- 主资源目录  -->    
+    <directory>src/main/resources</directory>
+    <includes>
+        <include>**/*.*</include>
+    </includes>
+    <filtering>false</filtering>
+</resource>
+```
+
+当我们想让`mapper`包下的xml文件也被打包到classpath下的时候，就可以通过修改`<resource>`的方式来实现。
+
+上述行为在default生命周期的，process-resources阶段执行maven-resources-plugin的不同goal。
+
+- `<includes>`
+
+  maven-resources-plugin插件的resources goal处理主资源目下的资源文件时，只处理此配置中包含的资源类型。
+
+- `<excludes> `
+
+  maven-resources-plugin插件的resources目标处理主资源目下的资源文件时，不处理此配置中包含的资源类型（剔除下如下配置中包含的资源类型）
+
+- ` <filtering>`
+
+  maven-resources-plugin插件的resources目标处理主资源目下的资源文件时，是否对主资源目录开启资源过滤
 
 ## Maven插件
 

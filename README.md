@@ -2,17 +2,17 @@
 
 个人技术总结，欢迎阅读，指正。
 
-想了解更多关于本站搭建的过程，请点击[关于本站](个人/关于本站.md)。
+想了解更多关于本站搭建的过程，请点击[关于本站](AboutMe.md)。
 
 ## 最近新增/修改
-1. [CAS-Shiro](JavaEE/CAS/CAS-Shiro.md)
-2. [Java定时任务](JavaSE/Java定时任务.md)
-3. [Nginx](工具/Nginx/Nginx.md)
-4. [Nginx+Lua脚本](工具/Nginx/Nginx+Lua脚本.md)
-5. [Mysql日志](数据库/Mysql/Mysql日志.md)
-6. [Linux基础命令](运维/Linux/Linux基础命令.md)
-7. [PhantomJS](工具/WebTool/PhantomJS.md)
-8. [Linux网络](运维/Linux/Linux网络.md)
-9. [SSL证书类型](计算机基础/计算机网络/SSL证书类型.md)
-10. [Java日志框架](JavaEE/Java日志框架.md)
+1. [Maven](工具/Build/Maven.md)
+2. [SpringBoot-Stater-Parent](Spring/SpringBoot/SpringBoot-Stater-Parent.md)
+3. [Spring](Spring/Spring.md)
+4. [软件版本周期](其他/软件工程/软件版本周期.md)
+5. [Linux基础命令](运维/Linux/Linux基础命令.md)
+6. [AboutMe](AboutMe.md)
+7. [mkcert本地安装https证书](工具/dev/mkcert本地安装https证书.md)
+8. [Shell脚本](运维/Linux/Shell脚本.md)
+9. [Linux用户权限](运维/Linux/Linux用户权限.md)
+10. [Linux包管理](运维/Linux/Linux包管理.md)
 

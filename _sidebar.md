@@ -49,6 +49,7 @@
 - **Spring**
     - [Spring](Spring/Spring.md)
     - **SpringBoot**
+      - [SpringBoot-Stater-Parent](Spring/SpringBoot/SpringBoot-Stater-Parent.md)
       - [SpringBoot](Spring/SpringBoot/SpringBoot.md)
       - [SpringBootTesting](Spring/SpringBoot/SpringBootTesting.md)
       - [SpringBoot基础](Spring/SpringBoot/SpringBoot基础.md)
@@ -185,9 +186,4 @@
       - [Davinci埋点设计](开源项目/Davinci/Davinci埋点设计.md)
     - **dolphinscheduler**
       - [dolphinscheduler](开源项目/dolphinscheduler/dolphinscheduler.md)
-- **Bug**
-    - **应用**
-      - [应用卡顿问题bug记录](Bug/应用/应用卡顿问题bug记录.md)
-- **个人**
-    - [关于本站](个人/关于本站.md)
 
