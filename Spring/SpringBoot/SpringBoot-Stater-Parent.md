@@ -143,6 +143,10 @@
 
 Dependency Management即Maven对依赖版本等信息的管理，当引入依赖的时候，Maven会先在Dependency Management中查找是否有这个依赖的版本等模版信息，有的话则使用（dependency的优先级大于Management）。
 
+**总结**
+
+`spring-boot-starter-parent`依赖并不提供具体依赖项，而是提供了插件，打包默认配置以及依赖的版本管理。
+
 ## References
 
 1. https://docs.spring.io/spring-boot/docs/2.6.8/reference/html/getting-started.html#getting-started
