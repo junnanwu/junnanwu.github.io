@@ -957,6 +957,44 @@ tr [-Ccu] -d string1
 
 删除string1
 
+### xargs
+
+命令之间经常需要参数传递，但是有的命令（`mkdir`、`rm`、`kill`等）并不接受管道符的标准输出，这时候就需要xargs对命令结果进行处理，并传递到命令的参数位置上，如果后面没有接命令符，则默认为`echo`。
+
+参数
+
+- `-0`
+
+  指定使用NULL而不是`空格、Tab制表符、回车符`为分隔符和结束符。
+
+- `-n`
+
+  指定一次读几个参数
+
+- `-i`
+
+  不加参数，默认`xargs`是将处理后的结果整体传递到命令的尾部，但有时候不是要传递到尾部或者需要传递到多个位置，这个时候就需要此参数。
+
+  `-i`默认使用`{}`为替换符号，而`-I`可以指定替换符号
+
+例如：
+
+- 重命名为备份文件
+
+  ```
+  $ ls logdir/
+  1.log  2.log  3.log  4.log  5.log
+  $ ls logdir/ | xargs -i mv ./logdir/{} ./logdir/{}.bak
+  $ ls logdir/
+  10.log.bak  1.log.bak  2.log.bak  3.log.bak  4.log.bak  5.log.bak
+  ```
+
+- 删除带空格的文件名
+
+  ```
+  $ find ./ -name '*.txt' -print0 | xargs -0 rm
+  ```
+
 ## 其他
 
 ### !!

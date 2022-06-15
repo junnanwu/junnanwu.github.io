@@ -311,7 +311,7 @@ static_configs:
 
 效果如图：
 
-<img src="Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_mysql.png" alt="image-20211103201401338" style="zoom: 50%;" />
+![grafana_mysql](Prometheus+Grafana%E7%9B%91%E6%8E%A7%E4%BD%93%E7%B3%BB_assets/grafana_mysql.png)
 
 ## 预警
 
