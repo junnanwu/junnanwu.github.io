@@ -394,19 +394,23 @@ Java打包有几种方式
 
 当我们想让`mapper`包下的xml文件也被打包到classpath下的时候，就可以通过修改`<resource>`的方式来实现。
 
-上述行为在default生命周期的，process-resources阶段执行maven-resources-plugin的不同goal。
+标签`<filtering>`是一个bool值，默认值为false。指定打包时的配置文件中是否进行变量替换。
 
-- `<includes>`
+例如：
 
-  maven-resources-plugin插件的resources goal处理主资源目下的资源文件时，只处理此配置中包含的资源类型。
+配置文件中的（默认的占位符为`${}`）：
 
-- `<excludes> `
+```
+application.user=${username}
+```
 
-  maven-resources-plugin插件的resources目标处理主资源目下的资源文件时，不处理此配置中包含的资源类型（剔除下如下配置中包含的资源类型）
+如果`<filtering>`为true，可以使用如下属性对上述占位符进行替换：
 
-- ` <filtering>`
-
-  maven-resources-plugin插件的resources目标处理主资源目下的资源文件时，是否对主资源目录开启资源过滤
+```xml
+<properties>
+    <username>mysql</username>
+</properties>
+```
 
 ## Maven插件
 
@@ -638,3 +642,4 @@ https://www.cnblogs.com/lianshan/p/7350614.html
 6. https://developer.aliyun.com/mvn/guide
 7. https://www.baeldung.com/spring-maven-bom
 8. https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html
+8. https://www.jianshu.com/p/563ca2d68842

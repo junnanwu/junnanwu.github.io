@@ -23,9 +23,11 @@
 - `<resources>`内指定了哪些文件是资源文件
 - `spring-boot-dependencies`为其parents依赖，负责管理依赖版本
 
-接下来详细看看这三部分（可以温习[Maven基础](../../工具/Build/Maven.md)）。
+## 默认值
 
-## 默认属性
+接下来详细看看这几部分默认值（可以温习[Maven基础](../../工具/Build/Maven.md)）。
+
+### 默认属性
 
 ```xml
 <properties>
@@ -40,7 +42,7 @@
 
 指定了使用的 JDK 版本号为`1.8`，编译时使用`UTF-8`编码方式。
 
-## 默认插件
+### 默认插件
 
 提供了`spring-boot-maven-plugin`、`maven-shade-plugin`等一系列插件及其配置：
 
@@ -67,7 +69,7 @@
 </pluginManagement>
 ```
 
-## 默认资源
+### 默认资源
 
 ```xml
 <resources>
@@ -91,10 +93,10 @@
 </resources>
 ```
 
-- 第一个`resource`块`<filter>true</filter>`，表示只会将这三类文件复制到输出目录。
-- 第一个`resource`块没有`<filter>true</filter>`，表示会将所有其他文件复制到输出目录。
+- 第一个`resource`块`<filter>true</filter>`，表示会开启占位符替换（即将这三类配置文件中的`${}`占位符用对应属性替换），并将这三类文件复制到输出目录。
+- 第二个`resource`块，表示会将所有其他文件复制到输出目录，并且不进行占位符替换。
 
-## 依赖管理
+### 依赖管理
 
 `spring-boot-starter-parent`POM也有如下parent依赖，专门负责管理依赖版本。
 
@@ -143,6 +145,18 @@
 
 Dependency Management即Maven对依赖版本等信息的管理，当引入依赖的时候，Maven会先在Dependency Management中查找是否有这个依赖的版本等模版信息，有的话则使用（dependency的优先级大于Management）。
 
+## 依赖版本升级
+
+我们可以直接在我们的项目POM中使用版本号属性进行覆盖：
+
+```xml
+<properties>
+    <log4j2.version>2.17.2</log4j2.version>
+</properties>
+```
+
+或者直接在`<dependency>`标签中直接指定我们需要的版本。
+
 **总结**
 
 `spring-boot-starter-parent`依赖并不提供具体依赖项，而是提供了插件，打包默认配置以及依赖的版本管理。
@@ -150,4 +164,3 @@ Dependency Management即Maven对依赖版本等信息的管理，当引入依赖
 ## References
 
 1. https://docs.spring.io/spring-boot/docs/2.6.8/reference/html/getting-started.html#getting-started
-2. https://stackoverflow.com/questions/60041457/spring-boot-starter-parent-resources-includes-excludes-explained
