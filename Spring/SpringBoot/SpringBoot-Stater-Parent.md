@@ -19,7 +19,7 @@
 `spring-boot-starter-parent`依赖内部没有任何依赖项，只有一个POM文件，其中包括如下部分：
 
 - `<properties>`内规定了一些默认属性
-- `<pluginManagement>`内提供了一些默认插件
+- `<pluginManagement>`内提供了一些默认插件配置
 - `<resources>`内指定了哪些文件是资源文件
 - `spring-boot-dependencies`为其parents依赖，负责管理依赖版本
 
@@ -42,9 +42,9 @@
 
 指定了使用的 JDK 版本号为`1.8`，编译时使用`UTF-8`编码方式。
 
-### 默认插件
+### 默认插件配置
 
-提供了`spring-boot-maven-plugin`、`maven-shade-plugin`等一系列插件及其配置：
+提供了`spring-boot-maven-plugin`、`maven-shade-plugin`等一系列插件的配置：
 
 ```xml
 <pluginManagement>
@@ -68,6 +68,8 @@
     </plugins>
 </pluginManagement>
 ```
+
+当我们再次添加此类插件的时候，会应用这些配置。
 
 ### 默认资源
 

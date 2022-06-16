@@ -314,48 +314,33 @@ public boolean add(E e) {
 }
 ```
 
-
-
 ## 多线程
 
 ### 线程池
 
-#### 线程池几个参数的含义
+#### 线程池几个参数的含义即其值
 
-```java
-public ThreadPoolExecutor(int corePoolSize,
-                          int maximumPoolSize,
-                          long keepAliveTime,
-                          TimeUnit unit,
-                          BlockingQueue<Runnable> workQueue,
-                          ThreadFactory threadFactory) {
-    ...
-}
-```
+- 核心线程数
+- 最大线程数
+- 最大存活时间
+- 队列
+- 拒绝策略
 
-```java
-public void execute(Runnable command) {
-    if (command == null)
-        throw new NullPointerException();
-    int c = ctl.get();
-    if (workerCountOf(c) < corePoolSize) {
-        if (addWorker(command, true))
-            return;
-        c = ctl.get();
-    }
-    if (isRunning(c) && workQueue.offer(command)) {
-        int recheck = ctl.get();
-        if (! isRunning(recheck) && remove(command))
-            reject(command);
-        else if (workerCountOf(recheck) == 0)
-            addWorker(null, false);
-    }
-    else if (!addWorker(command, false))
-        reject(command);
-}
-```
+#### Java默认线程池
 
+|            | 核心线程数 | 最大线程数        | 最大存活时间 | 队列             |
+| ---------- | ---------- | ----------------- | ------------ | ---------------- |
+| 固定线程池 | n          | n                 | 0            | LinkedBlockQueue |
+| 缓存线程池 | 0          | Integer.max_value | 60s          | SynchronousQueue |
+| 单一线程池 | 1          | 1                 | 0            | LinkedBlockQueue |
 
+#### Java线程数的选择
+
+`(CPU_TIME/(IO_TIME + CPU_TIME))*CPU_NUM`
+
+### LocalThread
+
+不同线程有自己的LocalThread，可以用来线程隔离，参数传递等。
 
 ## 锁
 

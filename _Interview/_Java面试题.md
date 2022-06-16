@@ -339,10 +339,6 @@ CAS操作的流程，线程在读取数据时不进行加锁，在准备写回�
 
 ### 异常相关
 
-### 多线程相关
-
-
-
 #### 线程有几种状态
 
 ```
@@ -406,14 +402,6 @@ JVM会为一个使用内部锁（synchronized）的对象维护两个集合，**
 
 对于Wait Set中的线程，当对象的notify()方法被调用时，JVM会唤醒处于Wait Set中的某一个线程，这个线程的状态就从WAITING转变为RUNNABLE；或者当notifyAll()方法被调用时，Wait Set中的全部线程会转变为RUNNABLE状态。所有Wait Set中被唤醒的线程会被转移到Entry Set中。
 
-#### 多线程的几个队列
-
-```
-
-```
-
-
-
 #### 关于多线程的几个方法
 
 ```
@@ -431,18 +419,6 @@ obj.notify()唤醒在此对象监视器上等待的单个线程，选择是任�
 当对象的notify()方法被调用时，JVM会唤醒处于Wait Set中的某一个线程，这个线程的状态就从WAITING转变为RUNNABLE；或者当notifyAll()方法被调用时，Wait Set中的全部线程会转变为RUNNABLE状态。
 
 yield()方法仅释放CPU执行权，锁仍然占用，线程会被放入就绪队列，会在短时间内再次执行。
-```
-
-#### 同步队列等待队列
-
-```
-
-```
-
-#### 创建线程的几种方式
-
-```
-
 ```
 
 #### Threadloca介绍一下，有应用吗？
@@ -779,94 +755,6 @@ synchronized void setB() throws Exception{
 ```
 
 Java SE 1.6为了减少获得锁和释放锁带来的性能消耗，引入了“偏向锁”和“轻量级锁”：锁一共有4种状态，级别从低到高依次是：无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态
-
-
-
-### 线程池
-
-#### 为什么使用线程池
-
-```
-降低系统资源消耗，通过重用已存在的线程，降低线程创建和销毁造成的消耗；
-提高系统响应速度，当有任务到达时，通过复用已存在的线程，无需等待新线程的创建便能立即执行；
-方便线程并发数的管控。
-```
-
-#### 有几种线程池
-
-```
-Executors类提供了4种不同的线程池：
-newCachedThreadPool,
-首先是有一种场景，任务很多，而且时间短，这样的话，我可以使用newCachedThreadPool，这个的特点就是采用同步队列，核心线程数为0，最大线程数无限制，过期时间为1分钟，当有任务来的时候，我们将其插入到SynchronousQueue(同步队列)中，然后去线程池中寻找可用的线程去执行，有的话就执行，没有的话创建线程进行执行，当空闲线程超过超时时间的话，那么就销毁。
-
-newFixedThreadPool, 
-然后还有一种场景是执行长期的任务，这时候就可以使用提供的newFixedThreadPool，创建一个固定大小的线程池，所以这个的参数就是固定数量的核心线程数，最大线程数与核心线程数相等，无超时时间，工作队列采用LinkedBlockingQueue(无界的阻塞队列)，所以实际线程数量永远不会变化，保证线程数可控，不会造成线程过多，导致系统负载更为严重。
-使用的是时候，有空闲线程就使用，但是当池子满了就不在添加线程了；如果池中的所有线程均在繁忙状态，对于新任务会进入阻塞队列中
-
-
-newScheduledThreadPool, 
-还有情景是，适用于执行延时或者周期性任务，corePoolSize为传递来的参数，maximumPoolSize为Integer.MAX_VALUE；keepAliveTime为0；workQueue为：new DelayedWorkQueue() 一个按超时时间升序排序的队列
-创建一个固定大小的线程池，线程池内线程存活时间无限制，线程池可以支持定时及周期性任务执行，如果所有线程均处于繁忙状态，对于新任务会进入DelayedWorkQueue队列中，这是一种按照超时时间排序的队列结构
-
-newSingleThreadExecutor
-当我们一个一个任务执行的时候，可以使用newSingleThreadExecutor，它采用的是LinkedBlockingQueue(无界阻塞队列)
-创建只有一个线程的线程池，且线程的存活时间是无限的；当该线程正繁忙时，对于新任务会进入阻塞队列。
-
-execute()，执行一个任务，没有返回值。
-submit()，提交一个线程任务，有返回值。
-```
-
-#### 线程池讲讲
-
-```
-corePoolSize 线程池核心线程大小
-当向线程池提交一个任务时，若线程池已创建的线程数小于corePoolSize，即便此时存在空闲线程，也会通过创建一个新线程来执行该任务，直到已创建的线程数大于或等于corePoolSize时，也可以通过 prestartCoreThread()方法来提前启动线程池中的基本线程。
-
-maximumPoolSize（线程池最大大小）：线程池所允许的最大线程个数。当队列满了，且已创建的线程数小于maximumPoolSize，则线程池会创建新的线程来执行任务。另外，对于无界队列，可忽略该参数。
-一个任务被提交到线程池以后，首先会找有没有空闲存活线程，如果有则直接执行，如果没有则会缓存到工作队列（后面会介绍）中，如果工作队列满了，才会创建一个新线程，然后从工作队列的头部取出一个任务交由新线程来处理，而将刚提交的任务放入工作队列尾部。线程池不会无限制的去创建新线程，它会有一个最大线程数量的限制，这个数量即由maximunPoolSize指定
-
-keepAliveTime 空闲线程存活时间
-当线程池中线程数大于核心线程数时，线程的空闲时间如果超过线程存活时间，那么这个线程就会被销毁，直到线程池中的线程数小于等于核心线程数。
-
-workQueue（任务队列）：用于传输和保存等待执行任务的阻塞队列。
-如果核心线程池已满，那么看看工作队列是否满了，如果没有满，则将新添加的任务添加到工作队列。
-新任务被提交后，会先进入到此工作队列中，任务调度时再从队列中取出任务。jdk中提供了四种工作队列
-
-threadFactory（线程工厂）：用于创建新线程。threadFactory创建的线程也是采用new Thread()方式，threadFactory创建的线程名都具有统一的风格：pool-m-thread-n（m为线程池的编号，n为线程池内的线程编号）
-
-handler（线程饱和策略）：当线程池和队列都满了，再加入线程会执行此策略。
-```
-
-#### 线程池的拒绝策略
-
-```
-默认的是AbortPolicy
-CallerRunsPolicy
-该策略下，在调用者线程中直接执行被拒绝任务的run方法，除非线程池已经shutdown，则直接抛弃任务。
-AbortPolicy
-该策略下，直接丢弃任务，并抛出RejectedExecutionException异常。
-DiscardPolicy
-该策略下，直接丢弃任务，什么都不做。
-DiscardOldestPolicy
-该策略下，抛弃进入队列最早的那个任务，然后尝试把这次拒绝的任务放入队列
-```
-
-```java
-public static void cacheThreadPool() {
-  ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-  for (int i = 1; i <= 10; i++) {
-    final int ii = i;
-    try {
-      Thread.sleep(ii * 1);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    cachedThreadPool.execute(()->out.println("线程名称：" + Thread.currentThread().getName() + "，执行" + ii));
-  }
-
-}
-```
 
 
 
@@ -1912,91 +1800,6 @@ Spring Cloud 就是微服务系统架构的一站式解决方案，在平时我�
 char 表示定长，长度固定，varchar表示变长，即长度可变。char如果插入的长度小于定义长度时，则用空格填充；varchar小于定义长度时，还是按实际长度存储，插入多长就存多长。
 
 InnoDB 存储引擎和数据列 建议使用 VARCHAR类型，因为内部的行存储格式没有区分固定长度和可变长度列
-```
-
-#### 模糊查询的语法
-
-```
-select * from 表名 where first_name like '_a%';
-```
-
-#### 清除重复值语法
-
-```
-select distinct 字段名 from 表名;
-```
-
-#### 排序查询的语法
-
-```
-select * from 表名 order by 排序字段 asc|desc;
-```
-
-#### 条件范围语法
-
-```
-select *from product where price between 200 and 1000;
-select *from product where price in (200,800);
-```
-
-#### 聚合查询
-
-```
-count,sum,max,min,avg
-```
-
-#### 分组查询
-
-```
-select 字段1,字段2... from 表名 group by 分组字段
-```
-
-#### 分页查询语法
-
-```
-select * from 表名 limit 2,4 -- 即取出第3条至第6条，共计4条记录(2表示索引，即从第三条数据开始)
-```
-
-#### 什么内连接，左连接和右连接
-
-```
-在多表查询中：对两张表进行查询可以选择内连接和外连接
-内连接：内连接是取两个表的公共部分
-	select * from A,B where A.id=B.Aid （对A,B表进行笛卡尔积，然后使用where进行过滤）
-	select * from A JOIN B ON A.id=B.Aid
-外连接：
-	外连接又分为左外连接和右外连接
-		左外连接：
-		在内连接的基础上保证左表的数据全部显示
-		select * from A Left JOIN B ON A.id=B.Aid (B的数据全部都得显示)
-		右外连接:
-		select * from A Right JOIN B ON A.id=B.Aid
-```
-
-#### 什么是子查询
-
-```
-子查询就是在一个查询语句之中,嵌套若干个不同的小查询
-单行单列
-	查询年纪大于22岁的学生喜欢的老师的名字
-	SELECT tname FROM teacher WHERE tid IN(SELECT tea_id FROM stu WHERE sage>22);
-多行多列
-	查询出22岁以上的学生信息，包括对应的老师的信息
-	SELECT *FROM teacher t,(SELECT *FROM stu WHERE sage>22) s WHERE t.tid=s.tea_id;
-```
-
-#### SQL having 语句
-
-```
-现在，我们希望查找订单总金额少于 2000 的客户
-SELECT Customer,SUM(OrderPrice) FROM Orders
-GROUP BY Customer
-HAVING SUM(OrderPrice)<2000
-现在我们希望查找客户 "Bush" 或 "Adams" 拥有超过 1500 的订单总金额。
-SELECT Customer,SUM(OrderPrice) FROM Orders
-WHERE Customer='Bush' OR Customer='Adams'
-GROUP BY Customer
-HAVING SUM(OrderPrice)>1500
 ```
 
 #### MySQL中的几种日志
