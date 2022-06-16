@@ -17,9 +17,9 @@
     - [泛型](JavaSE/泛型.md)
     - [注解](JavaSE/注解.md)
     - **多线程**
-      - [JUC](JavaSE/多线程/JUC.md)
       - [线程池](JavaSE/多线程/线程池.md)
       - [多线程基础](JavaSE/多线程/多线程基础.md)
+      - [线程池参数选择](JavaSE/多线程/线程池参数选择.md)
     - [序列化](JavaSE/序列化.md)
     - [深入理解Java虚拟机](JavaSE/深入理解Java虚拟机.md)
     - [代码优化方案](JavaSE/代码优化方案.md)
@@ -114,8 +114,6 @@
       - [NAT](计算机基础/计算机网络/NAT.md)
       - [SSL证书类型](计算机基础/计算机网络/SSL证书类型.md)
     - [正则表达式](计算机基础/正则表达式.md)
-- **大数据**
-    - [大数据基本概念](大数据/大数据基本概念.md)
 - **运维**
     - [Docker](运维/Docker.md)
     - [ELK](运维/ELK.md)
@@ -170,20 +168,28 @@
       - [PhantomJS](工具/WebTool/PhantomJS.md)
     - **dev**
       - [mkcert本地安装https证书](工具/dev/mkcert本地安装https证书.md)
-- **前端**
-    - [JavaScript](前端/JavaScript.md)
-    - [TypeScript](前端/TypeScript.md)
-    - [VUE](前端/VUE.md)
-- **算法**
-    - [算法题](算法/算法题.md)
-    - [加密算法](算法/加密算法.md)
-- **开源项目**
-    - **DataX**
-      - [DataX](开源项目/DataX/DataX.md)
-      - [关于DataXHdfsWriter](开源项目/DataX/关于DataXHdfsWriter.md)
-    - **Davinci**
-      - [Davinci](开源项目/Davinci/Davinci.md)
-      - [Davinci埋点设计](开源项目/Davinci/Davinci埋点设计.md)
-    - **dolphinscheduler**
-      - [dolphinscheduler](开源项目/dolphinscheduler/dolphinscheduler.md)
+- **其他**
+    - **Bug**
+      - **应用**
+        - [应用卡顿问题bug记录](其他/Bug/应用/应用卡顿问题bug记录.md)
+    - **前端**
+      - [JavaScript](其他/前端/JavaScript.md)
+      - [TypeScript](其他/前端/TypeScript.md)
+      - [VUE](其他/前端/VUE.md)
+    - **算法**
+      - [算法题](其他/算法/算法题.md)
+      - [加密算法](其他/算法/加密算法.md)
+    - **大数据**
+      - [大数据基本概念](其他/大数据/大数据基本概念.md)
+    - **开源项目**
+      - **DataX**
+        - [DataX](其他/开源项目/DataX/DataX.md)
+        - [关于DataXHdfsWriter](其他/开源项目/DataX/关于DataXHdfsWriter.md)
+      - **Davinci**
+        - [Davinci](其他/开源项目/Davinci/Davinci.md)
+        - [Davinci埋点设计](其他/开源项目/Davinci/Davinci埋点设计.md)
+      - **dolphinscheduler**
+        - [dolphinscheduler](其他/开源项目/dolphinscheduler/dolphinscheduler.md)
+    - **软件工程**
+      - [软件版本周期](其他/软件工程/软件版本周期.md)
 
