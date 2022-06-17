@@ -1,17 +1,11 @@
 - **JavaSE**
-    - **JDBC**
-      - [JDBC](JavaSE/JDBC/JDBC.md)
-      - [MysqlInJava](JavaSE/JDBC/MysqlInJava.md)
-      - [连接池](JavaSE/JDBC/连接池.md)
+    - [JDBC](JavaSE/JDBC.md)
     - [Java8特性](JavaSE/Java8特性.md)
     - [Java数组List转换](JavaSE/Java数组List转换.md)
-    - [Java定时任务](JavaSE/Java定时任务.md)
     - [Java时间相关](JavaSE/Java时间相关.md)
-    - [Java远程调控](JavaSE/Java远程调控.md)
     - [Java正则表达式](JavaSE/Java正则表达式.md)
     - [Java常见系统方法](JavaSE/Java常见系统方法.md)
     - [Java调用本地命令](JavaSE/Java调用本地命令.md)
-    - [Java中常用数据格式](JavaSE/Java中常用数据格式.md)
     - [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
     - [ThreadLocal](JavaSE/ThreadLocal.md)
     - [泛型](JavaSE/泛型.md)
@@ -20,9 +14,7 @@
       - [线程池](JavaSE/多线程/线程池.md)
       - [多线程基础](JavaSE/多线程/多线程基础.md)
       - [线程池参数选择](JavaSE/多线程/线程池参数选择.md)
-    - [序列化](JavaSE/序列化.md)
     - [深入理解Java虚拟机](JavaSE/深入理解Java虚拟机.md)
-    - [代码优化方案](JavaSE/代码优化方案.md)
     - [深拷贝与浅拷贝](JavaSE/深拷贝与浅拷贝.md)
 - **JavaEE**
     - **CAS**
@@ -30,21 +22,13 @@
       - [CAS登录流程](JavaEE/CAS/CAS登录流程.md)
     - **Email**
       - [Java-Email](JavaEE/Email/Java-Email.md)
-    - [Java邮件](JavaEE/Java邮件.md)
-    - [Java日志框架](JavaEE/Java日志框架.md)
-    - [Log4j2漏洞](JavaEE/Log4j2漏洞.md)
-    - **分布式**
-      - [Nacos](JavaEE/分布式/Nacos.md)
-      - [服务注册与发现](JavaEE/分布式/服务注册与发现.md)
-    - **连接池**
-      - [Druid](JavaEE/连接池/Druid.md)
+    - **日志**
+      - [Java日志框架](JavaEE/日志/Java日志框架.md)
+      - [Log4j2漏洞](JavaEE/日志/Log4j2漏洞.md)
 - **JavaWeb**
     - [BasicAuthotization](JavaWeb/BasicAuthotization.md)
     - [Cookie](JavaWeb/Cookie.md)
     - [Http](JavaWeb/Http.md)
-    - [JavaWeb核心](JavaWeb/JavaWeb核心.md)
-    - [Java发送HTTP请求](JavaWeb/Java发送HTTP请求.md)
-    - [Restful](JavaWeb/Restful.md)
     - [跨域](JavaWeb/跨域.md)
 - **Spring**
     - [Spring](Spring/Spring.md)
@@ -58,7 +42,9 @@
       - [关于SpringBoot的配置文件](Spring/SpringBoot/关于SpringBoot的配置文件.md)
       - [配置中心](Spring/SpringBoot/配置中心.md)
     - **SpringCloud**
+      - [Nacos](Spring/SpringCloud/Nacos.md)
       - [feign源码解析](Spring/SpringCloud/feign源码解析.md)
+      - [服务注册与发现](Spring/SpringCloud/服务注册与发现.md)
     - **SpringFramework**
       - [SpringAOP](Spring/SpringFramework/SpringAOP.md)
       - [SpringCache](Spring/SpringFramework/SpringCache.md)
@@ -182,6 +168,10 @@
       - [加密算法](其他/算法/加密算法.md)
     - **大数据**
       - [大数据基本概念](其他/大数据/大数据基本概念.md)
+    - **代码之道**
+      - [代码优化方案](其他/代码之道/代码优化方案.md)
+    - **基础知识**
+      - [常用数据格式](其他/基础知识/常用数据格式.md)
     - **开源项目**
       - **DataX**
         - [DataX](其他/开源项目/DataX/DataX.md)

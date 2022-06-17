@@ -118,7 +118,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 ### 双斜杠注释紧贴代码而不是在行首
 
-![image-20211210114721376](IDEA_assets/image-20211210114721376.png)
+![annotation_close_to_code_head](IDEA_assets/annotation_close_to_code_head.png)
 
 效果：
 
@@ -131,11 +131,11 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 ### 代码提示取消大小写匹配
 
-![image-20211210115332183](IDEA_assets/image-20211210115332183.png)
+![code_hinting_donot_match_case](IDEA_assets/code_hinting_donot_match_case.png)
 
 ### 创建文件的时候，自动创建文件头注释
 
-![image-20211210115635196](IDEA_assets/image-20211210115635196.png)
+![auto_create_file_head](IDEA_assets/auto_create_file_head.png)
 
 如下：
 
@@ -148,7 +148,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 - 设置控制台限制的文件总大小
 
-  ![image-20211215183503991](IDEA_assets/image-20211215183503991.png)
+  ![limit_console_size](IDEA_assets/limit_console_size.png)
 
 ### 格式化部分代码
 
@@ -178,7 +178,21 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
   IDEA自动修复可能存在问题的代码
 
+## 配置Java远程Debug
 
+**服务端**
+
+在启动程序的时候，加上如下参数，即可开启Debug模式
+
+```
+-Xdebug  -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8089
+```
+
+**客户端**
+
+在IDEA中添加Remote-JVM Debug，配置如下图所示：
+
+![idea_debug_config](IDEA_assets/idea_debug_config.png 'IDEA 配置远程debug')
 
 ## iml文件
 
