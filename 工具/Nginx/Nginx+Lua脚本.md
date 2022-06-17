@@ -42,7 +42,7 @@ centOS为例：
 - 通过yum安装`perl 5.6.1+`, `libpcre`, `libssl`库
 
   ```
-  yum install pcre-devel openssl-devel gcc curl
+  $ yum install pcre-devel openssl-devel gcc curl
   ```
 
 - 安装OpenResty
@@ -50,18 +50,18 @@ centOS为例：
   在系统添加`openresty`仓库，这样就可以通过yum来安装或者更新软件包。
 
   ```
-  # add the yum repo:
+  $ add the yum repo:
   wget https://openresty.org/package/centos/openresty.repo
   sudo mv openresty.repo /etc/yum.repos.d/
   
-  # update the yum index:
+  $ update the yum index:
   sudo yum check-update
   ```
 
   通过yum安装软件
 
   ```
-  sudo yum install -y openresty
+  $ sudo yum install -y openresty
   ```
 
 ## 测试Lua脚本
@@ -86,28 +86,7 @@ $ curl -X GET 'https://hxduat.xxx.com/openapi/event/tracking' --header 'Authoriz
 Hello World
 ```
 
-## 连接Kafka实现日志收集
-
-### 安装lua-resty-kafka模块
-
-- [点击查看lua-resty-kafka](https://github.com/doujiang24/lua-resty-kafka)
-
-- 下载压缩包
-
-  ```
-  $ wget https://github.com/doujiang24/lua-resty-kafka/archive/master.zip  
-  ```
-
-- 解压并将Kafka工具包复制到openResty/lualib下
-
-  ```
-  $ unzip master.zip  
-  $ cp -r lua-resty-kafka-master/lib/resty/kafka/ /usr/local/openresty/lualib/
-  ```
-
-
-
 ## Reference
 
-- 王力、汤永全/Nginx实战-基于Lua语言的配置、开发与架构详解
+- 《Nginx实战-基于Lua语言的配置、开发与架构详解》 ——王力、汤永全
 - http://openresty.org/cn/

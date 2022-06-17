@@ -161,6 +161,7 @@
       - [Lua脚本](工具/Nginx/Lua脚本.md)
       - [Nginx+Lua脚本](工具/Nginx/Nginx+Lua脚本.md)
       - [Nginx](工具/Nginx/Nginx.md)
+      - [Nginx应用](工具/Nginx/Nginx应用.md)
     - **RabbitMQ**
       - [RabbitMQ](工具/RabbitMQ/RabbitMQ.md)
     - **WebTool**

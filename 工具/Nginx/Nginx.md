@@ -191,8 +191,6 @@ upstrearn backend {
 }
 ```
 
-
-
 ### server
 
 配置虚拟主机的相关参数，一个http中可以有多个server，一个虚拟服务器由listen和server_name指令组合定义
@@ -257,7 +255,7 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `=` 
 
-  开头表示精确匹配。
+  精确匹配，匹配到即停止。
 
   ```nginx
   location = /{
@@ -267,7 +265,7 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `^~`
 
-  表示匹配URI只需要前半部分与URI匹配即可。
+  前缀匹配，表示匹配URI只需要前半部分与URI匹配即可，匹配到即停止，优先级高于正则表达式。
 
   ```nginx
   location ^~ /images/ {
@@ -277,9 +275,11 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `~`
 
-  表示匹配URI是字母大小写敏感的，属于正则表达式。
+  正则匹配，URI是大小写敏感的。
 
-- `~*`表示忽略大小写问题，属于正则表达式
+- `~*`
+
+  正则匹配，URI是大小写不敏感。
 
   ```nginx
   location ~* \.(gif|jpg|jpeg)$ {
@@ -294,13 +294,13 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `/`
 
-  通用匹配，默认找不到其他匹配的时候，会进行通用匹配。
+  通用匹配，默认找不到其他匹配的时候，会进行通用匹配，优先级最低。
 
 - @表示Nginx内部之间的重定向
 
   命名空间，只能在server级别定义，不直接处理用户请求。
 
-**注意：location是有顺序的，当location匹配成功时候，停止匹配，按当前匹配规则处理请求**
+**不匹配**
 
 在以上的匹配方式中，都表达了，如果匹配...则...，如果需要表达如果不匹配...则...
 
@@ -314,19 +314,11 @@ location / {
 
 注意：uri带`/`和不带`/`有何区别？
 
+**查看localtion匹配情况**
 
+此网站可以查看localtion匹配情况
 
-
-
-```nginx
-location / {
-    # dw-web-ui
-    root   D:\work\dist;
-    index  index.html index.htm;
-    #try_files $uri $uri/ /dw-web-ui/index.html;å
-    try_files $uri $uri/ /usertag/index.html;
-}
-```
+https://nginx.viraptor.info/
 
 #### 文件路径的定义
 
@@ -374,8 +366,8 @@ location /conf {
 
 ```nginx
 location / {
-		root path;
-		index /index.html /html/index.php /index/php
+    root path;
+    index /index.html /html/index.php /index/php
 }
 ```
 
@@ -402,7 +394,7 @@ try_files后面要跟若干路径，而且最后必须要有uri参数，意义�
 ```nginx
 try_files /system/maintenance.html $uri $uri/index.html $uri.html @other;
 location @other {
-		proxy_pass http://backend;
+    proxy_pass http://backend;
 }
 ```
 
@@ -412,7 +404,7 @@ location @other {
 
 ```nginx
 location /{
-	try_files $uri $uri/ /error.php?c=404 =404;
+    try_files $uri $uri/ /error.php?c=404 =404;
 }
 ```
 
@@ -559,10 +551,6 @@ location /aaa {
 
 在nginx中配置proxy_pass代理转发时，如果在proxy_pass后面的url加/，那么就会将匹配部分的URI用/替换，proxy_pass后面的url不加/，那么会将匹配部分的URI也给带上
 
-
-
-
-
 ```nginx
 proxy_pass http://localhost:8000/uri/;
 
@@ -593,8 +581,6 @@ proxy_method POST
 ```
 
 那么客户端发来的GET请求也会被转发为POST
-
-
 
 #### proxy_set_header
 
@@ -669,223 +655,40 @@ http块中添加`include vhosts/*.conf`，然后在nginx目录下的vhosts目录
 | `$content_type`  | 表示客户端请求头中的Content-Type字段                         |
 | `$scheme`        | 表示http或者https，常用于将http转换为https                   |
 
-## 访问流程
+## access日志
 
-```nginx
-server {
-    listen       80;
-    server_name  localhost;
-
-    #charset koi8-r;
-
-    #access_log  logs/host.access.log  main;
-
-    location / {
-        # dw-web-ui
-        root   D:\work\dist;
-        index  index.html index.htm;
-        #try_files $uri $uri/ /dw-web-ui/index.html;
-        try_files $uri $uri/ /usertag/index.html;
-    }
-
-    location /usertag/ {
-        root   D:\work\dist;
-        index  index.html index.htm;
-        try_files $uri $uri/ /usertag/index.html;
-        add_header Cache-Control "max-age=0";
-        # add_header Cache-Control "no-cache";
-    }
-
-    location /analysis/ {
-        root   D:\work\dist;
-        index  index.html index.htm;
-        try_files $uri $uri/ /analysis/index.html;
-        add_header Cache-Control "max-age=0";
-        # add_header Cache-Control "no-cache";
-    }
-
-
-    location /data-web/ {
-        proxy_pass http://localhost:9010;
-    }
-
-    location /cas/ {
-        proxy_pass http://localhost:8080;
-    }
-
-    #error_page  404              /404.html;
-
-    # redirect server error pages to the static page /50x.html
-    #
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root   html;
-    }
-}
-```
-
-输入localhost/analysis后nginx中的请求日志
+Nginx中的请求日志默认地址为：
 
 ```
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/ HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/css/chunk-vendors.0eaad782.css HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/css/index.ceee3654.css HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-vendors.7b2a99f3.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/index.7113c2e4.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/css/chunk-23a86bb0.0832fe77.css HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/css/chunk-8caa4b5a.312d4a24.css HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/css/chunk-da90a3d0.0028ddf8.css HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-23a86bb0.81554dc6.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-2d0db2a8.100e037d.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-2d22d366.ba278505.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-8caa4b5a.16aab16a.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-127.0.0.1 - - [01/Mar/2021:15:42:50 +0800] "GET /analysis/static/js/chunk-da90a3d0.eef2ab5a.js HTTP/1.1" 304 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-
-127.0.0.1 - - [01/Mar/2021:15:42:57 +0800] "GET /data-web/user/detail?dataplatformCode=analysis HTTP/1.1" 302 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-
-127.0.0.1 - - [01/Mar/2021:15:42:57 +0800] "GET /cas/login?service=http://localhost/data-web/shiro-cas/analysis HTTP/1.1" 200 6636 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-
-127.0.0.1 - - [01/Mar/2021:15:42:58 +0800] "GET /data-web/index/analysis HTTP/1.1" 302 0 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
-
-127.0.0.1 - - [01/Mar/2021:15:42:58 +0800] "GET /cas/login?service=http://localhost/data-web/shiro-cas/analysis HTTP/1.1" 200 6636 "http://localhost/analysis/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36"
+#access_log  logs/access.log  main;
 ```
 
-## 生产应用
-
-### 设置IP白名单
-
-```nginx
-location /dap {
-            allow 223.70.137.137;
-            allow 223.70.137.130;
-            allow 49.7.65.2;
-            allow 49.7.65.3;
-            allow 49.7.65.4;
-            allow 49.7.65.14;
-            allow 49.7.65.254;
-            deny all;
-            root    /data;
-            try_files $uri $uri/ /dap/index.html;
-            add_header Cache-Control max-age=0;
-        }
-```
-
-### nginx更改默认403页面
-
-1. 制作`403.html`
-
-   ```html
-   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-   <html>
-   <head>
-   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-   <title>Error 403 Forbidden</title>
-   <style>
-   <!--
-   	body {font-family: arial,sans-serif}
-   	img { border:none; }
-   //-->
-   </style>
-   </head>
-   <body>
-   <blockquote>
-   	<h2>Error 403 Forbidden</h2>
-   	<p>对不起，您的访问被拒绝，有可能是您的IP不被允许访问，请联系管理员!
-   </blockquote>
-   </body>
-   </html>
-   ```
-
-2. 放在`nginx/html`下
-
-3. 修改配置
-
-   ```nginx
-   server{
-       listen	443;
-       server_name	hxduat.kg.com;
-       error_page  403  /403.html;
-       ...
-   }
-   ```
-
-   有时候会报找不到/403.html
-
-   那么就加上如下：
-
-   ```nginx
-   location /403.html {
-       root /data/nginx/html;
-   }
-   ```
-
-### 访问客户端的真实IP
-
-### 安装SSH证书
-
-https://cloud.tencent.com/document/product/400/4143
-
-### 客户端超时问题
-
-背景：
-
-业务方反馈，页面发生504 Gateway Time-out
-
-处理：
-
-Nginx默认后端1分钟未响应，则返回504超时。
-
-增加如下配置：
+默认日志格式为：
 
 ```
-proxy_connect_timeout  180s;
-proxy_send_timeout  180s;
-proxy_read_timeout  180s;
+#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+#                  '$status $body_bytes_sent "$http_referer" '
+#                  '"$http_user_agent" "$http_x_forwarded_for"';
 ```
 
-[详见此](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout)
+例如：
+
+```
+127.0.0.1 - admin [17/Jun/2022:13:28:07 +0800] "GET /openapi/hsz/display/618/text HTTP/1.1" 200 256 "https://uat-bigdata.kungeek.com/display_618/618.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.54"
+```
+
+## error日志
+
+开启debug error日志
+
+```
+error_log  /usr/local/var/log/nginx/error.log  debug;
+```
 
 ## Reference
 
-本文大量参考了 陶辉的《深入理解Nginx-模块开发于架构解析-第二版》
-
-
-
-```java
-/**
- * 获取request中的ip地址
- *
- * @param request
- * @return
- */
-private String getIpAddr(HttpServletRequest request) {
-
-    String ip = request.getHeader("x-forwarded-for");
-    try {
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-            if ("127.0.0.1".equals(ip)) {
-                //根据网卡取本机配置的IP
-                InetAddress inet = InetAddress.getLocalHost();
-                ip = inet.getHostAddress();
-            }
-        }
-        // 多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if (ip != null && ip.length() > 15 && ip.indexOf(',') >= 0) {
-            ip = ip.substring(0, ip.indexOf(','));
-        }
-    } catch (Exception e) {
-        log.error(e.getMessage(), e);
-    }
-    return ip;
-}
-```
+1. 《深入理解Nginx-模块开发于架构解析-第二版》——陶辉
+2. http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout
 
 
 
