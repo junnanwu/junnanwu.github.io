@@ -6529,11 +6529,7 @@ public class DouDiZhu {
 
 AWT库中有一个成为Frame的类,用于描述这个顶层窗口, 这个类的Swing版本叫做JFrame, 它扩展了Frame类, 它的修饰部件是由用户的窗口系统绘制, 而不是由Swing绘制
 
-JFrame这个类只包含若干个改变窗体外观的方法, 很多处理窗口和位置的方法都来自JFrame的各个父类, 例如setLocation() 来自Component. 
-
-![JFrame](D:\Java\java note\_javaSE1_assets\JFrame.png)
-
-
+JFrame这个类只包含若干个改变窗体外观的方法, 很多处理窗口和位置的方法都来自JFrame的各个父类, 例如setLocation() 来自Component.
 
 ```java
 package com.itheima.demo;
@@ -6716,66 +6712,3 @@ Action接口包含以下方法:
 - void removePropertyChangeListener(PropertyChangeLister listener)
 
   这两个方法能够让其他对象在动作对象的属性发生变化的时候得到通知
-
-# 数据结构
-
-## 栈
-
-栈是仅限在表尾进行插入和删除操作的线性表
-
-## 队列
-
-队列是只允许在一端进行插入操作, 另一端进行删除操作的线性表
-
-## 数组和线性表的关系
-
-数组和链表是底层的数据存储方式, 线性表是更高层的数据组织形式
-
-线性表有两种底层实现, 线性表的底层用数组来实现叫做顺序表, 线性表的底层用链表实现就是各种链表
-
-## 4.1排序
-
-#### 选择排序
-
-首先找到数组中最小的那个数，然后将其与第一个交换位置，其次在剩下的元素中查找最小的元素，然后与第二个交换，如此往复即可将整个数组排序
-
-每次交换都需要交换一个元素的位置，所以交换的总次数为N，刚开始需要比较N次，然后是N-1，N-2，然后求和为N(N-1)/2~N（2）/2
-
-**特点：**
-
-1. s运行时间和输入无关，一个有序的数组和一个随机数组的排序时间居然一样长
-2. 数据移动是最少的
-
-```java
-public static void selectSort(int[] arr) {
-    int size = arr.length;
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = i; j < size - 1; j++) {
-            if (arr[i] > arr[j + 1]) {
-                int temp = arr[j + 1];
-                arr[j + 1] = arr[i];
-                arr[i] = temp;
-            }
-        }
-    }
-}
-```
-
-### 冒泡排序
-
-```java
-public static void bubbleSort(int[] arr) {
-    int[] arrayFinal = null;
-    int size = arr.length;
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (arr[j] > arr[j + 1]) {
-                int temp = arr[j + 1];
-                arr[j + 1] = arr[j];
-                arr[j] = temp;
-            }
-        }
-    }
-}
-```
-

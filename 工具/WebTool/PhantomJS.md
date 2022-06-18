@@ -118,12 +118,6 @@ if (args.length === 1) {
   --ignore-ssl-errors=yes
   ```
 
-
-
-https://segmentfault.com/q/1010000003989521
-
-
-
 ## 应用
 
 ## Java调用
@@ -137,8 +131,6 @@ public void testPhantomJS() throws IOException, InterruptedException {
     System.out.println("执行结束!");
 }
 ```
-
-
 
 ## References
 
