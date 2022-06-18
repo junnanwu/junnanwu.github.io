@@ -1,9 +1,7 @@
 - **JavaSE**
     - [JDBC](JavaSE/JDBC.md)
+    - [Java-Date](JavaSE/Java-Date.md)
     - [Java8特性](JavaSE/Java8特性.md)
-    - [Java数组List转换](JavaSE/Java数组List转换.md)
-    - [Java时间相关](JavaSE/Java时间相关.md)
-    - [Java正则表达式](JavaSE/Java正则表达式.md)
     - [Java常见系统方法](JavaSE/Java常见系统方法.md)
     - [Java调用本地命令](JavaSE/Java调用本地命令.md)
     - [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
@@ -144,7 +142,6 @@
       - [Postman](工具/Mac/Postman.md)
       - [Typora](工具/Mac/Typora.md)
     - **Nginx**
-      - [Lua脚本](工具/Nginx/Lua脚本.md)
       - [Nginx+Lua脚本](工具/Nginx/Nginx+Lua脚本.md)
       - [Nginx](工具/Nginx/Nginx.md)
       - [Nginx应用](工具/Nginx/Nginx应用.md)
