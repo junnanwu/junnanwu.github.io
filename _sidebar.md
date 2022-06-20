@@ -9,6 +9,7 @@
     - [泛型](JavaSE/泛型.md)
     - [注解](JavaSE/注解.md)
     - **多线程**
+      - [volatile和synchronized](JavaSE/多线程/volatile和synchronized.md)
       - [线程池](JavaSE/多线程/线程池.md)
       - [线程中断](JavaSE/多线程/线程中断.md)
       - [多线程基础](JavaSE/多线程/多线程基础.md)
@@ -61,6 +62,7 @@
     - **ClickHouse**
       - [ClickHosue生产bug记录](数据库/ClickHouse/ClickHosue生产bug记录.md)
       - [ClickHouse](数据库/ClickHouse/ClickHouse.md)
+      - [ClickHouss备份迁移](数据库/ClickHouse/ClickHouss备份迁移.md)
     - **Elasticsearch**
       - [Elasticsearch](数据库/Elasticsearch/Elasticsearch.md)
       - [Elasticsearch的安装和配置](数据库/Elasticsearch/Elasticsearch的安装和配置.md)
