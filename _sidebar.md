@@ -9,6 +9,9 @@
     - [泛型](JavaSE/泛型.md)
     - [注解](JavaSE/注解.md)
     - **多线程**
+      - [CAS](JavaSE/多线程/CAS.md)
+      - [Java锁优化](JavaSE/多线程/Java锁优化.md)
+      - [ReentrantLock](JavaSE/多线程/ReentrantLock.md)
       - [volatile和synchronized](JavaSE/多线程/volatile和synchronized.md)
       - [线程池](JavaSE/多线程/线程池.md)
       - [线程中断](JavaSE/多线程/线程中断.md)

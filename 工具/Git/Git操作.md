@@ -183,19 +183,17 @@ git show [<options>] [<object>…]
   git branch -r
   ```
 
-  
-
 - 删除分支
 
-  `git branch -d test_branch`
-
-- 删除远程分支
-
-  `git push origin  --delete release/v2.9.0.3 `
+  ```
+  git branch -d test_branch
+  ```
 
 - 查看所有本地分支，并包含更多的信息
 
-  `git branch -vv`
+  ```
+  git branch -vv
+  ```
 
 ## git status
 
@@ -492,7 +490,47 @@ git config --global push.default simple
 
   此选项通过检查你本地的远程仓库的引用与远程仓库的相关分支是否一致，例如当其他人push了分支，那么你的远程仓库的引用就过时了，这个时候，该参数是不允许你进行push的，除非你fetch或者pull更新你本地的远程仓库的引用。
 
+## git merge
 
+将指定的commit合并到当前分支
+
+例如，你当前在mater分支：
+
+```
+	A---B---C topic
+	/
+D---E---F---G master
+```
+
+执行下面命令将topic合并到master分支
+
+```
+$ git merge topic
+```
+
+## git checkout
+
+- 切换分支
+
+  `git checkout testing` 切换到testing分支
+
+  `git checkout -b newtest` 创建并切换到newtest分支
+
+- 远程先创建了分支，本地如何切换到本地对应的分支
+
+  `git checkout feature/HDATA-335`
+
+  当checkout后面的分支不存在，但是正好存在一个远程分支与这个分支相匹配，那么这个命令相当于
+
+  `git checkout -b <branch> --track <remote>/<branch>`
+
+  ```
+  ➜  data-web-notice-backend git:(develop) ✗ git checkout feature/HDATA-335Branch 'feature/HDATA-335' set up to track remote branch 'feature/HDATA-335' from 'origin'.Switched to a new branch 'feature/HDATA-335'
+  ```
+
+- 切换到线上分支并且跟踪远程的分支
+
+  `git checkout -b 本地新建的分支名 origin/线上分支名`
 
 ### git push
 
@@ -678,33 +716,7 @@ Git中，我们通过tag来标记版本。
 
 git空目录无法add。如果想add一个空目录，则需要在它下面创建一个文件，比如（.gitignore或.gitkeep）
 
-### git checkout
-
-- 切换分支
-
-  `git checkout testing` 切换到testing分支
-
-  `git checkout -b newtest` 创建并切换到newtest分支
-
-- 远程先创建了分支，本地如何切换到本地对应的分支
-
-  `git checkout feature/HDATA-335`
-
-  当checkout后面的分支不存在，但是正好存在一个远程分支与这个分支相匹配，那么这个命令相当于
-
-  `git checkout -b <branch> --track <remote>/<branch>`
-
-  ```
-  ➜  data-web-notice-backend git:(develop) ✗ git checkout feature/HDATA-335Branch 'feature/HDATA-335' set up to track remote branch 'feature/HDATA-335' from 'origin'.Switched to a new branch 'feature/HDATA-335'
-  ```
-
-- 切换到线上分支并且跟踪远程的分支
-
-  `git checkout -b 本地新建的分支名 origin/线上分支名`
-
-### git merge
-
-
+- 
 
 ### git reset
 

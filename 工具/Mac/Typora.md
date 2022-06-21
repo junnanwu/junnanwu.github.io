@@ -126,9 +126,19 @@ Markdown同样支持HTML的特殊符号
   $$
   ```
 
-
-
 [^1]: this is the reference
+
+
+
+### 流程图
+
+[详见此](https://support.typora.io/Draw-Diagrams-With-Markdown/)
+
+```sequence
+Alice->Bob: Hello Bob, how are you?
+Note right of Bob: Bob thinks
+Bob-->Alice: I am good thanks!
+```
 
 ## 其他
 
