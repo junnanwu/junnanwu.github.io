@@ -145,6 +145,7 @@
       - [图片Base64转换](工具/Image/图片Base64转换.md)
     - **Mac**
       - [IDEA](工具/Mac/IDEA.md)
+      - [Mac-Problems](工具/Mac/Mac-Problems.md)
       - [Mac](工具/Mac/Mac.md)
       - [Postman](工具/Mac/Postman.md)
       - [Typora](工具/Mac/Typora.md)
