@@ -508,29 +508,49 @@ D---E---F---G master
 $ git merge topic
 ```
 
-## git checkout
+## git reset
 
-- 切换分支
+此命令用于回退版本，退回至某一次提交的版本。
 
-  `git checkout testing` 切换到testing分支
+```
+git reset [--soft | --mixed | --head] [HEAD]
+```
 
-  `git checkout -b newtest` 创建并切换到newtest分支
+默认参数为`--mixed`，此参数含义是将缓存区与指定的版本保持一致，而工作区文件内容保持不变。
 
-- 远程先创建了分支，本地如何切换到本地对应的分支
+`--hard`参数将暂存区和工作区都与指定的版本保持一致。
 
-  `git checkout feature/HDATA-335`
+暂存区回到上一个版本：
 
-  当checkout后面的分支不存在，但是正好存在一个远程分支与这个分支相匹配，那么这个命令相当于
+```
+$ git reset HEAD^
+```
 
-  `git checkout -b <branch> --track <remote>/<branch>`
+暂存区和工作区都回到上一个版本：
 
-  ```
-  ➜  data-web-notice-backend git:(develop) ✗ git checkout feature/HDATA-335Branch 'feature/HDATA-335' set up to track remote branch 'feature/HDATA-335' from 'origin'.Switched to a new branch 'feature/HDATA-335'
-  ```
+```
+$ git reset --hard HEAD^
+```
 
-- 切换到线上分支并且跟踪远程的分支
+将文件`README.md`回退到上个版本：
 
-  `git checkout -b 本地新建的分支名 origin/线上分支名`
+```
+$ git reset HEAD^ README.md
+```
+
+当然我们通过`git reflog`查看之前的版本，然后退回：
+
+```
+$ git reset c085db83
+```
+
+## git diff
+
+
+
+## git stash
+
+
 
 ### git push
 
@@ -718,8 +738,6 @@ git空目录无法add。如果想add一个空目录，则需要在它下面创�
 
 - 
 
-### git reset
-
 
 
 ### git clean
@@ -786,20 +804,6 @@ hard  源码也会回退到某个版本,commit和index 都会回退到某个版�
 - Force Checkout
 
   当前分支所做的修改就会被删除
-
-### 丢弃本地修改
-
-- 放弃所有文件修改
-
-  ```
-  $ git checkout .
-  ```
-
-- 放弃指定文件
-
-  ```
-  $ git checkout -- filename
-  ```
 
 
 ## References

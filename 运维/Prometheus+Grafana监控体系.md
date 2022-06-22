@@ -335,7 +335,7 @@ static_configs:
 xxx:9093
 ```
 
-**安装**
+可以在此页面对某个告警进行silence。
 
 **配置**
 
@@ -385,8 +385,6 @@ global:
 
 - `group_by`
 
-  
-
 - `group_wait`
 
   > How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
@@ -421,41 +419,7 @@ route:
     - team="frontend"
 ```
 
-
-
-https://www.cnblogs.com/longcnblogs/p/9620733.html
-
-`inhibit_rules`这个叫做抑制项，通过匹配源告警来抑制目的告警。比如说当我们的主机挂了，可能引起主机上的服务，数据库，中间件等一些告警，假如说后续的这些告警相对来说没有意义，我们可以用抑制项这个功能，让PrometheUS只发出主机挂了的告警。
-
-
-
-如果你觉得alertmanager的inhibit_rules麻烦，你可以不配置inhibit_rules，而是登录alertmanager的页面，新建slience规则，也能达到关闭某个告警的效果。
-
-
-
-https://tangxusc.github.io/2019/03/prometheus%E5%92%8Calertmanager%E7%9B%91%E6%8E%A7%E5%B9%B6%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/
-
-alertmanager是prometheus的体系中专门用来进行警告发送处理的组件.
-
-```shell
-./amtool check-config alertmanager-2.yml 
-```
-
-```
-#当目标标签匹配severity: 'warning'并且,源标签匹配severity: 'critical',并且'alertname', 'dev', 'instance'三个标签的值相等时,抑制警告发送
-inhibit_rules:
-  - source_match:
-      severity: 'critical'
-    target_match:
-      severity: 'warning'
-    equal: ['alertname', 'dev', 'instance']
-```
-
-
-
-
-
-
+`inhibit_rules`这个叫做抑制项，通过匹配源告警来抑制目的告警。
 
 ### prometheus.yml
 
@@ -509,12 +473,6 @@ annotations:
 ```
 promtool check rules /path/to/example.rules.yml
 ```
-
-### 企微预警
-
-
-
-## Grafana
 
 ## References
 
