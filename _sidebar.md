@@ -137,8 +137,9 @@
     - **Git**
       - [Git协作](工具/Git/Git协作.md)
       - [Git原理](工具/Git/Git原理.md)
-      - [Git操作](工具/Git/Git操作.md)
+      - [Git命令](工具/Git/Git命令.md)
       - [git-checkout](工具/Git/git-checkout.md)
+      - [git-push](工具/Git/git-push.md)
       - [gitignore](工具/Git/gitignore.md)
       - [关于GitHub](工具/Git/关于GitHub.md)
     - **Image**
