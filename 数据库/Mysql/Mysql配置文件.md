@@ -15,7 +15,7 @@ group对应了不同的程序或者组。
 报如下异常：
 
 ```
-SELECT list is not in GROUP BY clause and contains nonaggregated column .... incompatible with sql_mode=only_full_group_by
+ 
 ```
 
 即，没在group by中出现的字段或者聚合字段不能出现在select语句中。

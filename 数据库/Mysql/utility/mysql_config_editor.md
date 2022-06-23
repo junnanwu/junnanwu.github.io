@@ -19,7 +19,7 @@ Welcome to the MySQL monitor.  Commands end with ; or \g.
 
 当我们指定了`--login-path=mypath`参数，则会默认读取配置中 `[client]`和`[mysql]`和`[mypath]`组的配置。
 
-## 工具
+## 使用
 
 我们可以通过mysql_config_editor来保存登录信息：
 
