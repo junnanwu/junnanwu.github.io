@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_doc/AboutMe.md)。
 
 ## 最近新增/修改
-1. [AboutMe](_docs/AboutMe.md)
-2. [git-config](工具/Git/git-config.md)
-3. [Git命令](工具/Git/Git命令.md)
-4. [字符编码](计算机基础/字符编码.md)
-5. [Mac-Problems](工具/Mac/Mac-Problems.md)
-6. [Mac](工具/Mac/Mac.md)
-7. [git-checkout](工具/Git/git-checkout.md)
-8. [ReentrantLock](JavaSE/多线程/ReentrantLock.md)
-9. [Linux基础命令](运维/Linux/Linux基础命令.md)
-10. [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
+1. [mysqldump](数据库/Mysql/utility/mysqldump.md)
+2. [mysql_config_editor](数据库/Mysql/utility/mysql_config_editor.md)
+3. [Mysql语句](数据库/Mysql/Mysql语句.md)
+4. [Mysql配置文件](数据库/Mysql/Mysql配置文件.md)
+5. [Nginx](工具/Nginx/Nginx.md)
+6. [AboutMe](_docs/AboutMe.md)
+7. [git-config](工具/Git/git-config.md)
+8. [Git命令](工具/Git/Git命令.md)
+9. [字符编码](计算机基础/字符编码.md)
+10. [Mac-Problems](工具/Mac/Mac-Problems.md)
 

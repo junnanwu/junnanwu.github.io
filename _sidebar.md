@@ -82,14 +82,16 @@
       - [Mysql-Information-schema](数据库/Mysql/Mysql-Information-schema.md)
       - [Mysql-InnoDB](数据库/Mysql/Mysql-InnoDB.md)
       - [Mysql事务](数据库/Mysql/Mysql事务.md)
-      - [Mysql工具](数据库/Mysql/Mysql工具.md)
       - [Mysql应用](数据库/Mysql/Mysql应用.md)
       - [Mysql日志](数据库/Mysql/Mysql日志.md)
       - [Mysql语句](数据库/Mysql/Mysql语句.md)
       - [Mysql调优](数据库/Mysql/Mysql调优.md)
       - [Mysql数据类型](数据库/Mysql/Mysql数据类型.md)
-      - [Mysql系统变量](数据库/Mysql/Mysql系统变量.md)
+      - [Mysql配置文件](数据库/Mysql/Mysql配置文件.md)
       - [Mysql函数和运算符](数据库/Mysql/Mysql函数和运算符.md)
+      - **utility**
+        - [mysql_config_editor](数据库/Mysql/utility/mysql_config_editor.md)
+        - [mysqldump](数据库/Mysql/utility/mysqldump.md)
     - **Presto**
       - [Presto简介](数据库/Presto/Presto简介.md)
 - **计算机基础**

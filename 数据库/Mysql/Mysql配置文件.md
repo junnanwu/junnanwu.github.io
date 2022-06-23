@@ -1,4 +1,14 @@
-# Mysql系统变量
+# Mysql配置
+
+`[group]`
+
+group对应了不同的程序或者组。
+
+- `[client]`
+- `[mysql]`
+- `[mysqld]`
+- `[mysqldump]`
+- `[mysqladmin] `
 
 ## sql_mode
 
@@ -36,3 +46,8 @@ SHOW GLOBAL VARIABLES LIKE 'max_allowed_packet';
 #单位为字节，下面104857600即为100M
 SET GLOBAL max_allowed_packet = 100 * 1024 * 1024;
 ```
+
+## References
+
+1. https://dev.mysql.com/doc/refman/5.7/en/option-files.html
+2. https://www.bilibili.com/read/cv15775443
