@@ -4,6 +4,7 @@ EOF
 
 #! /bin/bash
 set -e
+base_dir='../'
 target_catalog="JavaSE JavaEE JavaWeb Spring 数据库 计算机基础 运维 工具 其他"
 #最终输出
 result=""
@@ -35,7 +36,7 @@ print_dir(){
 		print_dir $1"/"$file
 		done
 	#如果是md文件，且不以_开头
-	elif [[ -n $file && $file == *.md && $file != _* && $file != README* ]]
+	elif [[ -n $file && $file == *.md && $file != _* && $file != README* && $file != *.sh ]]
 	then
 		#去除文件第一个/
 		#final_path=${relative_path:1}
@@ -56,5 +57,5 @@ do
 	print_dir ~/docs/$catalog
 done
 IFS=$IFS_OLD
-echo "$result" > _sidebar.md
+echo "$result" > $base_dir'_sidebar.md'
 echo 生成目录结束...

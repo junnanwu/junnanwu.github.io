@@ -4,52 +4,6 @@
 
 初始化Git本地仓库，并为你创建master分支。
 
-## git config
-
-参数：
-
-- `--system`
-
-  修改的是`/etc/gitconfig` 文件，这是系统上的每一个用户的通用配置
-
-- `--global`
-
-  修改的是`~/.gitconfig`，只针对当前用户
-
-- `--local`
-
-  修改的是当前本地仓库的配置文件及`.git/config`，`git config`默认使用的就是这个参数
-  
-- `--list -l`
-
-  查看Git的配置
-
-举例：
-
-- 安装完Git后，需要先设置用户名和密码
-
-  ```
-  $ git config --global user.name "John Doe"
-  $ git config --global user.email johndoe@example.com
-  ```
-
-  如果使用了 `--global` 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 `--global` 选项的命令来配置。
-
-- 查看Git中该变量的原始值
-
-  ```
-  $ git config --show-origin user.name
-  file:/Users/wujunnan/.gitconfig	wujunnan
-  ```
-  
-- 设置别名
-
-  ```
-  $ git config --global alias.co commit
-  ```
-  
-  下次使用commit命令时直接换成`git co` 即可
-
 ## git clone
 
 **格式**：

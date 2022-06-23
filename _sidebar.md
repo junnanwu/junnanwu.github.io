@@ -139,6 +139,7 @@
       - [Git原理](工具/Git/Git原理.md)
       - [Git命令](工具/Git/Git命令.md)
       - [git-checkout](工具/Git/git-checkout.md)
+      - [git-config](工具/Git/git-config.md)
       - [git-push](工具/Git/git-push.md)
       - [gitignore](工具/Git/gitignore.md)
       - [关于GitHub](工具/Git/关于GitHub.md)
