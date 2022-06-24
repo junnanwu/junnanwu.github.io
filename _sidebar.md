@@ -143,6 +143,7 @@
       - [git-checkout](工具/Git/git-checkout.md)
       - [git-config](工具/Git/git-config.md)
       - [git-push](工具/Git/git-push.md)
+      - [git-rebase](工具/Git/git-rebase.md)
       - [gitignore](工具/Git/gitignore.md)
       - [关于GitHub](工具/Git/关于GitHub.md)
     - **Image**

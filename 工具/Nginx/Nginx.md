@@ -674,7 +674,7 @@ Nginx中的请求日志默认地址为：
 例如：
 
 ```
-127.0.0.1 - admin [17/Jun/2022:13:28:07 +0800] "GET /openapi/hsz/display/618/text HTTP/1.1" 200 256 "https://uat-bigdata.kungeek.com/display_618/618.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.54"
+127.0.0.1 - admin [17/Jun/2022:13:28:07 +0800] "GET /openapi/hsz/display/618/text HTTP/1.1" 200 256 "https://uat-bigdata.xxxxx.com/xxxx/618.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36 Edg/89.0.774.54"
 ```
 
 ## error日志
