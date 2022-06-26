@@ -36,11 +36,17 @@ Git一共有两个工具来将两个分支的变化合并到一起，一个是`g
 
 ## 交互模式
 
-格式为：
+首先示范**交互模式**：
+
+格式：
 
 ```
 git rebase --interactive <base>
 ```
+
+- `<base>`
+
+  base可以为分支或者节点
 
 我们执行如下命令：
 
@@ -100,13 +106,44 @@ d f4b0bf2 add b3
 
 我们可以看到add b3的节点已被删除。
 
+## 标准模式
+
+其次我们同样的情形示范**标准模式**：
+
+格式：
+
+```
+git rebase <base>
+```
+
+我们可以执行如下代码：
+
+```
+$ git rebase master
+```
+
+即可查看git log如下：
+
+```
+* 139199a - (HEAD -> feature) add b3
+* 32706d0 - add b2
+* f845baa - add b
+* 6cd2c14 - (master) add a2
+* d8acd26 - add a
+* 6a30cc2 - base
+```
+
+## 应用
+
 ### 合并节点
 
-我们可以利用交互模式的`squash`参数，将多个功能类似的commit合并为一个。
+时候我们的提交会有多个类似的commit，这个时候我们希望将多个类似的commit合并为一个，然后push，可以利用上面交互模式的`squash`参数。
 
 >s, squash <commit> = use commit, but meld into previous commit.
 
-例如当前的提交历史为：
+（也可以用`fixup`，与`squash`类似，只是没有合并节点的commit信息）
+
+例如当前git log为：
 
 ```
 * cc2b3d3 - (HEAD -> feature) add t3
@@ -124,7 +161,7 @@ $ git rebase -i 139199a
 $ git rebase -i head~3
 ```
 
-将弹出的内容修改为下：
+将弹出的交互式窗口的内容修改为下（即将后面两个节点前的pick修改为`squash`或`s`）：
 
 ```
 pick d20150f add t1
@@ -132,39 +169,37 @@ squash 59361e9 add t2
 squash cc2b3d3 add t3
 ```
 
-然后再修改合并后的message信息，最后三个节点即会被合并为一个：
-
-（rebase会生成新的节点，即b6f2233）
+然后再调整合并后的message信息，最后三个节点即会被合并为一个（rebase会生成新的节点，即b6f2233）：
 
 ```
 * b6f2233 - (HEAD -> feature) add t1、t2、t3
 * 139199a - base
 ```
 
-## 标准模式
+### pull
 
-格式
-
-```
-git rebase <base>
-```
-
-我们可以执行如下代码：
+我们知道`git pull`相当于下面两条命令：
 
 ```
-$ git rebase
+git fetch
+git merge
 ```
 
-查看git log如下：
+当远程分支与当前分支产生冲突的时候，此时merge后就会分叉，如果要想要我们的git log是一条直线，那就就需要：
 
 ```
-* 139199a - (HEAD -> feature) add b3
-* 32706d0 - add b2
-* f845baa - add b
-* 6cd2c14 - (master) add a2
-* d8acd26 - add a
-* 6a30cc2 - base
+git pull --rebase
 ```
+
+## 注意
+
+> The rebase would replace the old commits with new ones and it would look like that part of your project history abruptly vanished.
+
+注意不要rebase已经push的分支，或者说，生产中，任何已经push的分支都不要动。
+
+## 总结
+
+善用rebase，你就会得到一个干净的提交记录。
 
 ## References
 
@@ -172,3 +207,5 @@ $ git rebase
 1. https://www.atlassian.com/git/tutorials/rewriting-history/git-rebase
 1. https://www.zhihu.com/question/61283395/answer/186223235
 1. https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+1. https://github.com/torvalds/linux/pull/17#issuecomment-5654674
+1. https://zhuanlan.zhihu.com/p/387438871
