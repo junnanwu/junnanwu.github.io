@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-<img src="_media/wujunnan_circle.png" alt="logo" style="zoom:25%;" />
+<img src="_res/_media/wujunnan_circle.png" alt="logo" style="zoom:25%;" />
 
 # wujunnan's summary
 
