@@ -94,6 +94,8 @@
         - [mysqldump](数据库/Mysql/utility/mysqldump.md)
     - **Presto**
       - [Presto简介](数据库/Presto/Presto简介.md)
+    - **Redis**
+      - [Redis持久化](数据库/Redis/Redis持久化.md)
 - **计算机基础**
     - [浮点数](计算机基础/浮点数.md)
     - [关于时间](计算机基础/关于时间.md)
@@ -174,6 +176,7 @@
       - [TypeScript](其他/前端/TypeScript.md)
       - [VUE](其他/前端/VUE.md)
     - **算法**
+      - **Hash算法**
       - [算法题](其他/算法/算法题.md)
       - [加密算法](其他/算法/加密算法.md)
     - **大数据**
