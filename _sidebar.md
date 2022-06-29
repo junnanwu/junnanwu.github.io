@@ -45,7 +45,6 @@
       - [关于SpringBoot的配置文件](Spring/SpringBoot/关于SpringBoot的配置文件.md)
       - [配置中心](Spring/SpringBoot/配置中心.md)
     - **SpringCloud**
-      - [Nacos](Spring/SpringCloud/Nacos.md)
       - [feign源码解析](Spring/SpringCloud/feign源码解析.md)
       - [服务注册与发现](Spring/SpringCloud/服务注册与发现.md)
     - **SpringFramework**
@@ -94,8 +93,12 @@
         - [mysqldump](数据库/Mysql/utility/mysqldump.md)
     - **Presto**
       - [Presto简介](数据库/Presto/Presto简介.md)
+      - [Presto问题](数据库/Presto/Presto问题.md)
     - **Redis**
+      - [Redis哨兵](数据库/Redis/Redis哨兵.md)
+      - [Redis集群](数据库/Redis/Redis集群.md)
       - [Redis持久化](数据库/Redis/Redis持久化.md)
+      - [Redis主从复制](数据库/Redis/Redis主从复制.md)
 - **计算机基础**
     - [浮点数](计算机基础/浮点数.md)
     - [关于时间](计算机基础/关于时间.md)
@@ -156,6 +159,9 @@
       - [Mac](工具/Mac/Mac.md)
       - [Postman](工具/Mac/Postman.md)
       - [Typora](工具/Mac/Typora.md)
+    - **Nacos**
+      - [Nacos](工具/Nacos/Nacos.md)
+      - [Nacos配置中心](工具/Nacos/Nacos配置中心.md)
     - **Nginx**
       - [Nginx+Lua脚本](工具/Nginx/Nginx+Lua脚本.md)
       - [Nginx](工具/Nginx/Nginx.md)

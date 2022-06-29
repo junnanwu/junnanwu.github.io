@@ -63,6 +63,9 @@ build
 # Log file
 *.log
 log/
+logs/
+
+#conf
 
 # out
 **/out/

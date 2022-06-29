@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [Redis持久化](数据库/Redis/Redis持久化.md)
-2. [Mysql日志](数据库/Mysql/Mysql日志.md)
-3. [Java锁优化](JavaSE/多线程/Java锁优化.md)
-4. [git-rebase](工具/Git/git-rebase.md)
-5. [git-checkout](工具/Git/git-checkout.md)
-6. [Git命令](工具/Git/Git命令.md)
-7. [AboutMe](_docs/AboutMe.md)
-8. [Nginx](工具/Nginx/Nginx.md)
-9. [mysql_config_editor](数据库/Mysql/utility/mysql_config_editor.md)
-10. [Mysql配置文件](数据库/Mysql/Mysql配置文件.md)
+1. [Redis哨兵](数据库/Redis/Redis哨兵.md)
+2. [Redis集群](数据库/Redis/Redis集群.md)
+3. [Redis主从复制](数据库/Redis/Redis主从复制.md)
+4. [IDEA](工具/Mac/IDEA.md)
+5. [Nacos](工具/Nacos/Nacos.md)
+6. [Nacos配置中心](工具/Nacos/Nacos配置中心.md)
+7. [Linux基础命令](运维/Linux/Linux基础命令.md)
+8. [Linux用户权限](运维/Linux/Linux用户权限.md)
+9. [gitignore](工具/Git/gitignore.md)
+10. [git-checkout](工具/Git/git-checkout.md)
 

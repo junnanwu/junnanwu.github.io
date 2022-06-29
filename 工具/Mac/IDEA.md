@@ -114,6 +114,10 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 4. 在请求方法上添加了有用功能: 复制生成 URL;,复制方法参数...
 5. 其他功能: java 类上添加 Convert to JSON 功能，格式化 json 数据 ( Windows: `Ctrl + Enter`; Mac:`Command + Enter` )。
 
+### Convert YAML and Properties File
+
+在YAML文件和Properties文件上点击右键即可将二者进行转换。
+
 ## IDEA配置
 
 ### 双斜杠注释紧贴代码而不是在行首
