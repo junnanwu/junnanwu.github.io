@@ -5,7 +5,7 @@ EOF
 #! /bin/bash
 set -e
 base_dir='../'
-target_catalog="JavaSE JavaEE JavaWeb Spring 数据库 计算机基础 运维 工具 其他"
+target_catalog="JavaSE JavaEE JavaWeb Spring Database 计算机基础 运维 Tool 其他"
 #最终输出
 result=""
 echo 开始生成目录...

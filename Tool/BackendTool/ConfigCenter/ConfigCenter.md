@@ -9,7 +9,7 @@
 
 ## Nacos
 
-[点此查看](../Nacos/Nacos配置中心)Nacos使用详情
+[点此查看](../Nacos/Nacos配置中心)Nacos使用详情。
 
 ## Reference
 
