@@ -72,10 +72,6 @@
     - **Hive**
       - [Hive](Database/Hive/Hive.md)
       - [HiveMetaStore](Database/Hive/HiveMetaStore.md)
-    - **Kafka**
-      - [Kafka入门](Database/Kafka/Kafka入门.md)
-      - [SpringKafka](Database/Kafka/SpringKafka.md)
-      - [SpringKafka动态新增topic](Database/Kafka/SpringKafka动态新增topic.md)
     - **Mysql**
       - [Mysql-EXPLAIN](Database/Mysql/Mysql-EXPLAIN.md)
       - [Mysql-Information-schema](Database/Mysql/Mysql-Information-schema.md)
@@ -99,6 +95,8 @@
       - [Redis集群](Database/Redis/Redis集群.md)
       - [Redis持久化](Database/Redis/Redis持久化.md)
       - [Redis主从复制](Database/Redis/Redis主从复制.md)
+      - [Redis多路复用](Database/Redis/Redis多路复用.md)
+      - [Redis数据结构](Database/Redis/Redis数据结构.md)
 - **计算机基础**
     - [浮点数](计算机基础/浮点数.md)
     - [关于时间](计算机基础/关于时间.md)
@@ -135,23 +133,6 @@
       - [linux简介](运维/Linux/linux简介.md)
     - [Prometheus+Grafana监控体系](运维/Prometheus+Grafana监控体系.md)
 - **Tool**
-    - **BackendTool**
-      - **Build**
-        - [Gradle](Tool/BackendTool/Build/Gradle.md)
-        - [Gradle基本原理](Tool/BackendTool/Build/Gradle基本原理.md)
-        - [Maven](Tool/BackendTool/Build/Maven.md)
-      - **ConfigCenter**
-        - [ConfigCenter](Tool/BackendTool/ConfigCenter/ConfigCenter.md)
-      - **Nacos**
-        - [Nacos](Tool/BackendTool/Nacos/Nacos.md)
-        - [Nacos配置中心](Tool/BackendTool/Nacos/Nacos配置中心.md)
-      - **RabbitMQ**
-        - [RabbitMQ](Tool/BackendTool/RabbitMQ/RabbitMQ.md)
-      - **other**
-        - [Chromedriver](Tool/BackendTool/other/Chromedriver.md)
-        - [PhantomJS](Tool/BackendTool/other/PhantomJS.md)
-        - [mkcert本地安装https证书](Tool/BackendTool/other/mkcert本地安装https证书.md)
-        - [图片Base64转换](Tool/BackendTool/other/图片Base64转换.md)
     - **Chrome**
       - [ChromeNetwork](Tool/Chrome/ChromeNetwork.md)
     - **Git**
@@ -159,6 +140,7 @@
       - [Git原理](Tool/Git/Git原理.md)
       - [Git命令](Tool/Git/Git命令.md)
       - [git-checkout](Tool/Git/git-checkout.md)
+      - [git-clone](Tool/Git/git-clone.md)
       - [git-config](Tool/Git/git-config.md)
       - [git-push](Tool/Git/git-push.md)
       - [git-rebase](Tool/Git/git-rebase.md)
@@ -170,10 +152,39 @@
       - [Mac](Tool/Mac/Mac.md)
       - [Postman](Tool/Mac/Postman.md)
       - [Typora](Tool/Mac/Typora.md)
+    - **MessageQueue**
+      - **Kafka**
+        - [Kafka入门](Tool/MessageQueue/Kafka/Kafka入门.md)
+        - [Kafka基本概念](Tool/MessageQueue/Kafka/Kafka基本概念.md)
+        - [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/Kafka如何实现高吞吐量.md)
+        - [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/Kafka如何保证消息不丢失.md)
+        - [SpringKafka](Tool/MessageQueue/Kafka/SpringKafka.md)
+        - [SpringKafka动态新增topic](Tool/MessageQueue/Kafka/SpringKafka动态新增topic.md)
+      - **RabbitMQ**
+        - [RabbitMQ](Tool/MessageQueue/RabbitMQ/RabbitMQ.md)
     - **Nginx**
       - [Nginx+Lua脚本](Tool/Nginx/Nginx+Lua脚本.md)
       - [Nginx](Tool/Nginx/Nginx.md)
       - [Nginx应用](Tool/Nginx/Nginx应用.md)
+- **JavaTool**
+    - **ConfigCenter**
+      - [ConfigCenter](JavaTool/ConfigCenter/ConfigCenter.md)
+    - [Druid](JavaTool/Druid.md)
+    - **Gradle**
+      - [Gradle](JavaTool/Gradle/Gradle.md)
+      - [Gradle基本原理](JavaTool/Gradle/Gradle基本原理.md)
+    - [Guava](JavaTool/Guava.md)
+    - **Maven**
+      - [Maven](JavaTool/Maven/Maven.md)
+    - **Nacos**
+      - [Nacos](JavaTool/Nacos/Nacos.md)
+      - [Nacos配置中心](JavaTool/Nacos/Nacos配置中心.md)
+    - [Swagger](JavaTool/Swagger.md)
+    - **other**
+      - [Chromedriver](JavaTool/other/Chromedriver.md)
+      - [PhantomJS](JavaTool/other/PhantomJS.md)
+      - [mkcert本地安装https证书](JavaTool/other/mkcert本地安装https证书.md)
+      - [图片Base64转换](JavaTool/other/图片Base64转换.md)
 - **其他**
     - **Bug**
       - **应用**

@@ -4,32 +4,6 @@
 
 初始化Git本地仓库，并为你创建master分支。
 
-## git clone
-
-**格式**：
-
-```
-git clone <版本库的网址>
-```
-
-`<url>`部分支持四种协议：本地协议（Local），HTTP 协议，SSH（Secure Shell）协议及 Git 协议
-
-```
-$ git clone git://github.com/schacon/ticgit.git
-```
-
-默认情况下会把clone的源仓库取名`origin`，在`.git/config`中存储其对应的地址，本地分支与远程分支的对应规则等。
-
-- 想用其他的主机名
-
-  用`git clone`命令的`-o`选项指定：
-  
-  ```
-  $ git clone -o jQuery https://github.com/jquery/jquery.git
-  $ git remote
-  jQuery
-  ```
-
 ## git show
 
 格式：
@@ -45,43 +19,37 @@ git show [<options>] [<object>…]
 `git remote` 为我们提供了管理远程仓库的途径。
 对远程仓库的管理包括，查看，添加，移除，对远程分支的管理等等。
 
-- 查看远程仓库
+查看远程仓库名
 
-  ```
-  git remote
-  ```
+```
+git remote
+```
 
-- 添加 `-v`，可查看对应的链接
+**参数**
 
-  ```
-  $ git remote -v
-  origin	https://github.com/schacon/ticgit (fetch)
-  origin	https://github.com/schacon/ticgit (push)
-  ```
+-  `-v`
 
-- 查看该主机的详细信息
+  查看远程名及其地址。
 
-  ```
-  git remote show <主机名>
-  ```
+- `show <主机名>`
 
-- 添加远程主机
+  查看该主机的详细信息。
 
-  ```
-  git remote add <主机名> <网址>
-  ```
+- `add <主机名> <网址>`
 
-- 删除远程主机
+  添加远程主机。
 
-  ```
-  git remote rm <主机名>
-  ```
+- `rm <主机名>`
 
-- 改远程主机的名字
+  删除远程主机 
 
-  ```
-  git remote rename <原主机名> <新主机名> [remote] "github":代表远程仓库的名称；
-  ```
+- `rename <原主机名> <新主机名>`
+
+  修改远程主机名
+
+- `set-url <主机名> <网址>`
+
+  设置/修改远程主机地址
 
 ## git log
 

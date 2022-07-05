@@ -87,6 +87,10 @@ git config --global push.default simple
   >This option allows you to say that you expect the history you are updating is what you rebased and want to replace. 
 
   此选项通过检查你本地的远程仓库的引用与远程仓库的相关分支是否一致，例如当其他人push了分支，那么你的远程仓库的引用就过时了，这个时候，该参数是不允许你进行push的，除非你fetch或者pull更新你本地的远程仓库的引用。
+  
+- `--mirror`
+
+  将`refs`下的所有资源都进行push，包括`refs/heads/`、`refs/remotes/`、 `refs/tags/`等，迁移到新仓库，可以使用此参数。
 
 ## 举例
 

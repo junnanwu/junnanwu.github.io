@@ -1,11 +1,5 @@
 # Kafka入门
 
-## Kafka概念
-
-如果所有的消费者实例都属于相同的消费群，那么记录将有效地被均衡到每个消费者实例。
-
-如果所有的消费者实例有不同的消费群，那么每个消息将被广播到所有的消费者进程。
-
 ## Mac测试Kafka
 
 1. 安装
@@ -115,8 +109,6 @@
    ```
    $ bin/zookeeper-server-start.sh config/zookeeper.properties
    ```
-
-   
 
 3. 开启Kafka服务
 

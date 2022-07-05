@@ -16,7 +16,7 @@ refs
 │   ├── hotfix
 │   │   └── HDATA-1255
 │   └── master
-├── remotes
+├── git 
 │   └── origin
 │       ├── HEAD
 │       ├── develop
