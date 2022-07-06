@@ -68,7 +68,6 @@ tar [选项...] [FILE]...
   $ tar zxvf test.tar.gz -C test
   ```
 
-  
 
 ## gzip
 
@@ -114,10 +113,14 @@ gzip [-cdtv#] 文件名
 - 使用最高压缩等级并保存原文件（将压缩后的数据重定向）
 
   ```
-  gzip -9 -c data_record.sql > data_record.sql.gz
+  $ gzip -9 -c data_record.sql > data_record.sql.gz
   ```
 
-  
+- 查看`tar.gz`文件列表
+
+  ```
+  $ gzip -dc ./harbor-offline-installer-v2.5.2.tgz | tar tvf -
+  ```
 
 关于压缩比率
 

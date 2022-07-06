@@ -35,6 +35,12 @@ Docker 是一个开源的应用容器引擎，Docker可以让开发者打包他�
   $ curl -sSL https://get.daocloud.io/docker | sh
   ```
 
+- 查看Docker状态
+
+  ```
+  $ systemctl status docker
+  ```
+
 - 启动Docker
 
   ```
@@ -44,7 +50,8 @@ Docker 是一个开源的应用容器引擎，Docker可以让开发者打包他�
 - 重启Docker
 
   ```
-  $ systemctl restart  docker
+  $ systemctl daemon-reload
+  $ systemctl restart docker
   ```
 
 - 关闭docker 
@@ -87,7 +94,7 @@ $ docker info
 
 ```
 $ sudo mkdir -p /etc/docker
-$ sudo tee /etc/docker/daemon.json <<-'EOF'
+
 {
   "registry-mirrors": ["https://afi5x6i2.mirror.aliyuncs.com"]
 }
@@ -123,6 +130,39 @@ $ sudo systemctl restart docker
   ```
   $ docker rmi 镜像id   //i(image)
   ```
+  
+- `tag`
+
+  给镜像打标签，例如给Hello word镜像：
+  
+  ```
+  $ docker images
+  hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
+  ...
+  ```
+  
+  打一个标签：
+  
+  ```
+  $ docker tag hello-world uat-xxx:81/data/hello-world:v4
+  ```
+  
+  结果：
+  
+  ```
+  $ docker images
+  hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
+  hello-world                     v1        feb5d9fea6a5   9 months ago    13.3kB
+  ...
+  ```
+  
+- `push`
+
+  ```
+  $ docker push hub.giao.com/hamburger/tomcat:v1.0
+  ```
+  
+  
 
 ## Docker容器相关命令
 
