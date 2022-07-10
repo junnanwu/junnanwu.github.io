@@ -311,7 +311,7 @@ Hashtable是遗留类，很多映射的常用功能与HashMap类似，它是线�
 #### 讲讲CurrentHashMap
 
 ```
-如果需要考虑到线程安全问题，那么我们可以选择使用Collections.synchronizedMap(Map)创建线程安全的map集合，Hashtable和ConcurrentHashMap，不过ConcurrentHashMap的性能和效率明显高于前两者。
+如果需要考虑到线程安全问题，那么我们可以选择使用Collections.synchronizedMap(Map)创建线程安全的map集合，Hashtable和ConcurrentHashMap，不过ConcurrentHashMap的性能和效率明显高于前者。
 
 HashEntry跟HashMap差不多的，但是不同点是，他使用volatile去修饰了他的数据Value还有下一个节点next。
 
@@ -328,13 +328,6 @@ CAS是乐观锁的一种实现方式，是一种轻量级锁，JUC 中很多工�
 CAS操作的流程，线程在读取数据时不进行加锁，在准备写回数据时，比较原值是否修改，若未被其他线程修改则写回，若已被修改，则重新执行读取流程。
 
 这是一种乐观策略，认为并发操作并不总会发生。
-
-根据key计算出 hashcode 。
-判断是否需要进行初始化。
-即为当前 key 定位出的 Node，如果为空表示当前位置可以写入数据，利用CAS尝试写入，失败则自旋保证成功。
-如果当前位置的 hashcode == MOVED == -1,则需要进行扩容。
-如果都不满足，则利用 synchronized 锁写入数据。
-如果数量大于 TREEIFY_THRESHOLD 则要转换为红黑树。
 ```
 
 ### 异常相关

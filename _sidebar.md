@@ -2,6 +2,12 @@
     - [JDBC](JavaSE/JDBC.md)
     - [Java-Date](JavaSE/Java-Date.md)
     - [Java8特性](JavaSE/Java8特性.md)
+    - **Java虚拟机**
+      - [Java内存区域](JavaSE/Java虚拟机/Java内存区域.md)
+      - [Java对象内存分布](JavaSE/Java虚拟机/Java对象内存分布.md)
+      - [常量池](JavaSE/Java虚拟机/常量池.md)
+      - [类加载机制](JavaSE/Java虚拟机/类加载机制.md)
+      - [垃圾回收机制](JavaSE/Java虚拟机/垃圾回收机制.md)
     - [Java常见系统方法](JavaSE/Java常见系统方法.md)
     - [Java调用本地命令](JavaSE/Java调用本地命令.md)
     - [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
@@ -17,7 +23,6 @@
       - [线程中断](JavaSE/多线程/线程中断.md)
       - [多线程基础](JavaSE/多线程/多线程基础.md)
       - [线程池参数选择](JavaSE/多线程/线程池参数选择.md)
-    - [深入理解Java虚拟机](JavaSE/深入理解Java虚拟机.md)
     - [深拷贝与浅拷贝](JavaSE/深拷贝与浅拷贝.md)
 - **JavaEE**
     - **CAS**
@@ -89,6 +94,7 @@
         - [mysqldump](Database/Mysql/utility/mysqldump.md)
     - **Presto**
       - [Presto简介](Database/Presto/Presto简介.md)
+      - [Presto语法](Database/Presto/Presto语法.md)
       - [Presto问题](Database/Presto/Presto问题.md)
     - **Redis**
       - [Redis哨兵](Database/Redis/Redis哨兵.md)

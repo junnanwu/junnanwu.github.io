@@ -81,7 +81,7 @@ s3==s8 => true
 
 - `String s1 = "wu";`
 
-  JVM去字符串常量池中寻找"wu"，存在就返回常量池中的引用，不存在就创建后返回引用。
+  JVM去字符串常量池中寻找`wu`，存在就返回常量池中的引用，不存在就创建后返回引用。
 
 - `String s3 = "wujunnan";`
 
@@ -89,7 +89,7 @@ s3==s8 => true
 
 - `String s4 = "wu"+"junnan";`
 
-  这里用到了常量优化机制，如果“=”右边的内容全部都是常量（包括final关键字修饰的常量），那么在编译时期就可以运算出右边的结果，其实际就是把右边的结果赋值给左边。
+  这里用到了常量优化机制，如果`=`右边的内容全部都是常量（包括final关键字修饰的常量），那么在编译时期就可以运算出右边的结果，其实际就是把右边的结果赋值给左边。
 
   所以会直接得到`wujunnan`字符串，然后去常量池中发现这个字符串已经存在，那么久直接返回这个字符串的地址。
 
@@ -99,7 +99,7 @@ s3==s8 => true
 
 - `String s7 = new String("wujunnan");`
 
-  过程见上
+  过程见上。
 
 - `String s8 = s7.intern();`
 
@@ -138,7 +138,7 @@ s3==s8 => true
 
 - 拼接效率
 
-  当String进行拼接的时候，每两个String进行拼接就会创建一个StringBuilder对象，多个String进行拼接会创建大量的对象，导致效率很低；相对于StringBuilder的`append()`方法由于没有synchronized关键字，所以StringBuilder的拼接效率是三者最高的。
+  当String进行拼接的时候，每两个String进行拼接就会创建一个StringBuilder对象，多个String进行拼接会创建大量的对象，导致效率很低；相对于StringBuilder的`append()`方法由于没有`synchronized`关键字，所以StringBuilder的拼接效率是三者最高的。
 
   StringBuffer一般用于SQL语句的拼接。
 
@@ -313,6 +313,30 @@ public boolean add(E e) {
     return map.put(e, PRESENT)==null;
 }
 ```
+
+## 其他 
+
+### 接口和抽象类的区别
+
+- 一个类只能继承一个抽象类 ，但是可以实现多个接口
+- 抽象类中可以有方法实现，而接口中一般没有方法实现（Java8支持）
+- 一个类要实现接口就需要实现接口的所有方法 ，而接口类实现接口不需要实现所有方法
+- 接口中的实例变量默认是final的，但是抽象类中的不一定
+
+### 浅拷贝深拷贝的理解
+
+浅拷贝指的是将`A`对象的所有字段拷贝给`A'`对象，包括引用类型字段。
+
+深拷贝（Deep Copy）指的是递归的将原对象的所有字段拷贝，拷贝前后的对象是完全独立的。
+
+可以通过Apache Commons Lang包的工具类或者 Json 序列化并反序列化的方式来实现。
+
+### 异常的分类
+
+顶级接口Throwable，下面分为Error和Exception，Exception又有RuntimeException。
+
+- 继承自RuntimeException的异常为运行时异常
+- Exception下的其他异常被称为受检异常
 
 ## 多线程
 
