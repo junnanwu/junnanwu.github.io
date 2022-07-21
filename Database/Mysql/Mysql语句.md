@@ -97,13 +97,19 @@ Data Manipulation Statements
 - INSERT
 
   ```
-  INSERT INTO 表名称 VALUES (值1, 值2,....)
+  INSERT INTO tbl_name [(COLUMN_LIST)] VALUES (value_list)[, (value_list)...]
+  ```
+
+- REPLACE
+
+  ```
+  REPLACE tbl_name [(COLUMN_LIST)] VALUES (value_list)[, (value_list)...]
   ```
 
 - UPDATE
 
   ```
-  UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值
+  UPDATE tbl_name SET 列名称 = 新值 WHERE 列名称 = 某值
   ```
 
   **注意：UPDATE SET后面不能加括号**
@@ -111,13 +117,13 @@ Data Manipulation Statements
 - DELETE
 
   ```
-  DELETE FROM 表名称 WHERE 列名称 = 值
+  DELETE FROM tbl_name WHERE 列名称 = 值
   ```
 
 - TRUNCATE
 
   ```
-  TRUNCATE TABLE 表名; 
+  TRUNCATE TABLE tbl_name; 
   ```
 
 ### SELECT语句

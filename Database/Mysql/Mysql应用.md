@@ -16,7 +16,7 @@ ADD COLUMN `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMME
 当执行下面语句的时候，name为`null`的是否被筛选出来？
 
 ```sql
-SELECT * FROM table WHERE name!='abc';
+SELECT * FROM table WHERE name != 'abc';
 ```
 
 答案是：不会。
@@ -209,6 +209,46 @@ ORDER BY
 
 ```sql
 SELECT *, Row_Number() OVER (partition by gender ORDER BY grade desc) rank FROM student_grade
+```
+
+## 分组查询所有最大值
+
+有如下表：
+
+| name | course | sorce |
+| ---- | ------ | ----- |
+| 张三 | 语文   | 100   |
+| 张三 | 数学   | 70    |
+| 张三 | 英语   | 80    |
+| 李四 | 语文   | 100   |
+| 李四 | 数学   | 80    |
+| 李四 | 英语   | 90    |
+| 王五 | 语文   | 90    |
+| 王五 | 数学   | 80    |
+| 王五 | 英语   | 90    |
+
+Mysql：
+
+```sql
+SELECT t1.course, t1.score, name
+FROM score t1
+         JOIN
+     (SELECT course, max(score) AS score FROM score GROUP BY course) t2
+     ON (t1.course = t2.course AND t1.score = t2.score) ORDER BY course;
+```
+
+窗口函数：
+
+以PostgreSQL为例，窗口函数语法为：
+
+```sql
+window_func() OVER(PARTITION BY [字段] ORDER BY [字段])
+```
+
+语句为：
+
+```sql
+SELECT * FROM (SELECT e.*, max(e.score) OVER(PARTITION BY e.course) AS max_score FROM public.score e) t WHERE score = max_score;
 ```
 
 ## 将聚合指标填充到某一列（跨表更新）

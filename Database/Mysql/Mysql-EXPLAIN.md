@@ -36,7 +36,7 @@ possible_keys: NULL
 
 - `select_type`
 
-  SELECT语句的类型
+  SELECT语句的类型，显示语句是简单语句还是复杂SELECT。
 
 - `table`
 
@@ -59,7 +59,9 @@ possible_keys: NULL
 
   可以通过这个值算出具体使用了索引的哪些列（联合索引）
 
-  举例来说，film_actor的联合索引 idx_film_actor_id 由 film_id 和 actor_id 两个int列组成，并且每个int是4字节。通过结果中的key_len=4可推断出查询使用了第一个列：film_id列来执行索引查找
+  举例来说：
+
+  film_actor的联合索引 idx_film_actor_id 由 film_id 和 actor_id 两个int列组成，并且每个int是4字节。通过结果中的key_len=4可推断出查询使用了第一个列：film_id列来执行索引查找。
 
 - `ref`
 
@@ -159,7 +161,7 @@ possible_keys: NULL
 
 - `ref`
 
-  与ref的区别是，不使用唯一索引，而是使用普通索引。
+  与`ref`的区别是，不使用唯一索引，而是使用普通索引。
 
   例如：
 
@@ -179,31 +181,31 @@ possible_keys: NULL
 
   ```
   SELECT * FROM tbl_name WHERE key_column = 10;
-  SELECT * FROM tbl_name WHERE key_column BETWEEN 10 and 20;
+  SELECT * FROM tbl_name WHERE key_column BETWEEN 10 AND 20;
   SELECT * FROM tbl_name WHERE key_column IN (10,20,30)
   ```
 
 - `index`
 
-  与`ALL`相似，但只遍历索引库
+  与`ALL`相似，但m遍历索引库。
 
-- `all`
+- `ALL`
 
-  全表扫描
+  全表扫描。
 
 ## Extra
 
 - `Using index`
 
-  这发生在对表的请求列都是同一索引的部分的时候，返回的列数据只使用了索引中的信息，而没有再去访问表中的行记录。是性能高的表现。
+  表示MySQL将使用覆盖索引。
 
 - `Using where`
 
-  mysql服务器将在存储引擎检索行后再进行过滤。
+  Mysql服务器将在存储引擎检索行后再进行过滤。
 
 - `Using temporary`
 
-  mysql需要创建一张临时表来处理查询。出现这种情况一般是要进行优化的，首先是想到用索引来优化。
+  Mysql需要创建一张临时表来处理查询。出现这种情况一般是要进行优化的，首先是想到用索引来优化。
 
 ## SHOW WARNINGS
 

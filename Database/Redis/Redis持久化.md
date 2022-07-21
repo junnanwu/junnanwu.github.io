@@ -63,6 +63,3 @@ AOF（Append only file）模式，是通过保存Redis服务器所执行的写�
 ## References
 
 1. 《Redis设计与实现》——黄健宏
-
-
-

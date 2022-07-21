@@ -148,30 +148,27 @@ Null Value Logic
 
 ### 窗口函数
 
-`OVER(PARTITION BY)`
-
-`OVER(PARTITION BY 列名1 ORDER BY 列名2 )`
-
 聚合函数对一组值执行计算并返回单一的值，如`sum()`，`count()`等，但是有时候一组数据只返回一个值是不能满足需求的，如我们想知道每个班级的最高分，可以使用聚合函数，但是我们想看每个班级的成绩前几名，就需要开窗函数了。
 
 开窗函数，分析函数用于计算基于组的某种聚合值，它和聚合函数的不同之处是：每组返回多行，而聚合函数每个组只返回一行。
 
-SQLServer, Mysql, Oracle都有窗口函数，其中mysql出的比较晚，8.0以上版本才有
+SQLServer、Mysql、Postgre、Oracle都有窗口函数，其中Mysql出的比较晚，8.0以上版本才有。
 
-开窗函数也叫分析函数，有两类，一类是聚合开窗函数，一类是排序开窗函数。
+开窗函数也叫分析函数，有两类，一类是聚合开窗函数，即`window_func`使用聚合函数，一类是排序开窗函数，即`window_func`使用排序函数。
 
-查询每个班的第一名的成绩
+以PostgreSQL为例，语法如下：
 
-```sql
-SELECT * FROM 
-(select t.name,t.class,t.sroce,rank() over(partition by t.class order by t.sroce desc) mm from T2_TEMP t) 
-where
-mm = 1;
+```
+window_func() OVER(PARTITION BY [字段] ORDER BY [字段])
 ```
 
-### 排序函数
+注意：
 
-- `ROW_NUMBER() OVER`
+- `PARTITION BY`如果不选，则对所有数据进行分组
+
+**排序函数**
+
+- `ROW_NUMBER()`
 
   (对相等的值不进行区分)
 
@@ -182,31 +179,25 @@ mm = 1;
   语法：
 
   ```sql
-  ROW_NUMBER() OVER(PARTITION BY COLUMN ORDER BY COLUMN)
-  ```
-
-  ```sql
-  SELECT *, Row_Number() OVER (partition by deptid ORDER BY salary desc) rank FROM employee
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY deptid ORDER BY salary DESC) rank FROM employee;
   ```
 
   表示根据部门进行分组，显示每个部门的工资等级，即新增了一列rank，里面为排名
-
+  
   对学生成绩进行排序
 
   ```sql
-  SELECT ROW_NUMBER() over(order by studentScore desc) number,* FROM studentScore
+  SELECT ROW_NUMBER() over(ORDER BY studentScore DESC) number,* FROM studentScore;
   ```
 
   获取第二个同学的成绩信息
-
+  
   ```sql
   SELECT * FROM (
-  SELECT ROW_NUMBER() over(order by studentScore desc) number,* FROM studentScore
-  ) t
-  WHERE
-  t.number=2
+  SELECT ROW_NUMBER() over(ORDER BY studentScore DESC) number,* FROM studentScore
+  ) t WHERE t.number=2;
   ```
-
+  
 - `RANK()`
 
   排名函数，这里遇到排名相同的学生的时候，`RANK()`会给他们相同的序号
