@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [Mysql索引](Database/Mysql/Mysql索引.md)
-2. [Mysql数据类型](Database/Mysql/Mysql数据类型.md)
-3. [Mysql应用](Database/Mysql/Mysql应用.md)
-4. [Mysql语句](Database/Mysql/Mysql语句.md)
-5. [Mybatis问题](框架/Mybatis/Mybatis问题.md)
-6. [Linux解压与压缩](运维/Linux/Linux解压与压缩.md)
-7. [linux监测](运维/Linux/linux监测.md)
-8. [类加载机制](JavaSE/Java虚拟机/类加载机制.md)
-9. [InnoDB存储结构](Database/Mysql/InnoDB存储结构.md)
-10. [Mysql-InnoDB](Database/Mysql/Mysql-InnoDB.md)
+1. [ClickHosue生产bug记录](Database/ClickHouse/ClickHosue生产bug记录.md)
+2. [大数据基本概念](其他/大数据/大数据基本概念.md)
+3. [ClickHouss备份迁移](Database/ClickHouse/ClickHouss备份迁移.md)
+4. [ClickHouse](Database/ClickHouse/ClickHouse.md)
+5. [Redis数据结构](Database/Redis/Redis数据结构.md)
+6. [Redis主从复制](Database/Redis/Redis主从复制.md)
+7. [Redis多路复用](Database/Redis/Redis多路复用.md)
+8. [Redis持久化](Database/Redis/Redis持久化.md)
+9. [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/Kafka如何实现高吞吐量.md)
+10. [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/Kafka如何保证消息不丢失.md)
 
