@@ -30,34 +30,15 @@
 #### 选择排序
 
 ```java
-//选择排序
-public class SelectionSort implements IArraySort {
-
-    @Override
-    public int[] sort(int[] sourceArray) throws Exception {
-        int[] arr = Arrays.copyOf(sourceArray, sourceArray.length);
-
-        // 总共要经过 N-1 轮比较
-        for (int i = 0; i < arr.length - 1; i++) {
-            int min = i;
-
-            // 每轮需要比较的次数 N-i
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[min]) {
-                    // 记录目前能找到的最小值元素的下标
-                    min = j;
-                }
+private static void selectionSort(int[] list) {
+    for (int i = 0; i < list.length; i++) {
+        for (int j = i; j < list.length; j++) {
+            if (list[j] < list[i]) {
+                int temp = list[j];
+                list[j] = list[i];
+                list[i] = temp;
             }
-
-            // 将找到的最小值和i位置所在的值进行交换
-            if (i != min) {
-                int tmp = arr[i];
-                arr[i] = arr[min];
-                arr[min] = tmp;
-            }
-
         }
-        return arr;
     }
 }
 ```
@@ -65,32 +46,15 @@ public class SelectionSort implements IArraySort {
 #### 冒泡排序
 
 ```java
-public class BubbleSort implements IArraySort {
-
-    @Override
-    public int[] sort(int[] sourceArray) throws Exception {
-        // 对 arr 进行拷贝，不改变参数内容
-        int[] arr = Arrays.copyOf(sourceArray, sourceArray.length);
-
-        for (int i = 1; i < arr.length; i++) {
-            // 设定一个标记，若为true，则表示此次循环没有进行交换，也就是待排序列已经有序，排序已经完成。
-            boolean flag = true;
-
-            for (int j = 0; j < arr.length - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    int tmp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = tmp;
-
-                    flag = false;
-                }
-            }
-
-            if (flag) {
-                break;
+private static void bubbleSort(int[] list) {
+    for (int i = 0; i < list.length; i++) {
+        for (int j = i; j < list.length; j++) {
+            if(list[j] < list[i]){
+                int temp = list[i];
+                list[i] = list[j];
+                list[j] = temp;
             }
         }
-        return arr;
     }
 }
 ```
