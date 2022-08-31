@@ -521,6 +521,29 @@ profiles即配置，下面是ClickHouse默认的只读配置：
   - TabSeparatedWithNames
   - CSV
 
+### 修改语句
+
+```SQL
+ALTER TABLE [db.]table [ON CLUSTER cluster] UPDATE column1 = expr1 [, ...] WHERE filter_expr
+```
+
+### 删除语句
+
+```SQL
+ALTER TABLE [db.]table [ON CLUSTER cluster] DELETE WHERE filter_expr;
+```
+
+修改和删除语句被称为Mutation查询，是ALTER语句的形式，表示与事务型数据库不同，这些操作不适合频繁使用：
+
+- Mutation语句是很重的操作，更适合批量数据的修改和删除
+- 不支持事务，一旦语句被提交，就无法回滚
+- 是一个异步的过程，语句被提交之后会立即返回，但这并不代表具体逻辑已经执行完毕，它的具体执行进度需要通过system.mutations系统表查询
+- 对于`*MergeTree`表引擎，在执行Mutation操作时是通过重写整个分区数据来实现的（使用新的分区代替老的分区）。如果需要操作的分区非常多，optimize的耗时会非常长甚至失败。此时，可以根据实际情况和分区的分布使数据的更新只涉及部分分区来提高效率。
+
+删除过程如下：
+
+在每ClickHouse执行一条ALTER DELETE语句，都会在mutations系统表中生成一条对应的执行计划，**当is_done等于1时表示执行完毕**。同时，在数据表的根目录下，会以mutation_id为名生成与之对应的日志文件用于记录相关信息。而**数据删除的过程是以数据表的每个分区目录为单位，将所有目录重写为新的目录**，新目录的命名规则是在原有名称上加上system.mutations.block_numbers.number。数据在重写的过程中会将需要删除的数据去掉。旧的数据目录并不会立即删除，而是会被标记成非激活状态（active为0）。等到MergeTree引擎的下一次合并动作触发时，这些非激活目录才会被真正从物理意义上删除。
+
 ### 其他语句
 
 查看ClickHouse版本

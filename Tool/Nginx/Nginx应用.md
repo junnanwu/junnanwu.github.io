@@ -163,11 +163,11 @@ location /dap {
 
 ### 客户端超时问题
 
-背景：
+**背景**
 
 业务方反馈，页面发生504 Gateway Time-out
 
-处理：
+**处理**
 
 Nginx默认后端1分钟未响应，则返回504超时。
 
@@ -179,6 +179,25 @@ proxy_send_timeout  180s;
 proxy_read_timeout  180s;
 ```
 
+### Nginx403问题
+
+当我们进行如下配置的时候：
+
+```
+location / {
+  try_files $uri $uri/ index.html;
+} 
+```
+
+页面会出现能Nginx403错误。
+
+这个配置的含义是，从root目录开始，先寻找`uri`对应的文件，如果文件不存在，寻找对应的目录。
+
+当Nginx访问目录的时候，它尝试构建这个目录的索引，然后将里面的文件列表返回，当默认的目录不允许构建索引的时候，将返回"Nginx 403 error: directory index of [folder] is forbidden"。
+
+这个时候可以删除`$uri/`。
+
 ## References
 
 1. http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout
+1. https://stackoverflow.com/questions/19285355/nginx-403-error-directory-index-of-folder-is-forbidden

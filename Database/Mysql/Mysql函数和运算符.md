@@ -1,4 +1,4 @@
-# Mysql函数和运算符
+# MySQL函数和运算符
 
 ## 函数
 
@@ -136,6 +136,26 @@ DATE_FORMAT(date,format)
   ```
   mysql> SELECT DATE_FORMAT('2007-10-04 22:23:00', '%H:%i:%s');
   22:23:00
+  ```
+
+#### YEAR/MONTH/DAY
+
+- 获取年月日
+
+  ```
+  SELECT year('2022-10-01 00:00:00');
+  SELECT month('2022-10-01 00:00:00');
+  SELECT day('2022-10-01 00:00:00');
+  SELECT date('2022-10-01 00:00:00');
+  ```
+
+#### TIMESTAMPDIFF
+
+- 获取秒为单位时间间隔
+
+  ```
+  -- 3600
+  SELECT TIMESTAMPDIFF(SECOND , '2022-10-01 00:00:00','2022-10-01 01:00:00')
   ```
 
 ### NVL

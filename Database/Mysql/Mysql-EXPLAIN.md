@@ -1,4 +1,4 @@
-# Mysql EXPLAIN
+# MySQL EXPLAIN
 
 EXPLAIN语句可以展示一个语句的执行计划。
 

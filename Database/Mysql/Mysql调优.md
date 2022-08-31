@@ -1,4 +1,4 @@
-# Mysql调优
+# MySQL调优
 
 ## in子句包含子查询
 
@@ -58,7 +58,7 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
 
   explain：
 
-  ![image-20220419214731884](Mysql%E8%B0%83%E4%BC%98_assets/explain-with-index-resources_user_id_index.png)
+  ![explain-with-index-resources_user_id_index](MySQL%E8%B0%83%E4%BC%98_assets/explain-with-index-resources_user_id_index.png)
 
 - `resources_id`列普通索引
 

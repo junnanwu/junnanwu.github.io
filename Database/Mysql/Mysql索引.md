@@ -1,4 +1,4 @@
-# Mysql索引
+# MySQL索引
 
 InnoDB支持如下索引：
 

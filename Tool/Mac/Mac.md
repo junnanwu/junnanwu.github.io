@@ -149,6 +149,12 @@ https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-pa
 
     打开文件，按住`Option`的同时，按下右键，即可复制文件路径
 
+## Chrome
+
+- 切换标签页
+
+  `ctrl+tab`
+
 ## 终端
 
 ### 快捷键
@@ -182,12 +188,6 @@ https://stackoverflow.com/questions/28063598/error-while-executing-plist-file-pa
 [官方仓库点击这里](https://github.com/wting/autojump)
 
 这个工具为你的目录维护了一个数据库，只要你访问过这个目录，后续就可以直接直接 `j doc`，其中有模糊匹配，纠错，并根据熟练度进行选择，非常强大。
-
-## Chrome
-
-- 切换标签页
-
-  `ctrl+tab`
 
 ## item2
 

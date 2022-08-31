@@ -59,8 +59,6 @@ Gradle基于Groovy而不是XML，XML在表述构建逻辑方面存在不足，Gr
            └── MANIFEST.MF
    ```
 
-
-
 ## 依赖管理
 
 ### 仓库配置
@@ -238,6 +236,14 @@ implementation("io.springfox:springfox-swagger2:2.9.2") {
 注意：
 
 - version属性是不可用的
+
+### Gradle如何继承依赖的版本
+
+https://cloud.tencent.com/developer/article/1010607
+
+https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle
+
+
 
 ## 多项目构建
 
@@ -418,20 +424,68 @@ allprojects{
 
 ```
 
+## 使用插件
+
+**高版本**
+
+添加插件（必须在父项目中）：
+
+```
+plugins{
+    id 'java'
+    id 'org.springframework.boot' version '2.4.1'
+}
+```
+
+注意：
+
+ `java`是“核心插件”，而`org.springframework.boot`是“社区插件”（[Gradle插件中心](https://links.jianshu.com/go?to=https%3A%2F%2Fplugins.gradle.org%2F)），必须指定version。
+
+**遗留方式**
+
+与buildscript结合
+
+```
+buildscript {
+    ext {
+        springBootVersion = "2.3.3.RELEASE"
+    }
+    repositories {
+        mavenLocal()
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        jcenter()
+    }
+    //此处引入插件
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+apply plugin: 'java' //核心插件，无需事先引入
+apply plugin: 'org.springframework.boot' //社区插件，需要事先引入，不必写版本号
+```
+
+
+
 ## 配置包装器
 
-1. 定义一个类型为Wrapper的任务，并指定gradle的版本
-
-   ```
-   task wrapper(type: Wrapper){
-       gradleVersion = '1.7'
-   }
-   ```
-
-2. 执行包装器任务生成包装器文件
+1. 执行包装器任务生成包装器文件
 
    ```
    $ gradle wrapper 
+   ```
+
+   还可以指定版本和类型：
+
+   ```
+   gradle wrapper --gradle-version 7.5.1 --distribution-type all
+   ```
+
+1. 在`build.gralde`中定制配置
+
+   ```
+   tasks.named('wrapper') {
+       distributionType = Wrapper.DistributionType.ALL
+   }
    ```
 
 3. 生成包装器
@@ -475,3 +529,4 @@ allprojects{
 
 1. 《实战Gradle》
 2. https://docs.gradle.org/current/userguide/java_library_plugin.html
+2. https://www.jianshu.com/p/724d1abc61a2

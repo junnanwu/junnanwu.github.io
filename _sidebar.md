@@ -42,7 +42,10 @@
     - **ClickHouse**
       - [ClickHosue生产bug记录](Database/ClickHouse/ClickHosue生产bug记录.md)
       - [ClickHouse](Database/ClickHouse/ClickHouse.md)
-      - [ClickHouss备份迁移](Database/ClickHouse/ClickHouss备份迁移.md)
+      - [ClickHouse表引擎](Database/ClickHouse/ClickHouse表引擎.md)
+      - [ClickHouse备份迁移](Database/ClickHouse/ClickHouse备份迁移.md)
+      - [ClickHouse物化视图](Database/ClickHouse/ClickHouse物化视图.md)
+      - [列式存储选型](Database/ClickHouse/列式存储选型.md)
     - **Elasticsearch**
       - [Elasticsearch](Database/Elasticsearch/Elasticsearch.md)
       - [Elasticsearch的安装和配置](Database/Elasticsearch/Elasticsearch的安装和配置.md)
@@ -52,18 +55,21 @@
       - [HiveMetaStore](Database/Hive/HiveMetaStore.md)
     - **Mysql**
       - [InnoDB存储结构](Database/Mysql/InnoDB存储结构.md)
-      - [Mysql-EXPLAIN](Database/Mysql/Mysql-EXPLAIN.md)
-      - [Mysql-Information-schema](Database/Mysql/Mysql-Information-schema.md)
-      - [Mysql-InnoDB](Database/Mysql/Mysql-InnoDB.md)
-      - [Mysql事务](Database/Mysql/Mysql事务.md)
-      - [Mysql应用](Database/Mysql/Mysql应用.md)
-      - [Mysql日志](Database/Mysql/Mysql日志.md)
-      - [Mysql索引](Database/Mysql/Mysql索引.md)
-      - [Mysql语句](Database/Mysql/Mysql语句.md)
-      - [Mysql调优](Database/Mysql/Mysql调优.md)
-      - [Mysql数据类型](Database/Mysql/Mysql数据类型.md)
-      - [Mysql配置文件](Database/Mysql/Mysql配置文件.md)
-      - [Mysql函数和运算符](Database/Mysql/Mysql函数和运算符.md)
+      - [MySQL-EXPLAIN](Database/Mysql/MySQL-EXPLAIN.md)
+      - [MySQL-Information-schema](Database/Mysql/MySQL-Information-schema.md)
+      - [MySQL-InnoDB](Database/Mysql/MySQL-InnoDB.md)
+      - [MySQL锁](Database/Mysql/MySQL锁.md)
+      - [MySQL事务](Database/Mysql/MySQL事务.md)
+      - [MySQL应用](Database/Mysql/MySQL应用.md)
+      - [MySQL日志](Database/Mysql/MySQL日志.md)
+      - [MySQL索引](Database/Mysql/MySQL索引.md)
+      - [MySQL语句](Database/Mysql/MySQL语句.md)
+      - [MySQL调优](Database/Mysql/MySQL调优.md)
+      - [MySQL高可用](Database/Mysql/MySQL高可用.md)
+      - [MySQL数据类型](Database/Mysql/MySQL数据类型.md)
+      - [MySQL配置文件](Database/Mysql/MySQL配置文件.md)
+      - [MySQL高可用方案](Database/Mysql/MySQL高可用方案.md)
+      - [MySQL函数和运算符](Database/Mysql/MySQL函数和运算符.md)
       - **utility**
         - [mysql_config_editor](Database/Mysql/utility/mysql_config_editor.md)
         - [mysqldump](Database/Mysql/utility/mysqldump.md)
@@ -89,13 +95,24 @@
       - [IP地址](计算机基础/计算机网络/IP地址.md)
       - [NAT](计算机基础/计算机网络/NAT.md)
       - [SSL证书类型](计算机基础/计算机网络/SSL证书类型.md)
+      - [虚拟IP](计算机基础/计算机网络/虚拟IP.md)
     - [正则表达式](计算机基础/正则表达式.md)
 - **运维**
-    - [Docker](运维/Docker.md)
+    - **Docker**
+      - [Docker](运维/Docker/Docker.md)
+      - [Dockerfile](运维/Docker/Dockerfile.md)
+      - [Docker基础操作](运维/Docker/Docker基础操作.md)
+      - [Docker常用镜像](运维/Docker/Docker常用镜像.md)
+      - [Harbor](运维/Docker/Harbor.md)
+      - [Overlay文件系统](运维/Docker/Overlay文件系统.md)
+      - [docker-compose](运维/Docker/docker-compose.md)
     - [ELK](运维/ELK.md)
-    - [Harbor](运维/Harbor.md)
-    - [Jenkins](运维/Jenkins.md)
+    - **Jenkins**
+      - [Jenkins](运维/Jenkins/Jenkins.md)
+      - [Jenkinsfile](运维/Jenkins/Jenkinsfile.md)
+    - [KubeSphere](运维/KubeSphere.md)
     - **Linux**
+      - [LinuxOOMKiller](运维/Linux/LinuxOOMKiller.md)
       - [LinuxShell](运维/Linux/LinuxShell.md)
       - [Linux日志](运维/Linux/Linux日志.md)
       - [Linux网络](运维/Linux/Linux网络.md)
@@ -158,9 +175,11 @@
     - [Guava](JavaTool/Guava.md)
     - **Maven**
       - [Maven](JavaTool/Maven/Maven.md)
+      - [Maven插件](JavaTool/Maven/Maven插件.md)
     - **Nacos**
       - [Nacos](JavaTool/Nacos/Nacos.md)
       - [Nacos配置中心](JavaTool/Nacos/Nacos配置中心.md)
+    - [Redission](JavaTool/Redission.md)
     - [Swagger](JavaTool/Swagger.md)
     - **other**
       - [Chromedriver](JavaTool/other/Chromedriver.md)
@@ -186,6 +205,8 @@
     - **基础知识**
       - [常用数据格式](其他/基础知识/常用数据格式.md)
     - **开源项目**
+      - **CloudCanal**
+        - [CloudCanal](其他/开源项目/CloudCanal/CloudCanal.md)
       - **DataX**
         - [DataX](其他/开源项目/DataX/DataX.md)
         - [关于DataXHdfsWriter](其他/开源项目/DataX/关于DataXHdfsWriter.md)

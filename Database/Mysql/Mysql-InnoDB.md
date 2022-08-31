@@ -1,4 +1,4 @@
-# Mysql InnoDB
+# MySQL InnoDB
 
 InnoDB是一个将表中数据存储到磁盘的存储引擎。InnoDB处理数据是发生在内存中的，需要把磁盘中的数据加载到内存中，InnoDB以页作为磁盘和内存之间交互的基本单位，InnoDB中页的默认大小为16KB。
 

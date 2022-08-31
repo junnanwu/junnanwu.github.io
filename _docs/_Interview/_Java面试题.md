@@ -30,7 +30,7 @@
 #### 选择排序
 
 ```java
-private static void selectionSort(int[] list) {
+public static void selectionSort(int[] list) {
     for (int i = 0; i < list.length; i++) {
         for (int j = i; j < list.length; j++) {
             if (list[j] < list[i]) {
@@ -46,7 +46,7 @@ private static void selectionSort(int[] list) {
 #### 冒泡排序
 
 ```java
-private static void bubbleSort(int[] list) {
+public static void bubbleSort(int[] list) {
     for (int i = 0; i < list.length; i++) {
         for (int j = i; j < list.length; j++) {
             if(list[j] < list[i]){
@@ -62,33 +62,15 @@ private static void bubbleSort(int[] list) {
 #### 插入排序
 
 ```java
-public class InsertSort implements IArraySort {
-
-    @Override
-    public int[] sort(int[] sourceArray) throws Exception {
-        // 对 arr 进行拷贝，不改变参数内容
-        int[] arr = Arrays.copyOf(sourceArray, sourceArray.length);
-
-        // 从下标为1的元素开始选择合适的位置插入，因为下标为0的只有一个元素，默认是有序的
-        for (int i = 1; i < arr.length; i++) {
-
-            // 记录要插入的数据
-            int tmp = arr[i];
-
-            // 从已经排序的序列最右边的开始比较，找到比其小的数
-            int j = i;
-            while (j > 0 && tmp < arr[j - 1]) {
-                arr[j] = arr[j - 1];
-                j--;
+public static void insertSort(int[] list) {
+    for (int i = 1; i < list.length; i++) {
+        for (int j = 0; j < i; j++) {
+            if (list[i] < list[j]) {
+                int temp = list[i];
+                list[i] =list[j];
+                list[j] = temp;
             }
-
-            // 存在比其小的数，插入
-            if (j != i) {
-                arr[j] = tmp;
-            }
-
         }
-        return arr;
     }
 }
 ```
@@ -175,7 +157,7 @@ public class QuickSort implements IArraySort {
                 index++;
             }
         }
-        swap(arr, pivot, index - 1);
+        swap(arr, pivot , index - 1);
         return index - 1;
     }
 

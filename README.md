@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/Kafka如何实现高吞吐量.md)
-2. [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/Kafka如何保证消息不丢失.md)
-3. [Kafka入门](Tool/MessageQueue/Kafka/Kafka入门.md)
-4. [Kafka基本概念](Tool/MessageQueue/Kafka/Kafka基本概念.md)
-5. [ClickHosue生产bug记录](Database/ClickHouse/ClickHosue生产bug记录.md)
-6. [大数据基本概念](其他/大数据/大数据基本概念.md)
-7. [ClickHouss备份迁移](Database/ClickHouse/ClickHouss备份迁移.md)
-8. [ClickHouse](Database/ClickHouse/ClickHouse.md)
-9. [Redis数据结构](Database/Redis/Redis数据结构.md)
-10. [Redis主从复制](Database/Redis/Redis主从复制.md)
+1. [MySQL高可用](Database/Mysql/MySQL高可用.md)
+2. [Jenkinsfile](运维/Jenkins/Jenkinsfile.md)
+3. [Jenkins](运维/Jenkins/Jenkins.md)
+4. [mysqldump](Database/Mysql/utility/mysqldump.md)
+5. [Nginx应用](Tool/Nginx/Nginx应用.md)
+6. [Nginx](Tool/Nginx/Nginx.md)
+7. [MySQL-InnoDB](Database/Mysql/MySQL-InnoDB.md)
+8. [MySQL日志](Database/Mysql/MySQL日志.md)
+9. [MySQL语句](Database/Mysql/MySQL语句.md)
+10. [Linux用户权限](运维/Linux/Linux用户权限.md)
 

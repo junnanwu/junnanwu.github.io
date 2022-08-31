@@ -1,4 +1,4 @@
-# Mysql语句
+# MySQL语句
 
 ## DDL
 
@@ -11,6 +11,16 @@ CREATE DATABASE database_name;
 ```
 
 ### 建表语句
+
+```
+CREATE TABLE `tbl_emp` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`name` varchar(20) DEFAULT NULL,
+`deptId` int(11) DEFAULT NULL,
+PRIMARY KEY (`id`) ,
+KEY `fk_dept_id`(`deptId`)
+)ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8;
+```
 
 #### 建表指定默认集
 

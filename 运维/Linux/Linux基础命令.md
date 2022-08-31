@@ -223,7 +223,7 @@ cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file ... target_directory
 
   覆盖前询问（建议加此参数）
 
-- `-R` 
+- `-R -r --recursive` 
 
   递归的复制整个目录
 
@@ -234,6 +234,8 @@ cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file ... target_directory
 - `-p`
 
   连同文件的属性一起复制过去，而非使用默认属性（备份常用）
+  
+- `-f --force`
 
 注意：
 
@@ -257,7 +259,7 @@ cp [-R [-H | -L | -P]] [-fi | -n] [-apvX] source_file ... target_directory
 - 文件名记录在文件所在目录的 block 中
 - 如果想要读取文件内容，就必须借助目录中记录的文件名找到该文件的 inode，才能成功找到文件内容所在的 block 块
 
-ln 命令用于给文件创建链接，分为下面两种：
+ln命令用于给文件创建链接，分为下面两种：
 
 - 符号链接（symbolic link，软链接）
 

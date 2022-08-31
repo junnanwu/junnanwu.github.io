@@ -46,6 +46,20 @@
 
 - 当某个表发生`metadata lock`死锁的时候，可以查看此表，`kill`对应session
 
+## TABLE
+
+查看target_schema库中每个表的大小：
+
+```SQL
+SELECT table_name, round((DATA_LENGTH+INDEX_LENGTH)/1024/1024) AS `size(M)` FROM information_schema.tables WHERE table_schema='target_schema' ORDER BY `size(M)` DESC;
+```
+
+查看mysql中所有schema的大小：
+
+```sql
+SELECT table_schema, round((SUM(DATA_LENGTH)+SUM(INDEX_LENGTH))/1024/1024) AS `size(M)` FROM information_schema.tables GROUP BY table_schema ORDER BY `size(M)` DESC;
+```
+
 ## References
 
 1. https://dev.mysql.com/doc/refman/5.7/en/information-schema.html

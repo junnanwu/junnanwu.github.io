@@ -1,4 +1,4 @@
-# Mysql日志
+# MySQL日志
 
 ## bin log
 
@@ -359,8 +359,75 @@ Count: 1  Time=0.42s (0s)  Lock=0.00s (0s)  Rows=1431.0 (1431), data_web[data_we
   $ > mysql-slow.log
   ```
 
+## redo log
+
+redo log用来保证事务的持久性。
+
+当事务提交的时候，必须先将该事务的所有日志写入到redo log进行持久化。
+
+- redo log记录的是物理日志，记录的是页的物理操作修改
+- undo log记录的是逻辑日志，根据每行记录进行记录。
+
+为了确保每次日志都被持久化，每次将redo log缓冲写入redo log文件中之后，InnoDB都会调用一次fsync操作，即立即将页缓存刷到磁盘中，保证真正的持久化。
+
+fsync的效率取决于磁盘的性能，因此磁盘的性能决定了事务提交的性能，也就是数据库的性能。
+
+`innodb_flush_log_at_trx_commit`用来控制重做日志刷新到磁盘的策略：
+
+- `1`
+
+  默认值，表示该事务提交时必须调用一次fsync操作。
+
+- `0`
+
+  表示事务提交时不进行写入重做日志记录，这个操作由master thread执行，每秒执行一次。
+
+- `2`
+
+  表示事务提交时将redo log写入文件系统缓存中，但是不进行fsync操作，这个情况下，Mysql宕机不会导致事务丢失，操作系统宕机会导致文件系统缓存中未fsync那部分事务丢失。
+
+针对这里的一个优化：
+
+一次插入大量数据，开启事务后，应该在全部语句插入之后再进行COMMIT操作，而不是每条记录都进行COMMIT，这样即避免了频繁的fsync操作，还使得中间出错的时候回滚到事务最开始的确定状态。
+
+与binlog的区别：
+
+- binlog是Server层面的，Mysql中的任何存储引擎都会产生bin log，redo log是InnoDB存储引擎产生的
+- binlog是逻辑日志，而redo log是物理日志，记录了page页的修改
+- 写入的时间也不同，bin log是在事务提交后，一次写入，而redo log是在事务进行的过程中并发写入的
+
+**LSN**
+
+日志序列号（Log Sequence Number, LSN），其表示的含义有：
+
+- 重做日志写入的总量
+- checkpoint的位置
+- 页的版本
+
+例如当前LSN为1000，有一个事务T1写入了100字节的重做日志，那么LSN就变成了1100，若又有事务T2写入了200字节的重做日志，那么LSN就变成了1300。
+
+每个页的头部，有一个FIL_PAGE_LSN，记录了该页的LSN。在页中，LSN代表该页最后刷新时LSN的大小。
+
+在InnoDB启动的时候，不管上次是否正常关闭，都会尝试进行恢复操作，恢复的部分为checkpoint开始的部分。
+
+## undo log
+
+undo log来帮事务回滚及MVCC的功能。
+
+在对数据库进行修改的时候，InnoDB不仅会产生redo log还会产生undo log。
+
+**回滚**
+
+如果用户执行的事务或语句由于某种原因失败了，又或者用户用一条ROLLBACK语句请求回滚，就可以利用这些undo log将数据回滚到修改之前的样子。
+
+undo log做的是与之前完全相反的事情，例如每个INSERT，InnoDB都会生产一个DELETE。
+
+**MVCC**
+
+MVCC的版本是通过undo log来实现的。
 
 ## References
 
+1. 《MySQL技术内幕-INNODB存储引擎》——姜承尧
 1. https://dev.mysql.com/doc/refman/8.0/en/mysqlbinlog.html
 1. https://dev.mysql.com/doc/refman/5.7/en/slow-query-log.html

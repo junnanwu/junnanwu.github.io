@@ -1,4 +1,4 @@
-# Mysql配置
+# MySQL配置
 
 `[group]`
 
