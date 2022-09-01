@@ -24,7 +24,7 @@ Welcome to the MySQL monitor.  Commands end with ; or \g.
 我们可以通过mysql_config_editor来保存登录信息：
 
 ```
-$ mysql_config_editor set --login-path=client --host=localhost --user=root --password
+$ mysql_config_editor set --login-path=client --user=root --password
 Enter password:
 xxx
 ```

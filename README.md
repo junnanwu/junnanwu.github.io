@@ -6,13 +6,13 @@
 
 ## 最近新增/修改
 1. [MySQL高可用](Database/Mysql/MySQL高可用.md)
-2. [Jenkinsfile](运维/Jenkins/Jenkinsfile.md)
-3. [Jenkins](运维/Jenkins/Jenkins.md)
-4. [mysqldump](Database/Mysql/utility/mysqldump.md)
-5. [Nginx应用](Tool/Nginx/Nginx应用.md)
-6. [Nginx](Tool/Nginx/Nginx.md)
-7. [MySQL-InnoDB](Database/Mysql/MySQL-InnoDB.md)
-8. [MySQL日志](Database/Mysql/MySQL日志.md)
-9. [MySQL语句](Database/Mysql/MySQL语句.md)
-10. [Linux用户权限](运维/Linux/Linux用户权限.md)
+2. [MySQL语句](Database/Mysql/MySQL语句.md)
+3. [Linux服务](运维/Linux/Linux服务.md)
+4. [Linux网络](运维/Linux/Linux网络.md)
+5. [Linux基础命令](运维/Linux/Linux基础命令.md)
+6. [Kubernetes](运维/Kubernetes.md)
+7. [KubeSphere](运维/KubeSphere.md)
+8. [Redis数据结构](Database/Redis/Redis数据结构.md)
+9. [Dockerfile](运维/Docker/Dockerfile.md)
+10. [Harbor](运维/Docker/Harbor.md)
 

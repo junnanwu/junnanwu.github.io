@@ -248,20 +248,20 @@
 
    ```
    [mysqld]
-   
-   bind-address=0.0.0.0
-   port=3306
-   user=mysql
    basedir=/usr/local/mysql
    datadir=/data/mysql
-   socket=/tmp/mysql.sock
-   log-error=/data/mysql/mysql.err
+   log_error=/data/mysql/mysql.err
    pid-file=/data/mysql/mysql.pid
+   
+   #binlog
+   log_bin=bin.log
+   server_id=1
+   
+   #log
+   log_timestamps=SYSTEM
    
    #character config
    character_set_server=utf8mb4
-   symbolic-links=0
-   explicit_defaults_for_timestamp=true
    ```
 
 6. MySQL初始化
@@ -270,6 +270,11 @@
    # cd /usr/local/mysql/bin/
    # ./mysqld --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql/ --datadir=/data/mysql/ --user=mysql --initialize
    ```
+
+   初始化操作包括：
+
+   - 生成一个默认的密码
+   - 初始化数据目录
 
    注意如果此步骤报错：
 

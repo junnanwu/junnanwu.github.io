@@ -45,6 +45,16 @@ bin log有三种格式：
 show variables like '%binlog_format%';
 ```
 
+### 开启bin log
+
+MySQL bin log默认是关闭的，编辑`my.conf`的`[mysqld]`部分 ，加入如下配置然后重启即可：
+
+```
+#binlog
+log-bin=bin.log
+server_id=1
+```
+
 ### 查看bin log
 
 格式：

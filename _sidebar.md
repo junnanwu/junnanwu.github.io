@@ -67,7 +67,7 @@
       - [MySQL调优](Database/Mysql/MySQL调优.md)
       - [MySQL高可用](Database/Mysql/MySQL高可用.md)
       - [MySQL数据类型](Database/Mysql/MySQL数据类型.md)
-      - [MySQL配置文件](Database/Mysql/MySQL配置文件.md)
+      - [MySQL配置相关](Database/Mysql/MySQL配置相关.md)
       - [MySQL高可用方案](Database/Mysql/MySQL高可用方案.md)
       - [MySQL函数和运算符](Database/Mysql/MySQL函数和运算符.md)
       - **utility**
@@ -111,10 +111,12 @@
       - [Jenkins](运维/Jenkins/Jenkins.md)
       - [Jenkinsfile](运维/Jenkins/Jenkinsfile.md)
     - [KubeSphere](运维/KubeSphere.md)
+    - [Kubernetes](运维/Kubernetes.md)
     - **Linux**
       - [LinuxOOMKiller](运维/Linux/LinuxOOMKiller.md)
       - [LinuxShell](运维/Linux/LinuxShell.md)
       - [Linux日志](运维/Linux/Linux日志.md)
+      - [Linux服务](运维/Linux/Linux服务.md)
       - [Linux网络](运维/Linux/Linux网络.md)
       - [Linux包管理](运维/Linux/Linux包管理.md)
       - [Linux基础命令](运维/Linux/Linux基础命令.md)
