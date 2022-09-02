@@ -325,8 +325,6 @@ project(':repository'){
 
 #### 多项目部分构建
 
-
-
 #### 定义公共行为
 
 如果你想为所有的项目或者只有子项目定义一些公共的行为，所以Projects API提供了两个专门的方法：
@@ -347,82 +345,18 @@ subprojects()
   }
   ```
 
-  
 
+## Gradle命令
 
-
-gradle如何配置使用阿里云数据源
-
-对所有项目生效，在在`${USER_HOME}/.gradle/`下创建`init.gradle`文件
+命令格式：
 
 ```
-allprojects{
-    repositories {
-        def ALIYUN_REPOSITORY_URL = 'https://maven.aliyun.com/repository/public/'
-        def ALIYUN_JCENTER_URL = 'https://maven.aliyun.com/repository/jcenter/'
-        def ALIYUN_GOOGLE_URL = 'https://maven.aliyun.com/repository/google/'
-        def ALIYUN_GRADLE_PLUGIN_URL = 'https://maven.aliyun.com/repository/gradle-plugin/'
-        all { ArtifactRepository repo ->
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (url.startsWith('https://repo1.maven.org/maven2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://jcenter.bintray.com/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://dl.google.com/dl/android/maven2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GOOGLE_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://plugins.gradle.org/m2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GRADLE_PLUGIN_URL."
-                    remove repo
-                }
-            }
-        }
-        maven { url ALIYUN_REPOSITORY_URL }
-        maven { url ALIYUN_JCENTER_URL }
-        maven { url ALIYUN_GOOGLE_URL }
-        maven { url ALIYUN_GRADLE_PLUGIN_URL }
-    }
-    
-    buildscript{
-        def ALIYUN_REPOSITORY_URL = 'https://maven.aliyun.com/repository/public/'
-        def ALIYUN_JCENTER_URL = 'https://maven.aliyun.com/repository/jcenter/'
-        def ALIYUN_GOOGLE_URL = 'https://maven.aliyun.com/repository/google/'
-        def ALIYUN_GRADLE_PLUGIN_URL = 'https://maven.aliyun.com/repository/gradle-plugin/'
-        all { ArtifactRepository repo ->
-            if(repo instanceof MavenArtifactRepository){
-                def url = repo.url.toString()
-                if (url.startsWith('https://repo1.maven.org/maven2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_REPOSITORY_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://jcenter.bintray.com/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_JCENTER_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://dl.google.com/dl/android/maven2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GOOGLE_URL."
-                    remove repo
-                }
-                if (url.startsWith('https://plugins.gradle.org/m2/')) {
-                    project.logger.lifecycle "Repository ${repo.url} replaced by $ALIYUN_GRADLE_PLUGIN_URL."
-                    remove repo
-                }
-            }
-        }
-        maven { url ALIYUN_REPOSITORY_URL }
-        maven { url ALIYUN_JCENTER_URL }
-        maven { url ALIYUN_GOOGLE_URL }
-        maven { url ALIYUN_GRADLE_PLUGIN_URL }
-    }
-}
-
+gradle [taskName...] [--option-name...]
 ```
+
+可以指定多个任务，中间用空格分隔。
+
+
 
 ## 使用插件
 
@@ -441,31 +375,6 @@ plugins{
 
  `java`是“核心插件”，而`org.springframework.boot`是“社区插件”（[Gradle插件中心](https://links.jianshu.com/go?to=https%3A%2F%2Fplugins.gradle.org%2F)），必须指定version。
 
-**遗留方式**
-
-与buildscript结合
-
-```
-buildscript {
-    ext {
-        springBootVersion = "2.3.3.RELEASE"
-    }
-    repositories {
-        mavenLocal()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
-        jcenter()
-    }
-    //此处引入插件
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-apply plugin: 'java' //核心插件，无需事先引入
-apply plugin: 'org.springframework.boot' //社区插件，需要事先引入，不必写版本号
-```
-
-
-
 ## 配置包装器
 
 1. 执行包装器任务生成包装器文件
@@ -477,7 +386,7 @@ apply plugin: 'org.springframework.boot' //社区插件，需要事先引入，�
    还可以指定版本和类型：
 
    ```
-   gradle wrapper --gradle-version 7.5.1 --distribution-type all
+   $ gradle wrapper --gradle-version 7.5.1 --distribution-type all
    ```
 
 1. 在`build.gralde`中定制配置
@@ -523,10 +432,14 @@ apply plugin: 'org.springframework.boot' //社区插件，需要事先引入，�
 注意：
 
 - 下载下来的包装器文件应该提交到版本控制系统中
-- 为了记录构建使用过包装器，将wrapper任务保留在项目中也是有用的
+
+- 第一次使用`./gralew`将会在此地址下载此文件：
+
+  ` ~/.gradle/wrapper/dists/gradle-7.5.1-all`
 
 ## References
 
 1. 《实战Gradle》
 2. https://docs.gradle.org/current/userguide/java_library_plugin.html
+2. https://docs.gradle.org/current/userguide/command_line_interface.html
 2. https://www.jianshu.com/p/724d1abc61a2

@@ -48,7 +48,7 @@ KubeSphere默认不为项目设置任何请求或限制。
 
 ## DevOps项目
 
-
+支持基于Jenkinsfile流水线构建CI/CD流水线。
 
 
 
