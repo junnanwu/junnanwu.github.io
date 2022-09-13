@@ -88,7 +88,24 @@
   ```
   $ docker push hub.giao.com/hamburger/tomcat:v1.0
   ```
+  
+- 制作镜像
 
+  格式：
+  
+  ```
+  docker build [OPTIONS] PATH | URL | -
+  ```
+  
+  参数：
+  
+  - `--tag, -t`
+  
+    镜像名字及标签，`name:tag`。
+  
+  - `-f`
+  
+    指定要使用的Dockerfile路径。
 
 **查看镜像版本**
 
@@ -183,6 +200,10 @@ https://registry.hub.docker.com/v1/repositories/${docker_img}/tags
   - `-e --env`
 
     设置环境变量。
+
+    ```
+    $ docker run --name docker -e USERNAME="xxx" test-docker
+    ```
 
   - `--rm`
 

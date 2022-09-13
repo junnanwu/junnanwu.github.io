@@ -158,7 +158,7 @@
 
 ## Gradle
 
-
+[官网下载](https://gradle.org/releases/)对应版本，上传即可
 
 ## Docker
 

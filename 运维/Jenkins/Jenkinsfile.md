@@ -32,7 +32,7 @@ pipeline {
 ```
 
 - `sh`是一个执行给定shell命令的流水线step（由 Pipeline: Nodes and Processes plugin提供）
-- `junit` 是另一个聚合测试报告的流水线step（由 JUnit plugin提供）
+- `junit`是另一个聚合测试报告的流水线step（由 JUnit plugin提供）
 
 ## References
 

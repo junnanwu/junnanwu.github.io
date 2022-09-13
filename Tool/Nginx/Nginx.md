@@ -20,7 +20,7 @@ Nginx很适合用作反向代理服务器，因为反向代理服务器必须能
 
   Squid等反向代理服务器，在还没有接受客户端的HTTP包体的时候，就已经和上游服务器建立了连接。例如需要上传一个1G的文件，Squid接收每个TCP包就会立即向上游服务器转发，在上传的漫长过程中，上游服务器，需要始终维持这个连接，这就对上游服务器的并发能力提出了挑战。
 
-- 缺点就是多了一个请求的处理时间。
+- 缺点就是多了一个请求的处理时间
 
 ## Nginx的结构
 
@@ -265,11 +265,19 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `^~`
 
-  前缀匹配，表示匹配URI只需要前半部分与URI匹配即可，匹配到即停止，优先级高于正则表达式。
+  前缀匹配（priority prefix），表示匹配URI只需要前半部分与URI匹配即可，匹配到即停止，优先级高于正则表达式。
 
   ```nginx
   location ^~ /images/ {
   	# 以/images/开始的请求都会被匹配上
+  }
+  ```
+
+  再例如：
+
+  ```nginx
+  location ^~ /images {
+  	# 以/images开始的请求都会被匹配上，包括/iamgeAbc
   }
   ```
 
@@ -290,7 +298,7 @@ location会尝试根据用户请求中的URI来来匹配location的表达式，�
 
 - `/uri`
 
-  表示前缀匹配，不带修饰符，优先级没有正则表达式高。
+  表示前缀匹配（prefix），不带修饰符，优先级没有正则表达式高。
 
 - `/`
 
@@ -312,13 +320,27 @@ location / {
 }
 ```
 
-注意：uri带`/`和不带`/`有何区别？
+**localtion后带`/`和不带`/`有何区别？**
+
+例如：
+
+```nginx
+location ^~ /alias/ {
+    echo "WITH: /";
+}
+
+location ^~ /alias {
+    echo "WITHOUT: /";
+}
+```
+
+前者只能匹配 `/alis/abc` 这样的，而后者可以匹配`/aliasabc`，也可`/alias/123`这样的。
 
 **查看localtion匹配情况**
 
-此网站可以查看localtion匹配情况
+此网站可以查看localtion匹配情况：https://nginx.viraptor.info/，上面的测试结果如下：
 
-https://nginx.viraptor.info/
+![location_end_slash_match](Nginx_assets/location_end_slash_match.png)
 
 #### 文件路径的定义
 
@@ -332,9 +354,7 @@ location /download/ {
 }
 ```
 
-在上述配置中，如果有一个请求的URI是`/download/index/test.html`
-
-那么Web服务器就会返回服务器上的`/opt/web/html/download/index/test.html`文件的内容;
+在上述配置中，如果有一个请求的URI是`/download/index/test.html`，那么Web服务器就会返回服务器上的`/opt/web/html/download/index/test.html`文件的内容;
 
 ##### alias
 
@@ -371,9 +391,7 @@ location / {
 }
 ```
 
-接收到请求之后，Nginx首先会尝试访问`path/index.php`文件，如果可以访问，就直接返回文件内容，结束访问
-
-否则，再次试图返回`path/html/index.php`文件的内容，依此类推
+接收到请求之后，Nginx首先会尝试访问`path/index.php`文件，如果可以访问，就直接返回文件内容，结束访问，否则，再次试图返回`path/html/index.php`文件的内容，依此类推。
 
 ##### error_page
 
@@ -413,38 +431,26 @@ location /{
 ```nginx
 location /images/ {
     root /opt/html/;
-    try_files $uri   $uri/  /images/default.gif; 
+    try_files $uri $uri/ /images/default.gif; 
 }
 ```
 
-比如，请求 127.0.0.1/images/test.gif 会依次查找 
+比如，请求`/images/test.gif`会依次查找 
 
-- 文件/opt/html/images/test.gif 
-- 文件夹 /opt/html/images/test.gif/下的index文件
-- 请求127.0.0.1/images/default.gif
+- 文件`/opt/html/images/test.gif `
+- 文件夹`/opt/html/images/test.gif/`
+- 请求`/opt/html/images/default.gif`
 
 **实战**
 
 ```nginx
 location / {
   root   /Users/wujunnan/develop/work/dist;
-  index  index.html index.htm;
-  #try_files $uri $uri/ /dw-web-ui/index.html;
   try_files $uri $uri/ /usertag/index.html;
 }
 ```
 
-含义就是先访问`/Users/wujunnan/develop/work/dist;`+uri访问的资源是否存在，存在的话就访问，不存在的话访问`/usertag/index.html`
-
-```NGINX
-location /usertag/ {
-    root   D:\work\dist;
-    index  index.html index.htm;
-    try_files $uri $uri/ /usertag/index.html;
-    add_header Cache-Control "max-age=0";
-    # add_header Cache-Control "no-cache";
-}
-```
+含义就是先访问`root + uri`访问的资源是否存在，存在的话就访问，不存在的话访问`root + /usertag/index.html`。
 
 #### rewirte
 

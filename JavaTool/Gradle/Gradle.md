@@ -59,6 +59,62 @@ Gradle基于Groovy而不是XML，XML在表述构建逻辑方面存在不足，Gr
            └── MANIFEST.MF
    ```
 
+## Gradle命令
+
+命令格式：
+
+```
+gradle [taskName...] [--option-name...]
+```
+
+可以指定多个任务，中间用空格分隔，多任务会在保证依赖顺序的前提下，交换执行的顺序。
+
+**查看依赖顺序**
+
+通过`-m --dry-run `参数来查看一个任务的依赖顺序，例如：
+
+```
+$ gradle build -m
+:compileJava SKIPPED
+:processResources SKIPPED
+:classes SKIPPED
+:bootJarMainClassName SKIPPED
+:bootJar SKIPPED
+:jar SKIPPED
+:assemble SKIPPED
+:compileTestJava SKIPPED
+:processTestResources SKIPPED
+:testClasses SKIPPED
+:test SKIPPED
+:check SKIPPED
+:build SKIPPED
+```
+
+**跳过某个任务**
+
+通过 `-x --exclude-task`参数跳过某个任务， 例如：
+
+```
+gradle build -m -x test
+:compileJava SKIPPED
+:processResources SKIPPED
+:classes SKIPPED
+:bootJarMainClassName SKIPPED
+:bootJar SKIPPED
+:jar SKIPPED
+:assemble SKIPPED
+:check SKIPPED
+:build SKIPPED
+```
+
+**失败继续运行**
+
+某个依赖失败，继续执行。
+
+```
+$ gradle test --continue
+```
+
 ## 依赖管理
 
 ### 仓库配置
@@ -90,9 +146,27 @@ compile已经被废弃，应该使用上述两种替换。
 
 其他可选：
 
-- compileOnly：
+- compileOnly
 
-[详见官方文档](https://docs.gradle.org/current/userguide/java_library_plugin.html)
+### annotationProcessor
+
+Annotation processing是Java在1.5新增的编译选项，如下：
+
+```
+javac --processor-path path
+```
+
+此选项会去寻找一个继承自`AbstractProcessor`的类，生成指定的代码。
+
+如下所示：
+
+```
+//lombok
+compileOnly 'org.projectlombok:lombok:1.18.10'
+annotationProcessor 'org.projectlombok:lombok:1.18.10'
+```
+
+`annotationProcessor`的作用就是定义了传递给`javac --processor-path`的依赖。
 
 ### 依赖报告
 
@@ -237,14 +311,6 @@ implementation("io.springfox:springfox-swagger2:2.9.2") {
 
 - version属性是不可用的
 
-### Gradle如何继承依赖的版本
-
-https://cloud.tencent.com/developer/article/1010607
-
-https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle
-
-
-
 ## 多项目构建
 
 位于顶层目录的项目被称为根项目，它协调构建子项目，并为子项目定义一些共同的或特定的行为。
@@ -292,7 +358,7 @@ Root project 'data-web'
 
 ### 构建子项目
 
-在多项目构建中，你可以从根目录为某个子项目执行task。你只需要确定连接项目路径和task名称既可（路径用`:`表示。
+在多项目构建中，你可以从根目录为某个子项目执行task。你只需要确定连接项目路径和task名称即可（路径用`:`表示）。
 
 例如，为子项目model执行`build task`
 
@@ -311,7 +377,7 @@ project(':modle'){
 }
 
 project(':repository'){
-    ....
+    ...
     dependencies {
         complie project(':modle')
     }
@@ -346,21 +412,7 @@ subprojects()
   ```
 
 
-## Gradle命令
-
-命令格式：
-
-```
-gradle [taskName...] [--option-name...]
-```
-
-可以指定多个任务，中间用空格分隔。
-
-
-
 ## 使用插件
-
-**高版本**
 
 添加插件（必须在父项目中）：
 
@@ -386,7 +438,7 @@ plugins{
    还可以指定版本和类型：
 
    ```
-   $ gradle wrapper --gradle-version 7.5.1 --distribution-type all
+   $ gradle wrapper --gradle-version 7.5.1 --distribution-type bin|all
    ```
 
 1. 在`build.gralde`中定制配置
@@ -442,4 +494,5 @@ plugins{
 1. 《实战Gradle》
 2. https://docs.gradle.org/current/userguide/java_library_plugin.html
 2. https://docs.gradle.org/current/userguide/command_line_interface.html
+2. https://tomgregory.com/annotation-processors-in-gradle-with-the-annotationprocessor-dependency-configuration/
 2. https://www.jianshu.com/p/724d1abc61a2

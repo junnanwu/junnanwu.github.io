@@ -141,8 +141,10 @@
     - **Jenkins**
       - [Jenkins](运维/Jenkins/Jenkins.md)
       - [Jenkinsfile](运维/Jenkins/Jenkinsfile.md)
-    - [KubeSphere](运维/KubeSphere.md)
-    - [Kubernetes](运维/Kubernetes.md)
+    - **K8s**
+      - [KubeSphere](运维/K8s/KubeSphere.md)
+      - [KubeSphere创建DevOps项目](运维/K8s/KubeSphere创建DevOps项目.md)
+      - [Kubernetes](运维/K8s/Kubernetes.md)
     - **Linux**
       - [LinuxOOMKiller](运维/Linux/LinuxOOMKiller.md)
       - [LinuxShell](运维/Linux/LinuxShell.md)
