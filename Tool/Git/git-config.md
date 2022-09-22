@@ -57,7 +57,7 @@ warning: CRLF will be replaced by LF in lombok.config.
 这个是用于处理提交文件中的换行符：
 
 ```
-$ git config 
+$ git config core.autocrlf
 input
 ```
 

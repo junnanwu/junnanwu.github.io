@@ -11,21 +11,42 @@ K8s是负责自动化运维管理多个Docker程序的集群。
 - 简化部署
 - 自我修复
 
-## K8s的核心概念
+## K8s的核心资源
 
 ### namespace
 
 命名空间，分隔资源和对象。
 
+命名空间有如下特点：
+
+- 不同命名空间的资源时可以重名的
+- 租户隔离，不用担心无意中修改其他用户的资源
+- 命名空间并不提供网络隔离功能，也就是你知道某个其他命名空间下Pod的IP，那么你就可以将流量发送到该Pod
+
 ### 部署相关
 
 #### Pod
 
-Pod是可以在K8s中创建和管理的、最小可部署的计算单元。同一个Pod内可以有多个docker容器。
+Pod是逻辑主机，是可以在K8s中创建和管理的、最小可部署的计算单元。同一个Pod内可以有多个docker容器，当然很多时候，一个Pod中也只有一个容器。
+
+为什么不直接使用容器而要使用Pod？
+
+对于多进程组成的应用程序，无论是进程间通信，还是相互访问本地文件，都要求在同一台机器上。而容器为了方便进程的管理和日志的管理，被设计为一个容器只运行一个进程。基于此，出现了Pod，让多个进程就像在一台机器上一样。
+
+K8s通过配置Docker让一个Pod内的所有容器共享相同的Linux的命名空间来实现上述特性，而不是像传统Docker一样，每个容器都有自己的一组命名空间。
+
+也就是说，一个Pod下的所有容器：
+
+- 拥有相同的IP地址和端口空间（端口不能相同）
+- 可以通过localhost进行通信
+
+K8s集群中的**所有Pod都在同一个共享网络地址空间中**，也就是每个Pod都有自己的IP地址，并且可以相互访问，就像在局域网中一样。
 
 #### Deployment
 
 管理和控制Pod，当我们创建Deployment后，就会自动创建指定副本数的Pod，当某个Pod运行失败，也会重新运行一个新的Pod以保证一共有指定副本数的Pod。
+
+
 
 ### 网络相关
 
@@ -39,25 +60,60 @@ Service有几种发布类型：
 
 - ClusterIP
 
-  提供一个集群内部的虚拟IP，这个是默认选项，但是依然不能被外网访问。
+  默认类型，提供一个集群内部的虚拟IP，这个是默认选项，但是依然不能被外网访问。
 
 - NodePort
 
   K8s集群的每个节点都打开一个相同的端口（范围是30000-32767，也可以手动指定一个NodePort），将流量导向Service本身的IP:端口。
 
+  注意，这里会把请求随机分配给任何一个节点Pod，如果开启了`externalTrafficPolicy: Local`，那么请求会只会被转发到对应节点的Pod。
+
 - LoadBalancer
 
-  使用云提供商的负载均衡器向外部暴露服务。
+  使用云提供商的负载均衡器向外部暴露服务。负载均衡器有独一无二的可公开访问的IP地址，并将所有连接重定向到服务。
 
-NodePort的方式满足外网访问，比较简单，但也有缺点，它依赖了某个节点的IP，不满足高可用，LoadBalance依赖云提供商的负载均衡服务，另外也可以使用Ingress充当集群的入口。
+注意，这三种方式并**不是相互排斥的，而是层层递进的**，也就是说，NodePort机制包含ClusterIP，LoadBlanacer包含NodePort和CluterIP，也就是说LoadBalance的方式也同样可以通过NodeIP+端口来访问。
+
+NodePort的方式满足外网访问，比较简单，但也有缺点，它依赖于某个节点，当这个节点发生故障的时候，客户端将无法访问服务，不满足高可用。
+
+另外也可以使用Ingress充当集群的入口。
 
 #### Ingress
 
-Ingress是整个K8S集群的接入层，负责复杂集群内外通讯，类似Nginx。
+由于每个LoadBalancer服务都需要自己的负载均衡器，以及独有的公网IP地址，而Ingress负载均衡只需要一个公网IP就能为需要服务提供访问。
 
-K8s的网络访问示意图：
+Ingress负载均衡由以下两部分构成：
+
+- Ingress是一个K8s的一个资源，负责定义转发规则
+- Ingress Controller是具体负责反向代理的应用，例如Nginx
+
+客户端向Ingress Controller发送HTTP请求，Ingress Controller通过Host确定客户端访问哪个服务，通过该服务关联的EndPoint对象查看Pod IP，并将客户端的请求转发给其中一个Pod（**Ingress Controller并不会将请求转发给Service，只用它来选择Pod**）。
+
+在K8s中，Ingress Controller（如Nginx）将以Pod的形式运行，获取到Ingress的定义，生成Nginx所需的配置文件nginx.conf，在Ingress配置变化的时候，通过执行`nginx -s reload`的命令，重新加载nginx.conf。
+
+Ingress Controller以daemonset的形式进行创建，在每个Node上都将启动一个Nginx服务，并将容器应用监听的80和443端口号映射到物理机上，可以通过访问物理机的80或443端口来访问Ingress。
+
+**Ingress高可用**
+
+通过云服务提供商的负载均衡，例如[阿里的SLB](https://help.aliyun.com/document_detail/196880.html)（Server Load Balance），将流量负载到多个Ingress Controller节点上。
+
+**K8s的网络访问示意图**
 
 ![k8s-network-access-path](KubeSphere%E5%88%9B%E5%BB%BADevOps%E9%A1%B9%E7%9B%AE_assets/k8s-network-access-path.png)
+
+### 其他
+
+#### Job
+
+ReplicaSet会持续运行应用，当遇到运行完工作后就终止任务的情况时，可以利用Job资源。
+
+Job资源有如下特点：
+
+- Job允许你运行一种Pod，该Pod在内部进程 成功结束的时候，不重启容器，Pod处于完成状态
+- 当节点发生故障的时候，类似ReplicaSet，将该Pod重新安排到其他节点，当进程异常退出的时候，可以配置为重新启动容器
+- Job中也可以创建多个Pod实例，可以顺序运行多个Pod，也可以并行运行多个Pod
+- Job可以指定运行次数，可以运行多次
+- 可以安排Job定期运行
 
 ## 发布一个K8s服务
 
@@ -101,12 +157,16 @@ spec:
       app: APP_NAME
   #pod的相关信息
   template:
+    #pod的元数据
     metadata:
       #pod的标签
       labels:
         app: APP_NAME
-    #pod的详细信息
+    #pod的规格/内容
     spec:
+      #docker私有仓库对应的secret
+      imagePullSecrets:
+        - name: docker-secret
       containers:
         - name: APP_NAME
           image: IMAGE_NAME
@@ -150,11 +210,11 @@ metadata:
 spec:
   ports:
     - name: http
-      #容器端口
+      #服务端口
       port: 9091
-      protocol: TCP
-      #将容器请求代理到目标端口
+      #容器端口
       targetPort: 9091
+      protocol: TCP
       #NodePort类型中指定节点上的端口
       nodePort: 30081
   selector:
@@ -165,7 +225,48 @@ spec:
   type: NodePort
 ```
 
-具体参数详见[官方文档](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/deployment/)。
+具体参数详见[官方文档](https://kubernetes.io/zh-cn/docs/concepts/services-networking/service)。
+
+## 其他K8s功能
+
+### 查看应用程序的日志
+
+容器化的应用通常会将日志记录到标准输出和标准错误流中，而不是将其写入文件，容器运行时将这些流重定向到文件中，并允许我们ssh登录到容器节点后，使用`docker log`命令来查看容器日志，可以在集群任意节点通过`kubectl logs`命令获取Pod日志。
+
+注意：
+
+- 每天或者每次日志文件达到10MB大小时，容器日志都会自动轮替，`kubectl logs`命令仅显示最后一次轮替后的日志
+- 我们只能获取仍然存在的Pod日志，当一个Pod被删除时，它的日志也会被删除，如果希望在Pod删除之后仍然可以查看日志 ，需要设置集群范围的日志系统。
+
+### 存活探针
+
+我们该如何保证Pod时健康运行的呢？
+
+如果容器的主线程崩溃，那么显然此时Pod不健康，K8s将重启应用，但是有时候即使进程没有崩溃，应用系统也会停止正常工作，例如OOM。
+
+K8s可以通过存活探针来检查容器是否正常运行，可以为Pod中的每个容器单独制定存活探针，探针类型包括：
+
+- HTTP GET探针
+
+  对容器IP执行HTTP GET请求，如果没有相应错误码，则认为探测成功。
+
+- TCP套接字探针
+
+  TCP套接字探针尝试和容器端口建立TCP连接，如果连接成功建立，则探测成功。
+
+- Exec探针
+
+  在容器内执行任意命令，如果命令正常退出，则认为探测成功。
+
+对于在生产中运行的Pod一定要定义一个存活的探针，来告知K8s应用是健康的。
+
+### 磁盘挂载到容器
+
+前面提到，Pod内的多个容器可以共享CPU、RAM、网络和端口资源，但是却无法共享磁盘资源，因为文件系统来自容器镜像。
+
+K8s通过定义卷来解决这个问题，卷时Pod的一个组成部分，我们可以把卷挂载到容器的任意位置。
+
+通过将相同的卷挂载到相同的容器中，它们可以对相同的文件进行操作。
 
 ## KubeSphere是什么
 
@@ -216,7 +317,7 @@ KubeSphere是在Kubernetes之上构建的云原生操作系统，提供了如下
 在项目根路径创建ci包，里面创建如下Dockerfile：
 
 ```
-FROM java:8
+FROM openjdk:8-jdk-alpine
 
 ENV TZ=Asia/Shanghai
 ADD build/libs/*-SNAPSHOT.jar /app.jar

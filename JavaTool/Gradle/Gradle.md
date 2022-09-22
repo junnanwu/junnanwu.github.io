@@ -438,7 +438,7 @@ plugins{
    还可以指定版本和类型：
 
    ```
-   $ gradle wrapper --gradle-version 7.5.1 --distribution-type bin|all
+   $ gradle wrapper --gradle-version 7.5 --distribution-type bin|all
    ```
 
 1. 在`build.gralde`中定制配置

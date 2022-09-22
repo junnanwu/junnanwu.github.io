@@ -458,7 +458,32 @@ else
 fi
 ```
 
+### case命令
 
+```shell
+case variable in pattern1 | pattern2) commands1;;
+pattern3) commands2;;
+*) default commands;;
+esac
+```
+
+例如：
+
+```sh
+# ！bin/bash
+
+case $USER in 
+rich | barbara)
+  echo "Welcome, $USER"
+  echo "Please enjoy your visit";;
+testing)
+  echo "Special testing accout";;
+jessical)
+  echo "Do not forget to log off when you're done";;
+*)
+  echo "Sorry, you are not allowed here";;
+esac
+```
 
 ### test命令
 

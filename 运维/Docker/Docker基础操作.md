@@ -34,80 +34,108 @@
 
 ## 操作镜像
 
-- 查看本地所有镜像
+### 查看本地所有镜像
 
-  ```
-  $ docker images
-  ```
+```
+$ docker images
+```
 
-- 从网络查找相关镜像
+### 从网络查找相关镜像
 
-  ```
-  $ docker search 镜像名称
-  ```
+```
+$ docker search 镜像名称
+```
 
-- 拉取镜像
+### 拉取镜像
 
-  ```
-  $ docker pull mysql:5.7
-  ```
+```
+$ docker pull mysql:5.7
+```
 
-  从Docker仓库下载镜像到本地，镜像名称格式为`名称:版本号`，如果版本号不指定则是最新的版本，默认从Docker Hub拉取镜像。
+从Docker仓库下载镜像到本地，镜像名称格式为`名称:版本号`，如果版本号不指定则是最新的版本，默认从Docker Hub拉取镜像。
 
-- 删除本地镜像
+注意，`lastest`只是一个标签名，并不强制指向最新的镜像。
 
-  ```
-  $ docker rmi 镜像id   //i(image)
-  ```
+如果想从第三方镜像仓库获取镜像，则需要在镜像仓库名称前面加上第三方仓库的DNS名称。
 
-- 给镜像打标签，例如给Hello word镜像：
+例如：
 
-  ```
-  $ docker images
-  hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
-  ...
-  ```
+```
+$ docker pull dockerhub.bitch.com/bigdata-uat/openapi:SNAPSHOT-1
+```
 
-  打一个标签：
+拉取前需要完成登录：
 
-  ```
-  $ docker tag hello-world uat-xxx:81/data/hello-world:v4
-  ```
+```
+docker login [OPTIONS] [SERVER]
+```
 
-  结果：
+登录到一个Docker镜像仓库，如果未指定地址，默认为官方仓库Docker Hub。登录成功后，会把用户名密码存放在`/root/.docker/config.json`。
 
-  ```
-  $ docker images
-  hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
-  hello-world                     v1        feb5d9fea6a5   9 months ago    13.3kB
-  ...
-  ```
+其中的auth是`username:password`的base64编码。
 
-- 将本地镜像推送
+### 删除本地镜像
 
-  ```
-  $ docker push hub.giao.com/hamburger/tomcat:v1.0
-  ```
-  
-- 制作镜像
+```
+$ docker rmi 镜像id   //i(image)
+```
 
-  格式：
-  
-  ```
-  docker build [OPTIONS] PATH | URL | -
-  ```
-  
-  参数：
-  
-  - `--tag, -t`
-  
-    镜像名字及标签，`name:tag`。
-  
-  - `-f`
-  
-    指定要使用的Dockerfile路径。
+### 给镜像打标签
 
-**查看镜像版本**
+例如给Hello word镜像：
+
+```
+$ docker images
+hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
+...
+```
+
+打一个标签：
+
+```
+$ docker tag hello-world uat-xxx:81/data/hello-world:v4
+```
+
+结果：
+
+```
+$ docker images
+hello-world                     latest    feb5d9fea6a5   9 months ago    13.3kB
+hello-world                     v1        feb5d9fea6a5   9 months ago    13.3kB
+...
+```
+
+### 将本地镜像推送
+
+```
+$ docker push hub.giao.com/hamburger/tomcat:v1.0
+```
+
+### 制作镜像
+
+格式：
+
+```
+docker build [OPTIONS] PATH | URL | -
+```
+
+参数：
+
+- `--tag, -t`
+
+  镜像名字及标签，`name:tag`。
+
+- `-f`
+
+  指定要使用的Dockerfile路径。
+
+### 查看镜像详情
+
+```
+$ docker inspect IMAGE_NAME
+```
+
+### 查看镜像版本
 
 我们拉取镜像的时候，如果不指定版本，默认会拉取lastest版本，这时候我们就需要知道这个镜像有哪些版本。
 
@@ -119,111 +147,111 @@ https://registry.hub.docker.com/v1/repositories/${docker_img}/tags
 
 ## 操作容器
 
-- 查看正在运行的容器
+### 查看正在运行的容器
 
-  ```
-  docker ps [OPTIONS]
-  ```
+```
+docker ps [OPTIONS]
+```
 
-  参数：
+参数：
 
-  - `-a --all`
+- `-a --all`
 
-    显示全部容器
+  显示全部容器
 
-  - `-q --quiet`
+- `-q --quiet`
 
-    仅展示容器ID
+  仅展示容器ID
 
-- 新建并启动容器
+### 新建并启动容器
 
-  格式：
+格式：
 
-  ```
-  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
-  ```
+```
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
 
-  参数：
+参数：
 
-  - `--name`
+- `--name`
 
-    给容器起一个名字。
+  给容器起一个名字。
 
-  - `--interactive -i`
+- `--interactive -i`
 
-    即使没有附加也保持STDIN 打开。
+  即使没有附加也保持STDIN 打开。
 
-  - `--detach -d`
+- `--detach -d`
 
-    以后台模式运行。
+  以后台模式运行。
 
-  - `--tty -t`
+- `--tty -t`
 
-    分配一个伪终端。
+  分配一个伪终端。
 
-  - `--volume -v`
+- `--volume -v`
 
-    绑定一个数据卷。
+  绑定一个数据卷。
 
-  - `--mount`
+- `--mount`
 
-    将一个文件系统挂载到容器。
+  将一个文件系统挂载到容器。
 
-  - `--memory -m`
+- `--memory -m`
 
-    内存限制。
+  内存限制。
 
-  - `--publish -p`
+- `--publish -p`
 
-    发布容器的端口，支持的格式有：
+  发布容器的端口，支持的格式有：
 
-    - `IP:HostPort:ContainerPort`
+  - `IP:HostPort:ContainerPort`
 
-      映射到指定地址的指定端口。
+    映射到指定地址的指定端口。
 
-    - `IP::ContainerPort`
+  - `IP::ContainerPort`
 
-      映射到指定地址的任意地址。
+    映射到指定地址的任意地址。
 
-      ` 127.0.0.1::5000`即绑定localhost的任意端口到容器的5000端口。
+    ` 127.0.0.1::5000`即绑定localhost的任意端口到容器的5000端口。
 
-    - `HostPort:ContailerPort`
+  - `HostPort:ContailerPort`
 
-      本地的端口映射到容器的指定端口。
-
-    例如：
-
-    `80:80`
-
-    前面的为宿主机的端口，后面为容器的端口。
-
-  - `-e --env`
-
-    设置环境变量。
-
-    ```
-    $ docker run --name docker -e USERNAME="xxx" test-docker
-    ```
-
-  - `--rm`
-
-    容器在终止后会立即删除。
-
-  
+    本地的端口映射到容器的指定端口。
 
   例如：
 
-  - 新建mysql容器
+  `80:80`
 
-    ```
-    $ docker run -it --name=mysql mysql:5.7 /bin/bash
-    ```
+  前面的为宿主机的端口，后面为容器的端口。
 
-  - 挂载目录
+- `-e --env`
 
-    ```
-    $ docker run -id --name=容器名 -v 宿主机的目录:容器的目录 镜像名:镜像版本
-    ```
+  设置环境变量。
+
+  ```
+  $ docker run --name docker -e USERNAME="xxx" test-docker
+  ```
+
+- `--rm`
+
+  容器在终止后会立即删除。
+
+
+
+例如：
+
+- 新建mysql容器
+
+  ```
+  $ docker run -it --name=mysql mysql:5.7 /bin/bash
+  ```
+
+- 挂载目录
+
+  ```
+  $ docker run -id --name=容器名 -v 宿主机的目录:容器的目录 镜像名:镜像版本
+  ```
 
 - 进入容器
 
@@ -330,3 +358,6 @@ https://registry.hub.docker.com/v1/repositories/${docker_img}/tags
   ```
   $ docker logs -f --tail 10 kafka
   ```
+
+
+

@@ -50,7 +50,59 @@ KubeSphere默认不为项目设置任何请求或限制。
 
 支持基于Jenkinsfile流水线构建CI/CD流水线。
 
+### Jenkins Agent
 
+Jenkins agent部分指定某一部分在Jenkins环境中执行的位置。
+
+顶级agent指示Jenkins为整个流水线分配一个执行器。
+
+可选项：
+
+- `any`
+
+  在任何一个代理上执行流水线或者某个阶段。
+
+- `node`
+
+  当`pipeline`块的顶部没有全局代理，那么每个stage部分都需要他自己的agent部分。
+
+- `label`
+
+  在提供了标签的Jenkins环境中选择指定的label执行。
+
+- `node`
+
+  `agent { node { label 'labelName' } }` 和 `agent { label 'labelName' }` 一样，但是 `node` 允许额外的选项 (比如 `customWorkspace` )。
+
+- `docker`
+
+  使用给定的容器执行流水线，或者阶段。
+
+  ```
+  agent {
+      docker {
+          image 'maven:3-alpine'
+          label 'my-defined-label'
+          args  '-v /tmp:/tmp'
+      }
+  }
+  ```
+
+- `dockerfile`
+
+  使用从源代码库中的Dockerfile构建的容器。
+
+
+
+[详情参见此](https://kubesphere.com.cn/docs/v3.3/devops-user-guide/how-to-use/pipelines/choose-jenkins-agent/)
+
+
+
+
+
+## References
+
+- https://www.jenkins.io/zh/doc/book/pipeline/syntax/#%e4%bb%a3%e7%90%86
 
 
 

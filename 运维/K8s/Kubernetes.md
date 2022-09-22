@@ -14,6 +14,34 @@ Kubernetes抽象了数据中心的硬件基础设施，使得对外暴露的只�
 
 **自动扩容**
 
+
+
+K8s集群分为Master和Worker节点。
+
+Master节点的组件：
+
+- `API Server`
+
+  K8s的请求入口服务 。
+
+- `etcd`
+
+  K8s的存储服务。etcd存储了K8s的关键配置和用户配置，K8s中仅有API Server才具备读写权限，其他组件必须通过API Server的接口才能读写数据。
+
+- 
+
+Worker节点的组件：
+
+- Kubelet
+
+  Worker节点的监视器，以及与Master节点的通讯。
+
+- 
+
+
+
+
+
 ## 重要概念
 
 ### Pod
@@ -21,6 +49,8 @@ Kubernetes抽象了数据中心的硬件基础设施，使得对外暴露的只�
 Pod是可以在K8S中创建和管理的、最小可部署的计算单元。
 
 同一个Pod里的几个docker服务，好像被部署在同一台机器上，可以通过losthost相互访问，并且可以共用Pod里的存储资源。
+
+同个Pod内的Container之间能够共享网络、IPC等，而不同Pod的Container之间完全隔离。
 
 ### Deployment
 
@@ -61,6 +91,8 @@ metadata:
   name: memory-demo
   namespace: mem-example
 spec:
+  imagePullSecrets:
+  - name: docker_reg_secret
   containers:
   - name: memory-demo-ctr
     image: polinux/stress
@@ -119,6 +151,30 @@ VERSION:  v1
 
 **spec**
 
+imagePullSecrets
+
+Pod可以在此处指定我们创建的Secret来连接Docker私服。
+
+查看[官方文档](https://kubernetes.io/zh-cn/docs/concepts/containers/images/#using-a-private-registry)，里面讲解了如何从私有仓库拉取镜像，其中一种方式就是通过指定imagePullSecrets的方式。
+
+**containers**
+
+imagePullPolicy：
+
+- Always
+
+  默认值，每次创建Pod都重新拉取一次镜像，当镜像名字的版本没有精准指定的时候，也会被认为是Always。
+
+- ifNotPresent
+
+  本地有则使用本地镜像，不拉取。
+
+- Never
+
+  从不拉取镜像，即使本地没有。
+
+
+
 ### Deployment
 
 
@@ -127,8 +183,75 @@ VERSION:  v1
 
 
 
+## 命令
+
+查看所有namespace
+
+```
+$ kubectl get ns
+```
+
+查看服务
+
+```
+$ kubectl get|describe ${RESOURCE} [-o ${FORMAT}] -n=${NAMESPACE}
+# ${RESOURCE}有: pod、deployment、replicaset(rs)
+```
+
+```
+$ kubectl get deployment -n=bigdata-uat [-o wide]
+```
+
+服务部署失败了排查
+
+```
+$ kubectl describe ${RESOURCE} ${NAME}
+```
+
+```
+$ kubectl describe pod analysis-frontend-6cd965d8b-9hskq -n=bigdata-uat
+```
+
+删除服务
+
+```
+kubectl delete ${RESOURCE} ${NAME}
+```
+
+
+
+
+
+有的资源是有缩写的，可以通过如下命令查看：
+
+```
+$ kubectl api-resources
+```
+
+还可以查看此资源是否在某个namespace下的，包括其API版本。
+
+
+
+版本回滚
+拉取镜像失败
+前端部署方案
+增加副本
+滚动更新 业务不中断
+
+
+
+网络问题
+
+NodePort类型/机制仅仅提供了对k8s集群外访问的方式，很快就会发现这种方法违背了Service的流量负载均衡的策略，因为通过Pod所在机器IP访问的流量，只能够导入到该机器上的Pod，其他机器上就不行了。
+
+是这样吗？
+
 ## References
 
-1. https://zhuanlan.zhihu.com/p/292081941
-1. https://zhuanlan.zhihu.com/p/308477039
-1. https://www.jianshu.com/p/50b930fa7ca3
+1. [《K8S系列一：概念入门》](https://zhuanlan.zhihu.com/p/292081941)
+1. [《K8S系列二：实战入门》](https://www.zhihu.com/people/wo-shi-xiao-bei-wa-ha-ha)
+1. [《K8S系列四：服务管理》](https://zhuanlan.zhihu.com/p/367774885)
+1. [《k8s外网如何访问业务应用》](https://www.jianshu.com/p/50b930fa7ca3)
+1. [《kuberbetes部署策略详解》](https://www.qikqiak.com/post/k8s-deployment-strategies/)
+1. K8s官方文档[《私有仓库拉取镜像》](https://kubernetes.io/zh-cn/docs/tasks/configure-pod-container/pull-image-private-registry/)
+1. Jenkins官方文档[《流水线语法》](https://www.jenkins.io/zh/doc/book/pipeline/syntax/#%e4%bb%a3%e7%90%86)

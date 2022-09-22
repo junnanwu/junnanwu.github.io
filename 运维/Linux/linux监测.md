@@ -36,8 +36,9 @@ $ ps -ef
 列表说明：
 
 ```
-$ ps -ef| grep test
-jinp      1577 11751  0 23:05 pts/0    00:00:00 grep --color=auto test
+$ ps -f|head -1;ps -ef |grep jenkins
+UID        PID  PPID  C STIME TTY          TIME CMD
+jinp      8346     1  0 9月13 ?       00:06:29 java -jar -Xms1024m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=512m jenkins.war --httpPort=8099 --prefix=/jenkins
 ```
 
 - UID：启动该进程的用户

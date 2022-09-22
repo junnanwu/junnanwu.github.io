@@ -50,18 +50,20 @@ Dockerfile里面包括配置指令和操作指令。
 
 - `RUN`
 
-  准备执行哪些LINUX命令。
+  当前镜像的顶部执行命令，并创建新的镜像层。
+
+  每个RUN命令都会创建一层镜像，多个命令可以使用`&&`连接起来，这样就只生成一层镜像。
 
   格式为：
-
-  - `RUN <command>`
+  
+- `RUN <command>`
   - `RUN ["executable", "param1", "param2"]`
-
-  每条RUN指令将在当前镜像基础上执行指定命令，并提交为新的镜像层。
 
 - `CMD`
 
   容器启动后默认执行的命令。
+
+  `CMD`能被`docker run`后面的命令行参数替换。
 
 - `COPY`
 
@@ -91,9 +93,8 @@ Dockerfile里面包括配置指令和操作指令。
 
 - `ENTRYPOINT`
 
-  每次启动Docker容器，都会执行ENTRYPOINT指定的脚本。
+  每次启动Docker容器，都会执行ENTRYPOINT指定的脚本（和CMD不同的是，ENTRYPOINT不会被忽略，即使docker run指定了其他命令）。
 
-  通常RNTERPOINT指定的都是镜像内核心服务的启动脚本。
 
 ## Nginx的Dockerfile
 
@@ -129,7 +130,7 @@ CMD ["nginx", "-g", "daemon off;"]
 docker build [OPTIONS] PATH|URL|-
 ```
 
-该命令将读取指定路径下的Dockerfile，并将该路径下的所有数据作为上下文发送给Docker服务，Docker在校验Dockerfile格式通过之后，逐条执行其中定义的指令，碰到ADD，COPY和RUN指令都会生成一层新的镜像，最终如果创建成功，则返回镜像的ID。
+该命令将读取指定路径 	下的Dockerfile，并将该路径下的所有数据作为上下文发送给Docker服务，Docker在校验Dockerfile格式通过之后，逐条执行其中定义的指令，碰到ADD，COPY和RUN指令都会生成一层新的镜像，最终如果创建成功，则返回镜像的ID。
 
 ## References
 
