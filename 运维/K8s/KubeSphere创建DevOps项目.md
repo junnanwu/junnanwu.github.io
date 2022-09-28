@@ -44,9 +44,29 @@ K8s集群中的**所有Pod都在同一个共享网络地址空间中**，也就�
 
 #### Deployment
 
-管理和控制Pod，当我们创建Deployment后，就会自动创建指定副本数的Pod，当某个Pod运行失败，也会重新运行一个新的Pod以保证一共有指定副本数的Pod。
+在K8s上，我们很少会直接创建一个Pod，在多数情况下都会通过Deployment、DaemonSet、Job等控制器来创建Pod。
 
+Deployment负责管理和控制Pod，自动创建指定副本数的Pod，当某个Pod运行失败，也会重新运行一个新的Pod以保证一共有指定副本数的Pod。
 
+默认Deployment会创建ReplicaSet负责全自动维护副本数量，实现滚动升级。
+
+### 调度相关
+
+#### Job
+
+ReplicaSet会持续运行应用，当遇到运行完工作后就终止任务的情况时，可以利用Job资源。
+
+Job资源有如下特点：
+
+- Job允许你运行一种Pod，该Pod在内部进程 成功结束的时候，不重启容器，Pod处于完成状态
+- 当节点发生故障的时候，类似ReplicaSet，将该Pod重新安排到其他节点，当进程异常退出的时候，可以配置为重新启动容器
+- Job中也可以创建多个Pod实例，可以顺序运行多个Pod，也可以并行运行多个Pod
+- Job可以指定运行次数，可以运行多次
+- 可以安排Job定期运行
+
+#### DaemonSet
+
+DaemonSet用于管理在集群每个Node上仅运行一份Pod的副本实例。
 
 ### 网络相关
 
@@ -101,19 +121,7 @@ Ingress Controller以daemonset的形式进行创建，在每个Node上都将启�
 
 ![k8s-network-access-path](KubeSphere%E5%88%9B%E5%BB%BADevOps%E9%A1%B9%E7%9B%AE_assets/k8s-network-access-path.png)
 
-### 其他
 
-#### Job
-
-ReplicaSet会持续运行应用，当遇到运行完工作后就终止任务的情况时，可以利用Job资源。
-
-Job资源有如下特点：
-
-- Job允许你运行一种Pod，该Pod在内部进程 成功结束的时候，不重启容器，Pod处于完成状态
-- 当节点发生故障的时候，类似ReplicaSet，将该Pod重新安排到其他节点，当进程异常退出的时候，可以配置为重新启动容器
-- Job中也可以创建多个Pod实例，可以顺序运行多个Pod，也可以并行运行多个Pod
-- Job可以指定运行次数，可以运行多次
-- 可以安排Job定期运行
 
 ## 发布一个K8s服务
 
@@ -238,13 +246,17 @@ spec:
 - 每天或者每次日志文件达到10MB大小时，容器日志都会自动轮替，`kubectl logs`命令仅显示最后一次轮替后的日志
 - 我们只能获取仍然存在的Pod日志，当一个Pod被删除时，它的日志也会被删除，如果希望在Pod删除之后仍然可以查看日志 ，需要设置集群范围的日志系统。
 
-### 存活探针
+### 探针
+
+#### 存活探针
 
 我们该如何保证Pod时健康运行的呢？
 
 如果容器的主线程崩溃，那么显然此时Pod不健康，K8s将重启应用，但是有时候即使进程没有崩溃，应用系统也会停止正常工作，例如OOM。
 
-K8s可以通过存活探针来检查容器是否正常运行，可以为Pod中的每个容器单独制定存活探针，探针类型包括：
+K8s可以通过存活探针（LivenessProbe）来检查容器是否正常运行，可以为Pod中的每个容器单独制定存活探针，如果存活探针探测到容器不健康，则kubelet将杀掉该容器，并根据容器的重启策略做相应的处理。
+
+探针类型包括：
 
 - HTTP GET探针
 
@@ -259,6 +271,10 @@ K8s可以通过存活探针来检查容器是否正常运行，可以为Pod中�
   在容器内执行任意命令，如果命令正常退出，则认为探测成功。
 
 对于在生产中运行的Pod一定要定义一个存活的探针，来告知K8s应用是健康的。
+
+#### 就绪探针
+
+就绪探针（ReadinessProbe）用于判断容器服务是否可用（Ready）达到Ready状态的Pod才可以接收请求。对于被Service管理的Pod，如果在运行过程中Ready状态变为False，则系统自动将从Service的后端Endpoint列表中隔离出去。
 
 ### 磁盘挂载到容器
 
@@ -499,6 +515,7 @@ echo "deploy Done."'''
 
 ## References
 
+1. 《Kubernetes权威指南》
 1. https://kubernetes.io/zh-cn/docs/home/
 2. https://kubesphere.io/zh/docs/v3.3/
 3. https://zhuanlan.zhihu.com/p/292081941

@@ -70,6 +70,14 @@ mkdir [-pv] [-m mode] directory_name ...
 
 关于新建目录的默认权限，参考[umask](#umask)
 
+例如：
+
+- 创建一个777权限的目录
+
+  ```
+  $ mkdir -m 777 test
+  ```
+
 ### ls
 
 ls (list directory contents)
@@ -818,6 +826,10 @@ EXPRESSIONS：
 
   ```
   $ find / -name yum.conf
+  ```
+
+  ```
+  $ find / -iname php-fpm.conf -type f
   ```
 
 - 指定递归深度

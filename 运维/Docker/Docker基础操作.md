@@ -76,8 +76,16 @@ docker login [OPTIONS] [SERVER]
 
 ### 删除本地镜像
 
+删除某个镜像
+
 ```
 $ docker rmi 镜像id   //i(image)
+```
+
+删除所有镜像
+
+```
+$ docker rmi -f $(docker images -qa)
 ```
 
 ### 给镜像打标签
@@ -359,5 +367,9 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
   $ docker logs -f --tail 10 kafka
   ```
 
+停止并删除所有容器
 
+```
+$ docker stop $(docker ps -q) & docker rm $(docker ps -aq)
+```
 

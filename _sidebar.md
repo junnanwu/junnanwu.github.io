@@ -253,6 +253,8 @@
         - [Davinci埋点设计](其他/开源项目/Davinci/Davinci埋点设计.md)
       - **dolphinscheduler**
         - [dolphinscheduler](其他/开源项目/dolphinscheduler/dolphinscheduler.md)
+    - **系列分享**
+      - [系列分享一：Maven和Gradle是怎么运行的](其他/系列分享/系列分享一：Maven和Gradle是怎么运行的.md)
     - **软件工程**
       - [软件版本周期](其他/软件工程/软件版本周期.md)
 

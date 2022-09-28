@@ -190,18 +190,18 @@ clean生命周期：
 | :------ | :------------ |
 | `clean` | `clean:clean` |
 
-默认生命周期有很多phase，goal的默认绑定与打包类型相关，下面是打包类型为`ejb`/`ejb3`/`jar`/ `par`/`rar`/ `war`的时候的绑定：
+默认生命周期有很多phase，goal的默认绑定与打包类型相关，下面是打包类型为`jar`的时候的绑定：
 
-| Phase                    | plugin:goal                                                  |
-| :----------------------- | :----------------------------------------------------------- |
-| `process-resources`      | `resources:resources`                                        |
-| `compile`                | `compiler:compile`                                           |
-| `process-test-resources` | `resources:testResources`                                    |
-| `test-compile`           | `compiler:testCompile`                                       |
-| `test`                   | `surefire:test`                                              |
-| `package`                | `ejb:ejb` *or* `ejb3:ejb3` *or* `jar:jar` *or* `par:par` *or* `rar:rar` *or* `war:war` |
-| `install`                | `install:install`                                            |
-| `deploy`                 | `deploy:deploy`                                              |
+| Phase                    | plugin:goal               |
+| :----------------------- | :------------------------ |
+| `process-resources`      | `resources:resources`     |
+| `compile`                | `compiler:compile`        |
+| `process-test-resources` | `resources:testResources` |
+| `test-compile`           | `compiler:testCompile`    |
+| `test`                   | `surefire:test`           |
+| `package`                | `jar:jar`                 |
+| `install`                | `install:install`         |
+| `deploy`                 | `deploy:deploy`           |
 
 没有绑定在特定parse的goal也可以单独执行，例如：
 
@@ -221,6 +221,8 @@ Dependency Management的作用是集中管理依赖，例如：
 Dependency Management中有的信息，dependency中再次使用就不用再写，详见[官方文档](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html)例子。
 
 相当于依赖的模版，当maven使用某个依赖的时候，会去Dependency Management中寻找有没有对应的模版，如果有，则直接使用其模版，如果模板的内容不合适，可以直接在dependency中指定自己需要的内容，dependency的优先级大于Management。
+
+插件管理（Plugin Managemen）的作用也类似。
 
 ### Importing Dependencies
 

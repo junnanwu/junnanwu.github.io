@@ -197,6 +197,12 @@ location / {
 
 这个时候可以删除`$uri/`。
 
+### Nginx配置不起作用问题
+
+当Nginx配置不生效的时候，注意查看是不是主配置文件引入了其他配置文件。
+
+在我构建PHP镜像的时候，内部的Nginx引用了/etc/nginx/sites-available/default，导致我添加的Server块被覆盖，不起作用，当前感到非常困惑。
+
 ## References
 
 1. http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_connect_timeout

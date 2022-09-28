@@ -102,7 +102,7 @@ println "Description of project $name: " + project.description
 
 ```
 > Configure project :
-Description of project gradle_study: myProject
+Description of project gradle-project: myProject
 ```
 
 ### property
