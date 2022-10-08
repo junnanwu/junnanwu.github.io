@@ -17,15 +17,15 @@ git push origin master
 如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。
 
 ```
-git push origin :master
+$ git push origin :master
 # 等同于
-git push origin --delete master
+$ git push origin --delete master
 ```
 
 如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。
 
 ```
-git push origin
+$ git push origin
 ```
 
 上面命令表示，将当前分支推送到`origin`主机的对应分支。
@@ -33,7 +33,7 @@ git push origin
 如果当前分支只有一个追踪分支，那么主机名都可以省略。
 
 ```
-git push
+$ git push
 ```
 
 不带任何参数的`git push`，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用`git config`命令。

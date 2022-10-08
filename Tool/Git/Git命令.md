@@ -131,23 +131,23 @@ $ git log --oneline --graph
 
 ## git fetch
 
-- 将某个远程主机的更新，全部取回本地
+将某个远程主机的更新，全部取回本地
 
-  ```
-  git fetch <远程主机名>
-  ```
+```
+git fetch <远程主机名>
+```
 
-- 默认情况下，`git fetch`取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。
+默认情况下，`git fetch`取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。
 
-  ```
-  git fetch <远程主机名> <分支名>
-  ```
+```
+git fetch <远程主机名> <分支名>
+```
 
-  比如，取回`origin`主机的`master`分支。
+比如，取回`origin`主机的`master`分支。
 
-  ```
-  $ git fetch origin master
-  ```
+```
+$ git fetch origin master
+```
 
 ## git branch
 
@@ -189,7 +189,7 @@ $ git log --oneline --graph
   $ git branch -d test_branch
   ```
 
-- 查看所有本地分支，并包含更多的信息
+- 查看所有本地分支，并包含跟踪分支等更多的信息
 
   ```
   $ git branch -vv
@@ -297,7 +297,7 @@ $ git add a.txt
 此命令的完整格式为：
 
 ```
-$ git pull <远程主机名> <远程分支名>:<本地分支名>
+git pull <远程主机名> <远程分支名>:<本地分支名>
 ```
 
 比如，取回`origin`主机的`next`分支，与本地的`master`分支合并
@@ -445,7 +445,7 @@ Git中，我们通过tag来标记版本。
   - 查看标签的散列值
 
     ```
-    $ git  show-ref --tags
+    $ git show-ref --tags
     ```
 
   - 查看某个提交都出现在哪个版本里

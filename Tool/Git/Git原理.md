@@ -16,19 +16,18 @@ refs
 │   ├── hotfix
 │   │   └── HDATA-1255
 │   └── master
-├── git 
-│   └── origin
-│       ├── HEAD
-│       ├── develop
-│       ├── feature
-│       │   ├── HDATA-1104
-│       │   └── HDATA-1197
-│       ├── hotfix
-│       │   └── HDATA-1255
-│       └── release
-│           ├── v1.0.1
-│           ├── v1.0.2
-│           └── v1.0.3
+├── origin
+│   ├── HEAD
+│   ├── develop
+│   ├── feature
+│   │   ├── HDATA-1104
+│   │   └── HDATA-1197
+│   ├── hotfix
+│   │   └── HDATA-1255
+│   └── release
+│       ├── v1.0.1
+│       ├── v1.0.2
+│       └── v1.0.3
 └── tags
     ├── v1.0.1
     └── v1.0.2

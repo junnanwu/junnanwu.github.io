@@ -224,37 +224,38 @@
       - [PhantomJS](JavaTool/other/PhantomJS.md)
       - [mkcert本地安装https证书](JavaTool/other/mkcert本地安装https证书.md)
       - [图片Base64转换](JavaTool/other/图片Base64转换.md)
-- **其他**
+- **Share**
+    - [Git](Share/Git.md)
+    - [系列分享2：Maven和Gradle是怎么运行的](Share/系列分享2：Maven和Gradle是怎么运行的.md)
+- **Other**
     - **Bug**
       - **应用**
-        - [应用卡顿问题bug记录](其他/Bug/应用/应用卡顿问题bug记录.md)
+        - [应用卡顿问题bug记录](Other/Bug/应用/应用卡顿问题bug记录.md)
     - **前端**
-      - [JavaScript](其他/前端/JavaScript.md)
-      - [TypeScript](其他/前端/TypeScript.md)
-      - [VUE](其他/前端/VUE.md)
+      - [JavaScript](Other/前端/JavaScript.md)
+      - [TypeScript](Other/前端/TypeScript.md)
+      - [VUE](Other/前端/VUE.md)
     - **算法**
       - **Hash算法**
-      - [算法题](其他/算法/算法题.md)
-      - [加密算法](其他/算法/加密算法.md)
+      - [算法题](Other/算法/算法题.md)
+      - [加密算法](Other/算法/加密算法.md)
     - **大数据**
-      - [大数据基本概念](其他/大数据/大数据基本概念.md)
+      - [大数据基本概念](Other/大数据/大数据基本概念.md)
     - **代码之道**
-      - [代码优化方案](其他/代码之道/代码优化方案.md)
+      - [代码优化方案](Other/代码之道/代码优化方案.md)
     - **基础知识**
-      - [常用数据格式](其他/基础知识/常用数据格式.md)
+      - [常用数据格式](Other/基础知识/常用数据格式.md)
     - **开源项目**
       - **CloudCanal**
-        - [CloudCanal](其他/开源项目/CloudCanal/CloudCanal.md)
+        - [CloudCanal](Other/开源项目/CloudCanal/CloudCanal.md)
       - **DataX**
-        - [DataX](其他/开源项目/DataX/DataX.md)
-        - [关于DataXHdfsWriter](其他/开源项目/DataX/关于DataXHdfsWriter.md)
+        - [DataX](Other/开源项目/DataX/DataX.md)
+        - [关于DataXHdfsWriter](Other/开源项目/DataX/关于DataXHdfsWriter.md)
       - **Davinci**
-        - [Davinci](其他/开源项目/Davinci/Davinci.md)
-        - [Davinci埋点设计](其他/开源项目/Davinci/Davinci埋点设计.md)
+        - [Davinci](Other/开源项目/Davinci/Davinci.md)
+        - [Davinci埋点设计](Other/开源项目/Davinci/Davinci埋点设计.md)
       - **dolphinscheduler**
-        - [dolphinscheduler](其他/开源项目/dolphinscheduler/dolphinscheduler.md)
-    - **系列分享**
-      - [系列分享一：Maven和Gradle是怎么运行的](其他/系列分享/系列分享一：Maven和Gradle是怎么运行的.md)
+        - [dolphinscheduler](Other/开源项目/dolphinscheduler/dolphinscheduler.md)
     - **软件工程**
-      - [软件版本周期](其他/软件工程/软件版本周期.md)
+      - [软件版本周期](Other/软件工程/软件版本周期.md)
 
