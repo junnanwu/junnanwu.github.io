@@ -73,7 +73,7 @@ IPv6地址简化：
 
 例：一个B类地址被划分子网：
 
-![IP-classification](IP%E5%9C%B0%E5%9D%80_assets/IP-classification.png)
+![IP-classification](IP_address_assets/IP-classification.png)
 
 ## 子网掩码
 

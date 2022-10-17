@@ -681,7 +681,7 @@ CREATE USER [IF NOT EXISTS | OR REPLACE] name1 [ON CLUSTER cluster_name1]
 
 #### 角色
 
-![Relationship of RBAC Entities in ClickHouse](ClickHouse_assets/clickhouse-rbac-entity-diagram.png)
+![clickhouse_rbac_entity_diagram](ClickHouse_assets/clickhouse_rbac_entity_diagram.png)
 
 参数：
 

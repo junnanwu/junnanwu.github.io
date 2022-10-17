@@ -1169,5 +1169,5 @@ $ branch=origin/release/v2.11.2.1
 
 ## References
 
-1. 《Linux命令行与shell脚本编程大全》
-2. https://wiki.bash-hackers.org/syntax/pe
+1. 书籍：《Linux命令行与shell脚本编程大全》
+2. 博客：[Parameter expansion](https://wiki.bash-hackers.org/syntax/pe)

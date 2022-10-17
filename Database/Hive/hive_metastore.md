@@ -20,13 +20,13 @@ Hive存储元数据的三种模式：
 
 如图所示：
 
-![hive metastore](HiveMetaStore_assets/hive-metastore.jpg)
+![hive_metastore](hive_metastore_assets/hive_metastore.jpg)
 
 ## 结构
 
 ER结构：
 
-![HiveMetaStore](HiveMetaStore_assets/HiveMetaStore.jpeg)
+![hive_metastore_graph](hive_metastore_assets/hive_metastore_graph.jpeg)
 
 主要的表：
 
@@ -72,6 +72,6 @@ ER结构：
 
 ## References
 
-1. https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration
-2. http://hadooptutorial.info/hive-metastore-configuration/
-3. https://data-flair.training/blogs/apache-hive-metastore/
+1. 官方文档：[AdminManual Metastore Administration](https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration)
+1. 博客：[Hive Metastore Configuration](http://hadooptutorial.info/hive-metastore-configuration/)
+3. 博客：[Hive Metastore – Different Ways to Configure Hive Metastore](https://data-flair.training/blogs/apache-hive-metastore/)

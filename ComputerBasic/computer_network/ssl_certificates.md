@@ -10,7 +10,7 @@ SSL证书里面包含了网站域名，或者组织信息等，由CA机构签发
 
 DV（Domain validated），即域名认证，此证书可以证明网站所有从具有对应**域名**的所有权，证书信息里面只有域名一项（Common Name 字段），如下图所示：
 
-![digital_credential_of_wujunnan](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_wujunnan.png)
+![digital_credential_of_wujunnan](ssl_certificates_assets/digital_credential_of_wujunnan.png)
 
 ## OV证书
 
@@ -20,13 +20,13 @@ OV（Organization validated），即组织认证，证书里面除了注明了�
 
 如下图所示：
 
-![digital_credential_of_company](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_company.png)
+![digital_credential_of_company](ssl_certificates_assets/digital_credential_of_company.png)
 
 ## EV证书
 
 EV（Extended validation），也就是拓展证书，CA会对证书持有人进行更加全面的认证。如果浏览器会在网址左边显示组织机构信息。用户看到这些信息会更加放心。但现在常用的浏览器已经不再展示了，老版本的浏览器会显示。
 
-![image-20220424233538763](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_EV.png)
+![digital_credential_of_EV](ssl_certificates_assets/digital_credential_of_EV.png)
 
 ## 选择证书
 
@@ -38,7 +38,7 @@ EV（Extended validation），也就是拓展证书，CA会对证书持有人进
 
    最大程序问答网站stackoverflow.com即使用的免费的DV证书：
 
-   ![image-20220424234355013](SSL%E8%AF%81%E4%B9%A6%E7%B1%BB%E5%9E%8B_assets/digital_credential_of_stackoverflow.png)
+   ![digital_credential_of_stackoverflow](ssl_certificates_assets/digital_credential_of_stackoverflow.png)
 
 ## 免费证书
 

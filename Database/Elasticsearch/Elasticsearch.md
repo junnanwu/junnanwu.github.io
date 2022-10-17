@@ -90,7 +90,7 @@ lucene怎么读？
 
 如图，我们以3分片，每个分片备份一份为例：
 
-![1559298999584](Elasticsearch_assets/1559298999584.png "ES分布式")
+![1559298999584](Elasticsearch_assets/es_shard_backup.png "ES分布式")
 
 在这个集群中，如果出现单节点故障，并不会导致数据缺失，所以保证了集群的高可用，同时也减少了节点中数据存储量。并且因为是多个节点存储数据，因此用户请求也会分发到不同服务器，并发能力也得到了一定的提升。
 
@@ -1925,4 +1925,4 @@ ElasticSearch的聚合过程是先每个分片提供对应size的桶，然后不
 
 ## Reference
 
-1. https://blog.csdn.net/laoyang360/article/details/80468757
+1. 博客：[吃透 | Elasticsearch filter和query的不同](https://blog.csdn.net/laoyang360/article/details/80468757)

@@ -183,7 +183,7 @@ RFC 3339是一个用于规定DateTime格式的协议，是一套源自ISO 8601�
 
 如图：
 
-<img src="%E5%85%B3%E4%BA%8E%E6%97%B6%E9%97%B4_assets/RFC_and_ISO8601.png" style="zoom:50%;" />
+![RFC_and_ISO8601](date_assets/RFC_and_ISO8601.png)
 
 ## References
 

@@ -182,4 +182,4 @@ swagger2需要放行下列路径：
 
 ## References
 
-1. https://juejin.cn/post/6844903901724950535
+1. 博客：[Swagger使用和注释介绍](https://juejin.cn/post/6844903901724950535)

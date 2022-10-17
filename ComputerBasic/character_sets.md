@@ -87,7 +87,7 @@ GB系列的编码模型都类似。
 
 其中第0个平面是包含了当前世界上最常用的一些字符。所以这第0个平面也叫做BMP(Basic Multilingual Plane的缩写)，翻译过来就是基本多语言平面。
 
-![unicode_plane](%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81_assets/unicode_plane.png)
+![unicode_plane](character_sets_assets/unicode_plane.png)
 
 Unicode字符集中的编号通常用下面方式表示：
 

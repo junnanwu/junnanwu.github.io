@@ -101,7 +101,7 @@ CDN（Content Delivery Network），即内容分发网络。
 
 如下图所示：
 
-![img](DNS_assets/CDN_flow.jpg)
+![CDN_flow](DNS_assets/CDN_flow.jpg)
 
 CDN适用于静态资源的分发，动态的内容，依然要交给源服务器。
 
