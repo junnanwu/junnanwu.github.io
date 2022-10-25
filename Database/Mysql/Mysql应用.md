@@ -381,6 +381,14 @@ end `rank`
 FROM employee e LEFT JOIN department d ON e.dept_id = d.dept_id) t GROUP BY dept_id;
 ```
 
+## 查询一个表中的重复行
+
+查询一个表中部分字段重复的行：
+
+```
+SELECT * FROM table WHERE phone IN (SELECT phone FROM table GROUP BY phone HAVING count(phone) > 1);
+```
+
 ## 行转列
 
 **题目：**

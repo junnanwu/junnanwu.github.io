@@ -69,6 +69,34 @@ gradle [taskName...] [--option-name...]
 
 可以指定多个任务，中间用空格分隔，多任务会在保证依赖顺序的前提下，交换执行的顺序。
 
+选项：
+
+参数相关：
+
+- `-P,--project-prop`
+
+  项目参数是构建脚本中可用的变量。你可以使用这个选项直接向构建脚本中传入参数（比如，`-Pmyprop=myvalue`）。
+
+日志相关
+
+- `-i --info`
+
+  INFO级别，能输入更多的信息。
+
+- `-q --quiet`
+
+  减少构建打印的信息。
+
+帮助相关（任务）：
+
+- `tasks`
+
+  显示项目中所有可运行的task，包括他们的描述信息。
+
+- `properties`
+
+  显示项目中所有可用的属性。
+
 **查看依赖顺序**
 
 通过`-m --dry-run `参数来查看一个任务的依赖顺序，例如：
@@ -427,6 +455,103 @@ plugins{
 
  `java`是“核心插件”，而`org.springframework.boot`是“社区插件”（[Gradle插件中心](https://links.jianshu.com/go?to=https%3A%2F%2Fplugins.gradle.org%2F)），必须指定version。
 
+## 参数
+
+Gradle参数分为Gradle本身的参数和Project的参数。
+
+### Gradle参数
+
+Gradle参数用于控制构建过程的Java进程。
+
+可以通过如下方式增加参数：
+
+- 命令行`-P`参数
+- `GRADLE_USER_HOME`下的`gradle.properties`
+- 项目根目录下的`gradle.properties`
+- Gradle安装目录下的`gradle.properties`
+
+可以设置的参数如下：
+
+- `org.gradle.daemon=(true,false)`
+- `org.gradle.jvmargs=(JVM arguments)`
+- `org.gradle.logging.level=(quiet,warn,lifecycle,info,debug)`
+- `org.gradle.parallel=(true,false)`
+
+详细可见：官方文档：[Build Environment](https://docs.gradle.org/current/userguide/build_environment.html)
+
+使用样例如下：
+
+`gradle.properties`文件如下：
+
+```
+gradlePropertiesProp=gradlePropertiesValue
+sysProp=shouldBeOverWrittenBySysProp
+systemProp.system=systemValue
+```
+
+创建如下任务：
+
+```
+tasks.register('printProps') {
+    doLast {
+        println commandLineProjectProp
+        println gradlePropertiesProp
+        println systemProjectProp
+        println System.properties['system']
+    }
+}
+```
+
+执行如下命令查看测试结果：
+
+```
+$ gradle -q -PcommandLineProjectProp=commandLineProjectPropValue -Dorg.gradle.project.systemProjectProp=systemPropertyValue printProps
+commandLineProjectPropValue
+gradlePropertiesValue
+systemPropertyValue
+systemValue
+```
+
+### 系统属性
+
+由于Gradle也是一个Java进程，也可以通过`-D`来将参数传递给JVM。
+
+可以设置如下参数：
+
+- `gradle.user.home=(path to directory)`
+
+### 环境变量
+
+Gradle运行时同时也会读取系统的一些环境变量：
+
+- `GRADLE_OPTS`
+- `GRADLE_USER_HOME`
+- `JAVA_HOME`
+
+### 项目属性
+
+Gradle还可以通过如下参数传递给Project对象一些项目参数：
+
+- 命令行`-P`参数
+
+- 如下命名的系统属性：
+
+  ```
+  org.gradle.project.foo=bar
+  ```
+
+- 如下命令的变量：
+
+  ```
+  ORG_GRADLE_PROJECT_foo=bar
+  ```
+
+可以通过如下方法检查项目属性是否存在：
+
+```
+Project.hasProperty(java.lang.String)
+```
+
 ## 配置包装器
 
 1. 执行包装器任务生成包装器文件
@@ -491,8 +616,8 @@ plugins{
 
 ## References
 
-1. 《实战Gradle》
-2. https://docs.gradle.org/current/userguide/java_library_plugin.html
-2. https://docs.gradle.org/current/userguide/command_line_interface.html
-2. https://tomgregory.com/annotation-processors-in-gradle-with-the-annotationprocessor-dependency-configuration/
-2. https://www.jianshu.com/p/724d1abc61a2
+1. 书籍：《实战Gradle》
+1. 官方文档：[Command-Line Interface](https://docs.gradle.org/current/userguide/command_line_interface.html)
+1. 官方文档：[Build Environment](https://docs.gradle.org/current/userguide/build_environment.html)
+1. 官方文档：[The Java Library Plugin](https://docs.gradle.org/current/userguide/java_library_plugin.html)
+2. 博客：[Annotation processors in Gradle with the annotationProcessor dependency configuration](https://tomgregory.com/annotation-processors-in-gradle-with-the-annotationprocessor-dependency-configuration/)

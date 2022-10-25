@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [Linux基础命令](运维/Linux/Linux基础命令.md)
-2. [Shell脚本](运维/Linux/Shell脚本.md)
-3. [Nginx应用](Tool/Nginx/Nginx应用.md)
-4. [Git](Share/Git.md)
-5. [Swagger](JavaTool/Swagger.md)
-6. [跨域](JavaWeb/跨域.md)
-7. [Java基础工具与概念](JavaSE/Java基础工具与概念.md)
-8. [Java常见系统方法](JavaSE/Java常见系统方法.md)
-9. [Java锁优化](JavaSE/多线程/Java锁优化.md)
-10. [KubeSphere创建DevOps项目](运维/K8s/KubeSphere创建DevOps项目.md)
+1. [mysql_statement](Database/Mysql/mysql_statement.md)
+2. [mybatis_problems](Framework/Mybatis/mybatis_problems.md)
+3. [Log4j2_exploit](JavaEE/Log/Log4j2_exploit.md)
+4. [nacos_config_center](JavaTool/Nacos/nacos_config_center.md)
+5. [java_log_framework](JavaEE/Log/java_log_framework.md)
+6. [java_email](JavaEE/Email/java_email.md)
+7. [davinci_event_tracking_design](Other/OpenSource/Davinci/davinci_event_tracking_design.md)
+8. [datax_hdfswriter](Other/OpenSource/DataX/datax_hdfswriter.md)
+9. [application_lags_bug_record](Other/Bug/Application/application_lags_bug_record.md)
+10. [data_format](Other/Basic/data_format.md)
 

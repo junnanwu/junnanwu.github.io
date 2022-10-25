@@ -29,18 +29,18 @@
       - [CAS-Shiro实现单点登录](JavaEE/CAS/CAS-Shiro.md)
       - [CAS登陆流程](JavaEE/CAS/CAS登录流程.md)
     - **Email**
-      - [Java Email](JavaEE/Email/Java-Email.md)
+      - [Java Email](JavaEE/Email/java_email.md)
     - **Log**
-      - [Java日志框架](JavaEE/Log/Java日志框架.md)
-      - [Log4j2漏洞](JavaEE/Log/Log4j2漏洞.md)
+      - [Log4j2漏洞](JavaEE/Log/Log4j2_exploit.md)
+      - [Java日志框架](JavaEE/Log/java_log_framework.md)
 - **JavaWeb**
-    - [Basic Authotization](JavaWeb/BasicAuthotization.md)
-    - [Cookie](JavaWeb/Cookie.md)
-    - [HTTP](JavaWeb/Http.md)
-    - [跨域](JavaWeb/跨域.md)
+    - [Basic Authotization](JavaWeb/basic_authotization.md)
+    - [Cookie](JavaWeb/cookie.md)
+    - [跨域](JavaWeb/cross-domain.md)
+    - [HTTP](JavaWeb/http.md)
 - **Framework**
     - **Mybatis**
-      - [Mybatis问题](Framework/Mybatis/Mybatis问题.md)
+      - [Mybatis问题](Framework/Mybatis/mybatis_problems.md)
     - **Spring**
       - [Spring](Framework/Spring/Spring.md)
       - **SpringBoot**
@@ -94,27 +94,27 @@
       - [MySQL应用](Database/Mysql/MySQL应用.md)
       - [MySQL日志](Database/Mysql/MySQL日志.md)
       - [MySQL索引](Database/Mysql/MySQL索引.md)
-      - [MySQL语句](Database/Mysql/MySQL语句.md)
       - [MySQL调优](Database/Mysql/MySQL调优.md)
       - [MySQL高可用](Database/Mysql/MySQL高可用.md)
       - [MySQL数据类型](Database/Mysql/MySQL数据类型.md)
       - [MySQL配置相关](Database/Mysql/MySQL配置相关.md)
       - [MySQL高可用方案](Database/Mysql/MySQL高可用方案.md)
       - [MySQL函数和运算符](Database/Mysql/MySQL函数和运算符.md)
+      - [MySQL语句](Database/Mysql/mysql_statement.md)
       - **utility**
         - [mysql_config_editor](Database/Mysql/utility/mysql_config_editor.md)
         - [mysqldump](Database/Mysql/utility/mysqldump.md)
-    - **presto**
-      - [Presto简介](Database/presto/Presto简介.md)
-      - [Presto语法](Database/presto/Presto语法.md)
-      - [Presto问题](Database/presto/Presto问题.md)
-    - **redis**
-      - [Redis哨兵](Database/redis/Redis哨兵.md)
-      - [Redis集群](Database/redis/Redis集群.md)
-      - [Redis持久化](Database/redis/Redis持久化.md)
-      - [Redi主从复制](Database/redis/Redis主从复制.md)
-      - [Redis多路复用](Database/redis/Redis多路复用.md)
-      - [Redis数据结构](Database/redis/Redis数据结构.md)
+    - **Presto**
+      - [Presto简介](Database/Presto/Presto简介.md)
+      - [Presto语法](Database/Presto/Presto语法.md)
+      - [Presto问题](Database/Presto/Presto问题.md)
+    - **Redis**
+      - [Redis哨兵](Database/Redis/Redis哨兵.md)
+      - [Redis集群](Database/Redis/Redis集群.md)
+      - [Redis持久化](Database/Redis/Redis持久化.md)
+      - [Redi主从复制](Database/Redis/Redis主从复制.md)
+      - [Redis多路复用](Database/Redis/Redis多路复用.md)
+      - [Redis数据结构](Database/Redis/Redis数据结构.md)
 - **ComputerBasic**
     - [字符编码](ComputerBasic/character_sets.md)
     - **computer_network**
@@ -128,134 +128,135 @@
     - [关于时间](ComputerBasic/date.md)
     - [浮点数](ComputerBasic/floats.md)
     - [正则表达式](ComputerBasic/regular_expression.md)
-- **Dev**
+- **Ops**
     - **Docker**
-      - [Docker](Dev/Docker/Docker.md)
-      - [Dockerfile](Dev/Docker/Dockerfile.md)
-      - [Docker基础操作](Dev/Docker/Docker基础操作.md)
-      - [Docker常用镜像](Dev/Docker/Docker常用镜像.md)
-      - [Docker遇到的问题](Dev/Docker/Docker遇到的问题.md)
-      - [Harbor](Dev/Docker/Harbor.md)
-      - [Overlay文件系统](Dev/Docker/Overlay文件系统.md)
-      - [docker-compose](Dev/Docker/docker-compose.md)
-    - [ELK](Dev/ELK.md)
+      - [Docker](Ops/Docker/docker.md)
+      - [Docker基础操作](Ops/Docker/docker_basic_operate.md)
+      - [docker-compose](Ops/Docker/docker_compose.md)
+      - [Docker遇到的问题](Ops/Docker/docker_problems.md)
+      - [Docker常用镜像](Ops/Docker/docker_useful_images.md)
+      - [Dockerfile](Ops/Docker/dockerfile.md)
+      - [Harbor](Ops/Docker/harbor.md)
+      - [Overlay文件系统](Ops/Docker/overlay_file_system.md)
     - **Jenkins**
-      - [Jenkins](Dev/Jenkins/Jenkins.md)
-      - [Jenkinsfile](Dev/Jenkins/Jenkinsfile.md)
+      - [Jenkins](Ops/Jenkins/jenkins.md)
+      - [Jenkinsfile](Ops/Jenkins/jenkinsfile.md)
     - **K8s**
-      - [KubeSphere](Dev/K8s/KubeSphere.md)
-      - [KubeSphere创建DevOps项目](Dev/K8s/KubeSphere创建DevOps项目.md)
-      - [Kubernetes](Dev/K8s/Kubernetes.md)
+      - [KubeSphere](Ops/K8s/kubeSphere.md)
+      - [Kubernetes](Ops/K8s/kubernetes.md)
+      - [KubeSphere创建DevOps项目](Ops/K8s/kubesphere_create_devops_project.md)
     - **Linux**
-      - [Linux OOM Killer](Dev/Linux/LinuxOOMKiller.md)
-      - [Linux Shell](Dev/Linux/LinuxShell.md)
-      - [Linux日志](Dev/Linux/Linux日志.md)
-      - [Linux服务](Dev/Linux/Linux服务.md)
-      - [Linux网络](Dev/Linux/Linux网络.md)
-      - [Linux包管理](Dev/Linux/Linux包管理.md)
-      - [Linux基础命令](Dev/Linux/Linux基础命令.md)
-      - [Linux安装字体](Dev/Linux/Linux安装字体.md)
-      - [Linux文件系统](Dev/Linux/Linux文件系统.md)
-      - [Linux环境变量](Dev/Linux/Linux环境变量.md)
-      - [Linux用户权限](Dev/Linux/Linux用户权限.md)
-      - [Linux软件安装](Dev/Linux/Linux软件安装.md)
-      - [Linux解压与压缩](Dev/Linux/Linux解压与压缩.md)
-      - [Linux输入和输出](Dev/Linux/Linux输入和输出.md)
-      - [Linux网络带宽监控工具](Dev/Linux/Linux带宽监控工具.md)
-      - [Shell脚本](Dev/Linux/Shell脚本.md)
-      - [ Vim](Dev/Linux/Vim.md)
-      - [linux监测](Dev/Linux/linux监测.md)
-      - [Linux简介](Dev/Linux/linux简介.md)
-    - [Prometheus+Grafana监控体系](Dev/Prometheus+Grafana监控体系.md)
+      - [Linux基础命令](Ops/Linux/linux_basic_command.md)
+      - [Linux解压与压缩](Ops/Linux/linux_decompress_compress.md)
+      - [linux_env_variable](Ops/Linux/linux_env_variable.md)
+      - [Linux文件系统](Ops/Linux/linux_file_system.md)
+      - [Linux安装字体](Ops/Linux/linux_font.md)
+      - [Linux输入和输出](Ops/Linux/linux_input_output.md)
+      - [Linux简介](Ops/Linux/linux_introduce.md)
+      - [Linux日志](Ops/Linux/linux_log.md)
+      - [linux监测](Ops/Linux/linux_monitoring.md)
+      - [Linux网络](Ops/Linux/linux_network.md)
+      - [Linux OOM Killer](Ops/Linux/linux_oomkiller.md)
+      - [Linux包管理](Ops/Linux/linux_package_manage.md)
+      - [Linux服务](Ops/Linux/linux_service.md)
+      - [Linux Shell](Ops/Linux/linux_shell.md)
+      - [Linux软件安装](Ops/Linux/linux_software.md)
+      - [Linux网络带宽监控工具](Ops/Linux/linux_traffic_monitoring_tools.md)
+      - [Linux用户权限](Ops/Linux/linux_user_privilege.md)
+      - [Shell脚本](Ops/Linux/shell_script.md)
+      - [ Vim](Ops/Linux/vim.md)
+    - [ELK](Ops/elk.md)
+    - [Prometheus+Grafana监控体系](Ops/prometheus_grafana_monitor.md)
 - **Tool**
     - **Chrome**
       - [Chrome Network](Tool/Chrome/ChromeNetwork.md)
     - **Git**
-      - [Git协作](Tool/Git/Git协作.md)
-      - [Git原理](Tool/Git/Git原理.md)
-      - [Git命令](Tool/Git/Git命令.md)
-      - [git checkout](Tool/Git/git-checkout.md)
-      - [git clone](Tool/Git/git-clone.md)
-      - [git config](Tool/Git/git-config.md)
-      - [git push](Tool/Git/git-push.md)
-      - [git rebase](Tool/Git/git-rebase.md)
+      - [git checkout](Tool/Git/git_checkout.md)
+      - [git clone](Tool/Git/git_clone.md)
+      - [Git命令](Tool/Git/git_command.md)
+      - [git config](Tool/Git/git_config.md)
+      - [Git协作](Tool/Git/git_cooperation.md)
+      - [Git原理](Tool/Git/git_mechanism.md)
+      - [git push](Tool/Git/git_push.md)
+      - [git rebase](Tool/Git/git_rebase.md)
+      - [Git迁移远程仓库](Tool/Git/git_respository_migration.md)
+      - [关于GitHub](Tool/Git/github.md)
       - [gitignore](Tool/Git/gitignore.md)
-      - [关于GitHub](Tool/Git/关于GitHub.md)
+    - **Mac**
+      - [IDEA](Tool/Mac/idea.md)
+      - [Mac](Tool/Mac/mac.md)
+      - [Mac遇到的问题](Tool/Mac/mac_problems.md)
+      - [Postman](Tool/Mac/postman.md)
+      - [Typora](Tool/Mac/typora.md)
     - **MessageQueue**
       - **Kafka**
-        - [Kafka入门](Tool/MessageQueue/Kafka/Kafka入门.md)
-        - [Kafka基本概念](Tool/MessageQueue/Kafka/Kafka基本概念.md)
-        - [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/Kafka如何实现高吞吐量.md)
-        - [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/Kafka如何保证消息不丢失.md)
-        - [Spring-Kafka](Tool/MessageQueue/Kafka/SpringKafka.md)
-        - [Spring Kafka动态新增topic](Tool/MessageQueue/Kafka/SpringKafka动态新增topic.md)
+        - [Kafka基本概念](Tool/MessageQueue/Kafka/kafka_basic_concept.md)
+        - [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/kafka_high_throughput.md)
+        - [Kafka入门](Tool/MessageQueue/Kafka/kafka_introduction.md)
+        - [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/kafka_message_not_lost.md)
+        - [Spring-Kafka](Tool/MessageQueue/Kafka/spring_kafka.md)
+        - [Spring Kafka动态新增topic](Tool/MessageQueue/Kafka/spring_kafka_dramatic_add_topic.md)
       - **RabbitMQ**
-        - [RabbitMQ](Tool/MessageQueue/RabbitMQ/RabbitMQ.md)
+        - [RabbitMQ](Tool/MessageQueue/RabbitMQ/rabbitmq.md)
     - **Nginx**
-      - [Nginx+Lua脚本](Tool/Nginx/Nginx+Lua脚本.md)
-      - [Nginx](Tool/Nginx/Nginx.md)
-      - [Nginx应用](Tool/Nginx/Nginx应用.md)
-    - **useful**
-      - [IDEA](Tool/useful/IDEA.md)
-      - [Mac遇到的问题](Tool/useful/Mac-Problems.md)
-      - [Mac](Tool/useful/Mac.md)
-      - [PDF书签制作](Tool/useful/PDF书签制作.md)
-      - [Postman](Tool/useful/Postman.md)
-      - [Typora](Tool/useful/Typora.md)
+      - [Nginx](Tool/Nginx/nginx.md)
+      - [Nginx应用](Tool/Nginx/nginx_application.md)
+      - [Nginx+Lua脚本](Tool/Nginx/nginx_lua.md)
+    - **Other**
+      - [PhantomJS](Tool/Other/PhantomJS.md)
+      - [Chromedriver](Tool/Other/chromedriver.md)
+      - [图片Base64转换](Tool/Other/image_base64_convert.md)
+      - [mkcert本地安装https证书](Tool/Other/local_install_mkcert_https_certificate.md)
+    - **Useful**
+      - [PDF书签制作](Tool/Useful/pdf_catalog_make.md)
 - **JavaTool**
     - **ConfigCenter**
       - [配置中心](JavaTool/ConfigCenter/config_center.md)
+    - **Gradle**
+      - [Gradle](JavaTool/Gradle/gradle.md)
+      - [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
+      - [Gradle插件](JavaTool/Gradle/gradle_plugin.md)
+    - **Maven**
+      - [Maven](JavaTool/Maven/maven.md)
+      - [Maven插件](JavaTool/Maven/maven_plugin.md)
+    - **Nacos**
+      - [Nacos](JavaTool/Nacos/nacos.md)
+      - [Nacos配置中心](JavaTool/Nacos/nacos_config_center.md)
     - [Redission](JavaTool/Redission.md)
-    - [Swagger](JavaTool/Swagger.md)
     - [Druid](JavaTool/druid.md)
-    - **gradle**
-      - [Gradle](JavaTool/gradle/Gradle.md)
-      - [Gradle插件](JavaTool/gradle/Gradle插件.md)
-      - [Gradle基本原理](JavaTool/gradle/Gradle基本原理.md)
     - [Guava](JavaTool/guava.md)
-    - **maven**
-      - [Maven](JavaTool/maven/Maven.md)
-      - [Maven插件](JavaTool/maven/Maven插件.md)
-    - **nacos**
-      - [Nacos](JavaTool/nacos/Nacos.md)
-      - [Nacos配置中心](JavaTool/nacos/Nacos配置中心.md)
-    - **other**
-      - [Chromedriver](JavaTool/other/Chromedriver.md)
-      - [PhantomJS](JavaTool/other/PhantomJS.md)
-      - [mkcert本地安装https证书](JavaTool/other/mkcert本地安装https证书.md)
-      - [图片Base64转换](JavaTool/other/图片Base64转换.md)
+    - [Swagger](JavaTool/swagger.md)
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
     - [系列分享二：Maven和Gradle是怎么运行的](Share/maven_gradle.md)
 - **Other**
+    - **Algorithm**
+      - [算法题](Other/Algorithm/algorithm.md)
+      - [加密算法](Other/Algorithm/encrypt_algorithm.md)
+    - **Basic**
+      - [常用的数据格式](Other/Basic/data_format.md)
+    - **BigData**
+      - [大数据基本概念](Other/BigData/bigdata_introduce.md)
     - **Bug**
-      - **应用**
-        - [应用卡顿问题bug记录](Other/Bug/应用/应用卡顿问题bug记录.md)
-    - **前端**
-      - [JavaScript](Other/前端/JavaScript.md)
-      - [TypeScript](Other/前端/TypeScript.md)
-      - [VUE](Other/前端/VUE.md)
-    - **算法**
-      - **Hash算法**
-      - [算法题](Other/算法/算法题.md)
-      - [加密算法](Other/算法/加密算法.md)
-    - **大数据**
-      - [大数据基本概念](Other/大数据/大数据基本概念.md)
-    - **代码之道**
-      - [代码优化](Other/代码之道/代码优化方案.md)
-    - **基础知识**
-      - [常用的数据格式](Other/基础知识/常用数据格式.md)
-    - **开源项目**
+      - **Application**
+        - [应用卡顿问题bug记录](Other/Bug/Application/application_lags_bug_record.md)
+    - **CodeStyle**
+      - [代码优化](Other/CodeStyle/java_optimization.md)
+    - **Fontend**
+      - [JavaScript](Other/Fontend/JavaScript.md)
+      - [TypeScript](Other/Fontend/TypeScript.md)
+      - [VUE](Other/Fontend/VUE.md)
+    - **OpenSource**
       - **CloudCanal**
-        - [CloudCanal](Other/开源项目/CloudCanal/CloudCanal.md)
+        - [CloudCanal](Other/OpenSource/CloudCanal/cloudcanal.md)
       - **DataX**
-        - [DataX](Other/开源项目/DataX/DataX.md)
-        - [关于DataX Hdfs Writer](Other/开源项目/DataX/关于DataXHdfsWriter.md)
+        - [DataX](Other/OpenSource/DataX/datax.md)
+        - [关于DataX Hdfs Writer](Other/OpenSource/DataX/datax_hdfswriter.md)
       - **Davinci**
-        - [Davinci](Other/开源项目/Davinci/Davinci.md)
-        - [Davinci埋点设计](Other/开源项目/Davinci/Davinci埋点设计.md)
+        - [Davinci](Other/OpenSource/Davinci/davinci.md)
+        - [Davinci埋点设计](Other/OpenSource/Davinci/davinci_event_tracking_design.md)
       - **dolphinscheduler**
-        - [dolphinscheduler](Other/开源项目/dolphinscheduler/dolphinscheduler.md)
-    - **软件工程**
-      - [软件版本周期](Other/软件工程/软件版本周期.md)
+        - [dolphinscheduler](Other/OpenSource/dolphinscheduler/dolphinscheduler.md)
+    - **SoftwareEngineering**
+      - [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
 
