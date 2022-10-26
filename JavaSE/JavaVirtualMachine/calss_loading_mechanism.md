@@ -6,7 +6,7 @@ Java天生可以动态拓展的语言特性就是依赖运行期动态加载和�
 
 ## 类加载的时机
 
-![class_load_phase](%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6_assets/class_load_phase.png)
+![class_load_phase](calss_loading_mechanism_assets/class_load_phase.png)
 
 这里面解析阶段也可以在初始化之后再开始，这是为了支持Java语言的动态绑定
 

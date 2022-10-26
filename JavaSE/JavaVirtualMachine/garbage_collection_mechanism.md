@@ -83,7 +83,7 @@ Java堆和方法区，只有处于运行期间我们才知道程序会创建哪�
 - 执行效率不稳定，如果Java堆中包含大量对象，而且大部分都是需要被回收的，这时必须进行大量标记和清除操作，导致执行效率随着对象数量的增多而降低。
 - 内存空间的碎片化问题
 
-![mark_sweep](%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6_assets/mark_sweep.png '标记清除算法示意图')
+![mark_sweep](garbage_collection_mechanism_assets/mark_sweep.png)
 
 #### 标记-复制算法
 
@@ -93,7 +93,7 @@ Java堆和方法区，只有处于运行期间我们才知道程序会创建哪�
 
 缺点就是，将可用内存缩小为了原来的一半。
 
-![mark_copy](%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6_assets/mark_copy.png '标记复制算法示意图')
+![mark_copy](garbage_collection_mechanism_assets/mark_copy.png)
 
 现在商用Java虚拟机大多采用这种收集算法。
 
@@ -115,8 +115,8 @@ Appel式回收还有一个充当罕见情况的"逃生门"的安全设计，当S
 
 针对老年代对象的存亡特征，出现了一种针对性的标记-整理算法（Mark-Compact），将所有存活的对象进行标记，然后向内存的一边进行移动。
 
-![mark-compact](%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6_assets/mark-compact.png '标记整理算法示意图')
+![mark_compact](garbage_collection_mechanism_assets/mark_compact.png)
 
 ## References
 
-1. 《深入理解Java虚拟机》——周志明 
+1. 书籍：《深入理解Java虚拟机》——周志明 

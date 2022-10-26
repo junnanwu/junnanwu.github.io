@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [MySQL语句](Database/Mysql/mysql_statement.md)
-2. [Mybatis问题](Framework/Mybatis/mybatis_problems.md)
-3. [Log4j2漏洞](JavaEE/Log/Log4j2_exploit.md)
-4. [Nacos配置中心](JavaTool/Nacos/nacos_config_center.md)
-5. [Java日志框架](JavaEE/Log/java_log_framework.md)
-6. [Java Email](JavaEE/Email/java_email.md)
-7. [Davinci埋点设计](Other/OpenSource/Davinci/davinci_event_tracking_design.md)
-8. [关于DataX Hdfs Writer](Other/OpenSource/DataX/datax_hdfswriter.md)
-9. [应用卡顿问题bug记录](Other/Bug/Application/application_lags_bug_record.md)
-10. [常用的数据格式](Other/Basic/data_format.md)
+1. [InnoDB存储结构](Database/Mysql/innodb_storage_structure.md)
+2. [CAS登陆流程](JavaEE/CAS/cas_login.md)
+3. [垃圾回收机制](JavaSE/JavaVirtualMachine/garbage_collection_mechanism.md)
+4. [java_object_memory_distribution](JavaSE/JavaVirtualMachine/java_object_memory_distribution.md)
+5. [虚拟机类加载机制](JavaSE/JavaVirtualMachine/calss_loading_mechanism.md)
+6. [Java内存区域](JavaSE/JavaVirtualMachine/java_memory_area.md)
+7. [Java基础工具与概念](JavaSE/java_basics.md)
+8. [Chrome Network](Tool/Chrome/chrome_network.md)
+9. [多线程基础](JavaSE/MultiThread/multi_thread_basics.md)
+10. [常量池](JavaSE/JavaVirtualMachine/constant_pool.md)
 

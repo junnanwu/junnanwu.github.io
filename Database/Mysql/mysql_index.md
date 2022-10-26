@@ -58,7 +58,7 @@ InnoDB支持如下索引：
 
 例如，一个有a,b两列的表，对a, b两列创建联合索引：
 
-![composite_index_example](Mysql%E7%B4%A2%E5%BC%95_assets/composite_index_example.png)
+![composite_index_example](mysql_index_assets/composite_index_example.png)
 
 通过叶子节点可以读出所有数据，数据按照 (a,b) 的顺序进行了存放。
 
@@ -90,4 +90,4 @@ SELECT a, b FROM table;
 
 ## References
 
-1. 《MySQL技术内幕—INNODB存储引擎》—— 姜承尧
+1. 书籍：《MySQL技术内幕—INNODB存储引擎》—— 姜承尧

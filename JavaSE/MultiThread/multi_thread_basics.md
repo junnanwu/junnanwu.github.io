@@ -2,9 +2,7 @@
 
 ## 线程状态
 
-![Thread06](%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80_assets/Thread06.png)
-
-
+![thread_state](multi_thread_basics_assets/thread_state.png)
 
 
 
@@ -66,5 +64,5 @@ Java提供了volatile关键字来保证可见性。
 
 ## References
 
-1. 《深入理解Java虚拟机》
-2. https://www.cnblogs.com/dolphin0520/p/3920373.html
+1. 书籍：《深入理解Java虚拟机》
+2. 博客：[Java并发编程：volatile关键字解析](https://www.cnblogs.com/dolphin0520/p/3920373.html)

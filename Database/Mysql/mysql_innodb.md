@@ -29,7 +29,7 @@ innodb_default_row_format: dynamic
 
 ## 变长字段长度列表
 
-![20210603182014243](Mysql-InnoDB_assets/mysql_innoDB_store_type.png)
+![mysql_innoDB_store_type](mysql_innodb_assets/mysql_innoDB_store_type.png)
 
 一些变长的数据类型，比如`VARCHAR(M)`、各种`TEXT`类型，各种`BLOB`类型，变长数据类型的字段中存储多少字节的数据是不固定的，在存储真实数据的时候需要把**这些数据占用的字节数也存起来**
 

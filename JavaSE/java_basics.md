@@ -287,7 +287,7 @@ Java本身是不需要配置这个环境变量的，安装Java只需要将jdk的
 
 1. 例如：IDEA中的Gradle可以选择Gradle JVM为`JAVA_HOME`，这个时候，如果你没有设置`JAVA_HOME`环境变量，那么就会报错了。
 
-   <img src="Java%E5%9F%BA%E7%A1%80%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%A6%82%E5%BF%B5_assets/java-home-idea-gradle.png" alt="image-20211025114743038" style="zoom: 33%;" />
+   ![java-home-idea-gradle](java_basics_assets/java-home-idea-gradle.png)
 
 2. 在没有配置`JAVA_HOME`环境变量的时候，我本地的CAS Tomcat服务也出现了异常，
 
@@ -413,7 +413,6 @@ jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ..
 
 ## References
 
-1. https://docs.oracle.com/Javase/7/docs/technotes/tools/index.html
-2. https://www.liaoxuefeng.com/wiki/1252599548343744/1260466914339296
-3. https://www.cnblogs.com/flashsun/p/7246260.html
-3. https://blog.csdn.net/guyue35/article/details/107957859
+1. 廖雪峰：[classpath和jar](https://www.liaoxuefeng.com/wiki/1252599548343744/1260466914339296)
+2. 博客：[从零开始打jar包](https://www.cnblogs.com/flashsun/p/7246260.html)
+3. 博客：[Java启动参数(-, -X, -XX参数)详解](https://blog.csdn.net/guyue35/article/details/107957859)

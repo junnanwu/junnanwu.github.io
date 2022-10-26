@@ -4,7 +4,7 @@
 
 ## 线程池架构
 
-![image-20220616155018391](%E7%BA%BF%E7%A8%8B%E6%B1%A0_assets/threadpool_structure.png)
+![threadpool_structure](thread_pool_assets/threadpool_structure.png)
 
 - Executor接口
 
@@ -152,7 +152,7 @@
 
 ### 执行步骤
 
-![thread_pool_execute_step](%E7%BA%BF%E7%A8%8B%E6%B1%A0_assets/thread_pool_execute_step.png '线程池执行步骤')
+![thread_pool_execute_step](thread_pool_assets/thread_pool_execute_step.png)
 
 ### 默认线程池
 
@@ -218,7 +218,7 @@ static class DefaultThreadFactory implements ThreadFactory {
 
 ## 线程池的状态
 
-![thread_status](%E7%BA%BF%E7%A8%8B%E6%B1%A0_assets/thread_status.png "线程池状态")
+![thread_status](thread_pool_assets/thread_status.png)
 
 - `RUNNING`
 
@@ -326,7 +326,5 @@ https://www.jianshu.com/p/ff79dc168e1a
 
 ## References
 
-- 1）如果是CPU密集型应用，则线程池大小设置为N+1(或者是N)，线程的应用场景：主要是复杂算法
-  （2）如果是IO密集型应用，则线程池大小设置为2N+1(或者是2N)，线程的应用场景：主要是：数据库数据的交互，文件上传下载，网络数据传输等等
-- https://blog.csdn.net/u011436427/article/details/103744149
+- 博客：[线程池大小设置和CPU核心数的关系](https://blog.csdn.net/u011436427/article/details/103744149)
 

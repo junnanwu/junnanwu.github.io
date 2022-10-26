@@ -40,11 +40,11 @@
 
 HotSpot虚拟机的对象头分为两部分，一部分负责存储对象自身的运行时数据，称为`Mark Word`，如下图所示：
 
-![java_object_mark_word](Java%E9%94%81%E4%BC%98%E5%8C%96_assets/java_object_mark_word.png 'HotSpot虚拟机对象头MarkWord')
+![java_object_mark_word](java_lock_optimize_assets/java_object_mark_word.png)
 
 在代码即将进入同步块的时候，如果此同步对象没有被锁定(锁标志位为`01`状态)，虚拟机首先将在当前线程的栈帧中建立一个名为锁记录(Lock Record)的空间，用于存储锁对象目前的Mark Word的拷贝，如下图所示：
 
-![lightweight_lock_cas_status](Java%E9%94%81%E4%BC%98%E5%8C%96_assets/lightweight_lock_cas_status.png '轻量级锁将锁对象Mark Word拷贝到线程栈帧')
+![lightweight_lock_cas_status](java_lock_optimize_assets/lightweight_lock_cas_status.png)
 
 然后，虚拟机将使用CAS操作尝试把对象的Mark Word更新为指向Lock Record的指针。如果这个更新动作成功了，即代表该线程拥有了这个对象的锁，并且对象Mark Word的锁标志位(Mark Word的最后两个比特)将转变为`00`，表示此对象处于轻量级锁定状态。
 

@@ -123,19 +123,19 @@ SourceFile: "ConstantPool.java"
 
 - JDK6及之前
 
-  ![String_constan_pool_java_6](%E5%B8%B8%E9%87%8F%E6%B1%A0_assets/String_constan_pool_java_6.png 'JDK6及之前字符串常量池位置')
+  ![string_constant_pool_java_6](constant_pool_assets/string_constant_pool_java_6.png)
 
 - JDK7
 
   原本存放在永久代的字符串常量池被移至Java堆之中。
 
-  ![String_constan_pool_java_7](%E5%B8%B8%E9%87%8F%E6%B1%A0_assets/String_constan_pool_java_7.png 'JDK7字符串常量池位置')
+  ![string_constant_pool_java_7](constant_pool_assets/string_constant_pool_java_7.png)
 
 - JDK8
 
   无永久代，运行时常量池在元空间。
 
-  ![String_constan_pool_java_8](%E5%B8%B8%E9%87%8F%E6%B1%A0_assets/String_constan_pool_java_8.png 'JDK8字符串常量池位置')
+  ![string_constant_pool_java_8](constant_pool_assets/string_constant_pool_java_8.png)
 
 ## 包装类常量池技术
 
@@ -209,6 +209,6 @@ private static class IntegerCache {
 
 ## References
 
-1. 《深入理解Java虚拟机》——周志明
-2. https://blog.csdn.net/qq_45076180/article/details/115082348
+1. 书籍：《深入理解Java虚拟机》——周志明
+2. 博客：[一文彻底搞懂字符串、字符串常量池原理](https://blog.csdn.net/qq_45076180/article/details/115082348)
 

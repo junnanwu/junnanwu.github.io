@@ -58,7 +58,7 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
 
   explain：
 
-  ![explain-with-index-resources_user_id_index](MySQL%E8%B0%83%E4%BC%98_assets/explain-with-index-resources_user_id_index.png)
+  ![explain_with_index_resources_user_id_index](mysql_optimize_assets/explain_with_index_resources_user_id_index.png)
 
 - `resources_id`列普通索引
 
@@ -67,15 +67,13 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
   alter table resources_user add index resources_resources_id_index (resources_id);
   ```
 
-  ![image-20220419215427656](Mysql%E8%B0%83%E4%BC%98_assets/explain-with-index-resources_resources_id_index.png)
+  ![explain_with_index_resources_resources_id_index](mysql_optimize_assets/explain_with_index_resources_resources_id_index.png)
 
 ### 分析
 
 原语句explain（无索引）
 
-![image-20220419215223346](Mysql%E8%B0%83%E4%BC%98_assets/explain-without-index.png)
-
-在某些in子查询的情况下，会扫描大量行，从而查询速度变慢。
+![explain_without_index](mysql_optimize_assets/explain_without_index.png)在某些in子查询的情况下，会扫描大量行，从而查询速度变慢。
 
 ### 结论
 
@@ -89,5 +87,5 @@ select * from resources where user_id = 6 and type = 0 union select t2.* from re
 
 ## References
 
-1. https://dev.mysql.com/doc/refman/5.7/en/subquery-optimization-with-exists.html
-1. https://dev.mysql.com/doc/refman/5.7/en/rewriting-subqueries.html
+1. 官方文档：[Optimizing Subqueries with the EXISTS Strategy](https://dev.mysql.com/doc/refman/5.7/en/subquery-optimization-with-exists.html)
+1. 官方文档：[Rewriting Subqueries as Joins](https://dev.mysql.com/doc/refman/5.7/en/rewriting-subqueries.html)

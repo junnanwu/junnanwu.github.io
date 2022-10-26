@@ -4,7 +4,7 @@
 
 ## WaterFall
 
-![image-20220325005253388](ChromeNetwork_assets/image-20220325005253388.png)
+![localhost_waterfall](chrome_network_assets/localhost_waterfall.png)
 
 不同的阶段：
 
@@ -40,4 +40,4 @@
 
 ## References
 
-- https://developer.chrome.com/docs/devtools/network/reference/#timing-explanation
+1. Chorme官方文档：[Network features reference](https://developer.chrome.com/docs/devtools/network/reference/#timing-explanation)
