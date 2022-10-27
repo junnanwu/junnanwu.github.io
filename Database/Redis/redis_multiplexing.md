@@ -12,7 +12,7 @@
 
 Redis服务器通过如下模型进行处理：
 
-![file_event_handler](Redis%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8_assets/file_event_handler.png 'Redis文件事件处理器')
+![file_event_handler](redis_multiplexing_assets/file_event_handler.png)
 
 I/O多路复用程序可以同时监听多个socket，当这个事件产生的时候，发送给文件事件分派器进行处理。
 
@@ -22,5 +22,5 @@ Redis通过I/O多路复用模块，实现了单线程运行的同时，服务成
 
 ## References
 
-1. 《Redis设计与实现》——黄健宏
-2. https://zhuanlan.zhihu.com/p/24252862
+1. 书籍：《Redis设计与实现》——黄健宏
+2. 知乎文章：[Redis 和 I/O 多路复用](https://zhuanlan.zhihu.com/p/24252862)

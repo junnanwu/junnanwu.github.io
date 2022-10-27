@@ -75,7 +75,7 @@ hash & (size -1)
 
 跳表用于实现Redis的有序集合。
 
-![skip_lists_example](Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84_assets/skip_lists_example.png '一个跳跃表')
+![skip_lists_example](redis_data_type_assets/skip_lists_example.png)
 
 位于最左边的是zskiplist，该结构包括：
 
@@ -121,7 +121,7 @@ hash & (size -1)
 
 例如查找跳跃表中分值为2.0的节点：
 
-![image-20220702122015078](Redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84_assets/image-20220702122015078.png)
+![skip_lists_example](redis_data_type_assets/skip_lists_example-6870704.png)
 
 - 从head开始，到头节点L1，比较目标值2.0与L1的指向节点对应的值即1.0
 - 2.0大于1，继续查找头节点L2、L3、L5直到L5发现，其指向节点的值3.0大于2.0
@@ -129,6 +129,6 @@ hash & (size -1)
 
 ## References
 
-1. 《Redis设计与实现》——黄健宏
-2. https://www.jianshu.com/p/9d8296562806
-3. https://juejin.cn/post/6893072817206591496
+1. 书籍：《Redis设计与实现》——黄健宏
+2. 博客：[Skip List--跳表](https://www.jianshu.com/p/9d8296562806)
+3. 博客：[深入理解Redis跳跃表的基本实现和特性](https://juejin.cn/post/6893072817206591496)

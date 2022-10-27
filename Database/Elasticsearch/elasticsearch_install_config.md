@@ -169,7 +169,7 @@ server.rewriteBasePath: true
 
 这种方式也会在请求头中生成一个`Authorization`的请求头
 
-![image-20210903235806473](Elasticsearch%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE_assets/image-20210903235806473.png)
+![es_basic_auth](elasticsearch_install_config_assets/es_basic_auth.png)
 
 方法二：
 

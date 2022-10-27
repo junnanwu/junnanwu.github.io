@@ -41,4 +41,4 @@
 
 ## References
 
-1. https://prestodb.io/docs/current/functions/datetime.html
+1. presto官方文档：[Date and Time Functions and Operators](https://prestodb.io/docs/current/functions/datetime.html)

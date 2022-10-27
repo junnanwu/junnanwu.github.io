@@ -43,7 +43,7 @@ SLAVEOF 127.0.0.1 6379
 
 4. 身份验证
 
-   ![redis_copy_auth](Redis%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6_assets/redis_copy_auth.png)
+   ![redis_copy_auth](redis_master_slave_replication_assets/redis_copy_auth.png)
 
 5. 发送端口信息
 
@@ -59,4 +59,4 @@ SLAVEOF 127.0.0.1 6379
 
 ## References
 
-1. 《Redis设计与实现》—— 黄健宏
+1. 书籍：《Redis设计与实现》—— 黄健宏

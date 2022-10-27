@@ -14,7 +14,7 @@
 
 例如：标签为【合作机构名称】，然后选择一个运算符，后面是你期望的值，例如，输入北京，就从所有企业记录中找到包含北京的合作机构，并去重展示，如下图所示：
 
-![image-20210630164615830](Elasticsearch%E5%9C%A8%E7%94%9F%E4%BA%A7%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_assets/image-20210630164615830.png)
+![search_company_name](elasticsearch_apply_in_production_assets/search_company_name.png)
 
 ### 思路
 
@@ -110,7 +110,7 @@ Elasticsearch中存储的为一条一条的聊天记录，即其他信息，其�
 
 此部分如下图所示：
 
-![image-20210811232739545](Elasticsearch%E5%9C%A8%E7%94%9F%E4%BA%A7%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_assets/image-20210811232739545.png)
+![search_chat_text](elasticsearch_apply_in_production_assets/search_chat_text.png)
 
 ### 思路
 

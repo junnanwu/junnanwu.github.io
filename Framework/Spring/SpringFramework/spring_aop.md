@@ -1,8 +1,6 @@
 # Spring AOP
 
-
-
-![img](SpringAOP_assets/758949-20190529225507103-314276426.png)
+![spring_aop](spring_aop_assets/spring_aop.png)
 
 在spring中尝试使用AspectJ其他指示器时，将会抛出IllegalArgumentException异常。
 
@@ -28,7 +26,3 @@ public Object around(ProceedingJoinPoint pjp, ApiLog apiLog) {
    return result;
 }
 ```
-
-## References
-
-1. 

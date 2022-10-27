@@ -471,13 +471,12 @@ public class CacheServer {
 
 ## References
 
-1. https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#cache
-2. https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions
-3. https://www.iteye.com/blog/jinnianshilongnian-2001040
-4. https://blog.csdn.net/pengdandezhi/article/details/78921792
-5. https://my.oschina.net/iamgpj/blog/3070914
-6. https://www.cnblogs.com/ASPNET2008/p/6511500.html
-7. https://www.cnblogs.com/top-housekeeper/p/11865399.html
-7. https://blog.csdn.net/sz85850597/article/details/89301331
-7. https://zhuanlan.zhihu.com/p/39639130
-
+1. Spring官方文档：[Cache Abstraction](https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#cache)
+2. Spring官方文档：[Spring Expression Language (SpEL)](https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions)
+2. 博客：[Spring Cache抽象详解](https://www.iteye.com/blog/jinnianshilongnian-2001040)
+4. 博客：[Spring集成Spring-data-redis RedisCacheManager缓存源码分析](https://blog.csdn.net/pengdandezhi/article/details/78921792)
+5. 博客：[Spring Cache 实现失效时间设置](https://my.oschina.net/iamgpj/blog/3070914)
+6. 博客：[Spring Cache扩展：注解失效时间+主动刷新缓存](https://www.cnblogs.com/ASPNET2008/p/6511500.html)
+7. 博客：[Springboot中的缓存Cache和CacheManager原理介绍](https://www.cnblogs.com/top-housekeeper/p/11865399.html)
+7. 博客：[springboot(25)自定义缓存读写机制CachingConfigurerSupport](https://blog.csdn.net/sz85850597/article/details/89301331)
+7. 博客：[caffeine vs ehcache](https://zhuanlan.zhihu.com/p/39639130)

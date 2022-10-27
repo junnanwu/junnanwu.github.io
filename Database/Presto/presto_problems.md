@@ -50,5 +50,5 @@ SELECT max(pt) FROM hsz_crm.xxx where pt > date_format( current_date - interval 
 
 ## References
 
-1. https://stackoverflow.com/questions/38037713/presto-static-date-and-timestamp-in-where-clause
-1. https://prestodb.io/docs/current/functions/datetime.html
+1. Stack Overflow：[Presto - static date and timestamp in where clause](https://stackoverflow.com/questions/38037713/presto-static-date-and-timestamp-in-where-clause)
+1. presto官方文档：[Date and Time Functions and Operators](https://prestodb.io/docs/current/functions/datetime.html#functions-datetime--page-root)

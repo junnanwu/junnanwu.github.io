@@ -41,16 +41,11 @@ SHOW CATALOGS;
 
 即关系型数据库中的表。
 
-
-
-
-
-![img](Presto%E7%AE%80%E4%BB%8B_assets/Presto_MapReduce_Compare.png)
+![presto_mapReduce_compare](presto_introduce_assets/presto_mapReduce_compare.png)
 
 ## References
 
-1. https://prestodb.io/
-2. https://prestodb.io/docs/current/index.html
-3. https://github.com/prestodb/presto
-4. https://trino.io/blog/2020/12/27/announcing-trino.html
-5. https://blog.csdn.net/cakexuexi/article/details/80820170
+1. presto官方文档：[Presto Documentation](https://prestodb.io/docs/current/index.html#index--page-root)
+3. presto Github：[presto](https://github.com/prestodb/presto)
+4. trino官方文章：[We’re rebranding PrestoSQL as Trino](https://trino.io/blog/2020/12/27/announcing-trino.html)
+5. 博客：[Presto入门介绍](https://blog.csdn.net/cakexuexi/article/details/80820170)

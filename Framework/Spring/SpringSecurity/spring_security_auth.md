@@ -8,7 +8,7 @@ GrantedAuthority是通过AuthenticationManager设置到Authentication对象中�
 
 基于投票的AccessDecisionManager，它在调用方法之前判断用户是否有访问该对象的权限。
 
-![img](SpringSecurity%E9%89%B4%E6%9D%83_assets/DecisionManager-structure.png)
+![decision_manager_structure](spring_security_auth_assets/decision_manager_structure.png)
 
 一系列的AccessDecisionVoter将会被AccessDecisionManager用来对Authentication是否有权访问受保护对象进行投票，然后再根据投票结果来决定是否要抛出AccessDeniedException。
 
