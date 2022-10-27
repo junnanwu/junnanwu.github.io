@@ -196,4 +196,3 @@ public class MyInvalidSessionStrategy implements InvalidSessionStrategy {
 ## Refereces
 
 1. https://zhuanlan.zhihu.com/p/22521378
-1. 
