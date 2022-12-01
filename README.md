@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
-2. [SpringSecurity](Framework/Spring/SpringSecurity/spring_security.md)
-3. [Spring Security鉴权](Framework/Spring/SpringSecurity/spring_security_auth.md)
-4. [Elasticsearch](Database/Elasticsearch/elasticsearch.md)
-5. [Spring Security 退出登录](Framework/Spring/SpringSecurity/spring_security_logout.md)
-6. [Spring Security Session](Framework/Spring/SpringSecurity/spring_security_session.md)
-7. [Spring Web MVC](Framework/Spring/SpringFramework/springweb_mvc.md)
-8. [装配Bean](Framework/Spring/SpringFramework/assemble_bean.md)
-9. [定时任务](Framework/Spring/SpringFramework/spring_scheduling.md)
-10. [Spring Transactional](Framework/Spring/SpringFramework/spring_transactional.md)
+1. [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
+2. [Nacos](JavaTool/Nacos/nacos.md)
+3. [Gradle](JavaTool/Gradle/gradle.md)
+4. [Linux解压与压缩](Ops/Linux/linux_decompress_compress.md)
+5. [Linux软件安装](Ops/Linux/linux_software.md)
+6. [Java内存区域](JavaSE/JavaVirtualMachine/java_memory_area.md)
+7. [java_object_memory_distribution](JavaSE/JavaVirtualMachine/java_object_memory_distribution.md)
+8. [Java基础工具与概念](JavaSE/java_basics.md)
+9. [系列分享三：字符集](Share/character_set.md)
+10. [MySQL InnoDB](Database/Mysql/mysql_innodb.md)
 

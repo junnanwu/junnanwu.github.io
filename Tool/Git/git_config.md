@@ -65,7 +65,7 @@ input
 
 - `true`
 
-  当你add时，文本文件中所有`CRLF`都会被替换成`LF`，即`\n`，当你checkout时，文本文件中所有的`LF`会被替换成`CRLF`，在widows电脑上可以这么设置。
+  当你add时，文本文件中所有`CRLF`都会被替换成`LF`，即`\n`，当你checkout时，文本文件中所有的`LF`会被替换成`CRLF`，在Widows电脑上可以这么设置。
 
 - `false`
 

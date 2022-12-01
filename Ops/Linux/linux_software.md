@@ -1,5 +1,93 @@
 # Linux软件安装
 
+本文基于CentOS 7。
+
+## RPM
+
+RPM误删除了怎么办？
+
+当误执行了`rpm -e rpm-xxx --nodeps`，RPM就被卸载了，这个时候，我们可以在一台正常的Linux机器上面执行：
+
+```
+$ whereis rpm
+rpm: /usr/bin/rpm /usr/lib/rpm /etc/rpm /usr/share/man/man8/rpm.8.gz
+```
+
+然后再在RPM被卸载的机器上执行该命令，将每个目录及文件scp复制过来补全。
+
+## Yum
+
+Yum是Python写的，一般都是Python2，当时我们平时又会安装Python3，经常就会导致Python不可用。
+
+当提示`no module named yum`的时候，可以先查看Python的Path，也就是说Python会从PythonPath中寻找import模块，可以在Python命令行中输入如下命令：
+
+```
+>>> import sys
+>>> print(sys.path)
+```
+
+查看是否是启动的是Python2，但是Path中确是Python3的路径的情况。
+
+如果还是不行，则可以选择卸载重新安装Python和Yum。
+
+参考：[Centos 重装Python2.7](https://www.cnblogs.com/fan-yuan/p/15005647.html)
+
+阿里云镜像：https://mirrors.aliyun.com/centos/7/os/x86_64/Packages
+
+## Docker
+
+1. 卸载旧的安装包
+
+   ```
+   # yum remove docker \
+                     docker-client \
+                     docker-client-latest \
+                     docker-common \
+                     docker-latest \
+                     docker-latest-logrotate \
+                     docker-logrotate \
+                     docker-engine
+   ```
+
+2. 从下面链接下载安装包，然后安装
+
+   （由于网络问题，只能采取本地下载好安装包的来安装）
+
+   ```
+   https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
+   ```
+
+3. 上传服务器
+
+4. 安装
+
+   ```
+   # yum install -y docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
+   ```
+
+5. 设置国内镜像源，并修改默认目录
+
+   ```
+   # vim /etc/docker/daemon.json
+   {
+     "graph": "/data/docker",
+     "registry-mirrors": ["https://719wavvz.mirror.aliyuncs.com"]
+   }
+   ```
+
+6. 启动Docker，并设置开机自启
+
+   ```
+   # systemctl start docker.service
+   # systemctl enable docker.service
+   ```
+
+7. 查看安装情况
+
+   ```
+   # docker version
+   ```
+
 ## Java
 
 1. [官网](https://www.oracle.com/java/technologies/downloads/#java8)下载安装包`jdk-8u341-linux-x64.tar.gz`
@@ -45,6 +133,38 @@
    # java -version
    java version "1.8.0_341"
    ```
+
+## Git
+
+1. 下载安装包
+
+   ```
+   $ wget https://www.kernel.org/pub/software/scm/git/git-2.3.0.tar.xz
+   ```
+
+2. 解压、编译
+
+   ```
+   $ tar -vxf git-2.3.0.tar.xz
+   $ cd git-2.3.0
+   $ make prefix=/usr/local/git all
+   $ make prefix=/usr/local/git install
+   ```
+
+3. 加入PATH
+
+   ```
+   $ echo "export PATH=$PATH:/usr/local/git/bin" >> /etc/profile
+   $ source /etc/profile
+   ```
+
+4. 查看git版本
+
+   ```
+   $ git --version
+   ```
+
+   
 
 ## Nginx
 
@@ -119,7 +239,7 @@
      n v7.10.0
      ```
 
-## maven
+## Maven
 
 1. 下载压缩包
 
@@ -159,60 +279,6 @@
 ## Gradle
 
 [官网下载](https://gradle.org/releases/)对应版本，上传即可
-
-## Docker
-
-1. 卸载旧的安装包
-
-   ```
-   # yum remove docker \
-                     docker-client \
-                     docker-client-latest \
-                     docker-common \
-                     docker-latest \
-                     docker-latest-logrotate \
-                     docker-logrotate \
-                     docker-engine
-   ```
-
-2. 从下面链接下载安装包，然后安装
-
-   （由于网络问题，只能采取本地下载好安装包的来安装）
-
-   ```
-   https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
-   ```
-
-3. 上传服务器
-
-4. 安装
-
-   ```
-   # yum install -y docker-ce-18.03.1.ce-1.el7.centos.x86_64.rpm
-   ```
-
-5. 设置国内镜像源，并修改默认目录
-
-   ```
-   # vim /etc/docker/daemon.json
-   {
-     "graph": "/data/docker",
-     "registry-mirrors": ["https://719wavvz.mirror.aliyuncs.com"]
-   }
-   ```
-
-6. 启动Docker，并设置开机自启
-
-   ```
-   # systemctl start docker.service
-   # systemctl enable docker.service
-   ```
-
-7. 查看安装情况
-
-   ```
-   # docker version
-   ```
 
 ## MySQL
 
@@ -325,14 +391,15 @@
 
 ## ClickHouse
 
-[ClickHouse的安装](../数据/ClickHouse/ClickHouse)
+[ClickHouse的安装](../../Database/ClickHouse/ClickHouse)
 
 ## Elasticsearch
 
-[Elasticsearch/Kibana的安装](../数据/Elasticsearch/Elasticsearch的安装和配置)
+[Elasticsearch/Kibana的安装](../../Database/Elasticsearch/elasticsearch_install_config)
 
 ## References
 
 1. Nginx官方文档：[Installing NGINX Open Source](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/)
 3. Docker官方文档：[Install Docker Engine on CentOS](https://docs.docker.com/engine/install/centos/)
+3. 博客：[Centos 重装Python2.7](https://www.cnblogs.com/fan-yuan/p/15005647.html)
 

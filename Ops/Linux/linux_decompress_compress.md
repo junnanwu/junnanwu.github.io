@@ -206,7 +206,7 @@ jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ..
 - 查看某个Jar中是否包含某个文件
 
   ```
-  $ target jar tf data_upload-1.0-SNAPSHOT.jar|grep DataRecordDOMapper.xml 
+  $ jar tf data_upload-1.0-SNAPSHOT.jar|grep DataRecordDOMapper.xml 
   ```
 
 

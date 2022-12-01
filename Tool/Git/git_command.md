@@ -421,6 +421,48 @@ VSC => Git=> reset head
 
 ## git stash
 
+标记本次存储
+
+```
+$ git stash save [stashMessage]
+```
+
+查看储存记录
+
+```
+$ git stash list
+```
+
+显示格式：
+
+```
+stash@{index}: WIP on [分支名]: [最近一次的commitID] [最近一次的提交信息]
+```
+
+取出指定index的储藏的修改到工作区：
+
+```
+$ git stash apply stash@{index} 
+```
+
+取出最近一次储藏的修改：
+
+```
+$ git stash pop
+```
+
+删除某一个存储列表：
+
+```
+$ git stash drop stash@{0}
+```
+
+清除所有存储列表：
+
+```
+$ git stash clear
+```
+
 ## git tag
 
 Git中，我们通过tag来标记版本。

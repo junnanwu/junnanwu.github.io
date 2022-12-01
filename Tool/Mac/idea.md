@@ -1,5 +1,7 @@
 # IDEA
 
+本文基于Mac版本的IDEA。
+
 ## 快捷键
 
 - 插入快捷键
@@ -58,11 +60,45 @@
 
   `Ctrl+Alt+L`
 
+## IDEA列编辑
+
+- 选择多行
+
+  按住`option`，加鼠标上下滑动即可选择多行进行编辑。
+
+- 一次选择全部（数百行）
+
+  `Command`+`A`选择全部，`Command`+`Shift`+`8`进入列编辑模式即可。
+
+- 新增行（不同位置）
+
+  按住`option`+`shift`，鼠标点击其他行，即可选择不同位置的光标。
+
+- 回到多行的行尾
+
+  按`Home`或`End`按键，即可将光标移动到行首或行尾，**即使尾部没有对齐也可以**。
+
+- 多行的光标左右移动单词
+
+  像在单行编辑一样，`option`+`左箭头`/`右箭头`。
+
 ## IDEA好用插件
 
 ### Lombok
 
 略
+
+### Free Mybatis Plugin
+
+Free MyBatis Tool 是一款增强idea对mybatis支持的插件。
+
+>  主要功能如下：
+>
+> - 生成mapper xml文件
+> - 快速从代码跳转到mapper及从mapper返回代码
+> - mybatis自动补全及语法错误提示
+> - 集成mybatis generator gui界面
+> - 根据数据库注解，生成swagger model注解
 
 ### SQL Params Setter
 

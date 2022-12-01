@@ -1,3 +1,5 @@
+
+
 # 字符编码
 
 ## 基本概念
@@ -87,7 +89,7 @@ GB系列的编码模型都类似。
 
 其中第0个平面是包含了当前世界上最常用的一些字符。所以这第0个平面也叫做BMP(Basic Multilingual Plane的缩写)，翻译过来就是基本多语言平面。
 
-![unicode_plane](character_sets_assets/unicode_plane.png)
+![unicode_plane](character_set_assets/unicode_plane.png)
 
 Unicode字符集中的编号通常用下面方式表示：
 
@@ -125,7 +127,7 @@ u的unicode编号是117(二进制1110101)
 01110101
 
 汉字 啊
-啊的unicode编号是21834(二进制101010101001010)，占15个位，需要用15个字节编码
+啊的unicode编号是21834(十六进制0x554A，二进制101010101001010)，占15个位，需要用15个字节编码
 所以采用3字节编码模板1110xxxx 10xxxxxx 10xxxxxx，把二进制数据填进去，高位补0
 11100101 10010101 10001010
 
@@ -211,6 +213,14 @@ E5958A
 ```
 00000000 00000001 01000100 010111011
 ```
+
+### 在线转换注意
+
+有时候想查一下一个字符对应的utf-8编码是啥，就会去搜索utf-8在线转换，但是实际上，大部分中文在线ut f-8转换工具都是错的，经测试（2022年11月18日），百度搜索出来第一页的utf-8在线转换中，只有一个是对的，其他所有都是返回的该字符的Unicode。
+
+例如上面测算过的`啊`，对应的Unicode为`0x554A`，utf-8编码为`e5 95 8a`，很多工具返回的是`0x554A`，在查询的时候注意辨别。
+
+可以使用如下转换工具：[UTF8 Encode Decode](https://convertcodes.com/utf8-encode-decode-convert-string/)
 
 ## 字节顺序标记
 
@@ -373,7 +383,7 @@ E5958A
 
 ## References
 
-1. https://www.zybuluo.com/xiaohaizi/note/897775
-1. https://en.wikipedia.org/wiki/Byte_order_mark
-1. https://stackoverflow.com/questions/63443051
-1. https://stackoverflow.com/questions/27331819
+1. 博客：[字符集与编码](https://www.zybuluo.com/xiaohaizi/note/897775)
+1. stack overflow：[What's the difference between a character, a code point, a glyph and a grapheme?](https://stackoverflow.com/questions/27331819/whats-the-difference-between-a-character-a-code-point-a-glyph-and-a-grapheme)
+1. 维基百科：[Byte order mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+1. stack overflow：[Why UTF-8 encoding doesn't need a Byte Order Mark?](https://stackoverflow.com/questions/63443051/why-utf-8-encoding-doesnt-need-a-byte-order-mark)

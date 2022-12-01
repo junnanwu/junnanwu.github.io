@@ -23,6 +23,7 @@
     - [JDBC](JavaSE/jdbc.md)
     - [泛型](JavaSE/paradigm.md)
     - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
+    - [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
     - [ThreadLocal](JavaSE/threadlocal.md)
 - **JavaEE**
     - **CAS**
@@ -117,7 +118,7 @@
       - [Redis持久化](Database/Redis/redis_persistence.md)
       - [Redis哨兵](Database/Redis/redis_sentinel.md)
 - **ComputerBasic**
-    - [字符编码](ComputerBasic/character_sets.md)
+    - [character_set](ComputerBasic/character_set.md)
     - **computer_network**
       - [DNS](ComputerBasic/computer_network/dns.md)
       - [Email Protocol](ComputerBasic/computer_network/email_protocol.md)
@@ -146,10 +147,12 @@
       - [KubeSphere](Ops/K8s/kubeSphere.md)
       - [Kubernetes](Ops/K8s/kubernetes.md)
       - [KubeSphere创建DevOps项目](Ops/K8s/kubesphere_create_devops_project.md)
+    - **Ldap**
+      - [LDAP](Ops/Ldap/ldap.md)
     - **Linux**
       - [Linux基础命令](Ops/Linux/linux_basic_command.md)
       - [Linux解压与压缩](Ops/Linux/linux_decompress_compress.md)
-      - [linux_env_variable](Ops/Linux/linux_env_variable.md)
+      - [环境变量](Ops/Linux/linux_env_variable.md)
       - [Linux文件系统](Ops/Linux/linux_file_system.md)
       - [Linux安装字体](Ops/Linux/linux_font.md)
       - [Linux输入和输出](Ops/Linux/linux_input_output.md)
@@ -180,6 +183,7 @@
       - [Git原理](Tool/Git/git_mechanism.md)
       - [git push](Tool/Git/git_push.md)
       - [git rebase](Tool/Git/git_rebase.md)
+      - [Git仓库体积太大](Tool/Git/git_repository_size_too_big.md)
       - [Git迁移远程仓库](Tool/Git/git_respository_migration.md)
       - [关于GitHub](Tool/Git/github.md)
       - [gitignore](Tool/Git/gitignore.md)
@@ -229,6 +233,7 @@
     - [Swagger](JavaTool/swagger.md)
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
+    - [系列分享三：字符集](Share/character_set.md)
     - [系列分享二：Maven和Gradle是怎么运行的](Share/maven_gradle.md)
 - **Other**
     - **Algorithm**

@@ -179,7 +179,7 @@ server.rewriteBasePath: true
 
 ## 搭建集群
 
-#### 清空elasticsearch中的数据
+### 清空elasticsearch中的数据
 
 首先把已经启动的elasticsearch关闭，然后通过命令把之前写入的数据都删除。
 
@@ -187,7 +187,7 @@ server.rewriteBasePath: true
 rm -rf /elasticsearch/data
 ```
 
-#### 遇到的问题
+### 遇到的问题
 
 - data文件夹没有删空
 

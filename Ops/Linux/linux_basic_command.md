@@ -948,15 +948,15 @@ wc (word command)，输出目标文件的行数/字符数/单词数，其中单�
 
 ### sed
 
-详见文档[Shell脚本](Shell脚本)
+详见文档[Shell脚本](shell_script)
 
 ### seq
 
-详见文档[Shell脚本](Shell脚本)
+详见文档[Shell脚本](shell_script)
 
 ### awk
 
-详见文档[Shell脚本](Shell脚本)
+详见文档[Shell脚本](shell_script)
 
 ### tee
 

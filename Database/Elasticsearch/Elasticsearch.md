@@ -1919,6 +1919,6 @@ ElasticSearch的聚合过程是先每个分片提供对应size的桶，然后不
 
    ![shard_3](elasticsearch_assets/shard_3.png)仅以产品C的排名作为举例，产品C（50个）的数据来自分片A（6个）和分片C（44个)之和。所以，排名第三。实际产品C在分片B中还存在4个，只不过这四个按照排名处于第10位，取前5的时候，显然取不到。所以，导致聚合结果不准确。
 
-## Reference
+## References
 
 1. 博客：[吃透 | Elasticsearch filter和query的不同](https://blog.csdn.net/laoyang360/article/details/80468757)

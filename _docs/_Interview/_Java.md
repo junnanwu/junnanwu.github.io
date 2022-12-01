@@ -67,7 +67,7 @@ Guava中Cache的实现就是利用ConcurrentHashMap的思想。
 
 ### ThreadLocal会造成内存泄漏吗？如何避免
 
-`ThreadLocal`有可能会造成内存泄漏，因为ThreadLocalMap是Thread的一个属性，而Thread的生命周期是很长的，所以我们创建的TheadLocal我们不再使用，由于作为Key其是虚引用，所以下一次垃圾回收就会被回收掉，对应的key变为null，其对应的值就无法被回收，当然虚拟机已经考虑到了这种情况，每当你调用remove、get方法的时候，都会对Map中key为null的值进行清除。
+`ThreadLocal`有可能会造成内存泄漏，因为ThreadLocalMap是Thread的一个属性，而Thread的生命周期是很长的，所以我们创建的TheadLocal我们不再使用，由于作为Key其是虚引用，所以下一次垃圾回收就会被回收掉，key变为null，其对应的值就无法被回收，当然虚拟机已经考虑到了这种情况，每当你调用remove、get方法的时候，都会对Map中key为null的值进行清除。
 
 但是如果，set之后，就不再调用，也不使用remove方法进行移除，就会造成内存泄漏。
 
@@ -382,7 +382,7 @@ G1主要是面向服务端的垃圾收集器，较新的G1回收器，他是负�
 
 - 强引用
 - 虚引用，OOM之前会进行清理
-- 弱引用，下一次GC进行清理，例如ThreadLoalMapkey值的引用。
+- 弱引用，下一次GC进行清理，例如ThreadLocalMap key值的引用。
 
 ### OutOfMemory实际经历
 
@@ -945,7 +945,9 @@ mysql有多种同步模式：
 
 ### UUID做唯一索引有什么缺点
 
-Mysql中存储数据的最小单位为page，大小为16K，也就是一个page中可以存储多行数据，使用B+树的结构后，数据必须是有序的，如果此时page1已经写满，page2只写了一半，当下一个数据是有序的时候，
+Mysql中存储数据的最小单位为page，大小为16K，也就是一个page中可以存储多行数据，使用B+树的结构后，数据必须是有序的，如果此时page1已经写满，page2只写了一半，当下一个数据是有序的时候，直接追加到pa ge2后面即可，但是当数据是无序的时候，当数据被计算后需要插入到page1中，就会导致page1的分裂。
+
+由于频繁的页分裂，也导致会有大量数据碎片，同一个表占用更大的空间。
 
 ### Mysql高可用方案
 

@@ -445,7 +445,7 @@ subprojects()
 添加插件（必须在父项目中）：
 
 ```
-plugins{
+plugins {
     id 'java'
     id 'org.springframework.boot' version '2.4.1'
 }

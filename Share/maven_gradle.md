@@ -245,14 +245,6 @@ println "Description of project $name: " + project.description
 Description of project gradle-project: myProject
 ```
 
-#### 依赖
-
-Java插件引入了各种标准配置来定义Java构建生命周期所应用的依赖。例如，通过compile配置添加编译产品源代码所需的依赖。
-
-#### 插件
-
-
-
 #### Task
 
 Task对应的API如下：
@@ -278,6 +270,26 @@ setDescription()
 setEnable()
 setGroup()
 ```
+
+
+
+不同任务之间的执行顺序是由任务
+
+
+
+### 重要插件
+
+#### Java插件
+
+Java插件提供了Java语言的编译、测试等，是很多其他基于JVM的Gradle的插件的基础，是Java项目中最基础的插件。
+
+Java插件提供了如下任务：
+
+![java_plugin_tasks](maven_gradle_assets/java_plugin_tasks.png)
+
+**依赖管理**
+
+
 
 
 

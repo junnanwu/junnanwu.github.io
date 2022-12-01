@@ -97,8 +97,8 @@ $ tree -L 3 .git/objects
   $ git cat-file -p 20371f4
   tree ff9ed01e8344509b26900428679fb25c3e190dda
   parent 139199a0f7051ff45162f65870d4ff78bc116f99
-  author wujunnan <wujunnan@kungeek.com> 1656068060 +0800
-  committer wujunnan <wujunnan@kungeek.com> 1656071772 +0800
+  author wujunnan <wujunnan@xxx.com> 1656068060 +0800
+  committer wujunnan <wujunnan@xxx.com> 1656071772 +0800
   
   add t1\2\3
   ```
