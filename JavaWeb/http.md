@@ -59,3 +59,4 @@ Referer请求头包含了当前请求页面的地址
 `Chrome` 计划在85版开始 将其切换默认策略 `no-referrer-when-downgrade` 更换到 `strict-origin-when-cross-origin`。
 
 [reference](https://cloud.tencent.com/developer/article/1748911)
+
