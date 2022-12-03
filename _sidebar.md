@@ -16,13 +16,13 @@
       - [volatile和synchronized](JavaSE/MultiThread/volatile_synchronized.md)
     - [Java访问修饰符](JavaSE/access_modifiers.md)
     - [注解](JavaSE/annotation.md)
+    - [泛型](JavaSE/generics.md)
     - [Java8特性](JavaSE/java8_feature.md)
     - [Java基础工具与概念](JavaSE/java_basics.md)
     - [Java调用本地命令](JavaSE/java_call_local_command.md)
     - [Java Date](JavaSE/java_date.md)
     - [Java常见系统方法](JavaSE/java_system_function.md)
     - [JDBC](JavaSE/jdbc.md)
-    - [泛型](JavaSE/paradigm.md)
     - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
     - [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
     - [ThreadLocal](JavaSE/threadlocal.md)
@@ -74,7 +74,7 @@
       - [Spring](Framework/Spring/spring.md)
 - **Database**
     - **ClickHouse**
-      - [clickhosue_prod_bug_record](Database/ClickHouse/clickhosue_prod_bug_record.md)
+      - [ClickHosue生产bug记录](Database/ClickHouse/clickhosue_prod_bug_record.md)
       - [ClickHouse](Database/ClickHouse/clickhouse.md)
       - [ClickHouse备份迁移](Database/ClickHouse/clickhouse_backup_migration.md)
       - [ClickHouse物化视图](Database/ClickHouse/clickhouse_materialized_view.md)
@@ -120,7 +120,7 @@
       - [Redis持久化](Database/Redis/redis_persistence.md)
       - [Redis哨兵](Database/Redis/redis_sentinel.md)
 - **ComputerBasic**
-    - [character_set](ComputerBasic/character_set.md)
+    - [字符编码](ComputerBasic/character_set.md)
     - **computer_network**
       - [DNS](ComputerBasic/computer_network/dns.md)
       - [Email Protocol](ComputerBasic/computer_network/email_protocol.md)
