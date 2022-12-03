@@ -16,6 +16,20 @@
 2. Apache Commons Lang `SerializationUtils`类的`clone`方法
 3. 通过各种JSON序列化的方式
 
+## Cloneable
+
+具体说下上面的第一种方式，即实现Cloneable的方式。
+
+Cloneable是一个标记接口，即接口内部没有任何方法和属性。当我们的类实现了这个接口，我们在调用这个类继承自Object的`clone()`方法的时候，才不会抛出CloneNotSupportedException。
+
+同时，根据约定，我们实现了这个接口之后，也要重写Object的`clone()`方法：
+
+```java
+protected native Object clone() throws CloneNotSupportedException;
+```
+
+这是一个native
+
 ## References
 
-1. https://www.baeldung.com/java-deep-copy
+1. 博客：[How to Make a Deep Copy of an Object in Java](https://www.baeldung.com/java-deep-copy)

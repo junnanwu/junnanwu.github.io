@@ -14,6 +14,7 @@
       - [线程池](JavaSE/MultiThread/thread_pool.md)
       - [线程池参数选择](JavaSE/MultiThread/thread_pool_param.md)
       - [volatile和synchronized](JavaSE/MultiThread/volatile_synchronized.md)
+    - [Java访问修饰符](JavaSE/access_modifiers.md)
     - [注解](JavaSE/annotation.md)
     - [Java8特性](JavaSE/java8_feature.md)
     - [Java基础工具与概念](JavaSE/java_basics.md)
@@ -25,6 +26,7 @@
     - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
     - [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
     - [ThreadLocal](JavaSE/threadlocal.md)
+    - [Java常量应该定义在类中还是接口中](JavaSE/where_constants_should_be_placed.md)
 - **JavaEE**
     - **CAS**
       - [CAS登陆流程](JavaEE/CAS/cas_login.md)
