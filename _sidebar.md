@@ -23,6 +23,7 @@
     - [Java Date](JavaSE/java_date.md)
     - [Java常见系统方法](JavaSE/java_system_function.md)
     - [JDBC](JavaSE/jdbc.md)
+    - [序列化](JavaSE/serializable.md)
     - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
     - [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
     - [ThreadLocal](JavaSE/threadlocal.md)

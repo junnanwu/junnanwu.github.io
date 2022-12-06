@@ -1,18 +1,18 @@
 # 浅拷贝与深拷贝
 
+在分层项目中，我们经常会将不同类型的Bean之间进行拷贝，例如将Do对象拷贝到Vo对象，本文将对相关内容进行总结。
+
+本文主要包括，浅拷贝和深拷贝的概念、Java Cloneable接口、常用Bean拷贝工具。
+
 ## 概念
 
-浅拷贝（Shallow Copy）指的是将`A`对象的所有字段拷贝给`A'`对象。
+**浅拷贝**（Shallow Copy）指的是将原对象的所有字段的值拷贝给目标对象。
 
 如果`A`对象的字段`a`是引用类型，那么就会将`a`字段的地址值拷贝给`A'`的`a'`字段，修改`a'`字段内容，由于`a'`和`a`字段指向的是同一个对象，那么`A`对象的`a`字段也会被改变。
 
-深拷贝（Deep Copy）指的是递归的将原对象的所有字段拷贝，可变引用类型也继续调用clone方法，拷贝前后的对象是完全独立的。
+**深拷贝**（Deep Copy）指的是将原对象基本类型字段的值拷贝给目标对象，而引用类型，则递归的进行拷贝，创建一个新的类型。
 
-深拷贝的实现方式：
-
-1. 实现`Cloneable`，添加`clone`方法，并为引用类型也调用此方法，并确保引用类型字段也是如是实现`clone`方法
-2. Apache Commons Lang `SerializationUtils`类的`clone`方法
-3. 通过各种JSON序列化的方式
+拷贝前后的对象状态完全独立的，修改互不影响。
 
 ## 关于Cloneable接口
 
@@ -67,9 +67,9 @@ public class Student implements Cloneable {
 > 【推荐】慎用 Object 的 clone 方法来拷贝对象。
 > 说明：对象 clone 方法默认是浅拷贝，若想实现深拷贝，需覆写 clone 方法实现域对象的深度遍历式拷贝。
 
-## 关于浅拷贝相关的工具类
+## 浅拷贝工具类
 
-常用的浅拷贝工具有（默认都是浅拷贝）：
+常用Bean拷贝工具（默认都是浅拷贝）：
 
 - Apache BeanUtils
 - Spring BeanUtils
@@ -152,9 +152,16 @@ mapstruct还提供了如下功能：
 - Apache BeanUtils 在复制大量对象的情况下性能下降严重，所以不推荐使用
 - 上面几个测试工具中cglib BeanCopier 性能是最好、最为稳定的
 
+## 深拷贝实现
+
+可以通过如下方法实现深拷贝
+
+1. 正确的重写`clone`方法，即对一些可变对象进行修正
+2. 通过序列化、反序列化的方式
+
 ## 总结
 
-实际开发中，尽量不要覆盖clone方法，不要使用Apache BeanUtils，Spring项目可以使用Spring BeanUtils，在数据量大的情况下，可以采用Cglib BeanCopier，设计大量数据转换，可以采用mapstruct。
+实际开发中，尽量不要覆盖clone方法，不要使用Apache BeanUtils，Spring项目可以使用Spring BeanUtils，在数据量大的情况下，可以采用Cglib BeanCopier，数据量大且设计数据转换，可以采用mapstruct。
 
 ## References
 
