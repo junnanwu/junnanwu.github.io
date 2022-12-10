@@ -266,6 +266,10 @@
         - [Davinci埋点设计](Other/OpenSource/Davinci/davinci_event_tracking_design.md)
       - **dolphinscheduler**
         - [dolphinscheduler](Other/OpenSource/dolphinscheduler/dolphinscheduler.md)
+    - **SEO**
+      - [robots.txt文件](Other/SEO/robots_file.md)
+      - [sitemap](Other/SEO/sitemap.md)
     - **SoftwareEngineering**
       - [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
+      - [软件版本](Other/SoftwareEngineering/software_version.md)
 
