@@ -16,7 +16,7 @@ Beta版本是软件最早对外公开的软件版本，由公司外的第三方�
 
 例如某开源软件版本：
 
-## ![release_of_alpha_and_beta](software_release_cycle_assets/release_of_alpha_and_beta.png)RC
+![release_of_alpha_and_beta](software_release_cycle_assets/release_of_alpha_and_beta.png)RC
 
 候选版本(Release Candidate)，如果未出现问题则可发布成为正式版本。
 
