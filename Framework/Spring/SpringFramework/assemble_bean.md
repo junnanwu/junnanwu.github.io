@@ -6,7 +6,14 @@
 
 - @Autowired装配顺序
 
-  
+
+
+
+
+
+
+
+https://zhuanlan.zhihu.com/p/388929292
 
 
 

@@ -5,14 +5,14 @@
 想了解更多关于本站搭建的过程，请点击[关于本站](_docs/AboutMe.md)。
 
 ## 最近新增/修改
-1. [软件版本](Other/SoftwareEngineering/software_version.md)
-2. [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
-3. [Nacos](JavaTool/Nacos/nacos.md)
-4. [Nacos配置中心](JavaTool/Nacos/nacos_config_center.md)
-5. [序列化](JavaSE/serializable.md)
-6. [大数据基本概念](Other/BigData/bigdata_introduce.md)
-7. [sitemap](Other/SEO/sitemap.md)
-8. [robots.txt文件](Other/SEO/robots_file.md)
-9. [PDF书签制作](Tool/Useful/pdf_catalog_make.md)
-10. [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
+1. [关于本站](_docs/AboutMe.md)
+2. [SpringBoot日志](Framework/Spring/SpringBoot/springboot_log.md)
+3. [关于Spring Boot的配置文件](Framework/Spring/SpringBoot/springboot_peoperties_file.md)
+4. [SpringBoot Stater Parent](Framework/Spring/SpringBoot/springboot_stater_parent.md)
+5. [SpringBoot](Framework/Spring/SpringBoot/springboot.md)
+6. [字符编码](ComputerBasic/character_set.md)
+7. [装配Bean](Framework/Spring/SpringFramework/assemble_bean.md)
+8. [系列分享三：字符集](Share/character_set.md)
+9. [Swagger](JavaTool/swagger.md)
+10. [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
 

@@ -1,5 +1,7 @@
 # 系列分享三：字符集
 
+
+
 MySQL added this utf8mb4 code after 5.5.3, Mb4 is the most bytes 4
 
 
@@ -7,6 +9,10 @@ MySQL added this utf8mb4 code after 5.5.3, Mb4 is the most bytes 4
 The limit of 17 planes is **due to UTF-16**, which can encode 220 code points (16 planes) as pairs of words, plus the BMP as a single word.
 
 [Plane (Unicode)](https://en.wikipedia.org/wiki/Plane_(Unicode))
+
+
+
+
 
 
 
