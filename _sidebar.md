@@ -120,15 +120,15 @@
       - [Redis持久化](Database/Redis/redis_persistence.md)
       - [Redis哨兵](Database/Redis/redis_sentinel.md)
 - **ComputerBasic**
+    - **ComputerNetwork**
+      - [DNS](ComputerBasic/ComputerNetwork/dns.md)
+      - [Email Protocol](ComputerBasic/ComputerNetwork/email_protocol.md)
+      - [HTTPS](ComputerBasic/ComputerNetwork/https.md)
+      - [IP地址](ComputerBasic/ComputerNetwork/ip_address.md)
+      - [NAT](ComputerBasic/ComputerNetwork/nat.md)
+      - [SSL证书类型](ComputerBasic/ComputerNetwork/ssl_certificates.md)
+      - [虚拟IP](ComputerBasic/ComputerNetwork/virtual_IP.md)
     - [字符编码](ComputerBasic/character_set.md)
-    - **computer_network**
-      - [DNS](ComputerBasic/computer_network/dns.md)
-      - [Email Protocol](ComputerBasic/computer_network/email_protocol.md)
-      - [HTTPS](ComputerBasic/computer_network/https.md)
-      - [IP地址](ComputerBasic/computer_network/ip_address.md)
-      - [NAT](ComputerBasic/computer_network/nat.md)
-      - [SSL证书类型](ComputerBasic/computer_network/ssl_certificates.md)
-      - [虚拟IP](ComputerBasic/computer_network/virtual_IP.md)
     - [关于时间](ComputerBasic/date.md)
     - [浮点数](ComputerBasic/floats.md)
     - [正则表达式](ComputerBasic/regular_expression.md)
