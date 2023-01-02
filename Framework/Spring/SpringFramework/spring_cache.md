@@ -112,6 +112,20 @@ public User handleUser(User user, boolean isPrintLog) {
 }
 ```
 
+多个参数：
+
+```java
+@Cacheable(cacheNames = "user", key = "{#user.id, #user.name}")
+public User handleUser(User user, boolean isPrintLog) {
+    if(isPrintLog){
+        log.info("获取用户!");
+    }
+    return handle(user);
+}
+```
+
+
+
 #### Case4
 
 我们也可以添加一些条件
