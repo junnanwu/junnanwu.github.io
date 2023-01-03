@@ -128,7 +128,7 @@
       - [NAT](ComputerBasic/ComputerNetwork/nat.md)
       - [SSL证书类型](ComputerBasic/ComputerNetwork/ssl_certificates.md)
       - [虚拟IP](ComputerBasic/ComputerNetwork/virtual_IP.md)
-    - [字符编码](ComputerBasic/character_set.md)
+    - [字符集与字符编码](ComputerBasic/character_set.md)
     - [关于时间](ComputerBasic/date.md)
     - [浮点数](ComputerBasic/floats.md)
     - [正则表达式](ComputerBasic/regular_expression.md)
