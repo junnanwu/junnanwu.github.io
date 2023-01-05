@@ -118,7 +118,7 @@ HashCode是为各种哈希桶的结构提供的，因为类似HashMap这种结�
 
 - 如果是基本类型 ，计算Type.hashCode(f)，type为基本类型的包装类
 
-- 如果该域是一个引用类型，而且该 引用类型也实现了hashcode，则调用它的hashcode，例如String，如果引用类型为null，则可以设置其HashCode为0
+- 如果该域是一个引用类型，而且该引用类型也实现了hashcode，则调用它的hashcode，例如String，如果引用类型为null，则可以设置其HashCode为0
 
 - 如果该域是一个数组，则每个元素单独按照上述处理
 

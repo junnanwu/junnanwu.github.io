@@ -43,7 +43,7 @@ Integer类型和int比较时，会自动拆箱，化为基本类型数据比较�
 
 ### String  str =  new  String("abc") 和 String str = "abc"的区别
 
-`String str = "abc"`是把常量池中`abc`的地址给`str`，`String  str =  new  String("abc")`是把常量池的abc地址给堆里的对象，对象的地址再给`str`。
+`String str = "abc"`是把常量池中`abc`的地址给`str`，`String str = new String("abc")`是把常量池的abc地址给堆里的对象，对象的地址再给`str`。
 
 ### 字符串常量优化
 
@@ -332,7 +332,7 @@ https://zhuanlan.zhihu.com/p/91139880
 
 - 一个类只能继承一个抽象类 ，但是可以实现多个接口
 - 抽象类中可以有方法实现，而接口中一般没有方法实现（Java8支持）
-- 一个类要实现接口就需要实现接口的所有方法 ，而接口类实现接口不需要实现所有方法
+- 一个类要实现接口·就需要实现接口的所有方法 ，而接口类实现接口不需要实现所有方法
 - 接口中的实例变量默认是final的，但是抽象类中的不一定
 
 ### 浅拷贝深拷贝的理解
