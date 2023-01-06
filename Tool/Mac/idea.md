@@ -158,7 +158,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 ### 双斜杠注释紧贴代码而不是在行首
 
-![annotation_close_to_code_head](IDEA_assets/annotation_close_to_code_head.png)
+![annotation_close_to_code_head](idea_assets/annotation_close_to_code_head.png)
 
 效果：
 
@@ -171,11 +171,11 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 ### 代码提示取消大小写匹配
 
-![code_hinting_donot_match_case](IDEA_assets/code_hinting_donot_match_case.png)
+![code_hinting_donot_match_case](idea_assets/code_hinting_donot_match_case.png)
 
 ### 创建文件的时候，自动创建文件头注释
 
-![auto_create_file_head](IDEA_assets/auto_create_file_head.png)
+![auto_create_file_head](idea_assets/auto_create_file_head.png)
 
 如下：
 
@@ -188,7 +188,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 - 设置控制台限制的文件总大小
 
-  ![limit_console_size](IDEA_assets/limit_console_size.png)
+  ![limit_console_size](idea_assets/limit_console_size.png)
 
 ### 格式化部分代码
 
@@ -198,7 +198,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 按快捷键`Command+Shift+Alt+L`，调出格式化配置对话框：
 
-![image-20220420112438035](IDEA_assets/format_config.png)
+![image-20220420112438035](idea_assets/format_config.png)
 
 - Only VSC changed text
 
@@ -232,7 +232,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 在IDEA中添加Remote-JVM Debug，配置如下图所示：
 
-![idea_debug_config](IDEA_assets/idea_debug_config.png 'IDEA 配置远程debug')
+![idea_debug_config](idea_assets/idea_debug_config.png 'IDEA 配置远程debug')
 
 ## iml文件
 
@@ -242,4 +242,4 @@ iml文件是Intelij在你的根目录创建的一个文件，它对你的代码�
 
 ## References
 
-1. https://www.jetbrains.com/help/idea/2021.2/reformat-file-dialog.html
+1. 官方文档：[Reformat File dialog](https://www.jetbrains.com/help/idea/2021.2/reformat-file-dialog.html)﻿
