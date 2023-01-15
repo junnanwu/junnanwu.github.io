@@ -246,14 +246,6 @@ mockMvc.perform(post("/user")  // 路径
          .andReturn();  //返回MvcResult
 ```
 
-## 关于单元测试所在包
-
-
-
-
-
-
-
 ## 单元测试方案
 
 ### 常用注解组合
@@ -322,17 +314,15 @@ public class WebMockTest {
 
   **但是，单元测试用例不应该依赖执行顺序，所以了解就行**
 
-## Reference
+## References
 
-[阿里巴巴Java开发手册(嵩山版)](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E5%B5%A9%E5%B1%B1%E7%89%88%EF%BC%89.pdf)
+1. 手册：[阿里巴巴Java开发手册(嵩山版)](https://github.com/alibaba/p3c/blob/master/Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E5%B5%A9%E5%B1%B1%E7%89%88%EF%BC%89.pdf)
 
-[Spring Boot features-Testing](https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/reference/html/boot-features-testing.html)
+2. Spring官方文档：[Spring Boot features-Testing](https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/reference/html/boot-features-testing.html)
 
-[Spring Boot Test (二、注解详解)](http://ypk1226.com/2018/11/20/spring-boot/spring-boot-test-2/)
-
-[MockMvc详解——SpringMVC单元测试](https://blog.csdn.net/kqZhu/article/details/78836275?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=1328642.41741.16157258723752993&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)
-
-[JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
+3. Spring官方文档：[Spring Boot Test (二、注解详解)](http://ypk1226.com/2018/11/20/spring-boot/spring-boot-test-2/)
+4. 博客：[MockMvc详解——SpringMVC单元测试](https://blog.csdn.net/kqZhu/article/details/78836275?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=1328642.41741.16157258723752993&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)
+5. 官方文档：[JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/#writing-tests)
 
 
 

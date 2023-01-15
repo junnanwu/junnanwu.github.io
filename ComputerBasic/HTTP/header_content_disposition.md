@@ -63,7 +63,7 @@ Content-Disposition: attachment/inline; filename="文件名.xlsx"
 
 即只有字母和数字`[0-9a-zA-Z]`、一些特殊符号`$-_.+!*'(),`、以及某些保留字才可以不经编码直接用于URL，其他字符必须经过编码，具体采用哪种编码，交给浏览器来决定，例如，Chrome浏览器使用了UTF-8编码（详见[URL Encoding](https://developers.google.com/maps/url-encoding)）。
 
-另外，多数语言都提供了URL编码转换的方法，例如，JAVA提供了`java.net.URLEncoder.encode`方法。
+另外，多数语言都提供了URL编码转换的方法，例如，Java提供了`java.net.URLEncoder.encode`方法。
 
 所以，这个时候Content-Disposition响应头的格式变为：
 
@@ -73,7 +73,7 @@ Content-Disposition: attachment/inline; filename="$encoded_file_name"
 
 其中，encoded_file_name代表URL编码后的文件名。
 
-我们按照上述方式对`文件名.xlsx`进行URL编码，对应JAVA代码如下：
+我们按照上述方式对`文件名.xlsx`进行URL编码，对应Java代码如下：
 
 ```java
 @GetMapping("UTF8")
@@ -175,7 +175,7 @@ Content-Disposition: attachment;
 
 2. URI和HTTP Header中不支持非ASCII字符
 
-3. 服务端需要将文件名进行URL编码之后，放入Content-Disposition响应头中，JAVA可使用`java.net.URLEncoder.encode`方法
+3. 服务端需要将文件名进行URL编码之后，放入Content-Disposition响应头中，Java可使用`java.net.URLEncoder.encode`方法
 
 4. 浏览器会将URL编码后的文件名，解码成正确的文件名
 
