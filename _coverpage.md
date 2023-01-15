@@ -7,3 +7,6 @@
 [GitHub](https://github.com/junnanwu/junnanwu.github.io)
 [Get Started](README.md)
 
+<!-- 背景色 -->
+![color](#fff)
+
