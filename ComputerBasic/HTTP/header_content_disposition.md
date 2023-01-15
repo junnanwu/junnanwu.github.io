@@ -6,7 +6,7 @@
 
 例如，下载文件名为`文件名.xlsx`的Excel文件的时候，在Postman选择将响应体保存为文件，我们会看到文件名不能正确显示：
 
-![postman_download_example 'Postman下载中文文件名不能正确显示'](header_content_disposition_assets/postman_download_example.png)
+![postman_download_example](header_content_disposition_assets/postman_download_example.png 'Postman下载中文文件名不能正确显示')
 
 但是在浏览器中下载，文件名就没有问题。
 
@@ -51,7 +51,7 @@ Content-Disposition: attachment/inline; filename="文件名.xlsx"
 
 那么浏览器收到的Content-Disposition就会乱码，从而导致文件名乱码：
 
-![chrome_download_utf8_raw '文件名非ASCII字符不经过URL编码会造成乱码'](header_content_disposition_assets/chrome_download_utf8_raw.png)
+![chrome_download_utf8_raw](header_content_disposition_assets/chrome_download_utf8_raw.png '文件名非ASCII字符不经过URL编码会造成乱码')
 
 ## URL编码
 
@@ -92,7 +92,7 @@ Content-disposition: attachment;filename=%E6%96%87%E4%BB%B6%E5%90%8D.xlsx
 
 浏览器再次访问此下载链接，发现文件名显示正常：
 
-![chrome_download_utf8 '非ASCII字符URL编码后文件名正常显示'](header_content_disposition_assets/chrome_download_utf8.png)
+![chrome_download_utf8](header_content_disposition_assets/chrome_download_utf8.png '非ASCII字符URL编码后文件名正常显示')
 
 这也解释了我们文章开头的疑问，为什么同样的接口，Postman下载文件无法正常显示呢？
 
@@ -147,7 +147,7 @@ Content-disposition: attachment;filename*=utf-8''%E6%96%87%E4%BB%B6%E5%90%8D.xls
 
 这种标准格式被所有主流浏览器支持（不包括老版本）：
 
-![chrome_download_utf8_declare '使用统一格式，文件名正常显示'](header_content_disposition_assets/chrome_download_utf8_declare.png)
+![chrome_download_utf8_declare](header_content_disposition_assets/chrome_download_utf8_declare.png '使用统一格式，文件名正常显示')
 
 上面提到，charset也可以使用其他编码，只是浏览器不一定支持，例如，我们使用GBK，响应头如下：
 
