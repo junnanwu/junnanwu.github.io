@@ -133,7 +133,7 @@
       - [Basic Authotization](ComputerBasic/HTTP/basic_authotization.md)
       - [Cookie](ComputerBasic/HTTP/cookie.md)
       - [跨域](ComputerBasic/HTTP/cross_domain.md)
-      - [head_content_length_treanster_encoding](ComputerBasic/HTTP/head_content_length_treanster_encoding.md)
+      - [Content-Length和Transfer-Encoding消息头](ComputerBasic/HTTP/head_content_length_treanster_encoding.md)
       - [文件名乱码问题之Content-Disposition标头](ComputerBasic/HTTP/header_content_disposition.md)
       - [Referrer-Policy标头](ComputerBasic/HTTP/header_referrer_policy.md)
     - [字符集与字符编码](ComputerBasic/character_set.md)

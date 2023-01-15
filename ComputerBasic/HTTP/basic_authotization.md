@@ -105,4 +105,4 @@ public Object get618Data(HttpServletRequest request, HttpServletResponse respons
 ## References
 
 1. David Gourley等，《HTTP权威指南》，p294
-2. stack overflow：[How to log out user from web site using BASIC authentication?](https://stackoverflow.com/questions/233507/how-to-log-out-user-from-web-site-using-basic-authentication)
+2. Stack Overflow：[How to log out user from web site using BASIC authentication?](https://stackoverflow.com/questions/233507/how-to-log-out-user-from-web-site-using-basic-authentication)

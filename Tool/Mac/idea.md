@@ -305,6 +305,10 @@ public final class Double extends Number implements Comparable<Double> {
 
 @data tag并不是Java约定的tag，所以在某些版本（2020.3不会渲染，但是2022.3会进行渲染）不会进行渲染，详见[Javadoc Tool](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html)。
 
+### Mac Touch Bar显示F1、F2等
+
+![mac_touch_bar_setting](idea_assets/mac_touch_bar_setting.png)
+
 ## 配置Java远程Debug
 
 **服务端**
