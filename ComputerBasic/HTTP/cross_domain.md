@@ -1,6 +1,6 @@
 # 跨域
 
-**跨域请求**就是指：当前发起请求的域与该请求指向的资源所在的域不一样。这里的域指的是这样的一个概念：我们认为若协议 + 域名 + 端口号均相同，那么就是同域。
+**跨域请求**就是指：当前发起请求的域与该请求指向的资源所在的域不一样。这里的域指的是这样的一个概念：我们认为若**协议 + 域名 + 端口号均相同**，那么就是同域。
 
 了解跨域的基本知识，推荐阮一峰老师的两篇文章：
 
@@ -62,7 +62,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class RestServiceCorsApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(RestServiceCorsApplication.class, args);
 	}
@@ -76,13 +75,12 @@ public class RestServiceCorsApplication {
 			}
 		};
 	}
-
 }
 ```
 
 可以全局配置和精准配置配合使用。
 
-## Reference
+## References
 
 1. 阮一峰博客：[跨域资源共享 CORS 详解](http://www.ruanyifeng.com/blog/2016/04/cors.html)
 2. Spring官方文档：[Enabling Cross Origin Requests for a RESTful Web Service](https://spring.io/guides/gs/rest-service-cors/)

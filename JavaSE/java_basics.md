@@ -86,7 +86,7 @@ java [ options ] -jar file.jar [ arguments ]
 
   传递给main方法的参数
 
-#### Java启动参数
+#### Java启动参数
 
 分为标准参数，即不同虚拟机都需要实现的参数：
 

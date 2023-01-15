@@ -14,6 +14,25 @@
 
 - 被final修饰的成员变量，不能被重新赋值
 
+### String  str =  new  String("abc")和String str = "abc"的区别
+
+`String str = "abc"`是把常量池中`abc`的地址给`str`，`String str = new String("abc")`是把常量池的abc地址给堆里的对象，对象的地址再给`str`。
+
+### 什么是字符串常量优化
+
+```java
+String s3 = "wujunnan";
+String s4 = "wu"+"junnan";
+//true
+System.out.println("s3==s4 => "+(s3==s4));
+```
+
+输出结果为true，在赋值语句的时候，如果等号右边都是常量，那么编译器在编译时期就会运算出右边的结果，所有右边会直接得到"wujunnan"这个字符串，然后去常量池中发现该字符串已经存在，则返回这个字符串的地址。
+
+### StringBuilder和Stringbuffer的区别
+
+
+
 ### 什么是不可变类
 
 不可变类指的是一个类的所有成员变量一旦创建就不可修改。
@@ -24,18 +43,12 @@
 
   缺点：
 
-  - 采用代理模式，返回的Collection内部还是使用的原来的Collection，不是真正的不可变集合，当原对象元素被修改的时候，结果集合依然会被改变。
+  - 采用代理模式，返回的Collection内部还是使用的原来的Collection，不是真正的不可变集合，当原对象元素被修改的时候，结果集合依然会被改变
   - 效率低下，由于只是进行了代理，所以不可变集合的操作还是经过了可变集合的并发修改的检查，产生了额外开销
 
 - Guava Immutable
 
   特点是拒绝null值，无论原集合如何改变，返回的集合都不会改变。
-
-### String  str =  new  String("abc")和String str = "abc"的区别
-
-
-
-### StringBuilder和Stringbuffer的区别
 
 ### ArrayList内部结构，新增逻辑
 

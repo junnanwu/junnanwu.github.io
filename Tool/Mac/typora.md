@@ -189,5 +189,3 @@ Bob-->Alice: I am good thanks!
   生成的目录这三行不要动，再次再次运行`doctoc`命令即可更新目录。
 
 更多操作可以查看官方文档。
-
-## test

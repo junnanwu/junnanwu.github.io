@@ -29,7 +29,7 @@ $ brew install mkcert
 
    安装证书之后Mac OS可以在钥匙串中看到根证书已安装好：
 
-   ![image-20221018102350822](local_install_mkcert_https_certificate_assets/image-20221018102350822.png 'Mac OS根证书')
+   ![mac_os_ROOT_CA](local_install_mkcert_https_certificate_assets/mac_os_ROOT_CA.png 'Mac OS根证书')
 
 2. 生成指定域名的证书
 

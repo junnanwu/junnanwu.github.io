@@ -1,6 +1,6 @@
 # Cookie
 
-## cookie规范
+## Cookie规范
 
 - cookies版本0（Netscape cookies）
 - cookies版本1（RFC 2965）
@@ -63,5 +63,5 @@ cookies版本1是对cookies版本0的扩展，cookies版本0更为广泛，二�
 
 ## References
 
-1. 《HTTP权威指南》
-1. https://en.wikipedia.org/wiki/HTTP_cookie
+1. David Gourley等，《HTTP权威指南》，p294
+1. 维基百科：[HTTP cookie](https://en.wikipedia.org/wiki/HTTP_cookie)

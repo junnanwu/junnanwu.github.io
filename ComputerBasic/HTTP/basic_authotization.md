@@ -1,6 +1,10 @@
 # Basic Authotization
 
-基本认证（Basic Authotization）
+基本认证（Basic Authotization），是HTTP提供的一个原生的账号密码认证框架，浏览器基本都会支持。
+
+当浏览器检测到了启用了基本认证，会弹出账号密码框让你登陆（Chrome浏览器如下）：
+
+![basic_authotization_example](basic_authotization_assets/basic_authotization_example.png)
 
 ## 步骤
 
@@ -100,5 +104,5 @@ public Object get618Data(HttpServletRequest request, HttpServletResponse respons
 
 ## References
 
-1. 《HTTP权威指南》
-2. https://stackoverflow.com/questions/233507/how-to-log-out-user-from-web-site-using-basic-authentication
+1. David Gourley等，《HTTP权威指南》，p294
+2. stack overflow：[How to log out user from web site using BASIC authentication?](https://stackoverflow.com/questions/233507/how-to-log-out-user-from-web-site-using-basic-authentication)

@@ -5,7 +5,7 @@ EOF
 #! /bin/bash
 set -e
 base_dir='../'
-target_catalog="JavaSE JavaEE JavaWeb Framework Database ComputerBasic Ops Tool JavaTool Share Other"
+target_catalog="JavaSE JavaEE Framework Database ComputerBasic Ops Tool JavaTool Share Other"
 #最终输出
 result=""
 echo 开始生成目录...

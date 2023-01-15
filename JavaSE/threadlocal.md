@@ -115,3 +115,21 @@ ThreadLocalMap的get方法也类似，根据Hash计算出槽位，向后遍历�
 ### 用户相关
 
 可以用ThreadLocal来实现Session等与用户相关的东西，由于Session是与用户绑定的，不同用户对应不同的线程，ThreadLocal又属于线程内部变量，这样就可以使用ThreadLocal来存储用户的信息。
+
+## ThreadLocal会造成内存泄漏吗，如何避免
+
+ThreadLocalMap是使用ThreadLocal的弱引用来作为key的，弱引用的对象会在GC中被回收。
+
+如果一个`ThreadLocal`没有外部强引用来引用它，那么系统 GC 的时候，这个`ThreadLocal`势必会被回收，这样一来，`ThreadLocalMap`中就会出现`key`为`null`的`Entry`，就没有办法访问这些`key`为`null`的`Entry`的`value`，如果当前线程再迟迟不结束的话，这些`key`为`null`的`Entry`的`value`就会一直存在一条强引用链：`Thread Ref -> Thread -> ThreaLocalMap -> Entry -> value`永远无法回收，造成内存泄漏。
+
+其实，`ThreadLocalMap`的设计中已经考虑到这种情况，也加上了一些防护措施：在`ThreadLocal`的`get()`,`set()`,`remove()`的时候都会清除线程`ThreadLocalMap`里所有`key`为`null`的`value`。
+
+分配使用了`ThreadLocal`又不再调用`get()`,`set()`,`remove()`方法，那么就会导致内存泄漏。
+
+由于`ThreadLocalMap`的生命周期跟`Thread`一样长，如果都没有手动删除对应`key`，都会导致内存泄漏，但是使用弱引用可以多一层保障：**弱引用`ThreadLocal`不会内存泄漏，对应的`value`在下一次`ThreadLocalMap`调用`set`,`get`,`remove`的时候会被清除**。
+
+因此，`ThreadLocal`内存泄漏的根源是：由于`ThreadLocalMap`的生命周期跟`Thread`一样长，如果没有手动删除对应`key`就会导致内存泄漏，而不是因为弱引用。
+
+所以，每次使用完`ThreadLocal`，都调用它的`remove()`方法，清除数据。
+
+**key 使用强引用**：引用的`ThreadLocal`的对象被回收了，但是`ThreadLocalMap`还持有`ThreadLocal`的强引用，如果没有手动删除，`ThreadLocal`不会被回收，导致`Entry`内存泄漏。

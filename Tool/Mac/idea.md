@@ -4,29 +4,67 @@
 
 ## 快捷键
 
-- 插入快捷键
+（快捷键类型为Mac）
 
-  `alt+inster==command+n`
+### 光标导航
 
-- 整段加注释
+- 最近浏览的文件
 
-  `shift+control+/`
-
-- 重写方法
-
-  `ctrl+O`
-
-- 添加类
-
-  `option+enter`
+  `Command+E` 
 
 - 各视图区域的切换
 
-  `cmd + 视图区域对应的数字`
+  `Command + 视图区域对应的数字`
 
-- 显示方法的参数信息
+- [调整某个窗口的大小](https://www.jetbrains.com/help/idea/manipulating-the-tool-windows.html#resize)
 
-  `Command+P`
+  `Control+Option+方向`
+
+- 查看当前文件所处的位置
+
+  `Alt+F1`
+
+- [切换tab页](https://www.jetbrains.com/help/idea/using-code-editor.html#switcher)
+
+  `Contorl+Tab`
+
+- [查看某个类在哪个地方被使用](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#go_to_declaration)
+
+  `Command+B`
+
+- [跳转到某个抽象方法的实现](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#go_to_implementation)
+
+  `Command+Option+B`
+
+- 跳转到某个方法的抽象方法
+
+  `Command+U`
+
+- [查看该类中的方法](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#use_structure_view)
+
+  `Command+F12`
+
+- [在一个类中的不同方法之间进行跳转](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#method_navigation)
+
+  `Contrl+Shift+方向`
+
+### 代码
+
+- 插入
+
+  `Command+N`
+
+- 整段加注释
+
+  `Shift+Control+/`
+
+- 重写方法
+
+  `Control+O`
+
+- 添加类
+
+  `Option+Enter`
 
 - 打开项目结构对话框
 
@@ -38,41 +76,41 @@
 
 - 自动生成变量名
 
-  `Command+Option+v`
+  `Command+Option+V`
 
 - 大小写切换
 
-  `Command+Shift+u`
+  `Command+Shift+U`
 
 - 看每一行的编辑者是谁
 
   `右键+annotate`
 
-- 查看某个类在哪个地方被使用
-
-  `Alt+F7`
-
-- 查看当前文件所处的位置
-
-  `Alt+F1`
-  
 - 代码格式化
 
   `Ctrl+Alt+L`
+
+- [输入方法时显示参数提示](https://www.jetbrains.com/help/idea/viewing-reference-information.html#view-parameter-info)
+
+  `Command+P`
+
+- [查看某个类的Quick Documentation](https://www.jetbrains.com/help/idea/viewing-reference-information.html#quick-doc-popup)
+
+  `F1`
 
 ## IDEA列编辑
 
 - 选择多行
 
-  按住`option`，加鼠标上下滑动即可选择多行进行编辑。
+  按住`Option`，加鼠标上下滑动即可选择多行进行编辑。
 
 - 一次选择全部（数百行）
 
-  `Command`+`A`选择全部，`Command`+`Shift`+`8`进入列编辑模式即可。
+  `Command+A`选择全部，`Command+Shift+8`进入列编辑模式即可。
 
 - 新增行（不同位置）
 
-  按住`option`+`shift`，鼠标点击其他行，即可选择不同位置的光标。
+  按住`Option+Shift`，鼠标点击其他行，即可选择不同位置的光标。
 
 - 回到多行的行尾
 
@@ -80,13 +118,21 @@
 
 - 多行的光标左右移动单词
 
-  像在单行编辑一样，`option`+`左箭头`/`右箭头`。
+  像在单行编辑一样，`Option+方向`。
 
 ## IDEA好用插件
 
 ### Lombok
 
-略
+略，新版IDEA默认就会安装。
+
+### Alibaba Java Coding Guidelines
+
+阿里代码格式检查。
+
+### Grep Console
+
+自定义控制器输出日志格式。
 
 ### Free Mybatis Plugin
 
@@ -194,8 +240,6 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 当去别的组开发的时候，别人的代码可能存在没有格式化的情况，从而导致格式化后大量的修改，所以需要格式化部分代码
 
-#### 方式一
-
 按快捷键`Command+Shift+Alt+L`，调出格式化配置对话框：
 
 ![image-20220420112438035](idea_assets/format_config.png)
@@ -218,6 +262,49 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
   IDEA自动修复可能存在问题的代码
 
+### 格式化SQL的将关键字变为大写
+
+![format_sql_keyword_upcase](idea_assets/format_sql_keyword_upcase.png)
+
+### 开启文档注释渲染视图
+
+![render_documentation_comments](idea_assets/render_documentation_comments.png)
+
+开启以后，我们自己写的代码的文档注释也会被渲染，例如如下代码：
+
+```
+package java.lang;
+
+/**
+ * The {@code Double} class wraps a value of the primitive type
+ * {@code double} in an object. An object of type
+ * {@code Double} contains a single field whose type is
+ * {@code double}.
+ *
+ * <p>In addition, this class provides several methods for converting a
+ * {@code double} to a {@code String} and a
+ * {@code String} to a {@code double}, as well as other
+ * constants and methods useful when dealing with a
+ * {@code double}.
+ *
+ * @author  Lee Boynton
+ * @author  Arthur van Hoff
+ * @author  Joseph D. Darcy
+ * @since JDK1.0
+ */
+public final class Double extends Number implements Comparable<Double> {
+	//...
+}
+```
+
+渲染后如下：
+
+![javadoc_render_example](idea_assets/javadoc_render_example.png)
+
+注意：
+
+@data tag并不是Java约定的tag，所以在某些版本（2020.3不会渲染，但是2022.3会进行渲染）不会进行渲染，详见[Javadoc Tool](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html)。
+
 ## 配置Java远程Debug
 
 **服务端**
@@ -238,7 +325,7 @@ IDEA自带的有大小写转换，但是实际上遇到数据库中的蛇形字�
 
 iml文件是Intelij在你的根目录创建的一个文件，它对你的代码没有任何影响。
 
-这个文件和代码无关，**不应该被git管理**，即使你的代码没有变动，这个文件也会有变化，而且maven等都可以创建此文件
+这个文件和代码无关，**不应该被git管理**，即使你的代码没有变动，这个文件也会有变化，而且maven等都可以创建此文件。
 
 ## References
 
