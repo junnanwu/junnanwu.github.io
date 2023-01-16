@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="shortcut icon" href="_res/_media/wujunnan.ico">
-  <link rel="stylesheet" href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css">
+  <!-- <link rel="stylesheet" href="https://unpkg.com/docsify-toc@1.0.0/dist/toc.css"> -->
   <!-- Gitalk -->
   <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
   <!-- 侧边栏箭头样式 -->
@@ -22,6 +22,14 @@
   </nav>
   <div id="app">加载中哦...</div>
   <script>
+        var gitalkConfig = {
+      clientID: '76a338120afcf372958c',
+      clientSecret: 'afd9f4495013c294b9fda1da81c96c6a6c262952',
+      repo: 'junnanwu.github.io',
+      owner: 'junnanwu',
+      admin: ["junnanwu"],
+      distractionFreeMode: false
+    };
     window.$docsify = {
       name: 'wu\'s note',
       nameLink: '#/README',
@@ -83,9 +91,9 @@
       ]
     }
   </script>
+  <!-- gitalk -->
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <!-- gitalk -->
   <script>
     const gitalk = new Gitalk({
       clientID: '76a338120afcf372958c',
@@ -109,7 +117,7 @@
   <!-- 侧边栏折叠插件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
   <!-- 文章右侧目录插件 -->
-  <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script>
+  <!-- <script src="https://unpkg.com/docsify-toc@1.0.0/dist/toc.js"></script> -->
   <!-- 图片说明插件 -->
   <script src="https://cdn.jsdelivr.net/gh/h-hg/docsify-image-caption/dist/docsify-image-caption.min.js"></script>
   <!-- 翻页插件 -->
