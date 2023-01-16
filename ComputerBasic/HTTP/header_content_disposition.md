@@ -171,7 +171,7 @@ Content-Disposition: attachment;
 
 ## 总结
 
-1. Content-Disposition响应头里面指示了浏览器保存文件的文件名
+1. Content-Disposition响应头指示了浏览器保存文件的文件名信息
 
 2. URI和HTTP Header中不支持非ASCII字符
 
@@ -179,7 +179,7 @@ Content-Disposition: attachment;
 
 4. 浏览器会将URL编码后的文件名，解码成正确的文件名
 
-5. 最佳实践是`filename`和`filename*`两种参数都返回，以兼容低版本浏览器：
+5. 最佳实践是`filename`和`filename*`两个参数都返回，以兼容低版本浏览器：
 
    ```
    Content-Disposition: attachment; filename="$encoded_file_name"; filename*=utf-8''$encoded_file_name
