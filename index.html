@@ -73,7 +73,19 @@
         crossChapter: true,
         crossChapterText: true,
       },
-      formatUpdated: '{YYYY}/{MM}/{DD} {HH}:{mm}',
+      timeUpdater: {
+        text: "*最近更新于: {docsify-updated}*",
+        formatUpdated: "{YYYY}/{MM}/{DD} {HH}:{mm}",
+        whereToPlace: "bottom",  // "top" or "bottom", default to "bottom"
+      },
+      // beian: {
+      //   ICP: "111",
+      //   NISMSP: {
+      //       number: "11",
+      //       url: "1111",
+      //       id: "11"
+      //   },
+      // },
       plugins: [
         function(hook) {
           var footer = [
@@ -81,7 +93,6 @@
             '<footer>',
             '<div><a href="https://beian.miit.gov.cn/" target="_blank">京ICP备20019004号-2</a></div>','<br/>',
             '<div>Powered by <a href="https://github.com/docsifyjs/docsify" target="_blank">docsify</a></div>',
-            '<br/>','<br/>','<br/>',
             '</footer>'
           ].join('');
           hook.afterEach(function(html) {
@@ -91,6 +102,10 @@
       ]
     }
   </script>
+  <!-- 备案 -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-beian@latest/dist/beian.min.js"></script> -->
+  <!-- 更新时间 -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.js"></script>
   <!-- gitalk -->
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
@@ -101,7 +116,9 @@
       repo: 'junnanwu.github.io',
       owner: 'junnanwu',
       admin: ['junnanwu'],
-      id: location.pathname,      // Ensure uniqueness and length less than 50
+      //id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: location.hash.match(/#(.*?)([?]|$)/)[1],
+      title: location.hash.match(/#(.*?)([?]|$)/)[1],
       distractionFreeMode: false  // Facebook-like distraction free mode
     })
   </script>
