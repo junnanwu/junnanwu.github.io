@@ -63,6 +63,37 @@ Docker默认的数据目录是在`/var/lib/docker`，但是有时候根目录下
 
 8. 发现之前的镜像、容器都还在，完成迁移
 
+## 重启docker，导致容器挂载点变化
+
+如标题所说，上修改Docker默认目录之后，有一次重新启动了下docker，再次docker start的时候，报如下错误：
+
+```
+Error response from daemon: error evaluating symlinks from mount source "/var/lib/docker/volumes/cloudcanal_sidecar_volume/_data": lstat /var/lib/docker: no such file or directory
+Error: failed to start containers: cloudcanal-sidecar
+```
+
+参考了[该文章](https://forums.docker.com/t/error-starting-container-after-moving-docker-root-directory/64324)，进行了如下操作：
+
+- 关闭docker
+
+- 执行如下命令查看完整的容器id
+
+  ```
+  # docker ps -a --no-trunc --format "table {{.ID}}\t{{.Names}}"
+  ```
+
+- 编辑如下文件：
+
+  ```
+  /data/docker/containers/FULLID/config.v2.json
+  ```
+
+  将挂载点重新改为正确的。
+
+- 重新开启docker
+
+注意：一定要重启docker后再修改容器的配置文件，不然的话，又会变回原来的。
+
 ## 容器时区
 
 问题：docker日志时间比正常时间慢8个小时

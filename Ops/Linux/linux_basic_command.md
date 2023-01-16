@@ -829,7 +829,7 @@ EXPRESSIONS：
   ```
 
   ```
-  $ find / -iname php-fpm.conf -type f
+  $ find / -name php-fpm.conf -type f
   ```
 
 - 指定递归深度
