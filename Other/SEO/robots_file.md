@@ -16,14 +16,14 @@ Sitemap: https://www.example.com/sitemap.xml
 
 **以下是该 robots.txt 文件的含义**：
 
-1. 名为 Googlebot 的用户代理不能抓取任何以 `https://example.com/nogooglebot/` 开头的网址。
-2. 其他所有用户代理均可抓取整个网站。不指定这条规则也无妨，结果是一样的；默认行为是用户代理可以抓取整个网站。
-3. 该网站的站点地图文件路径为 `https://www.example.com/sitemap.xml`。
+1. 名为 Googlebot 的用户代理不能抓取任何以 `https://example.com/nogooglebot/` 开头的网址
+2. 其他所有用户代理均可抓取整个网站。不指定这条规则也无妨，结果是一样的；默认行为是用户代理可以抓取整个网站
+3. 该网站的站点地图文件路径为 `https://www.example.com/sitemap.xml`
 
 ## 格式和位置
 
-- 文件必须命名为 robots.txt。
-- 网站只能有 1 个 robots.txt 文件。
+- 文件必须命名为 robots.txt
+- 网站只能有 1 个 robots.txt 文件
 - robots.txt 文件必须位于其要应用到的网站主机的根目录下。例如，若要控制对 `https://www.example.com/` 下所有网址的抓取，就必须将 robots.txt 文件放在 `https://www.example.com/robots.txt` 下
 
 ## References
