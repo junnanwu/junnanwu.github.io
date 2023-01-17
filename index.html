@@ -73,11 +73,11 @@
         crossChapter: true,
         crossChapterText: true,
       },
-      timeUpdater: {
-        text: "*最近更新于: {docsify-updated}*",
-        formatUpdated: "{YYYY}/{MM}/{DD} {HH}:{mm}",
-        whereToPlace: "bottom",  // "top" or "bottom", default to "bottom"
-      },
+      //timeUpdater: {
+      //  text: "<div align='right' style='color:gray;font-style:italic;'>最近更新于: //{docsify-updated}</div>",
+      //  formatUpdated: "{YYYY}/{MM}/{DD} {HH}:{mm}",
+      //  whereToPlace: "bottom",  // "top" or "bottom", default to "bottom"
+      //},
       // beian: {
       //   ICP: "111",
       //   NISMSP: {
@@ -98,6 +98,24 @@
           hook.afterEach(function(html) {
             return html + footer;
           });
+        },
+        function (hook, vm) {
+          hook.beforeEach(function (html) {
+            date_url = 'https://api.github.com/repos/junnanwu/junnanwu.github.io/commits?per_page=1&path=' + vm.  config.basePath + vm.route.file;
+            fetch(date_url)
+              .then((response) => {
+                return response.json();
+              })
+              .then((commits) => {
+                var modified = commits[0]['commit']['committer']['date'].slice(0, 10);
+                document.getElementById('last-modified').textContent = "最近更新于: " + modified;
+              });
+            return (
+              html +
+              '\n\n----\n\n' +
+              '<div align="right" style="color:gray;font-style:italic;" id="last-modified"></div>'
+            );
+          });
         }
       ]
     }
@@ -105,7 +123,7 @@
   <!-- 备案 -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-beian@latest/dist/beian.min.js"></script> -->
   <!-- 更新时间 -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.js"></script> -->
   <!-- gitalk -->
   <script src="//unpkg.com/docsify/lib/plugins/gitalk.min.js"></script>
   <script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
