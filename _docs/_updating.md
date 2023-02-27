@@ -19,3 +19,9 @@
 ![ali_beian_problem](_updating_assets/ali_beian_problem.png '阿里备案问题提醒')
 
 所以这里用我采用的方式就是用我的二级域名指向一个朋友的阿里云服务器，一个月点几次即可。
+
+**2023年1月17日更新**
+
+- README增加推荐阅读，手工维护
+- 基于gitalk引入评论功能
+- 增加最终修改时间，取值为文件的最新commit时间

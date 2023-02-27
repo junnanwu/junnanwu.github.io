@@ -1,5 +1,3 @@
-
-
 # Java
 
 ## JavaSE
@@ -64,7 +62,7 @@ https://blog.csdn.net/thqtzq/article/details/90485663
 
 ### ConcurrentHashMap的实现方式、为什么比HashTable效率要高
 
-在jdk1.8之前，ConcurrentHashMap使用的是分段思想，其中，其中Segment继承于 ReentrantLock，当一个线程访问不同的Segment的时候，不会影响到其他的Segment，核心数据如 value ，以及链表都是 volatile 修饰的，保证了获取时的可见性。
+在jdk1.8之前，ConcurrentHashMap使用的是分段思想，其中Segment继承于 ReentrantLock，当一个线程访问不同的Segment的时候，不会影响到其他的Segment，核心数据如 value ，以及链表都是 volatile 修饰的，保证了获取时的可见性。
 
 不会像HashTable一样，什么操作都要进行同步处理，效率低下。
 
@@ -187,10 +185,15 @@ h = 31 * h + val[i];
 
 **创建型**
 
+如何创建对象
+
 - 单例模式
 - 工厂模式
+- 建造者 
 
 **结构型**
+
+如何组合各种对象
 
 - 代理模式
 
@@ -206,9 +209,17 @@ h = 31 * h + val[i];
 
 **行为型**
 
+算法和对象之间的职责分配
+
 - 责任链模式
-- 构建者模式
+
 - 观察者模式
+
+- 策略模式
+
+- 模版方法模式
+
+  定一个操作的一系列步骤，公共方法定义骨架，私有方法来负责实现。
 
 ### Jar和War的区别
 
@@ -1016,7 +1027,7 @@ Mysql中存储数据的最小单位为page，大小为16K，也就是一个page�
 
   底层存储：
 
-  当满足下面条件的时候，将使用ziplish
+  当满足下面条件的时候，将使用ziplist
 
   - 当hash对象保存的键和值字符串长度都小于64字节
   - hash对象保存的键值对数量小于512
@@ -1049,6 +1060,8 @@ Mysql中存储数据的最小单位为page，大小为16K，也就是一个page�
     hash用来存储value到score的映射，这样就可以在O(1)的时间内拿到value对应的分数。
   
     skipList按照从小到大的顺序存储[scort, value]。
+
+跳表本质就是一个有序的链表，在原有有序链表的基础上，增加了多级索引。性能上和平衡树不相上下，但是实现起来更加简单。
 
 ### Redis为什么那么快
 
@@ -1176,7 +1189,7 @@ Redis也不保证原子性，单条命令是原子性执行的，但事务保证
 
   - 布隆过滤器
 
-    布隆过滤器又一个**位图数组**和N个哈希函数组成，但是存在误判的情况，也就是说布隆说没有则一定没有，布隆说又，则一定是有。
+    布隆过滤器由一个**位图数组**和N个哈希函数组成，但是存在误判的情况，也就是说布隆说没有则一定没有，布隆说有，则不一定是有。
 
 ## Kafka
 
@@ -1370,7 +1383,7 @@ Server
 
 - 一致性Hash
 
-  通过hash算法，把provider的hash值投射到一个圆环上，查询的时候也通过consumer的ke y进行hash，下一个provider即为他要使用的provider。
+  通过hash算法，把provider的hash值投射到一个圆环上，查询的时候也通过consumer的key进行hash，下一个provider即为他要使用的provider。
 
 - 加权轮询
 

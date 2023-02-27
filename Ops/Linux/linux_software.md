@@ -164,7 +164,6 @@ Yum是Python写的，一般都是Python2，当时我们平时又会安装Python3
    $ git --version
    ```
 
-   
 
 ## Nginx
 
@@ -279,6 +278,8 @@ Yum是Python写的，一般都是Python2，当时我们平时又会安装Python3
 ## Gradle
 
 [官网下载](https://gradle.org/releases/)对应版本，上传即可
+
+[Gradle配置阿里镜像](https://zhuanlan.zhihu.com/p/427103768)
 
 ## MySQL
 

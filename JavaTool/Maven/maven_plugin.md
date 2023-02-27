@@ -206,19 +206,15 @@ descriptor
 
   过滤器，过滤你想看的依赖
 
-  参数值：string，每个段都是可选的：
-
-  ```
-  [groupId]:[artifactId]:[type]:[version]
-  ```
+  参数值：string，每个段都是可选的：`[groupId]:[artifactId]:[type]:[version]`
 
   支持通配符`*`
-
+  
   例如：
 
   - `org.apache.*`
   - `:::*-SNAPSHOT`
-
+  
 - `verbose`
 
   是否显示省略的依赖树，类型是`boolean`，默认为`false`
@@ -258,7 +254,7 @@ https://blog.csdn.net/u010406047/article/details/110878472
 
 ## Reference
 
-1. https://maven.apache.org/guides/mini/guide-configuring-plugins.html
-2. https://maven.apache.org/plugins/maven-dependency-plugin
-3. https://developer.aliyun.com/article/630208
-4. https://github.com/spotify/dockerfile-maven
+1. Maven官方文档：[Guide to Configuring Plug-ins](https://maven.apache.org/guides/mini/guide-configuring-plugins.html)
+2. Maven官方文档：[Apache Maven Dependency Plugin](https://maven.apache.org/plugins/maven-dependency-plugin/)
+2. 博客：[Java 打包 FatJar 方法小结](https://developer.aliyun.com/article/630208)
+4. Github：[dockerfile-maven](https://github.com/spotify/dockerfile-maven)

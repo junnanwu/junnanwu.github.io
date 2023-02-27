@@ -73,6 +73,7 @@
         - [Spring Security 退出登录](Framework/Spring/SpringSecurity/spring_security_logout.md)
         - [Spring Security Session](Framework/Spring/SpringSecurity/spring_security_session.md)
       - [Spring](Framework/Spring/spring.md)
+      - [关于参数校验的一切](Framework/Spring/validation.md)
 - **Database**
     - **ClickHouse**
       - [ClickHosue生产bug记录](Database/ClickHouse/clickhosue_prod_bug_record.md)
@@ -229,8 +230,13 @@
       - [配置中心](JavaTool/ConfigCenter/config_center.md)
     - **Gradle**
       - [Gradle](JavaTool/Gradle/gradle.md)
+      - [Gradle命令行](JavaTool/Gradle/gradle_command_line.md)
+      - [Gradle依赖管理](JavaTool/Gradle/gradle_dependencies.md)
       - [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
       - [Gradle插件](JavaTool/Gradle/gradle_plugin.md)
+      - [Gradle参数](JavaTool/Gradle/gradle_properties.md)
+      - [如何处理依赖冲突（以Gradle为例）](JavaTool/Gradle/gradle_solve_dependency_conflict.md)
+      - [Gradle Wrapper](JavaTool/Gradle/gradle_wrapper.md)
     - **Maven**
       - [Maven](JavaTool/Maven/maven.md)
       - [Maven插件](JavaTool/Maven/maven_plugin.md)
@@ -243,7 +249,7 @@
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
     - [系列分享三：字符集](Share/character_set.md)
-    - [系列分享二：Maven和Gradle是怎么运行的](Share/maven_gradle.md)
+    - [系列分享二：Maven和Gradle是怎么设计的](Share/maven_gradle.md)
 - **Other**
     - **Algorithm**
       - [算法题](Other/Algorithm/algorithm.md)

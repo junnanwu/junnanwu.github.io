@@ -91,6 +91,12 @@ a-maven-project
 
 当我们打包的时候要想打包某个依赖的时候，可以使用`provided`
 
+## Maven配置
+
+**加载setting的顺序**
+
+优先加载用户目录下的 setting.xml，如果没有，则找全局的setting.xml，即pom.xml > /home_dir/.m2/settings.xml > /maven_dir/conf/settings.xml。
+
 ## 依赖管理
 
 ### 引入依赖
@@ -99,38 +105,50 @@ a-maven-project
 
 maven解决了依赖管理问题，例如，我们的项目依赖`abc`这个jar包，而`abc`又依赖`xyz`这个jar包，当我们声明了`abc`的依赖时，Maven自动把`abc`和`xyz`都加入了我们的项目依赖。
 
-**查看依赖树：**
+### 查看依赖树
 
 ```
-mvn dependency:tree
+$ mvn dependency:tree
 ```
 
 加上`-Dverbose`会显示更详细的信息。
 
-### 依赖关系
-
-
-
-**加载setting的顺序**
-
-优先加载 用户目录下的 setting.xml,如果没有，则找全局的setting.xml
-
-即pom.xml > /home_dir/.m2/settings.xml > /maven_dir/conf/settings.xml
+[更多详见此](JavaTool/Maven/maven_plugin)。
 
 ### 设置仓库镜像
 
 由于Maven官方仓库下载速度太慢，我们可以使用国内的景象进行替换，[详见此](https://developer.aliyun.com/mvn/guide)。
 
-在Maven的配置文件`<mirrors></mirrors>`标签中添加mirror子节点中添加如下内容：
+在settings.xml文件中添加如下内容：
 
+```xml
+<mirrors>
+    <mirror>
+        <id>aliyunmaven</id>
+        <mirrorOf>central</mirrorOf>
+        <name>阿里云公共仓库</name>
+        <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
+</mirrors>
 ```
-<mirror>
-  <id>aliyunmaven</id>
-  <mirrorOf>*</mirrorOf>
-  <name>阿里云公共仓库</name>
-  <url>https://maven.aliyun.com/repository/public</url>
-</mirror>
-```
+
+注意：
+
+- `<mirrorOf>`标签指的被代理的仓库，Maven中央仓库默认的id为central，所以上面的配置表示，当Maven尝试访问中央仓库的时候只会访问该镜像
+
+- `<mirrorOf>`如果设置为`*`，则意味着代理所有仓库
+
+  如果你想让项目只访问你的私服，而不访问中央仓库，那么可以私服额外设置`<mirror>`，并设置`<mirrorOf>*</mirrorOf>`。
+
+- 一个存储库最多只能有一个镜像仓库，如果有多个，maven不会将多个聚合在一起，只会选择第一个匹配项
+
+- 可以通过如下命令查看镜像和仓库的生效顺序
+
+  ```
+  $ mvn help:effective-settings
+  ```
+
+更多详见[官方文档](https://maven.apache.org/guides/mini/guide-mirror-settings.html)。
 
 ## Maven生命周期
 
@@ -395,6 +413,38 @@ Java打包有几种方式
 
   代表插件：[Spring boot plugin](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/).
 
+## Repositories标签
+
+连接Maven私服：
+
+```xml
+<project>
+  <repositories>
+    <repository>
+      <id>my-internal-site</id>
+      <url>https://myserver/repo</url>
+    </repository>
+  </repositories>
+  ...
+</project>
+```
+
+如果Maven开启了认证信息，Maven会去Setting文件中寻找ID相同的配置，所以需要如下配置：
+
+```xml
+<servers>
+    <server>
+        <id>my-internal-site</id>
+        <username>xxx</username>
+        <password>xxx</password>
+    </server>
+</servers>
+```
+
+注意：
+
+如果pom.xml中配置多个repository，会按照配置的顺序依次查找依赖，找到即停止。
+
 ## Resources标签
 
 如前文所说，maven约定的资源文件夹为
@@ -437,14 +487,12 @@ application.user=${username}
 </properties>
 ```
 
-## 模块管理
-
 ## References
 
-1. https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610
-2. https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber
-3. https://stackoverflow.com/questions/11947037/what-is-an-uber-jar
-4. https://developer.aliyun.com/mvn/guide
-7. https://www.baeldung.com/spring-maven-bom
-8. https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html
-8. https://www.jianshu.com/p/563ca2d68842
+1. 廖雪峰：[Maven介绍](https://www.liaoxuefeng.com/wiki/1252599548343744/1309301146648610)
+2. 博客：[The Skinny on Fat, Thin, Hollow, and Uber](https://dzone.com/articles/the-skinny-on-fat-thin-hollow-and-uber)
+2. Stack Overflow：[What is an uber jar?](https://stackoverflow.com/questions/11947037/what-is-an-uber-jar)
+4. 博客：[Spring with Maven BOM](https://www.baeldung.com/spring-maven-bom)
+4. Maven官方文档：[Using Mirrors for Repositories](https://maven.apache.org/guides/mini/guide-mirror-settings.html)
+4. Maven官方文档：[Introduction to the Dependency Mechanism](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html)
+8. 博客：[maven中resource配置详解](https://www.jianshu.com/p/563ca2d68842)

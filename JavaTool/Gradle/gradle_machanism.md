@@ -107,6 +107,8 @@ Description of project gradle-project: myProject
 
 ### property
 
+https://tomgregory.com/gradle-project-properties-best-practices/
+
 一个属性可以是一个任务的描述或项目的版本，你也可以通过拓展属性自定义一些变量，使用示例：
 
 ```
@@ -200,21 +202,23 @@ dependsOn方法允许声明依赖其他task。
 
 task配置块永远在task动作执之前被执行。
 
+#### 内建task
+
+
+
 #### Gradle构建声明周期阶段
+
+详见Gradle[官方文档](https://docs.gradle.org/current/userguide/build_lifecycle.html)。
 
 无论什么时候执行Gradle构建，都会运行三个不同的生命周期阶段：
 
 - 初始化阶段
 
-  在初始化阶段，Gradle为项目创建了一个project实例。在多项目中这个阶段很重要，根据你要执行的项目，Gradle找出哪些项目依赖需要参与到构建当中。
+  在初始化阶段，Gradle先解析settings.gradle文件，找出本次构建所依赖的所有项目，并为所有项目创建Project实例。
 
 - 配置阶段
 
-  Gradle构造了一个模型来表示任务，并参与到任务中来，增量式构建特性决定了模型中的task是否需要执行。
-
-  注意：
-
-  项目的每一次构建的任何配置代码都可以被执行，即使你只执行`gradle tasks`。
+  该阶段，Gradle将任务和其他属性添加到上述Project实例中，并根据依赖生成Task执行图。
 
 - 执行阶段
 
