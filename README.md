@@ -20,7 +20,7 @@
 6. [HTTPS原理](ComputerBasic/ComputerNetwork/https.md)
 
 ## 最近新增/修改
-1. [maven_gradle](Share/maven_gradle.md)
+1. [系列分享三：Maven和Gradle是怎么设计的](Share/maven_gradle.md)
 2. [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
 3. [Gradle插件](JavaTool/Gradle/gradle_plugin.md)
 4. [Gradle依赖管理](JavaTool/Gradle/gradle_dependencies.md)

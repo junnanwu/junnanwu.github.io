@@ -249,7 +249,7 @@
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
     - [系列分享二：字符集](Share/character_set.md)
-    - [maven_gradle](Share/maven_gradle.md)
+    - [系列分享三：Maven和Gradle是怎么设计的](Share/maven_gradle.md)
 - **Other**
     - **Algorithm**
       - [算法题](Other/Algorithm/algorithm.md)

@@ -1,36 +1,40 @@
+# 系列分享三：Maven和Gradle是怎么设计的
+
+## 目录
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [系列分享三：Maven和Gradle是怎么设计的](#%E7%B3%BB%E5%88%97%E5%88%86%E4%BA%AB%E4%B8%89maven%E5%92%8Cgradle%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%E7%9A%84)
-  - [Maven](#maven)
-    - [生命周期](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-    - [插件目标](#%E6%8F%92%E4%BB%B6%E7%9B%AE%E6%A0%87)
-    - [自定义绑定](#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%91%E5%AE%9A)
-    - [依赖管理](#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86)
-  - [Gradle](#gradle)
-    - [Gradle核心概念](#gradle%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5)
-    - [Project](#project)
-    - [Task](#task)
-      - [自定义Task](#%E8%87%AA%E5%AE%9A%E4%B9%89task)
-      - [如何调用任务](#%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E4%BB%BB%E5%8A%A1)
-      - [构建的生命周期](#%E6%9E%84%E5%BB%BA%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
-      - [如何保障Task执行的顺序](#%E5%A6%82%E4%BD%95%E4%BF%9D%E9%9A%9Ctask%E6%89%A7%E8%A1%8C%E7%9A%84%E9%A1%BA%E5%BA%8F)
-      - [生命周期Task](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9Ftask)
-      - [Task的增量构建](#task%E7%9A%84%E5%A2%9E%E9%87%8F%E6%9E%84%E5%BB%BA)
-    - [依赖](#%E4%BE%9D%E8%B5%96)
-      - [Configuration](#configuration)
-      - [api vs implementation](#api-vs-implementation)
-      - [依赖冲突](#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81)
-      - [依赖管理](#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86-1)
-    - [其他](#%E5%85%B6%E4%BB%96)
-      - [Wrapper](#wrapper)
-      - [Groovy](#groovy)
-  - [总结](#%E6%80%BB%E7%BB%93)
-  - [References](#references)
+- [开始](#%E5%BC%80%E5%A7%8B)
+- [Maven](#maven)
+  - [生命周期](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+  - [插件目标](#%E6%8F%92%E4%BB%B6%E7%9B%AE%E6%A0%87)
+  - [自定义绑定](#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%91%E5%AE%9A)
+  - [依赖管理](#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86)
+- [Gradle](#gradle)
+  - [Gradle核心概念](#gradle%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5)
+  - [Project](#project)
+  - [Task](#task)
+    - [自定义Task](#%E8%87%AA%E5%AE%9A%E4%B9%89task)
+    - [如何调用任务](#%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E4%BB%BB%E5%8A%A1)
+    - [构建的生命周期](#%E6%9E%84%E5%BB%BA%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
+    - [如何保障Task执行的顺序](#%E5%A6%82%E4%BD%95%E4%BF%9D%E9%9A%9Ctask%E6%89%A7%E8%A1%8C%E7%9A%84%E9%A1%BA%E5%BA%8F)
+    - [生命周期Task](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9Ftask)
+    - [Task的增量构建](#task%E7%9A%84%E5%A2%9E%E9%87%8F%E6%9E%84%E5%BB%BA)
+  - [依赖](#%E4%BE%9D%E8%B5%96)
+    - [Configuration](#configuration)
+    - [api vs implementation](#api-vs-implementation)
+    - [依赖冲突](#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81)
+    - [依赖管理](#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86-1)
+  - [其他](#%E5%85%B6%E4%BB%96)
+    - [Wrapper](#wrapper)
+    - [Groovy](#groovy)
+- [总结](#%E6%80%BB%E7%BB%93)
+- [References](#references)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 系列分享三：Maven和Gradle是怎么设计的
+## 开始
 
 构建工具是Java开发每天都需要接触的，Maven和Gradle作为两个主流的Java构建工具，搞清楚命令背后发生了什么是有必要的。
 
