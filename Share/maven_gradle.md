@@ -681,7 +681,7 @@ runtimeClasspath - Runtime classpath of source set 'main'.
 
 #### 依赖冲突
 
-我们在开发的过程中，会经常遇到依赖冲突的情况，解决思路就是**查看依赖树，然后解决冲突**，无其他捷径。
+我们在开发的过程中，会经常遇到依赖冲突的情况，解决思路就是**查看依赖树，找到冲突，然后解决冲突**，无其他捷径。
 
 **不同依赖冲突**
 
@@ -781,11 +781,14 @@ Maven、Ant这些构建工具是采用XML来定义构建逻辑的，XML很容易
 4. Gradle是基于Maven的新一代构建工具，构建流程更加灵活、构建速度更快。
 5. Gradle采用领域建模的思想，Project、Task、Configuration等都有对应的类，一个build.gradle即对应一个Project对象。
 6. 我们可以轻松的在build.gradle定义一个Task，并通过命令行来调用这个Task。
-7. 任务通过dependsOn来定义该任务的依赖，从而决定了任务执行的先后。
-8. 有一些任务是生命周期任务，并不执行具体操作，用来定义部署流程的阶段，可以将多个任务绑定到生命周期任务上。
-9. 增量构建使得Gradle不再做重复的工作，大大提高了部署的速度。
-10. Gradle将Maven中的Scope抽象为Configuration，Java插件引入了多种Configuration，比起Maven更加细化了。
-11. 在Gradle7+版本中，`implementation`或`api`用来引入依赖，区别就是， 对于消费者来说，`implementation`导入的依赖，编译期是不可见的，而`api`导入的依赖，编译期是可见的。
+7. 构建的阶段有：初始化阶段、配置阶段、执行阶段，这决定了你写的脚本该在什么时候执行。
+8. 任务通过dependsOn来定义该任务的依赖，从而决定了任务执行的先后。
+9. 有一些任务是生命周期任务，并不执行具体操作，用来定义部署流程的阶段，可以将多个任务绑定到生命周期任务上。
+10. 增量构建使得Gradle不再做重复的工作，大大提高了部署的速度。
+11. Gradle将Maven中的Scope抽象为Configuration，Java插件引入了多种Configuration，比起Maven更加细化了。
+12. 在Gradle7+版本中，`implementation`或`api`用来引入依赖，区别就是， 对于消费者来说，`implementation`导入的依赖，编译期是不可见的，而`api`导入的依赖，编译期是可见的。
+13. 优于依赖传递的存在，开发过程中，依赖冲突经常出现，解决思路就是查看依赖树，找到冲突，然后解决冲突，无其他捷径。
+14. 推荐使用包装器（Wrapper）的方式来执行构建任务，这样就不再需要再担心版本兼容问题。
 
 ## References
 
