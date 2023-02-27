@@ -206,7 +206,7 @@ task配置块永远在task动作执之前被执行。
 
 
 
-#### Gradle构建声明周期阶段
+#### Gradle构建生命周期阶段
 
 详见Gradle[官方文档](https://docs.gradle.org/current/userguide/build_lifecycle.html)。
 

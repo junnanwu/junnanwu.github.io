@@ -21,13 +21,13 @@
 
 ## 最近新增/修改
 1. [maven_gradle](Share/maven_gradle.md)
-2. [Gradle Wrapper](JavaTool/Gradle/gradle_wrapper.md)
-3. [如何处理依赖冲突（以Gradle为例）](JavaTool/Gradle/gradle_solve_dependency_conflict.md)
+2. [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
+3. [Gradle插件](JavaTool/Gradle/gradle_plugin.md)
 4. [Gradle依赖管理](JavaTool/Gradle/gradle_dependencies.md)
-5. [Gradle命令行](JavaTool/Gradle/gradle_command_line.md)
-6. [Gradle](JavaTool/Gradle/gradle.md)
-7. [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
-8. [IDEA](Tool/Mac/idea.md)
-9. [Gradle参数](JavaTool/Gradle/gradle_properties.md)
-10. [Java基础工具与概念](JavaSE/java_basics.md)
+5. [字符集与字符编码](ComputerBasic/character_set.md)
+6. [系列分享二：字符集](Share/character_set.md)
+7. [Gradle Wrapper](JavaTool/Gradle/gradle_wrapper.md)
+8. [如何处理依赖冲突（以Gradle为例）](JavaTool/Gradle/gradle_solve_dependency_conflict.md)
+9. [Gradle命令行](JavaTool/Gradle/gradle_command_line.md)
+10. [Gradle](JavaTool/Gradle/gradle.md)
 

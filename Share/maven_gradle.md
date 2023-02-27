@@ -1,8 +1,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [系列分享二：Maven和Gradle是怎么设计的](#%E7%B3%BB%E5%88%97%E5%88%86%E4%BA%AB%E4%BA%8Cmaven%E5%92%8Cgradle%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%E7%9A%84)
+- [系列分享三：Maven和Gradle是怎么设计的](#%E7%B3%BB%E5%88%97%E5%88%86%E4%BA%AB%E4%B8%89maven%E5%92%8Cgradle%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%E7%9A%84)
   - [Maven](#maven)
     - [生命周期](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
     - [插件目标](#%E6%8F%92%E4%BB%B6%E7%9B%AE%E6%A0%87)
@@ -14,6 +13,7 @@
     - [Task](#task)
       - [自定义Task](#%E8%87%AA%E5%AE%9A%E4%B9%89task)
       - [如何调用任务](#%E5%A6%82%E4%BD%95%E8%B0%83%E7%94%A8%E4%BB%BB%E5%8A%A1)
+      - [构建的生命周期](#%E6%9E%84%E5%BB%BA%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
       - [如何保障Task执行的顺序](#%E5%A6%82%E4%BD%95%E4%BF%9D%E9%9A%9Ctask%E6%89%A7%E8%A1%8C%E7%9A%84%E9%A1%BA%E5%BA%8F)
       - [生命周期Task](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9Ftask)
       - [Task的增量构建](#task%E7%9A%84%E5%A2%9E%E9%87%8F%E6%9E%84%E5%BB%BA)
@@ -21,6 +21,7 @@
       - [Configuration](#configuration)
       - [api vs implementation](#api-vs-implementation)
       - [依赖冲突](#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81)
+      - [依赖管理](#%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86-1)
     - [其他](#%E5%85%B6%E4%BB%96)
       - [Wrapper](#wrapper)
       - [Groovy](#groovy)
@@ -29,7 +30,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# 系列分享二：Maven和Gradle是怎么设计的
+# 系列分享三：Maven和Gradle是怎么设计的
 
 构建工具是Java开发每天都需要接触的，Maven和Gradle作为两个主流的Java构建工具，搞清楚命令背后发生了什么是有必要的。
 
@@ -49,7 +50,11 @@ Maven作为Java老牌构建工具，基于约定优于配置的思想，使用�
 
 下面我们在看default生命周期，其主要阶段如下：validate、compile、test、package、verify、install、deploy。
 
-类似的，当我们执行mvn package命令的时候，就会依此执行validate、compile、test、package阶段。
+所以上面提出的问题，我们也就可以回答了：当我们执行mvn package命令的时候，就会依次执行validate、compile、test、package阶段，默认会执行test阶段，由于不是同一生命周期，所以不会执行clean阶段。
+
+注意：
+
+在我们日常打包的时候，还是有必要在`package`前执行`clean`的，即清除所有打包的文件，因为当你进行重命名操作的时候，旧的class文件依然会存在target/classes中，可能会造成未知的错误，详细的可以看Stack Overflow的[相关讨论](https://stackoverflow.com/questions/4662452/in-maven-why-run-mvn-clean)。
 
 ### 插件目标
 
@@ -307,7 +312,7 @@ setGroup()
 
 #### 自定义Task
 
-我们可以在`build.gralde`中创建一个task：
+我们可以在`build.gradle`中创建一个task：
 
 ```
 tasks.register('hello') {
@@ -320,7 +325,7 @@ tasks.register('hello') {
 我们可以看到如下输出：
 
 ```
-$ gradle -q helloWorld
+$ gradle -q hello
 Hello world!
 ```
 
@@ -370,6 +375,61 @@ $ gradle :my-subproject:taskName
   ```
   $ gradle build -m -x test
   ```
+
+#### 构建的生命周期
+
+有时候我们会有疑问，settings.gradle、build.gradle中写的语句都会在什么时候执行呢？这就需要了解Gradle构建的生命周期，无论什么时候执行Gradle构建，都会运行三个不同的生命周期阶段：
+
+- 初始化阶段
+
+  在初始化阶段，Gradle先解析settings.gradle文件，找出本次构建所依赖的所有项目，并为所有项目创建Project实例。
+
+- 配置阶段
+
+  该阶段，Gradle将任务和其他属性添加到上述Project实例中，并根据依赖生成Task执行图。
+
+- 执行阶段
+
+  所有的task都应该被以正确的顺序执行。执行的顺序是由它们的依赖决定的，如果任务被认为没有被修改过，将被跳过。
+
+例如，我们做如下配置：
+
+settings.gradle
+
+```
+println '【初始化阶段】This is executed during the initialization phase.'
+```
+
+build.gradle
+
+```
+println '【配置阶段】This is executed during the configuration phase.'
+
+tasks.register('lifecycle') {
+    doFirst {
+        println '【doFirst】This is executed first during the execution phase.'
+    }
+    doLast {
+        println '【doLast】This is executed last during the execution phase.'
+    }
+    println '【任务配置阶段】This is executed during the configuration phase as well, because :lifecycle is used in the build.'
+}
+```
+
+我们来检测输出：
+
+```
+$ gradle lifecycle
+【初始化阶段】This is executed during the initialization phase.
+
+> Configure project :
+【配置阶段】This is executed during the configuration phase.
+【任务配置阶段】This is executed during the configuration phase as well, because :lifecycle is used in the build.
+
+> Task :lifecycle
+【doFirst】This is executed first during the execution phase.
+【doLast】This is executed last during the execution phase.
+```
 
 #### 如何保障Task执行的顺序
 
@@ -463,8 +523,6 @@ $ gradle -m assemble -q
 
 更多详见[官方文档](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:lifecycle_tasks)。
 
-https://tomgregory.com/gradle-assemble-task-essentials/
-
 #### Task的增量构建
 
 Gradle支持Task的增量构建，这正是Gradle构建速度快的一大原因。
@@ -476,6 +534,10 @@ Gradle支持Task的增量构建，这正是Gradle构建速度快的一大原因�
 首先我们需要定义一个任务的输入和输出，例如，上例中，Java文件就是JavaCompile任务的input，class文件就是JavaCompile的output。
 
 每次执行Task前，Gradle都会比较本次Task和上次Task input和output的校验和，如果一样，则会跳过本次任务。
+
+注意：
+
+一些老的构建工具，例如Linux make，是通过对比时间戳来决定文件是否是新的，即如果源代码的修改时间晚于可执行程序的修改时间，那么就需要重新编译源代码，否则不需要。
 
 关于增量构建，更多详见[官方文档](https://docs.gradle.org/current/userguide/incremental_build.html)。
 
@@ -619,7 +681,45 @@ runtimeClasspath - Runtime classpath of source set 'main'.
 
 #### 依赖冲突
 
-略；
+我们在开发的过程中，会经常遇到依赖冲突的情况，解决思路就是**查看依赖树，然后解决冲突**，无其他捷径。
+
+**不同依赖冲突**
+
+例如，我们项目中使用的是SLF4J，实现使用的是logback（SLF4J为日志接口，logback为其原生实现），这个时候，我们引入了一个新的依赖，其内部包含了`log4j-slf4j-impl`，即另一个SLF4J bindings，这个时候，我们就会收到如下警告：
+
+```
+SLF4J: Class path contains multiple SLF4J bindings.
+```
+
+即现在的Class path中存在了多个SLF4J的bindings，SLF4J不知道该选择哪个。
+
+这个时候，就需要我们使用gradle提供的查看依赖的任务dependencies：
+
+```
+$ gradle :upms:dependencies --configuration compileClasspath
+```
+
+查看依赖树，查找是哪个依赖携带了`log4j-slf4j-impl`，然后将其exclude。
+
+**依赖版本冲突**
+
+还有一种情况是版本冲突，即多个不同的依赖包含了同一个依赖的不同版本，Maven遇到这种情况，就采用最近的版本，而Gradle会采用最高的版本。
+
+但不管什么策略，如果最后构建工具选择的版本不是我们想要的，某些情况，运行的时候就会报NoSuchMethodError。
+
+这个时候，同样的，还是只能通过查看项目的依赖树，去检查是不是某个Jar包使用的版本不对，然后通过排除掉不需要的Jar包版本或者强制指定Jar包版本来解决。
+
+#### 依赖管理
+
+上面提到了Maven项目可以通过指定`spring-boot-starter-parent`为parent，继而通过`<dependencyManagement>`来管理依赖，那么在Gradle中，可以引入Spring的`io.spring.dependency-management`插件来实现同样的效果，例如：
+
+```
+plugins {
+    id "io.spring.dependency-management" version <<version>>
+}
+```
+
+注意，上面插件对Gradle版本有要求，详细可以参考：[Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/)
 
 ### 其他
 
@@ -633,7 +733,7 @@ Gradle推荐使用包装器（Wrapper）的方式来执行构建任务，这样�
 我们可以通过如下Gradle命令来生成Wrapper：
 
 ```
-$ gradle wrapper --gradle-version 7.5 --distribution-type bin|all
+$ gradle wrapper --gradle-version 7.5
 ```
 
 将会生成如下文件：
@@ -666,7 +766,7 @@ Gradle 7.5
 
 Maven、Ant这些构建工具是采用XML来定义构建逻辑的，XML很容易读，也很容易被写出来，但是，在表达逻辑方面，就很困难了。
 
-而Gradle的DSL是由Groove实现的，Groovy是基于JVM的动态编程语言，是一种脚本语言，提供了基于Java的语法糖，语法和Java类似，使用了大量Java已有的类库，对于Java开发来说，学起来较容易，Groovy相比Java更加简洁：
+而Gradle的DSL是由Groovy实现的，Groovy是基于JVM的动态编程语言，是一种脚本语言，提供了基于Java的语法糖，语法和Java类似，使用了大量Java已有的类库，对于Java开发来说，学起来较容易，Groovy相比Java更加简洁：
 
 - 类、方法、构造默认是public
 - 编译器自动加上setter和getter，属性通过点号来获取，底层自动getter方法
@@ -678,25 +778,27 @@ Maven、Ant这些构建工具是采用XML来定义构建逻辑的，XML很容易
 1. Maven采用约定大于配置的思想，将部署的流程抽象为不同阶段构成的生命周期。
 2. Maven实际由目标来执行具体任务，目标由插件导入，并绑定在阶段上。
 3. Maven提供了依赖和插件的管理，spring-boot-starter-parent即是通过此来管理子项目的依赖版本和插件配置。
-4. Gradle采用领域建模的思想，Project、Task、Configuration等都有对应的类。
-5. 一个build.gradle即对应了一个Project对象。
+4. Gradle是基于Maven的新一代构建工具，构建流程更加灵活、构建速度更快。
+5. Gradle采用领域建模的思想，Project、Task、Configuration等都有对应的类，一个build.gradle即对应一个Project对象。
 6. 我们可以轻松的在build.gradle定义一个Task，并通过命令行来调用这个Task。
 7. 任务通过dependsOn来定义该任务的依赖，从而决定了任务执行的先后。
 8. 有一些任务是生命周期任务，并不执行具体操作，用来定义部署流程的阶段，可以将多个任务绑定到生命周期任务上。
 9. 增量构建使得Gradle不再做重复的工作，大大提高了部署的速度。
 10. Gradle将Maven中的Scope抽象为Configuration，Java插件引入了多种Configuration，比起Maven更加细化了。
 11. 在Gradle7+版本中，`implementation`或`api`用来引入依赖，区别就是， 对于消费者来说，`implementation`导入的依赖，编译期是不可见的，而`api`导入的依赖，编译期是可见的。
-12. Gradle是基于JVM的动态编程脚本语言，比起Java写起来更加简单、语法更加简洁。
 
 ## References
 
 1. Maven官方文档：[Introduction to the Build Lifecycle.](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html)
 2. 书籍：《Maven实战》，作者：许晓斌
-3. 书籍：《实战Gradle》，作者：Benjamin Muschko
-4. 博客：[Migrating Spring Boot's Build to Gradle](https://spring.io/blog/2020/06/08/migrating-spring-boot-s-build-to-gradle)
-5. Gradle官方文档：[The Java Plugin](https://docs.gradle.org/current/userguide/java_plugin.html)
-6. 博客：[Gradle assemble task essentials](https://tomgregory.com/gradle-assemble-task-essentials/)
-7. Gradle官方文档：[Incremental build](https://docs.gradle.org/current/userguide/incremental_build.html)
-8. Gradle官方文档：[Introducing Incremental Build Support](https://blog.gradle.org/introducing-incremental-build-support)
-9. Gradle官方文档：[The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
+3. Stack Overflow：[In Maven, Why Run 'mvn clean'?](https://stackoverflow.com/questions/4662452/in-maven-why-run-mvn-clean)
+4. 书籍：《实战Gradle》，作者：Benjamin Muschko
+5. 博客：[Migrating Spring Boot's Build to Gradle](https://spring.io/blog/2020/06/08/migrating-spring-boot-s-build-to-gradle)
+6. Gradle官方文档：[The Java Plugin](https://docs.gradle.org/current/userguide/java_plugin.html)
+7. Gradle官方文档：[Build Lifecycle](https://docs.gradle.org/current/userguide/build_lifecycle.html)
+8. 博客：[Gradle assemble task essentials](https://tomgregory.com/gradle-assemble-task-essentials/)
+9. Gradle官方文档：[Incremental build](https://docs.gradle.org/current/userguide/incremental_build.html)
+10. Gradle官方文档：[Introducing Incremental Build Support](https://blog.gradle.org/introducing-incremental-build-support)
+11. Spring官方文档：[Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/htmlsingle/)
+12. Gradle官方文档：[The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)
 
