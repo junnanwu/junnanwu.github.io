@@ -5,7 +5,7 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [开始](#%E5%BC%80%E5%A7%8B)
+- [Start](#Start)
 - [Maven](#maven)
   - [生命周期](#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F)
   - [插件目标](#%E6%8F%92%E4%BB%B6%E7%9B%AE%E6%A0%87)
@@ -34,7 +34,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## 开始
+## Start
 
 构建工具是Java开发每天都需要接触的，Maven和Gradle作为两个主流的Java构建工具，搞清楚命令背后发生了什么是有必要的。
 
@@ -491,7 +491,7 @@ $ gradle -m assemble -q
 
 可执行任务就是有具体执行内容的任务，而生命周期任务就是
 
-Gradle的base plugin提供了一些列的生命周期函数，例如：
+Gradle的base plugin提供了一些列的生命周期任务，例如：
 
 - check
 - assemble
