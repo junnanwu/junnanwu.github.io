@@ -8,17 +8,16 @@
 
 ## 推荐阅读
 
-1. [优秀的版本控制系统——Git](Share/Git.md)
-2. [字符集与字符编码](ComputerBasic/character_set.md)
-3. [Maven和Gradle是怎么设计的](Share/maven_gradle.md)
-4. [文件名乱码问题之Content-Disposition标头](ComputerBasic/HTTP/header_content_disposition.md)
-5. [IDEA使用技巧](Tool/Mac/idea.md)
-6. [浅拷贝和深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
-7. [Java访问修饰符](JavaSE/access_modifiers.md)
-8. [Spring Boot Test](Framework/Spring/SpringBoot/springboot_testing.md)
-9. [Prometheus+Grafana监控体系](Ops/prometheus_grafana_monitor.md)
-10. [Nginx基本使用](Tool/Nginx/nginx.md)
-11. [HTTPS原理](ComputerBasic/ComputerNetwork/https.md)
+1. [系列分享四：GC Promotion Fail问题排查](Share/gc_promotion_fail.md)
+2. [优秀的版本控制系统——Git](Share/Git.md)
+3. [字符集与字符编码](ComputerBasic/character_set.md)
+4. [Maven和Gradle是怎么设计的](Share/maven_gradle.md)
+5. [文件名乱码问题之Content-Disposition标头](ComputerBasic/HTTP/header_content_disposition.md)
+6. [IDEA使用技巧](Tool/Mac/idea.md)
+7. [浅拷贝和深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
+8. [Java访问修饰符](JavaSE/access_modifiers.md)
+9. [Spring Boot Test](Framework/Spring/SpringBoot/springboot_testing.md)
+10. [Prometheus+Grafana监控体系](Ops/prometheus_grafana_monitor.md)
 
 ## 最近新增/修改
 1. [字符集与字符编码](ComputerBasic/character_set.md)

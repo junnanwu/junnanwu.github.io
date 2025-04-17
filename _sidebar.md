@@ -47,6 +47,7 @@
     - **Mybatis**
       - [Mybatis问题](Framework/Mybatis/mybatis_problems.md)
     - **Spring**
+      - [Spring](Framework/Spring/Spring.md)
       - **SpringBoot**
         - [配置中心](Framework/Spring/SpringBoot/config_center.md)
         - [SpringBoot](Framework/Spring/SpringBoot/springboot.md)
@@ -72,7 +73,6 @@
         - [Spring Security鉴权](Framework/Spring/SpringSecurity/spring_security_auth.md)
         - [Spring Security 退出登录](Framework/Spring/SpringSecurity/spring_security_logout.md)
         - [Spring Security Session](Framework/Spring/SpringSecurity/spring_security_session.md)
-      - [Spring](Framework/Spring/spring.md)
       - [关于参数校验的一切](Framework/Spring/validation.md)
 - **Database**
     - **ClickHouse**
@@ -228,6 +228,7 @@
 - **JavaTool**
     - **ConfigCenter**
       - [配置中心](JavaTool/ConfigCenter/config_center.md)
+    - [Druid](JavaTool/Druid.md)
     - **Gradle**
       - [Gradle](JavaTool/Gradle/gradle.md)
       - [Gradle命令行](JavaTool/Gradle/gradle_command_line.md)
@@ -237,19 +238,19 @@
       - [Gradle参数](JavaTool/Gradle/gradle_properties.md)
       - [如何处理依赖冲突（以Gradle为例）](JavaTool/Gradle/gradle_solve_dependency_conflict.md)
       - [Gradle Wrapper](JavaTool/Gradle/gradle_wrapper.md)
+    - [Guava](JavaTool/Guava.md)
     - **Maven**
       - [Maven](JavaTool/Maven/maven.md)
       - [Maven插件](JavaTool/Maven/maven_plugin.md)
     - **Nacos**
       - [Nacos](JavaTool/Nacos/nacos.md)
       - [Nacos配置中心](JavaTool/Nacos/nacos_config_center.md)
-    - [Druid](JavaTool/druid.md)
-    - [Guava](JavaTool/guava.md)
     - [Swagger](JavaTool/swagger.md)
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
     - [系列分享二：字符集](Share/character_set.md)
     - [系列分享三：Maven和Gradle是怎么设计的](Share/maven_gradle.md)
+    - [系列分享四：GC Promotion Fail问题排查](Share/gc_promotion_fail.md)
 - **Other**
     - **Algorithm**
       - [算法题](Other/Algorithm/algorithm.md)
