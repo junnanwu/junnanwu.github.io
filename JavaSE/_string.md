@@ -108,6 +108,3 @@ s3==s8 => true
   103 millis has costed when used StringBuffer.
   57 millis has costed when used StringBuilder.
   ```
-
-
-## 
