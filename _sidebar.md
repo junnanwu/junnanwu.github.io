@@ -1,41 +1,277 @@
+- **JavaSE**
+    - **JavaVirtualMachine**
+      - [虚拟机类加载机制](JavaSE/JavaVirtualMachine/calss_loading_mechanism.md)
+      - [常量池](JavaSE/JavaVirtualMachine/constant_pool.md)
+      - [垃圾回收机制](JavaSE/JavaVirtualMachine/garbage_collection_mechanism.md)
+      - [Java内存区域](JavaSE/JavaVirtualMachine/java_memory_area.md)
+      - [java_object_memory_distribution](JavaSE/JavaVirtualMachine/java_object_memory_distribution.md)
+    - **MultiThread**
+      - [CAS](JavaSE/MultiThread/cas.md)
+      - [Java锁优化](JavaSE/MultiThread/java_lock_optimize.md)
+      - [多线程基础](JavaSE/MultiThread/multi_thread_basics.md)
+      - [ReentrantLock](JavaSE/MultiThread/reentrant_lock.md)
+      - [线程中断](JavaSE/MultiThread/thread_interrupt.md)
+      - [线程池](JavaSE/MultiThread/thread_pool.md)
+      - [线程池参数选择](JavaSE/MultiThread/thread_pool_param.md)
+      - [volatile和synchronized](JavaSE/MultiThread/volatile_synchronized.md)
+    - [Java访问修饰符](JavaSE/access_modifiers.md)
+    - [注解](JavaSE/annotation.md)
+    - [ArrayList](JavaSE/arraylist.md)
+    - [ConcurrentHashMap](JavaSE/concurrent_hashmap.md)
+    - [泛型](JavaSE/generics.md)
+    - [HashMap](JavaSE/hashmap.md)
+    - [Integer](JavaSE/integer.md)
+    - [Java8特性](JavaSE/java8_feature.md)
+    - [Java基础工具与概念](JavaSE/java_basics.md)
+    - [Java调用本地命令](JavaSE/java_call_local_command.md)
+    - [Java Date](JavaSE/java_date.md)
+    - [Java常见系统方法](JavaSE/java_system_function.md)
+    - [JDBC](JavaSE/jdbc.md)
+    - [LinkedList](JavaSE/linkedlist.md)
+    - [序列化](JavaSE/serializable.md)
+    - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
+    - [线程不安全的SimpleDateFormat](JavaSE/simple_date_format.md)
+    - [String](JavaSE/string.md)
+    - [ThreadLocal](JavaSE/threadlocal.md)
+    - [Java常量应该定义在类中还是接口中](JavaSE/where_constants_should_be_placed.md)
+- **JavaEE**
+    - **CAS**
+      - [CAS登陆流程](JavaEE/CAS/cas_login.md)
+      - [CAS-Shiro实现单点登录](JavaEE/CAS/cas_shiro.md)
+    - **Email**
+      - [Java Email](JavaEE/Email/java_email.md)
+    - **Log**
+      - [Log4j2漏洞](JavaEE/Log/Log4j2_exploit.md)
+      - [Java日志框架](JavaEE/Log/java_log_framework.md)
+- **Framework**
+    - **Mybatis**
+      - [Mybatis问题](Framework/Mybatis/mybatis_problems.md)
+    - **Spring**
+      - [Spring](Framework/Spring/Spring.md)
+      - **SpringBoot**
+        - [配置中心](Framework/Spring/SpringBoot/config_center.md)
+        - [SpringBoot](Framework/Spring/SpringBoot/springboot.md)
+        - [Spring Boot基础](Framework/Spring/SpringBoot/springboot_basics.md)
+        - [SpringBoot配置项](Framework/Spring/SpringBoot/springboot_config_item.md)
+        - [SpringBoot日志](Framework/Spring/SpringBoot/springboot_log.md)
+        - [关于Spring Boot的配置文件](Framework/Spring/SpringBoot/springboot_peoperties_file.md)
+        - [SpringBoot Stater Parent](Framework/Spring/SpringBoot/springboot_stater_parent.md)
+        - [Spring Boot Test](Framework/Spring/SpringBoot/springboot_testing.md)
+      - **SpringCloud**
+        - [feign源码解析](Framework/Spring/SpringCloud/feign_source_code.md)
+        - [服务注册与发现](Framework/Spring/SpringCloud/service_registration_discovery.md)
+      - **SpringFramework**
+        - [装配Bean](Framework/Spring/SpringFramework/assemble_bean.md)
+        - [Spring AOP](Framework/Spring/SpringFramework/spring_aop.md)
+        - [Spring Cache](Framework/Spring/SpringFramework/spring_cache.md)
+        - [Spring Framework](Framework/Spring/SpringFramework/spring_framework.md)
+        - [定时任务](Framework/Spring/SpringFramework/spring_scheduling.md)
+        - [Spring Transactional](Framework/Spring/SpringFramework/spring_transactional.md)
+        - [Spring Web MVC](Framework/Spring/SpringFramework/springweb_mvc.md)
+      - **SpringSecurity**
+        - [SpringSecurity](Framework/Spring/SpringSecurity/spring_security.md)
+        - [Spring Security鉴权](Framework/Spring/SpringSecurity/spring_security_auth.md)
+        - [Spring Security 退出登录](Framework/Spring/SpringSecurity/spring_security_logout.md)
+        - [Spring Security Session](Framework/Spring/SpringSecurity/spring_security_session.md)
+      - [关于参数校验的一切](Framework/Spring/validation.md)
+- **Database**
+    - **ClickHouse**
+      - [ClickHosue生产bug记录](Database/ClickHouse/clickhosue_prod_bug_record.md)
+      - [ClickHouse](Database/ClickHouse/clickhouse.md)
+      - [ClickHouse备份迁移](Database/ClickHouse/clickhouse_backup_migration.md)
+      - [ClickHouse物化视图](Database/ClickHouse/clickhouse_materialized_view.md)
+      - [ClickHouse表引擎](Database/ClickHouse/clickhouse_table_engine.md)
+      - [列式存储选型](Database/ClickHouse/technology_selection.md)
+    - **Elasticsearch**
+      - [Elasticsearch](Database/Elasticsearch/elasticsearch.md)
+      - [Elasticsearch在生产中的应用](Database/Elasticsearch/elasticsearch_apply_in_production.md)
+      - [Elasticsearch安装和配置](Database/Elasticsearch/elasticsearch_install_config.md)
+    - **Hive**
+      - [Hive](Database/Hive/hive.md)
+      - [HiveMetaStore](Database/Hive/hive_metastore.md)
+    - **Mysql**
+      - [InnoDB存储结构](Database/Mysql/innodb_storage_structure.md)
+      - [Mysql Information Schema](Database/Mysql/mysql_Information_schema.md)
+      - [MySQL应用](Database/Mysql/mysql_apply.md)
+      - [MySQL配置相关](Database/Mysql/mysql_config.md)
+      - [MySQL数据类型](Database/Mysql/mysql_data_type.md)
+      - [MySQL EXPLAIN](Database/Mysql/mysql_explain.md)
+      - [MySQL函数和运算符](Database/Mysql/mysql_function_operator.md)
+      - [MySQL高可用](Database/Mysql/mysql_high_available.md)
+      - [MySQL索引](Database/Mysql/mysql_index.md)
+      - [MySQL InnoDB](Database/Mysql/mysql_innodb.md)
+      - [MySQL锁](Database/Mysql/mysql_lock.md)
+      - [MySQL日志](Database/Mysql/mysql_log.md)
+      - [MySQL高可用方案](Database/Mysql/mysql_mysql_high_available_plan.md)
+      - [MySQL调优](Database/Mysql/mysql_optimize.md)
+      - [Mysql遇到的问题](Database/Mysql/mysql_problems.md)
+      - [MySQL语句](Database/Mysql/mysql_statement.md)
+      - [MySQL事务](Database/Mysql/mysql_transaction.md)
+      - **utility**
+        - [mysql_config_editor](Database/Mysql/utility/mysql_config_editor.md)
+        - [mysqldump](Database/Mysql/utility/mysqldump.md)
+    - **Presto**
+      - [Presto简介](Database/Presto/presto_introduce.md)
+      - [Presto问题](Database/Presto/presto_problems.md)
+      - [Presto语法](Database/Presto/presto_statement.md)
+    - **Redis**
+      - [Redis集群](Database/Redis/redis_cluster.md)
+      - [Redis数据结构](Database/Redis/redis_data_type.md)
+      - [Redi主从复制](Database/Redis/redis_master_slave_replication.md)
+      - [Redis多路复用](Database/Redis/redis_multiplexing.md)
+      - [Redis持久化](Database/Redis/redis_persistence.md)
+      - [Redis哨兵](Database/Redis/redis_sentinel.md)
+- **ComputerBasic**
+    - **ComputerNetwork**
+      - [DNS](ComputerBasic/ComputerNetwork/dns.md)
+      - [Email Protocol](ComputerBasic/ComputerNetwork/email_protocol.md)
+      - [HTTPS](ComputerBasic/ComputerNetwork/https.md)
+      - [IP地址](ComputerBasic/ComputerNetwork/ip_address.md)
+      - [NAT](ComputerBasic/ComputerNetwork/nat.md)
+      - [SSL证书类型](ComputerBasic/ComputerNetwork/ssl_certificates.md)
+      - [虚拟IP](ComputerBasic/ComputerNetwork/virtual_IP.md)
+    - **HTTP**
+      - [Basic Authotization](ComputerBasic/HTTP/basic_authotization.md)
+      - [Cookie](ComputerBasic/HTTP/cookie.md)
+      - [跨域](ComputerBasic/HTTP/cross_domain.md)
+      - [Content-Length和Transfer-Encoding消息头](ComputerBasic/HTTP/head_content_length_treanster_encoding.md)
+      - [文件名乱码问题之Content-Disposition标头](ComputerBasic/HTTP/header_content_disposition.md)
+      - [Referrer-Policy标头](ComputerBasic/HTTP/header_referrer_policy.md)
+    - [字符集与字符编码](ComputerBasic/character_set.md)
+    - [关于时间](ComputerBasic/date.md)
+    - [浮点数](ComputerBasic/floats.md)
+    - [正则表达式](ComputerBasic/regular_expression.md)
+- **Ops**
+    - **Docker**
+      - [Docker](Ops/Docker/docker.md)
+      - [Docker基础操作](Ops/Docker/docker_basic_operate.md)
+      - [docker-compose](Ops/Docker/docker_compose.md)
+      - [Docker遇到的问题](Ops/Docker/docker_problems.md)
+      - [Docker常用镜像](Ops/Docker/docker_useful_images.md)
+      - [Dockerfile](Ops/Docker/dockerfile.md)
+      - [Harbor](Ops/Docker/harbor.md)
+      - [Overlay文件系统](Ops/Docker/overlay_file_system.md)
+    - **Jenkins**
+      - [Jenkins](Ops/Jenkins/jenkins.md)
+      - [Jenkinsfile](Ops/Jenkins/jenkinsfile.md)
+    - **K8s**
+      - [KubeSphere](Ops/K8s/kubeSphere.md)
+      - [Kubernetes](Ops/K8s/kubernetes.md)
+      - [KubeSphere创建DevOps项目](Ops/K8s/kubesphere_create_devops_project.md)
+    - **Ldap**
+      - [LDAP](Ops/Ldap/ldap.md)
+    - **Linux**
+      - [Linux基础命令](Ops/Linux/linux_basic_command.md)
+      - [Linux解压与压缩](Ops/Linux/linux_decompress_compress.md)
+      - [环境变量](Ops/Linux/linux_env_variable.md)
+      - [Linux文件系统](Ops/Linux/linux_file_system.md)
+      - [Linux安装字体](Ops/Linux/linux_font.md)
+      - [Linux输入和输出](Ops/Linux/linux_input_output.md)
+      - [Linux简介](Ops/Linux/linux_introduce.md)
+      - [Linux日志](Ops/Linux/linux_log.md)
+      - [linux监测](Ops/Linux/linux_monitoring.md)
+      - [Linux网络](Ops/Linux/linux_network.md)
+      - [Linux OOM Killer](Ops/Linux/linux_oomkiller.md)
+      - [Linux包管理](Ops/Linux/linux_package_manage.md)
+      - [Linux服务](Ops/Linux/linux_service.md)
+      - [Linux Shell](Ops/Linux/linux_shell.md)
+      - [Linux软件安装](Ops/Linux/linux_software.md)
+      - [Linux网络带宽监控工具](Ops/Linux/linux_traffic_monitoring_tools.md)
+      - [Linux用户权限](Ops/Linux/linux_user_privilege.md)
+      - [Shell脚本](Ops/Linux/shell_script.md)
+      - [ Vim](Ops/Linux/vim.md)
+    - [ELK](Ops/elk.md)
+    - [Prometheus+Grafana监控体系](Ops/prometheus_grafana_monitor.md)
+- **Tool**
+    - **Chrome**
+      - [Chrome Network](Tool/Chrome/chrome_network.md)
+    - **Git**
+      - [git checkout](Tool/Git/git_checkout.md)
+      - [git clone](Tool/Git/git_clone.md)
+      - [Git命令](Tool/Git/git_command.md)
+      - [git config](Tool/Git/git_config.md)
+      - [Git协作](Tool/Git/git_cooperation.md)
+      - [Git原理](Tool/Git/git_mechanism.md)
+      - [git push](Tool/Git/git_push.md)
+      - [git rebase](Tool/Git/git_rebase.md)
+      - [Git仓库体积太大](Tool/Git/git_repository_size_too_big.md)
+      - [Git迁移远程仓库](Tool/Git/git_respository_migration.md)
+      - [关于GitHub](Tool/Git/github.md)
+      - [gitignore](Tool/Git/gitignore.md)
+    - **Mac**
+      - [IDEA](Tool/Mac/idea.md)
+      - [Mac](Tool/Mac/mac.md)
+      - [Mac遇到的问题](Tool/Mac/mac_problems.md)
+      - [Postman](Tool/Mac/postman.md)
+      - [Typora](Tool/Mac/typora.md)
+    - **MessageQueue**
+      - **Kafka**
+        - [Kafka基本概念](Tool/MessageQueue/Kafka/kafka_basic_concept.md)
+        - [Kafka如何实现高吞吐量](Tool/MessageQueue/Kafka/kafka_high_throughput.md)
+        - [Kafka入门](Tool/MessageQueue/Kafka/kafka_introduction.md)
+        - [Kafka如何保证消息不丢失](Tool/MessageQueue/Kafka/kafka_message_not_lost.md)
+        - [Spring-Kafka](Tool/MessageQueue/Kafka/spring_kafka.md)
+        - [Spring Kafka动态新增topic](Tool/MessageQueue/Kafka/spring_kafka_dramatic_add_topic.md)
+      - **RabbitMQ**
+        - [RabbitMQ](Tool/MessageQueue/RabbitMQ/rabbitmq.md)
+    - **Nginx**
+      - [Nginx](Tool/Nginx/nginx.md)
+      - [Nginx应用](Tool/Nginx/nginx_application.md)
+      - [Nginx+Lua脚本](Tool/Nginx/nginx_lua.md)
+    - **Other**
+      - [PhantomJS](Tool/Other/PhantomJS.md)
+      - [Chromedriver](Tool/Other/chromedriver.md)
+      - [图片Base64转换](Tool/Other/image_base64_convert.md)
+      - [mkcert本地安装https证书](Tool/Other/local_install_mkcert_https_certificate.md)
+    - **Useful**
+      - [PDF书签制作](Tool/Useful/pdf_catalog_make.md)
+- **JavaTool**
+    - **ConfigCenter**
+      - [配置中心](JavaTool/ConfigCenter/config_center.md)
+    - [Druid](JavaTool/Druid.md)
+    - **Gradle**
+      - [Gradle](JavaTool/Gradle/gradle.md)
+      - [Gradle命令行](JavaTool/Gradle/gradle_command_line.md)
+      - [Gradle依赖管理](JavaTool/Gradle/gradle_dependencies.md)
+      - [Gradle基本原理](JavaTool/Gradle/gradle_machanism.md)
+      - [Gradle插件](JavaTool/Gradle/gradle_plugin.md)
+      - [Gradle参数](JavaTool/Gradle/gradle_properties.md)
+      - [如何处理依赖冲突（以Gradle为例）](JavaTool/Gradle/gradle_solve_dependency_conflict.md)
+      - [Gradle Wrapper](JavaTool/Gradle/gradle_wrapper.md)
+    - [Guava](JavaTool/Guava.md)
+    - **Maven**
+      - [Maven](JavaTool/Maven/maven.md)
+      - [Maven插件](JavaTool/Maven/maven_plugin.md)
+    - **Nacos**
+      - [Nacos](JavaTool/Nacos/nacos.md)
+      - [Nacos配置中心](JavaTool/Nacos/nacos_config_center.md)
+    - [Swagger](JavaTool/swagger.md)
 - **Share**
     - [系列分享一：优秀的版本控制系统——Git](Share/Git.md)
     - [系列分享二：字符集](Share/character_set.md)
     - [系列分享三：Maven和Gradle是怎么设计的](Share/maven_gradle.md)
     - [系列分享四：GC Promotion Fail问题排查](Share/gc_promotion_fail.md)
-- **JavaSE**
-    - [Java访问修饰符](JavaSE/access_modifiers.md)
-    - [ArrayList](JavaSE/arraylist.md)
-    - [泛型](JavaSE/generics.md)
-    - [Java基础工具与概念](JavaSE/java_basics.md)
-    - [Java调用本地命令](JavaSE/java_call_local_command.md)
-    - [浅拷贝与深拷贝](JavaSE/shallow_copy_and_deep_copy.md)
-    - [线程中断](JavaSE/thread_interrupt.md)
-    - [Java常量应该定义在类中还是接口中](JavaSE/where_constants_should_be_placed.md)
-- **JavaEE**
-    - [CAS登陆流程](JavaEE/cas_login.md)
-    - [CAS-Shiro实现单点登录](JavaEE/cas_shiro.md)
-    - [Java日志框架](JavaEE/java_log_framework.md)
-    - [Log4j2漏洞](JavaEE/Log4j2_exploit.md)
-- **ComputerBasic**
-    - [Basic Authotization](ComputerBasic/basic_authotization.md)
-    - [字符集与字符编码](ComputerBasic/character_set.md)
-    - [跨域](ComputerBasic/cross_domain.md)
-    - [关于时间](ComputerBasic/date.md)
-    - [DNS](ComputerBasic/dns.md)
-    - [浮点数](ComputerBasic/floats.md)
-    - [文件名乱码问题之Content-Disposition标头](ComputerBasic/header_content_disposition.md)
-    - [Referrer-Policy标头](ComputerBasic/header_referrer_policy.md)
-    - [HTTPS](ComputerBasic/https.md)
-    - [IP地址](ComputerBasic/ip_address.md)
-    - [SSL证书类型](ComputerBasic/ssl_certificates.md)
-- **Database**
-    - [ClickHosue生产bug记录](Database/clickhosue_prod_bug_record.md)
-    - [Elasticsearch在生产中的应用](Database/elasticsearch_apply_in_production.md)
-    - [Elasticsearch](Database/elasticsearch.md)
-- **Ops**
-    - [Kubernetes](Ops/kubernetes.md)
-    - [KubeSphere创建DevOps项目](Ops/kubesphere_create_devops_project.md)
-    - [KubeSphere](Ops/kubeSphere.md)
-    - [Prometheus+Grafana监控体系](Ops/prometheus_grafana_monitor.md)
+- **Other**
+    - **Algorithm**
+      - [算法题](Other/Algorithm/algorithm.md)
+      - [加密算法](Other/Algorithm/encrypt_algorithm.md)
+    - **Basic**
+      - [常用的数据格式](Other/Basic/data_format.md)
+    - **BigData**
+      - [大数据基本概念](Other/BigData/bigdata_introduce.md)
+    - **Bug**
+      - **Application**
+        - [应用卡顿问题bug记录](Other/Bug/Application/application_lags_bug_record.md)
+    - **CodeStyle**
+      - [代码优化](Other/CodeStyle/java_optimization.md)
+    - **Fontend**
+      - [JavaScript](Other/Fontend/JavaScript.md)
+      - [TypeScript](Other/Fontend/TypeScript.md)
+      - [VUE](Other/Fontend/VUE.md)
+    - **SEO**
+      - [robots.txt文件](Other/SEO/robots_file.md)
+      - [sitemap](Other/SEO/sitemap.md)
+    - **SoftwareEngineering**
+      - [软件版本周期](Other/SoftwareEngineering/software_release_cycle.md)
+      - [软件版本](Other/SoftwareEngineering/software_version.md)
 

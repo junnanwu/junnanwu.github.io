@@ -27,7 +27,9 @@
 
 ## 前言
 
-对于后台服务来说，我们希望用户的体验更好，所以相较于高吞吐（代码运行时间/(代码运行时间+垃圾收集时间) ），我们更加关心低延迟。所以，以获取最短停顿时间为目标的收集器，CMS，是我们的第一选择。
+对于后台服务来说，我们希望用户的体验更好，相较于高吞吐「吞吐量 = 代码运行时间 / （代码运行时间+垃圾收集时间） 」，我们更加关心低延迟。所以，以获取最短停顿时间为目标的收集器，CMS，是一个不错的选择。
+
+我们先大概了解下CMS收集器的设计理念。
 
 ### 传统收集器的内存划分
 
@@ -65,7 +67,11 @@ Serial和ParNew这两个新生代收集器都采用了复制算法，区别是�
 
 示意图如下所示：
 
+整理算法：
+
 ![gc_compact](gc_promotion_fail_assets/gc_compact.jpg)
+
+清除算法：
 
 ![gc_sweep](gc_promotion_fail_assets/gc_sweep.jpg)
 
@@ -88,7 +94,7 @@ CMS（Concurrent Mark Sweep）是一款采用标记-清除算法的老年代垃�
 
 #### 无法处理浮动垃圾
 
-我们从上面CMS回收过程可以看到，并发清理的过程是和用户线程同时进行的，所以在清理的过程中，还会有新的对象晋升入老年代，被称为“浮动垃圾”，所以CMS不能像其他收集器那样，等老年代几乎满了再进行回收，所以还需要预留一些空间，默认老年代内存达到92%的时候，触发老年代回收。
+我们从上面CMS回收过程可以看到，并发清理的过程是和用户线程同时进行的，所以在清理的过程中，还会有新的对象晋升入老年代，被称为“浮动垃圾”，所以**CMS不能像其他收集器那样，等老年代几乎满了再进行回收，所以还需要预留一些空间，默认老年代内存达到92%的时候，触发老年代回收**。
 
 #### 内存碎片
 
@@ -109,11 +115,11 @@ Concurrent Mode Failure 是在**执行CMS GC并发周期的过程中**同时有�
 
 ## 问题现象
 
-3月28日，19:50到20:10中间，业务方调用画像服务有大量的超时情况，业务方RPC超时时间为500ms。
+2025年3月28日，19:50到20:10之间，业务方调用我们的画像服务有大量的请求超时情况，业务方RPC超时时间为500ms。
 
 ## 排查过程
 
-首先通过观察服务监控看板，服务器内存和CPU水位都在正常范围，具体看来：
+首先观察服务监控看板，服务器内存和CPU水位都在正常范围，具体看来：
 
 - 内存在19:30从72%上涨到74%左右，在正常范围内
 - CPU水位在19:30无明显变化（后续CPU下降是20:05扩容导致）
@@ -122,19 +128,19 @@ Concurrent Mode Failure 是在**执行CMS GC并发周期的过程中**同时有�
 
 ![dashboard_cpu_avg](gc_promotion_fail_assets/dashboard_cpu_avg.jpg)
 
-发现在日志超时的时间点，频繁发生了CMS Old GC：
+接下来看GC监控，发现在日志超时的时间点，频繁发生了CMS GC：
 
 ![dashboard_old_cms_times](gc_promotion_fail_assets/dashboard_old_cms_times.jpg)
 
-并且耗时相较平时的Old GC（200毫秒左右），时间较长，均在1秒以上，判断该GC非正常old gc：
+并且耗时相较平时的Old GC（200毫秒左右），时间较长，均在1秒以上，判断该GC非正常Old GC：
 
 ![dashboard_old_cms_pause_time](gc_promotion_fail_assets/dashboard_old_cms_pause_time.jpg)
 
-通过老年代的内存大小也能看出该GC非正常old gc，因为没有达到老年代最大内存就提前回收：
+通过老年代的内存大小也能看出该GC非正常Old GC，因为没有达到老年代最大内存就提前回收：
 
 ![dashboard_old_generation_memory](gc_promotion_fail_assets/dashboard_old_generation_memory.jpg)
 
-由于我们之前新增了打印GC日志的参数，所以通过less命令（**生产环境大文件不要使用vim打开**，vim会加载全部文件，占用过多内存），搜索当天gc.log文件中第一个出现的【full 18】，日志如下所示：
+由于我们之前新增了打印GC日志的参数，所以通过less命令（生产环境大文件不要使用vim打开，vim会加载全部文件，占用过多内存），搜索当天gc.log文件中第一个出现的【full 18】，日志如下所示：
 
 ```
 {Heap before GC invocations=1425974 (full 17):
@@ -159,25 +165,29 @@ Heap after GC invocations=1425975 (full 18):
 
 中间promotion failed日志含义：
 
-- young gc在2025-03-28T19:58:51.679发生回收，新生代大小从274943K （268.5M）到274119K（267.7M），共花0.069s（至于为什么新生代回收后还这么大，是因为晋升失败是不会对eden和from区的对象做释放的，[详见此](http://lovestblog.cn/blog/2016/05/18/ygc-worse/)）
-- 紧接着一次full gc，从2784749K（2719.5M）到760844K（743.01M），共耗时1.387s
+- Young GC在2025-03-28T19:58:51.679发生回收，新生代大小从274943K （268.5M）到274119K（267.7M），共花0.069s（至于为什么新生代回收后还这么大，是因为晋升失败是不会对Eden和From区的对象做释放的，[详见此](http://lovestblog.cn/blog/2016/05/18/ygc-worse/)）
+- 紧接着一次Full GC，从2784749K（2719.5M）到760844K（743.01M），共耗时1.387s
 
-并且使用[gceasy](https://gceasy.io/)对gc日志进行分析，也可以看到有一次GC的原因是Promotion Failure，耗时1.38s：
+并且使用[gceasy](https://gceasy.io/)对GC日志进行分析，也可以看到有一次GC的原因是Promotion Failure，耗时1.38s：
 
 ![easygc_gc_causes](gc_promotion_fail_assets/easygc_gc_causes.jpg)
 
 ## 原因分析
 
-从gc日志中，可以明确的是**：本次较长时间的停顿是Promotion Failed后，CMS退化为Serial Old进行串行收集导致的。**
+从GC日志中，可以明确的是**：本次较长时间的停顿是Promotion Failed后，CMS退化为Serial Old，对整个堆进行串行收集导致的。**
 
-再结合初始配置、GC日志，我们得知：
+结合初始配置、GC日志（打印初始参数）、监控等，我们得知我们服务GC配置如下：
 
 - 堆总大小：4G
-- 新生代总大小：332.75M
+- **新生代总大小：332.75M**
 - Eden区和Survivor区的比例：8:1 （即Survivor区33.2M）
 - 晋升老年代年龄：6
 - 老年代总大小：3.68G
-- 老年代触发GC比例：92%（3.38G）
+- **老年代触发GC比例：92%（3.38G）**
+
+其中关于新生代的默认大小，有些出乎意料：
+
+之前我一直任务，NewRatio 默认为 2，也就是 YoungGen 与 OldGen（老年代）的比例是 1:2，那新生代大小应该是 4G/3 = 1365M，但是实际上并非如此，CMS会根据CPU核数等进行一个比较复杂的计算，得到一个值（332.75M），并和上面NewRatio计算出的值（1365M）相比，然后取较小的那个，具体可以[参考此文](https://cloud.tencent.com/developer/article/1424252)。
 
 为什么会发生Promotion Failed？
 
@@ -190,7 +200,7 @@ gceasy也给到我们老年代内存使用情况：
 ![easygc_old_generation_memory](gc_promotion_fail_assets/easygc_old_generation_memory.jpg)
 
 我们可以看到在19:30，老年代GC增长的曲线开始变陡，随后陆续发生Promotion Failed，我们分别看下变陡前后新生代向老年代的晋升量：
-18:19发生一次young gc，向老年代晋升2375232K-2375178K=54KB，gc log如下所示：
+18:19发生一次Young GC，向老年代晋升2375232K-2375178K=54KB，GC log如下所示：
 
 ```
 {Heap before GC invocations=1421435 (full 17):
@@ -213,7 +223,7 @@ Heap after GC invocations=1421436 (full 17):
 }
 ```
 
-而19:58，曲线较陡的时候，向老年代晋升2784182K-2783610K=572KB，gc log如下所示：
+而19:58，曲线较陡的时候，向老年代晋升2784182K-2783610K=572KB，GC log如下所示：
 
 ```
 {Heap before GC invocations=1425970 (full 17):
@@ -238,13 +248,11 @@ Heap after GC invocations=1425971 (full 17):
 
 推测，当时有一些大参数的请求增加，同时晋升年龄较小（默认为6），导致老年代晋升了一些大对象，而老年代剩余空间碎片化较严重，导致这些大对象无法分配，从而导致Promotion Failed。
 
-通过查看RPC接口请求，发现确实存在一些较在大的请求参数（length超过1500）：
-
-![big_args_log](gc_promotion_fail_assets/big_args_log.jpg)
+通过查看RPC接口请求日志，确实存在一些较大的请求参数。
 
 ## 调优思路
 
-- 增加新生代大小（-Xmn1536m），减少新生代回收的频次，从而减少promotion动作
+- **增加新生代大小**（-Xmn1536m），减少新生代回收的频次，从而减少promotion动作
 - 增加晋升年龄至15（-XX:MaxTenuringThreshold=15），同样减少promotion动作
 - 老年代提前触发GC（-XX:CMSInitiatingOccupancyFraction=60），多留出一些的空闲空间
 - 减少大对象的存在，优化接口接口，限制一次接口请求的参数
@@ -307,10 +315,11 @@ Heap after GC invocations=16307 (full 0):
 
 ## 最后
 
-1. 遇到此类问题，先看服务大盘，有无异常，不要钻进去
-2. 不要只看单台机器和单个时间点的监控，要时间横行对比，服务横行对比
-3. 高并发服务要配置gc log，不然发生gc异常毫无排查手段
-4. 高并发的服务，请求参数不要过大，避免出现大对象
+1. **使用CMS的时候，最好显示指定下新生代大小（-Xmn）**，默认的大小可能并不合理，在高并发的情况下容易出现晋升失败问题
+2. 遇到此类问题，先看服务大盘，有无异常，不要钻进去看代码细节
+3. 不要只看单台机器和单个时间点的监控，要时间横行对比，服务横行对比
+4. 高并发服务要配置GC日志，不然发生GC异常毫无排查手段
+5. 高并发的服务，尽量避免出现大对象
 
 ## References
 
