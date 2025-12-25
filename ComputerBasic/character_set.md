@@ -8,9 +8,9 @@
 
 ## 在分层模型中的体现
 
-在OSI七层模型中，编码和解码发生**表示层**（TCP/IP模型中属于应用层）（图片来自：[OSI Model](https://www.imperva.com/learn/application-security/osi-model)）：
+在OSI七层模型中，编码和解码发生**表示层**：
 
-![osi_tcp_model_layer](character_set_assets/osi_tcp_model_layer.png)
+![osi_model_layer](character_set_assets/osi_model_layer.png)
 
 当我们接收一份数据的时候，从物理层一层一层的解析，这个过程中数据都是以二进制传输的，直到表示层，根据ASCII、JPEG、MPEG、XML等协议或格式，将二进制转换成字符、图片、视频、对象供应用层的应用和协议使用（HTTP、SMTP）。
 
@@ -88,7 +88,7 @@ GB2312提出了分区的概念，一共94个区，每个区可以放94个字符�
 
 - 为什么将区位码加160？
 
-  为了避开ASCII字符中的不可显示字符（直接沿用，不再重新编码），即0-31个，及第32个，空格字符，所以在区位码的基础上，高位和低位分别加上32，做为国标码，但是这种编码模式和ASCII是有冲突的，后来为了方便区分单字节编码还是双字节编码，部分厂商把双字节字符的二进制最高位从0换成了1，相当于将区位码高位和低位再加上了128，32+128=160，所以相当于区位码直接加了160。
+  为了避开ASCII字符中的不可显示字符（直接沿用，不再重新编码），即0-31个，及第32个，空格字符，所以在区位码的基础上，高位和低位分别加上32，作为国标码，但是这种编码模式和ASCII是有冲突的，后来为了方便区分单字节编码还是双字节编码，部分厂商把双字节字符的二进制最高位从0换成了1，相当于将区位码高位和低位再加上了128，32+128=160，所以相当于区位码直接加了160。
 
 ### GBK
 
@@ -102,7 +102,7 @@ GB2312采用了`94*94`的范围，GBK将两字节能表示的区域进一步扩�
 
 布局图如下图所示：
 
-![GBK_encoding](character_set_assets/GBK_encoding.svg)
+![GBK_encoding](character_set_assets/GBK_encoding.png)
 
 其中：
 
@@ -219,13 +219,13 @@ UTF-8采用了非常精巧的设计，根据首字节有几个连续的1的方�
 01110101
 ```
 
-再如基本平面的字符`武`，编号为`U+6B66`，二进制`110 1011 0110 0110`，15个有效位，应该采用三字节编码，填充至上述三字节编码格式格式中，并高位补0：
+再如基本平面的字符`武`，编号为`U+6B66`，二进制`110 1011 0110 0110`，15个有效位，应该采用三字节编码，填充至上述三字节编码格式中，并高位补0：
 
 ```
 11100110 101011 01 1010 0110
 ```
 
-再看增补平面字符😂，Unicode编号是`U+1F602`，二进制`1 1111 0110 0000 0010`，17个有效位，所以应采用四字节编码，填充至上述四字节编码格式格式中，并高位补0：：
+再看增补平面字符😂，Unicode编号是`U+1F602`，二进制`1 1111 0110 0000 0010`，17个有效位，所以应采用四字节编码，填充至上述四字节编码格式中，并高位补0：：
 
 ```
 11110000 10011111 10011000 10000010
@@ -305,7 +305,7 @@ UTF-16的缺点如下：
 - 指示了文件使用的编码格式
 - 指示了字符编码的高有效位是否存储在文件的初始位置，当字符编码的高有效位被存储在文件的初始位置，被称为"大端序"（big-endian），否则，称为"小端序"
 
-Unicode使用了U+FEFF字符做为字节标记顺序：
+Unicode使用了U+FEFF字符作为字节标记顺序：
 
 | 编码                     | BOM         |
 | ------------------------ | ----------- |
@@ -367,11 +367,11 @@ public class CharacterSet {
 
 #### MySQL字符集
 
-2004年，MySQL 4.1是第一个支持字符集和排序的版本，其中就包括了utff8，但是由于大部分字符都在基本平面，Mysql选择了优化，规定UTF-8为三个字节，当时几乎可以处理所有现代语言。
+2004年，MySQL 4.1是第一个支持字符集和排序的版本，其中就包括了utf8，但是由于大部分字符都在基本平面，Mysql选择了优化，规定UTF-8为三个字节，当时几乎可以处理所有现代语言。
 
 2010年，MySQL 5.5开始支持4个字节的UTF-8，而且引入了新的字符集，utf8mb4。
 
-所以utf8mb4才是未被阉割的UTF-8，**在我们使用MySQL的时候，最好使用utf8mb4来做为字符集**。
+所以utf8mb4才是未被阉割的UTF-8，**在我们使用MySQL的时候，最好使用utf8mb4来作为字符集**。
 
 #### 正则表达式判断汉字
 
@@ -403,24 +403,24 @@ Emoji的字符编码是没有版权的，遵守Unicode联盟的条款即可，�
 
 ## References
 
-1. 博客：[字符集与编码（九）——GB2312，GBK，GB18030](https://my.oschina.net/goldenshaw/blog/352859)
-1. 维基百科：[GB 2312](https://zh.m.wikipedia.org/zh-hk/GB_2312)
-1. 维基百科：[GB 18030](https://en.wikipedia.org/wiki/GB_18030)
-1. 博客：[字符集与编码（四）——Unicode](https://xiaogd.net/md/字符集与编码（四）-unicode)
-1. 维基百科：[Unicode](https://en.wikipedia.org/wiki/Unicode)
-1. 维基百科：[Plane_(Unicode)](https://en.wikipedia.org/wiki/Plane_(Unicode))
-1. 维基百科：[CJK Unified Ideographs](https://en.wikipedia.org/wiki/CJK_Unified_Ideographs)
-1. 维基百科：[UTF-8](https://en.wikipedia.org/wiki/UTF-8)
-1. 维基百科：[UTF-16](https://en.wikipedia.org/wiki/UTF-16)
-1. 维基百科：[Byte order mark](https://en.wikipedia.org/wiki/Byte_order_mark)
-1. 博客：[刨根究底字符编码之十三——UTF-16编码方式](https://zhuanlan.zhihu.com/p/27417641)
-1. 博客：[刨根究底字符编码之十二——UTF-8究竟是怎么编码的](https://zhuanlan.zhihu.com/p/27364614)
-1. 博客：[刨根究底字符编码之十一——UTF-8编码方式与字节序标记BOM](https://zhuanlan.zhihu.com/p/27222802)
-1. 官方文档：[Supplementary Characters in the Java Platform](https://www.oracle.com/technical-resources/articles/javase/supplementary.html)
-1. 官方文档：[MySQL 8.0: When to use utf8mb3 over utf8mb4?](https://dev.mysql.com/blog-archive/mysql-8-0-when-to-use-utf8mb3-over-utf8mb4/)
-1. 知乎：[Java 为什么使用 UTF-16 而不是更节省内存的 UTF-8？](https://www.zhihu.com/question/308677093/answer/2748648048)
-1. 维基百科：[Emoji](https://en.wikipedia.org/wiki/Emoji)
-1. 知乎：[表情符号是否受版权保护](https://zhuanlan.zhihu.com/p/494278681)
+1. [字符集与编码（九）——GB2312，GBK，GB18030](https://my.oschina.net/goldenshaw/blog/352859)
+1. [维基百科：GB 2312](https://zh.m.wikipedia.org/zh-hk/GB_2312)
+1. [维基百科：GB 18030](https://en.wikipedia.org/wiki/GB_18030)
+1. [字符集与编码（四）——Unicode](https://xiaogd.net/md/字符集与编码（四）-unicode)
+1. [维基百科：Unicode](https://en.wikipedia.org/wiki/Unicode)
+1. [维基百科：Plane_(Unicode)](https://en.wikipedia.org/wiki/Plane_(Unicode))
+1. [维基百科：CJK Unified Ideographs](https://en.wikipedia.org/wiki/CJK_Unified_Ideographs)
+1. [维基百科：UTF-8](https://en.wikipedia.org/wiki/UTF-8)
+1. [维基百科：UTF-16](https://en.wikipedia.org/wiki/UTF-16)
+1. [维基百科：Byte order mark](https://en.wikipedia.org/wiki/Byte_order_mark)
+1. [刨根究底字符编码之十三——UTF-16编码方式](https://zhuanlan.zhihu.com/p/27417641)
+1. [刨根究底字符编码之十二——UTF-8究竟是怎么编码的](https://zhuanlan.zhihu.com/p/27364614)
+1. [刨根究底字符编码之十一——UTF-8编码方式与字节序标记BOM](https://zhuanlan.zhihu.com/p/27222802)
+1. [Supplementary Characters in the Java Platform](https://www.oracle.com/technical-resources/articles/javase/supplementary.html)
+1. [MySQL 8.0: When to use utf8mb3 over utf8mb4?](https://dev.mysql.com/blog-archive/mysql-8-0-when-to-use-utf8mb3-over-utf8mb4/)
+1. [Java 为什么使用 UTF-16 而不是更节省内存的 UTF-8？](https://www.zhihu.com/question/308677093/answer/2748648048)
+1. [维基百科：Emoji](https://en.wikipedia.org/wiki/Emoji)
+1. [表情符号是否受版权保护](https://zhuanlan.zhihu.com/p/494278681)
 
 
 
